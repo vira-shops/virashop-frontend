@@ -19,8 +19,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@icons": ["./src/components/shared/icons/index.ts"],
+      "@icons/*": ["./src/components/shared/icons/*"],
+      "~/*": ["./*"]
+    },
+    "types": ["node", "jest", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",

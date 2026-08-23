@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+build
+coverage
+pnpm-lock.yaml
+package-lock.json
+storybook-static
+test-results
+playwright-report
+.husky
+.jest-test-results.json
+src/config/fonts/**/*.woff2
+src/config/fonts/**/*.ttf
+public
