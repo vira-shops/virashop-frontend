@@ -1,3 +1,114 @@
-.button {
-  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
+@layer components {
+  .button {
+    @apply inline-flex rounded-sm h-fit w-fit cursor-pointer items-center justify-center font-medium transition-all focus:outline-none active:scale-95;
+  }
+
+  /* Primary */
+  .button-primary.button-fill {
+    @apply bg-primary text-white hover:bg-primary-600;
+  }
+
+  .button-primary.button-outline {
+    @apply border-primary bg-transparent text-primary hover:bg-primary-600 hover:text-white border;
+  }
+
+  .button-primary.button-ghost {
+    @apply hover:bg-primary-50 bg-transparent text-primary;
+  }
+
+  .button-primary.button-fill.button-disabled {
+    @apply bg-primary-50 text-primary-600 pointer-events-none cursor-not-allowed;
+  }
+
+  .button-primary.button-outline.button-disabled {
+    @apply border-primary-50 text-primary-50 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+
+  .button-primary.button-ghost.button-disabled {
+    @apply text-primary-50 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+
+  /* Blue */
+  .button-blue.button-fill {
+    @apply bg-blue-900 text-white hover:bg-blue-900/90;
+  }
+
+  .button-blue.button-outline {
+    @apply border-blue-900 bg-transparent text-blue-900 hover:bg-blue-900 hover:text-white border-2;
+  }
+
+  .button-blue.button-ghost {
+    @apply hover:bg-blue-50 bg-transparent text-blue-900;
+  }
+
+  .button-blue.button-fill.button-disabled {
+    @apply bg-blue-100 text-blue-300 pointer-events-none cursor-not-allowed;
+  }
+
+  .button-blue.button-outline.button-disabled {
+    @apply border-blue-100 text-blue-300 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+
+  .button-blue.button-ghost.button-disabled {
+    @apply text-blue-300 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+}
+
+/* Size */
+@utility button-text-xs {
+  @apply gap-1 px-4 py-0.5 text-xs leading-5;
+}
+
+@utility button-text-sm {
+  @apply gap-1.5  px-5 py-1 text-sm leading-6;
+}
+
+@utility button-text-md {
+  @apply gap-2 px-5 py-2 text-md leading-6;
+}
+
+@utility button-text-lg {
+  @apply gap-2  px-7 py-4 text-lg leading-none;
+}
+
+@utility button-text-xl {
+  @apply gap-2.5 px-8 py-5 text-xl leading-none;
+}
+
+@utility button-text-xxl {
+  @apply gap-3 px-9 py-6 text-xxl leading-none;
+}
+
+/* Icons */
+@utility button-icon-xs {
+  @apply  p-1.5;
+}
+
+@utility button-icon-sm {
+  @apply  p-2;
+}
+
+@utility button-icon-md {
+  @apply  p-2.5;
+}
+
+@utility button-icon-lg {
+  @apply  p-3;
+}
+
+@utility button-icon-xl {
+  @apply  p-3.5;
+}
+
+@utility button-icon-xxl {
+  @apply p-4;
+}
+
+/* Additional styles */
+@utility button-fullWidth {
+  @apply w-full;
+}
+
+@utility button-fullRounded {
+  @apply rounded-full;
 }
