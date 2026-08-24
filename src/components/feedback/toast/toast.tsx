@@ -22,18 +22,18 @@ export const Toast: React.FC<ToastProps> = ({ variant = 'info', title, descripti
     <div role="status" aria-live="polite" className={cn('toast', variantClasses[variant])}>
       {title && (
         <div className="toast-header">
-          <div className="toast-title-group">
-            {icons[variant]}
-            <span className="toast-title">{title}</span>
-          </div>
           {onClose && (
             <button type="button" aria-label="بستن" className="toast-close" onClick={onClose}>
               <CancelIcon />
             </button>
           )}
+          <div className="toast-title-group">
+            {icons[variant]}
+            <span className="toast-title">{title}</span>
+          </div>
         </div>
       )}
-      <p className="toast-description">{description}</p>
+      <p className={cn('toast-description', onClose && 'pr-12')}>{description}</p>
     </div>
   );
 };
