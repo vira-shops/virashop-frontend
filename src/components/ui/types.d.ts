@@ -1,5 +1,12 @@
 export type ColorVariant =
-  'primary' | 'secondary' | 'success' | 'error' | 'info' | 'neutral' | 'warning';
+  | 'primary'
+  | 'blue'
+  | 'gray'
+  | 'black'
+  | 'white'
+  | 'warning-red'
+  | 'warning-green'
+  | 'warning-blue';
 
 export type RadiusVariant = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 

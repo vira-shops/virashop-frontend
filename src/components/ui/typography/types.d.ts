@@ -1,0 +1,66 @@
+import { HTMLAttributes, ReactNode } from 'react';
+import { ColorVariant } from '@/components/ui/types';
+
+export type TypographyVariant =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'body-xl'
+  | 'body-md'
+  | 'body-sm'
+  | 'body-xs'
+  | 'caption-lg'
+  | 'caption-md'
+  | 'overline-lg'
+  | 'overline-sm';
+
+export type Tags =
+  | 'p'
+  | 'span'
+  | 'div'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'strong'
+  | 'em'
+  | 'small'
+  | 'mark'
+  | 'del'
+  | 'ins'
+  | 'sub'
+  | 'sup'
+  | 'label';
+
+export type AlignType = 'right' | 'left' | 'center' | 'justify';
+
+export type TransformValue = 'uppercase' | 'capitalize' | 'lowercase';
+
+export type DecorationValue = 'underline' | 'lineThrough' | 'overline';
+
+export type TruncateValue = 'end' | 'start';
+
+export type DirValue = 'ltr' | 'rtl' | 'auto';
+
+export type LineClampValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export interface TypographyProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  variant?: TypographyVariant;
+  as?: Tags;
+  asChild?: boolean;
+  color?: ColorVariant;
+  align?: AlignType;
+  transform?: TransformValue;
+  decoration?: DecorationValue;
+  lineClamp?: LineClampValue;
+  truncate?: TruncateValue;
+  dir?: DirValue;
+  inherit?: boolean;
+  children?: ReactNode;
+  className?: string;
+}

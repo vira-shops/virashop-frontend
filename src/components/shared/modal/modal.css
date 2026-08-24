@@ -1,0 +1,73 @@
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer components {
+  .modal-container {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4 max-md:items-end max-md:p-0;
+  }
+
+  .modal-backdrop {
+    @apply absolute inset-0 bg-black/40;
+    animation: modal-fade-in 0.2s ease-out;
+  }
+
+  .modal-panel {
+    @apply relative flex max-h-[85dvh] w-full flex-col rounded-xl bg-white shadow-xl max-md:max-h-[92dvh] max-md:rounded-b-none;
+    animation: modal-slide-up 0.25s ease-out;
+  }
+
+  .modal-sm {
+    @apply max-w-96;
+  }
+
+  .modal-md {
+    @apply max-w-[32rem];
+  }
+
+  .modal-lg {
+    @apply max-w-[40rem];
+  }
+
+  .modal-header {
+    @apply flex shrink-0 items-center justify-between gap-2 border-b border-gray-100 px-5 py-4;
+  }
+
+  .modal-title {
+    @apply text-body-md font-bold text-black;
+  }
+
+  .modal-close {
+    @apply cursor-pointer border-0 bg-transparent p-0 text-gray-400 transition-colors hover:text-gray-700 focus:outline-none;
+  }
+
+  .modal-close svg {
+    @apply size-5;
+  }
+
+  .modal-body {
+    @apply flex flex-1 flex-col overflow-y-auto px-5 py-5;
+  }
+
+  .modal-footer {
+    @apply shrink-0 px-5 py-4;
+  }
+}
