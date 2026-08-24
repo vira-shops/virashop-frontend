@@ -1,0 +1,113 @@
+@layer components {
+  .typography {
+    @apply text-foreground;
+  }
+
+  /* Headings */
+  .typography-h1 {
+    @apply text-h1 font-bold;
+  }
+
+  .typography-h2 {
+    @apply text-h2 font-bold;
+  }
+
+  .typography-h3 {
+    @apply text-h3 font-bold;
+  }
+
+  .typography-h4 {
+    @apply text-h4 font-bold;
+  }
+
+  .typography-h5 {
+    @apply text-h5 font-bold;
+  }
+
+  .typography-h6 {
+    @apply text-h6 font-medium;
+  }
+
+  /* Body */
+  .typography-body-xl {
+    @apply text-body-xl font-medium;
+  }
+
+  .typography-body-md {
+    @apply text-body-md font-normal;
+  }
+
+  .typography-body-sm {
+    @apply text-body-sm font-normal;
+  }
+
+  .typography-body-xs {
+    @apply text-body-xs font-light;
+  }
+
+  /* Caption */
+  .typography-caption-lg {
+    @apply text-caption-lg font-medium;
+  }
+
+  .typography-caption-md {
+    @apply text-caption-md font-medium;
+  }
+
+  /* Overline */
+  .typography-overline-lg {
+    @apply text-overline-lg font-medium;
+  }
+
+  .typography-overline-sm {
+    @apply text-overline-sm font-normal;
+  }
+
+  /* Colors */
+  .typography-primary {
+    @apply text-primary;
+  }
+
+  .typography-blue {
+    @apply text-blue-900;
+  }
+
+  .typography-gray {
+    @apply text-gray-700;
+  }
+
+  .typography-black {
+    @apply text-black;
+  }
+
+  .typography-white {
+    @apply text-white;
+  }
+
+  .typography-warning-red {
+    @apply text-warning-red;
+  }
+
+  .typography-warning-green {
+    @apply text-warning-green;
+  }
+
+  .typography-warning-blue {
+    @apply text-warning-blue;
+  }
+
+  /* Custom utilities */
+  .truncate-start {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: rtl;
+    text-align: left;
+  }
+
+  .typography-inherit {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+  }
+}
