@@ -1,0 +1,97 @@
+@layer components {
+  .input {
+    @apply inline-flex items-center gap-2 rounded-md border border-transparent bg-gray-50 px-4 transition-colors;
+  }
+
+  .input input {
+    @apply h-full w-full flex-1 bg-transparent text-body-md text-black focus:outline-none disabled:cursor-not-allowed;
+  }
+
+  .input input::placeholder {
+    @apply text-gray-700;
+  }
+
+  .input svg {
+    @apply size-5 shrink-0 text-gray-700;
+  }
+
+  .input-label {
+    @apply text-body-sm font-medium text-black;
+  }
+
+  .input-message {
+    @apply text-caption-md font-normal;
+  }
+
+  /* Variants */
+  .input-outline {
+    @apply border-gray-300 bg-white;
+  }
+
+  .input-ghost {
+    @apply border-transparent bg-transparent;
+  }
+
+  /* Colors (focus ring) */
+  .input-primary {
+    @apply focus-within:border-primary;
+  }
+
+  .input-blue {
+    @apply focus-within:border-blue-900;
+  }
+
+  .input-yellow {
+    @apply focus-within:border-yellow-100;
+  }
+
+  /* States */
+  .input-error {
+    @apply border-warning-red focus-within:border-warning-red;
+  }
+
+  .input-success {
+    @apply border-warning-green focus-within:border-warning-green;
+  }
+
+  .input-warning {
+    @apply border-yellow-100 focus-within:border-yellow-100;
+  }
+
+  /* Disabled */
+  .input-disabled {
+    @apply pointer-events-none cursor-not-allowed bg-gray-100 opacity-60;
+  }
+}
+
+/* Size */
+@utility input-sm {
+  @apply h-12 gap-2 rounded-sm px-3;
+
+  input {
+    @apply text-body-sm;
+  }
+
+}
+
+@utility input-md {
+  @apply h-14 gap-2 rounded-md px-4;
+
+  input {
+    @apply text-body-md;
+  }
+
+}
+
+@utility input-lg {
+  @apply h-16 gap-3 rounded-lg px-5;
+
+  input {
+    @apply text-body-xl;
+  }
+}
+
+/* Additional styles */
+@utility input-fullWidth {
+  @apply w-full;
+}
