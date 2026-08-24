@@ -1,0 +1,145 @@
+@layer components {
+  .select {
+    @apply inline-flex items-center gap-2 rounded-md border border-transparent bg-gray-50 px-4 transition-colors;
+  }
+
+  .select select {
+    @apply h-full w-full flex-1 cursor-pointer appearance-none bg-transparent text-body-md text-black focus:outline-none disabled:cursor-not-allowed;
+  }
+
+  .select select:has(option[value='']:checked) {
+    @apply text-gray-700;
+  }
+
+  .select svg {
+    @apply size-5 shrink-0 text-gray-700;
+  }
+
+  .select-label {
+    @apply text-body-sm font-medium text-black;
+  }
+
+  .select-message {
+    @apply text-caption-md font-normal;
+  }
+
+  /* Variants */
+  .select-outline {
+    @apply border-gray-300 bg-white;
+  }
+
+  .select-ghost {
+    @apply border-transparent bg-transparent;
+  }
+
+  /* Colors (focus ring) */
+  .select-primary {
+    @apply focus-within:border-primary;
+  }
+
+  .select-blue {
+    @apply focus-within:border-blue-900;
+  }
+
+  .select-yellow {
+    @apply focus-within:border-yellow-100;
+  }
+
+  /* States */
+  .select-error {
+    @apply border-warning-red focus-within:border-warning-red;
+  }
+
+  .select-success {
+    @apply border-warning-green focus-within:border-warning-green;
+  }
+
+  .select-warning {
+    @apply border-yellow-100 focus-within:border-yellow-100;
+  }
+
+  /* Disabled */
+  .select-disabled {
+    @apply pointer-events-none cursor-not-allowed bg-gray-100 opacity-60;
+  }
+
+  /* Searchable listbox */
+  .select-listbox {
+    @apply absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-auto rounded-md border border-gray-300 bg-white py-1 shadow-md;
+  }
+
+  .select-option {
+    @apply cursor-pointer px-4 py-2 text-body-sm text-black;
+  }
+
+  .select-option-active {
+    @apply bg-gray-100;
+  }
+
+  .select-option-selected {
+    @apply font-medium text-primary;
+  }
+
+  .select-option-disabled {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .select-option-empty {
+    @apply pointer-events-auto cursor-default text-gray-700;
+  }
+
+  /* Search toggle button */
+  .select-toggle {
+    @apply flex shrink-0 cursor-pointer items-center border-0 bg-transparent p-0 text-gray-700 focus:outline-none disabled:cursor-not-allowed;
+  }
+
+  .select-toggle svg {
+    @apply transition-transform;
+  }
+
+  .select-toggle-open svg {
+    @apply rotate-180;
+  }
+}
+
+/* Size */
+@utility select-sm {
+  @apply h-12 gap-2 rounded-sm px-3;
+
+  select {
+    @apply text-body-sm;
+  }
+
+  svg {
+    @apply size-4;
+  }
+}
+
+@utility select-md {
+  @apply h-14 gap-2 rounded-md px-4;
+
+  select {
+    @apply text-body-md;
+  }
+
+  svg {
+    @apply size-5;
+  }
+}
+
+@utility select-lg {
+  @apply h-16 gap-3 rounded-lg px-5;
+
+  select {
+    @apply text-body-xl;
+  }
+
+  svg {
+    @apply size-6;
+  }
+}
+
+/* Additional styles */
+@utility select-fullWidth {
+  @apply w-full;
+}
