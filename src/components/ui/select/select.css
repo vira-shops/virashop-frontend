@@ -1,6 +1,6 @@
 @layer components {
   .select {
-    @apply inline-flex items-center gap-2 rounded-md border border-transparent bg-gray-50 px-4 transition-colors;
+    @apply inline-flex items-center gap-2 rounded-xl border border-transparent bg-gray-50 px-4 transition-colors;
   }
 
   .select select {
@@ -65,7 +65,7 @@
 
   /* Searchable listbox */
   .select-listbox {
-    @apply absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-auto rounded-md border border-gray-300 bg-white py-1 shadow-md;
+    @apply absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-auto rounded-xl border border-gray-300 bg-white py-1 shadow-md;
   }
 
   .select-option {
@@ -104,7 +104,7 @@
 
 /* Size */
 @utility select-sm {
-  @apply h-12 gap-2 rounded-sm px-3;
+  @apply h-12 gap-2 px-3;
 
   select {
     @apply text-body-sm;
@@ -116,7 +116,7 @@
 }
 
 @utility select-md {
-  @apply h-14 gap-2 rounded-md px-4;
+  @apply h-14 gap-2 px-4;
 
   select {
     @apply text-body-md;
@@ -128,7 +128,7 @@
 }
 
 @utility select-lg {
-  @apply h-16 gap-3 rounded-lg px-5;
+  @apply h-16 gap-3  px-5;
 
   select {
     @apply text-body-xl;
