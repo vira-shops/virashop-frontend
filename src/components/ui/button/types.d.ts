@@ -1,6 +1,6 @@
 export type ButtonVariant = 'fill' | 'outline' | 'ghost';
 
-export type ButtonColor = 'primary' | 'blue';
+export type ButtonColor = 'primary' | 'blue' | 'yellow';
 
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 

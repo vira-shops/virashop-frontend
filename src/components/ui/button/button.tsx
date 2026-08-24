@@ -5,6 +5,7 @@ import { ButtonVariant, ButtonColor, ButtonSize, ButtonProps } from './types';
 const colorClasses: Record<ButtonColor, string> = {
   primary: 'button-primary',
   blue: 'button-blue',
+  yellow: 'button-yellow',
 };
 
 const variantClasses: Record<ButtonVariant, string> = {

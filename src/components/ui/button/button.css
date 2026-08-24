@@ -9,7 +9,7 @@
   }
 
   .button-primary.button-outline {
-    @apply border-primary bg-transparent text-primary hover:bg-primary-600 hover:text-white border;
+    @apply border-primary bg-transparent text-primary border hover:border-primary-600 hover:text-primary-600;
   }
 
   .button-primary.button-ghost {
@@ -17,7 +17,7 @@
   }
 
   .button-primary.button-fill.button-disabled {
-    @apply bg-primary-50 text-primary-600 pointer-events-none cursor-not-allowed;
+    @apply bg-primary-50  pointer-events-none cursor-not-allowed;
   }
 
   .button-primary.button-outline.button-disabled {
@@ -34,7 +34,7 @@
   }
 
   .button-blue.button-outline {
-    @apply border-blue-900 bg-transparent text-blue-900 hover:bg-blue-900 hover:text-white border-2;
+    @apply border-blue-900 bg-transparent text-blue-900 border;
   }
 
   .button-blue.button-ghost {
@@ -51,6 +51,31 @@
 
   .button-blue.button-ghost.button-disabled {
     @apply text-blue-300 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+
+  /* Yellow */
+  .button-yellow.button-fill {
+    @apply bg-yellow-100 text-white hover:bg-yellow-100/110;
+  }
+
+  .button-yellow.button-outline {
+    @apply border border-yellow-100 text-yellow-100 bg-transparent hover:border-yellow-50 hover:text-yellow-50;
+  }
+
+  .button-yellow.button-ghost {
+    @apply hover:bg-yellow-50/10 text-yellow-100 bg-transparent;
+  }
+
+  .button-yellow.button-fill.button-disabled {
+    @apply bg-yellow-50 pointer-events-none cursor-not-allowed;
+  }
+
+  .button-yellow.button-outline.button-disabled {
+    @apply border-yellow-50  bg-transparent pointer-events-none cursor-not-allowed;
+  }
+
+  .button-yellow.button-ghost.button-disabled {
+    @apply  bg-transparent pointer-events-none cursor-not-allowed;
   }
 }
 
