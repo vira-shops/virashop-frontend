@@ -12,23 +12,23 @@ const FishIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M31.8521 28.3999C29.9077 11.9659 18.6339 7.26428 10.6545 6.8338C8.58523 6.72216 7.02455 8.53621 7.2848 10.5921C9.26439 26.2305 20.51 31.5004 28.4685 32.1129C30.5345 32.2719 32.0955 30.4576 31.8521 28.3999Z"
-      stroke="#222222"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeLinecap="round"
     />
     <path
       d="M20.064 9.58276C19.5479 12.4681 16.7847 18.5483 9.85997 19.7868"
-      stroke="#222222"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeLinecap="round"
     />
     <path
       d="M31.267 33.3211C30.9814 32.3679 31.8702 31.479 32.8235 31.7647L39.648 33.8107C40.554 34.0823 40.8421 35.2224 40.1735 35.8913L35.3936 40.6712C34.7248 41.34 33.5842 41.0522 33.3124 40.1464L31.267 33.3211Z"
-      stroke="#222222"
+      stroke="currentColor"
       strokeWidth={1.5}
     />
-    <path d="M15.9929 11.5017H13.2815" stroke="#222222" strokeLinecap="round" />
-    <path d="M14.637 10.1475L14.637 12.8589" stroke="#222222" strokeLinecap="round" />
+    <path d="M15.9929 11.5017H13.2815" stroke="currentColor" strokeLinecap="round" />
+    <path d="M14.637 10.1475L14.637 12.8589" stroke="currentColor" strokeLinecap="round" />
   </svg>
 );
 

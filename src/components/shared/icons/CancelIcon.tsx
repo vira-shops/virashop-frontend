@@ -12,14 +12,14 @@ const CancelIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M7.75732 16.2426L16.2426 7.75733"
-      stroke="#222222"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M16.2426 16.2427L7.75732 7.75739"
-      stroke="#222222"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"

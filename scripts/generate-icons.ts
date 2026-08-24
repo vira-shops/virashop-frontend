@@ -4,6 +4,13 @@ import { transform } from '@svgr/core';
 
 const INPUT_DIR = path.resolve(__dirname, '../src/assets/icons');
 const OUTPUT_DIR = path.resolve(__dirname, '../src/components/shared/icons');
+const FORCE = process.argv.includes('--force');
+
+const HARDCODED_COLOR_RE = /(fill|stroke)="(#[0-9a-fA-F]{3,8}|black|white)"/g;
+
+function replaceHardcodedColors(svg: string) {
+  return svg.replace(HARDCODED_COLOR_RE, '$1="currentColor"');
+}
 
 async function generateIcons() {
   const files = fs.readdirSync(INPUT_DIR).filter((f) => f.endsWith('.svg'));
@@ -18,7 +25,7 @@ async function generateIcons() {
     const componentName = toPascalCase(path.basename(file, '.svg')) + 'Icon';
     const outPath = path.join(OUTPUT_DIR, `${componentName}.tsx`);
 
-    if (fs.existsSync(outPath)) {
+    if (fs.existsSync(outPath) && !FORCE) {
       indexExports.push(`export { default as ${componentName} } from './${componentName}';`);
       skippedCount++;
       continue;
@@ -46,15 +53,17 @@ async function generateIcons() {
         continue;
       }
 
-      const svgPart = svgMatch[0]
-        .replace(/<svg/, '<svg\n    ')
-        .replace(/width="[^"]*"/, 'width="1em"')
-        .replace(/height="[^"]*"/, 'height="1em"')
-        .replace(/class="[^"]*"/g, '')
-        .replace(/><\//g, '>\n  </');
+      const svgPart = replaceHardcodedColors(
+        svgMatch[0]
+          .replace(/<svg/, '<svg\n    ')
+          .replace(/width="[^"]*"/, 'width="1em"')
+          .replace(/height="[^"]*"/, 'height="1em"')
+          .replace(/class="[^"]*"/g, '')
+          .replace(/><\//g, '>\n  </'),
+      );
 
       const customCode = `import * as React from 'react';
-import type { SVGProps } from "react";
+import type { SVGProps } from 'react';
 
 const ${componentName} = (props: SVGProps<SVGSVGElement>) => (
   ${svgPart}

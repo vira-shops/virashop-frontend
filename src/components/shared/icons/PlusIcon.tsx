@@ -12,14 +12,14 @@ const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M6 12H18"
-      stroke="#292D32"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M12 18V6"
-      stroke="#292D32"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"

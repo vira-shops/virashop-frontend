@@ -12,7 +12,7 @@ const UpArrowIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M4.07992 15.05L10.5999 8.52999C11.3699 7.75999 12.6299 7.75999 13.3999 8.52999L19.9199 15.05"
-      stroke="#222222"
+      stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}
       strokeLinecap="round"

@@ -109,6 +109,16 @@ types.d.ts   component.tsx   component.css   index.ts   <c>.stories.tsx   <c>.te
 - Dark mode exists (`.dark` class + `@custom-variant dark`) but is not
   theme-aware yet.
 
+## Icons
+
+- Icons are generated from `src/assets/icons` into `src/components/shared/icons`
+  by `pnpm generate:icons` (add `--force` to overwrite existing files).
+- Import icons ONLY via the `@icons` alias:
+  `import { SearchIcon } from '@icons';` — any other path into
+  `src/components/shared/icons` is blocked by ESLint.
+- Generated icons use `currentColor` — recolor them with `text-*` utilities,
+  never by editing the generated files.
+
 ## Workflow Rules
 
 - Never commit unless explicitly asked. Commits go through husky +

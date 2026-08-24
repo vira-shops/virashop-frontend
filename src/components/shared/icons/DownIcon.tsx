@@ -14,7 +14,7 @@ const DownIcon = (props: SVGProps<SVGSVGElement>) => (
       <path
         id="Vector"
         d="M15 11L12 14L9 11"
-        stroke="#222222"
+        stroke="currentColor"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
