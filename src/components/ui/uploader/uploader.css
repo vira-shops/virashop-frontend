@@ -1,0 +1,70 @@
+@layer components {
+  .uploader-label {
+    @apply text-body-sm font-medium text-black;
+  }
+
+  .uploader-tile {
+    @apply relative flex aspect-square w-40 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl bg-blue-50 p-4 text-center transition-colors focus:outline-none;
+  }
+
+  .uploader-tile > svg:not(.uploader-tile-outline) {
+    @apply size-10 shrink-0 text-blue-200;
+  }
+
+  .uploader-tile-outline {
+    @apply pointer-events-none absolute inset-0 size-full text-blue-300 transition-colors;
+  }
+
+  .uploader-tile-outline rect {
+    x: 1px;
+    y: 1px;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    rx: 16px;
+    ry: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-dasharray: 10 8;
+  }
+
+  .uploader-placeholder {
+    @apply text-caption-lg text-blue-300;
+  }
+
+  .uploader-tile-dragover {
+    @apply bg-primary-50;
+  }
+
+  .uploader-tile-dragover .uploader-tile-outline {
+    @apply text-primary;
+  }
+
+  .uploader-tile-error .uploader-tile-outline {
+    @apply text-warning-red;
+  }
+
+  .uploader-disabled {
+    @apply pointer-events-none cursor-not-allowed opacity-60;
+  }
+
+  .uploader-preview {
+    @apply h-full w-full rounded-sm object-contain;
+  }
+
+  .uploader-file-name {
+    @apply text-caption-md break-all text-gray-700;
+  }
+
+  .uploader-remove {
+    @apply absolute top-2 left-2 flex cursor-pointer items-center justify-center rounded-full  text-blue-200 transition-colors hover:text-blue-300 focus:outline-none;
+  }
+
+  .uploader-remove svg {
+    @apply size-6;
+  }
+
+  .uploader-error-message {
+    @apply text-caption-md text-warning-red;
+  }
+}
