@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 import { cn } from '@/utils/ui';
 import { ColorVariant } from '@/components/ui/types';
 import {
@@ -95,6 +96,10 @@ export const Typography: React.FC<TypographyProps> = ({
   inherit = false,
   className,
   children,
+  href,
+  replace,
+  scroll,
+  prefetch,
   ...props
 }) => {
   const Tag = (as ?? (headingVariants.includes(variant) ? variant : 'p')) as Tags;
@@ -119,6 +124,16 @@ export const Typography: React.FC<TypographyProps> = ({
       ...props,
       className: cn(classes, child.props.className),
     });
+  }
+
+  if (href) {
+    return (
+      <Link href={href} replace={replace} scroll={scroll} prefetch={prefetch}>
+        <Tag data-slot="typography" dir={dir} className={classes}>
+          {children}
+        </Tag>
+      </Link>
+    );
   }
 
   return (

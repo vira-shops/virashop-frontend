@@ -63,4 +63,8 @@ export interface TypographyProps extends Omit<HTMLAttributes<HTMLElement>, 'colo
   inherit?: boolean;
   children?: ReactNode;
   className?: string;
+  href?: string;
+  replace?: boolean;
+  scroll?: boolean;
+  prefetch?: boolean;
 }

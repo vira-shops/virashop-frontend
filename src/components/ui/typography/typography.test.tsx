@@ -176,4 +176,40 @@ describe('Typography', () => {
 
     expect(screen.getByTestId('typo')).toHaveAttribute('dir', 'rtl');
   });
+
+  describe('href (link)', () => {
+    it('renders a Next.js Link when href is provided', () => {
+      render(
+        <Typography variant="body-md" href="/about">
+          درباره ما
+        </Typography>,
+      );
+
+      const link = screen.getByRole('link', { name: 'درباره ما' });
+
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/about');
+    });
+
+    it('wraps the semantic tag inside Link with correct classes', () => {
+      render(
+        <Typography variant="caption-lg" color="gray" href="/contact">
+          تماس با ما
+        </Typography>,
+      );
+
+      const link = screen.getByRole('link', { name: 'تماس با ما' });
+      const typography = link.querySelector('[data-slot="typography"]');
+
+      expect(typography).toBeInTheDocument();
+      expect(typography).toHaveClass('typography-caption-lg');
+      expect(typography).toHaveClass('typography-gray');
+    });
+
+    it('does not render Link when href is not provided', () => {
+      render(<Typography>متن بدون لینک</Typography>);
+
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    });
+  });
 });

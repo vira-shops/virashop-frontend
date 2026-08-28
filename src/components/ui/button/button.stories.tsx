@@ -108,6 +108,41 @@ export const FullWidth: Story = {
   ),
 };
 
+export const AsLink: Story = {
+  name: 'به‌صورت لینک (href)',
+  render: () => (
+    <div className="flex flex-wrap gap-4">
+      <Button href="/wholesale" color="wholesale">
+        فروش عمده
+      </Button>
+      <Button href="/retail" color="retail">
+        فروش خرده
+      </Button>
+      <Button href="/auth/login" variant="outline">
+        ورود
+      </Button>
+      <Button href="https://example.com" target="_blank" rel="noopener noreferrer" variant="ghost">
+        لینک خارجی
+      </Button>
+    </div>
+  ),
+};
+
+export const AsLinkIconOnly: Story = {
+  name: 'به‌صورت لینک - فقط آیکون',
+  render: () => (
+    <div className="flex flex-wrap gap-4">
+      <Button href="/cart" icon={<PlusIcon className="size-5" />} aria-label="سبد خرید" />
+      <Button
+        href="/auth/login"
+        variant="outline"
+        icon={<PlusIcon className="size-5" />}
+        aria-label="ورود"
+      />
+    </div>
+  ),
+};
+
 export const RetailTheme: Story = {
   render: () => (
     <div data-theme="retail" className="flex flex-wrap gap-4 p-4">

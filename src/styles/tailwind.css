@@ -7,6 +7,7 @@
   --wholesale-50: #80d6d6;
   --wholesale-500: #00acac; /*base*/
   --wholesale-600: #019090;
+  --wholesale-700: #0B3A42;
   --wholesale-900: #062026;
 
   --retail-50: #ffcb60;
@@ -18,6 +19,7 @@
   --primary-50: var(--wholesale-50);
   --primary-500: var(--wholesale-500);
   --primary-600: var(--wholesale-600);
+  --primary-700: var(--wholesale-700);
   --primary-900: var(--wholesale-900);
 }
 
@@ -25,6 +27,7 @@
   --primary-50: var(--wholesale-50);
   --primary-500: var(--wholesale-500);
   --primary-600: var(--wholesale-600);
+  --primary-700: var(--wholesale-700);
   --primary-900: var(--wholesale-900);
 }
 
@@ -90,6 +93,7 @@
   --color-primary-50: var(--primary-50);
   --color-primary-500: var(--primary-500); /*base*/
   --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
   --color-primary-900: var(--primary-900);
 
   --color-retail-50: var(--retail-50);
@@ -100,6 +104,7 @@
   --color-wholesale-50: var(--wholesale-50);
   --color-wholesale-500: var(--wholesale-500); /*base*/
   --color-wholesale-600: var(--wholesale-600);
+  --color-wholesale-700: var(--wholesale-700);
   --color-wholesale-900: var(--wholesale-900);
 
   /* yellow */

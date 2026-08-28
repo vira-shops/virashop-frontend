@@ -196,4 +196,62 @@ describe('Button', () => {
       expect(screen.getByTestId('save-button')).toHaveAttribute('aria-label', 'ذخیره اطلاعات');
     });
   });
+
+  describe('href (link mode)', () => {
+    it('renders an anchor (Next.js Link) instead of a button when href is provided', () => {
+      render(<Button href="/wholesale">ورود به فروشگاه</Button>);
+
+      const link = screen.getByRole('link', { name: 'ورود به فروشگاه' });
+
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/wholesale');
+      expect(screen.queryByRole('button', { name: 'ورود به فروشگاه' })).not.toBeInTheDocument();
+    });
+
+    it('keeps the button class names when rendered as a link', () => {
+      render(
+        <Button href="/retail" color="retail" variant="outline" fullWidth>
+          فروش خرده
+        </Button>,
+      );
+
+      const link = screen.getByRole('link', { name: 'فروش خرده' });
+
+      expect(link).toHaveClass('button');
+      expect(link).toHaveClass('button-retail');
+      expect(link).toHaveClass('button-outline');
+      expect(link).toHaveClass('button-text-md');
+      expect(link).toHaveClass('button-fullWidth');
+    });
+
+    it('renders the icon-only mode correctly when used as a link', () => {
+      render(<Button href="/cart" icon={<span data-testid="cart-icon" />} aria-label="سبد خرید" />);
+
+      const link = screen.getByRole('link', { name: 'سبد خرید' });
+
+      expect(link.tagName).toBe('A');
+      expect(link).toHaveAttribute('href', '/cart');
+      expect(screen.getByTestId('cart-icon')).toBeInTheDocument();
+    });
+
+    it('forwards extra anchor attributes to the link', () => {
+      render(
+        <Button href="https://example.com" target="_blank" rel="noopener noreferrer">
+          خارجی
+        </Button>,
+      );
+
+      const link = screen.getByRole('link', { name: 'خارجی' });
+
+      expect(link).toHaveAttribute('target', '_blank');
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      expect(link).toHaveAttribute('href', 'https://example.com');
+    });
+
+    it('does not render a button when href is provided', () => {
+      render(<Button href="/foo">لینک</Button>);
+
+      expect(screen.queryByRole('button', { name: 'لینک' })).not.toBeInTheDocument();
+    });
+  });
 });

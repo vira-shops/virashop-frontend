@@ -1,12 +1,10 @@
-import type { Metadata, Viewport } from 'next';
+import type { Viewport } from 'next';
 import type { PropsWithChildren } from '@/types/children';
+import { configMetadata } from '@/config/metadata';
 import RootLayout from '@/layouts/root-layout';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: 'Virashop',
-  description: '',
-};
+export const metadata = configMetadata;
 
 export const viewport: Viewport = {
   width: 'device-width',

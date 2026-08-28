@@ -39,12 +39,19 @@ After ANY change run, and keep green:
 
 ```
 src/
-  features/<feature>/   # domain components — compose from ui/, never the reverse
-  components/ui/        # design system (button, typography, shared types.d.ts)
-  styles/tailwind.css   # single Tailwind v4 theme source (NO tailwind.config file)
-  styles/components/ui/styles.css  # imports every ui component's css
-  layouts/              # root-layout (html dir=rtl lang=fa) + section layouts
-  utils/ui.ts           # cn() = clsx + tailwind-merge
+  app/                   # Next.js App Router — pages, route groups, layouts
+  routes/paths.ts        # centralized route constants (static + dynamic functions)
+  config/metadata.ts     # centralized metadata (root template, section configs, per-page)
+  config/env.ts          # environment variables
+  features/<feature>/    # domain components — compose from ui/ and shared/, never the reverse
+  components/
+    ui/                  # design system (button, typography, text-input, select, uploader)
+    shared/              # shared components (modal, breadcrumb, header primitives, icons)
+  layouts/               # root-layout (html dir=rtl lang=fa) + section layouts
+  styles/
+    tailwind.css         # single Tailwind v4 theme source (NO tailwind.config file)
+    components/ui/styles.css  # imports every ui component's css
+  utils/ui.ts            # cn() = clsx + tailwind-merge
 ```
 
 Section layouts set the theme once with `<div data-theme="retail">` (or `"wholesale"`); everything inside uses `primary` tokens.
@@ -118,6 +125,54 @@ types.d.ts   component.tsx   component.css   index.ts   <c>.stories.tsx   <c>.te
   `src/components/shared/icons` is blocked by ESLint.
 - Generated icons use `currentColor` — recolor them with `text-*` utilities,
   never by editing the generated files.
+
+## Import Conventions
+
+- **Always use barrel imports** for `ui/` and `shared/`:
+  ```ts
+  // ✅ Correct
+  import { Button, Typography } from '@/components/ui';
+  import { Modal, Breadcrumb } from '@/components/shared';
+  import type { StoreHeaderConfig } from '@/components/shared';
+
+  // ❌ Wrong — deep path imports
+  import { Button } from '@/components/ui/button';
+  import { StoreHeaderConfig } from '@/components/shared/header/types';
+  ```
+- The **only exception** is internal cross-references within the same directory
+  (e.g., `typography.tsx` importing `ColorVariant` from `@/components/ui/types`).
+- Icons are always imported via `@icons` — never via barrel or deep paths.
+
+## Routing & Metadata
+
+- All routes are defined in `src/routes/paths.ts` — never hardcode route strings.
+  Supports static strings (`PATHS.ABOUT`) and dynamic functions (`PATHS.WHOLESALE.PRODUCT(slug)`).
+- Metadata is centralized in `src/config/metadata.ts`:
+  - Root metadata with title template: `%s | ویراشاپ`
+  - Section-specific: `wholesaleMetadata`, `retailMetadata`
+  - Per-page shorthand: `aboutMetadata`, `contactMetadata`, etc.
+- Each `page.tsx` exports `metadata` from the config:
+  ```ts
+  import { aboutMetadata } from '@/config/metadata';
+  export const metadata = aboutMetadata;
+  ```
+
+## Header Architecture
+
+Three headers share primitives from `components/shared/header/`:
+
+- **Landing header** — two CTA buttons (desktop) / burger menu (mobile)
+- **Store header** — config-driven, reused for wholesale & retail via different config objects
+
+```
+components/layout/
+  shared/header/          # Logo, SearchBar, UserActions, MobileMenu, types
+  home/header/            # LandingHeader + constants
+  store-header/           # StoreHeader + wholesale-config + retail-config
+```
+
+- `StoreHeader` accepts a `StoreHeaderConfig` object — swap configs, not components.
+- Theme colors handled by `data-theme` on parent — no hardcoded colors in headers.
 
 ## Workflow Rules
 

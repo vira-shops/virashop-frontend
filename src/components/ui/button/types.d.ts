@@ -1,12 +1,27 @@
+import type { LinkProps } from 'next/link';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
+
 export type ButtonVariant = 'fill' | 'outline' | 'ghost';
 
-export type ButtonColor = 'primary' | 'blue' | 'yellow';
+export type ButtonColor = 'primary' | 'blue' | 'yellow' | 'wholesale' | 'retail';
 
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
-export type ButtonBaseProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'>;
+type AnchorAttributes = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps | 'href'>;
 
-export interface ButtonProps extends ButtonBaseProps {
+export type ButtonBaseProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'href'>;
+
+export interface ButtonAsButtonProps extends ButtonBaseProps {
+  href?: undefined;
+}
+
+export interface ButtonAsLinkProps extends LinkProps, AnchorAttributes {
+  href: LinkProps['href'];
+  type?: never;
+  disabled?: never;
+}
+
+export type ButtonProps = (ButtonAsButtonProps | ButtonAsLinkProps) & {
   variant?: ButtonVariant;
   color?: ButtonColor;
   size?: ButtonSize;
@@ -16,5 +31,4 @@ export interface ButtonProps extends ButtonBaseProps {
   fullWidth?: boolean;
   fullRounded?: boolean;
   className?: string;
-  type?: 'button' | 'submit' | 'reset';
-}
+};

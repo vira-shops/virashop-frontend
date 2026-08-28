@@ -141,3 +141,19 @@ export const AlignmentAndDecoration: Story = {
     </div>
   ),
 };
+
+export const Links: Story = {
+  render: () => (
+    <div className="flex flex-col gap-2">
+      <Typography variant="h5" color="primary" href="/about">
+        لینک عنوان
+      </Typography>
+      <Typography variant="body-md" href="/link1">
+        لینک بدنه متنی
+      </Typography>
+      <Typography variant="caption-lg" color="gray" href="/contact">
+        لینک کپشن
+      </Typography>
+    </div>
+  ),
+};
