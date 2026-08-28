@@ -77,6 +77,45 @@
   .button-yellow.button-ghost.button-disabled {
     @apply  bg-transparent pointer-events-none cursor-not-allowed;
   }
+  /* Wholesale */
+  .button-wholesale.button-fill {
+    @apply bg-wholesale-500 text-white hover:bg-wholesale-600;
+  }
+  .button-wholesale.button-outline {
+    @apply border-wholesale-500 bg-transparent text-wholesale-500 border hover:border-wholesale-600 hover:text-wholesale-600;
+  }
+  .button-wholesale.button-ghost {
+    @apply hover:bg-wholesale-50 bg-transparent text-wholesale-500;
+  }
+  .button-wholesale.button-fill.button-disabled {
+    @apply bg-wholesale-50  pointer-events-none cursor-not-allowed;
+  }
+  .button-wholesale.button-outline.button-disabled {
+    @apply border-wholesale-50 text-wholesale-50 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+  .button-wholesale.button-ghost.button-disabled {
+    @apply text-wholesale-50 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+  /* Retail */
+  .button-retail.button-fill {
+    @apply bg-retail-500 text-white hover:bg-retail-600;
+  }
+  .button-retail.button-outline {
+    @apply border-retail-500 bg-transparent text-retail-500 border hover:border-retail-600 hover:text-retail-600;
+  }
+  .button-retail.button-ghost {
+    @apply hover:bg-retail-50 bg-transparent text-retail-500;
+  }
+  .button-retail.button-fill.button-disabled {
+    @apply bg-retail-50  pointer-events-none cursor-not-allowed;
+  }
+  .button-retail.button-outline.button-disabled {
+    @apply border-retail-50 text-retail-50 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+  .button-retail.button-ghost.button-disabled {
+    @apply text-retail-50 bg-transparent pointer-events-none cursor-not-allowed;
+  }
+  
 }
 
 /* Size */

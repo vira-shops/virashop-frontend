@@ -1,3 +1,1 @@
-export function Header() {
-  return <header></header>;
-}
+export * from './landing-header';

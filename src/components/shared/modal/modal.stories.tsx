@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import * as React from 'react';
 import { Modal } from './modal';
 import type { ModalProps } from './types';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 
 const meta: Meta<typeof Modal> = {
   title: 'Shared/Modal',
