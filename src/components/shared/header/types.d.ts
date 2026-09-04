@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import type { ButtonColor } from '@/components/ui/button/types';
+import type { ButtonColor } from '@/components/ui';
 
 export interface NavItem {
   label: string;

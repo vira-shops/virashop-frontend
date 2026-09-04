@@ -38,7 +38,7 @@ export const Basic: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <Button variant="fill">Fill</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
@@ -48,10 +48,10 @@ export const Variants: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-12">
       {(['primary', 'blue', 'yellow'] as const).map((color) => (
-        <div key={color} className="flex flex-wrap items-center gap-4">
-          <span className="w-16 text-sm text-gray-700">{color}</span>
+        <div key={color} className="flex flex-wrap items-center gap-11">
+          <span className="w-14 text-sm text-gray-700">{color}</span>
           <Button color={color} variant="fill" disabled>
             پر کردن
           </Button>
@@ -69,7 +69,7 @@ export const Disabled: Story = {
 
 export const Colors: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <Button color="primary">Primary</Button>
       <Button color="blue">Blue</Button>
       <Button color="yellow">Yellow</Button>
@@ -79,7 +79,7 @@ export const Colors: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-4">
+    <div className="flex flex-wrap items-center gap-11">
       <Button size="xs">XS</Button>
       <Button size="sm">SM</Button>
       <Button size="md">MD</Button>
@@ -92,10 +92,10 @@ export const Sizes: Story = {
 
 export const WithIcons: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-4">
-      <Button rightIcon={<PlusIcon className="size-5" />}>آیکن راست</Button>
-      <Button leftIcon={<ArrowLeftIcon className="size-5" />}>آیکن چپ</Button>
-      <Button icon={<PlusIcon className="size-5" />} aria-label="add" />
+    <div className="flex flex-wrap items-center gap-11">
+      <Button rightIcon={<PlusIcon className="size-9" />}>آیکن راست</Button>
+      <Button leftIcon={<ArrowLeftIcon className="size-9" />}>آیکن چپ</Button>
+      <Button icon={<PlusIcon className="size-9" />} aria-label="add" />
     </div>
   ),
 };
@@ -111,7 +111,7 @@ export const FullWidth: Story = {
 export const AsLink: Story = {
   name: 'به‌صورت لینک (href)',
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <Button href="/wholesale" color="wholesale">
         فروش عمده
       </Button>
@@ -131,12 +131,12 @@ export const AsLink: Story = {
 export const AsLinkIconOnly: Story = {
   name: 'به‌صورت لینک - فقط آیکون',
   render: () => (
-    <div className="flex flex-wrap gap-4">
-      <Button href="/cart" icon={<PlusIcon className="size-5" />} aria-label="سبد خرید" />
+    <div className="flex flex-wrap gap-11">
+      <Button href="/cart" icon={<PlusIcon className="size-9" />} aria-label="سبد خرید" />
       <Button
         href="/auth/login"
         variant="outline"
-        icon={<PlusIcon className="size-5" />}
+        icon={<PlusIcon className="size-9" />}
         aria-label="ورود"
       />
     </div>
@@ -145,7 +145,7 @@ export const AsLinkIconOnly: Story = {
 
 export const RetailTheme: Story = {
   render: () => (
-    <div data-theme="retail" className="flex flex-wrap gap-4 p-4">
+    <div data-theme="retail" className="flex flex-wrap gap-11 p-11">
       <Button variant="fill">خرده - پر کردن</Button>
       <Button variant="outline">خرده - خط دور</Button>
       <Button variant="ghost">خرده - شبح</Button>
@@ -155,7 +155,7 @@ export const RetailTheme: Story = {
 
 export const WholesaleTheme: Story = {
   render: () => (
-    <div data-theme="wholesale" className="flex flex-wrap gap-4 p-4">
+    <div data-theme="wholesale" className="flex flex-wrap gap-11 p-11">
       <Button variant="fill">عمده - پر کردن</Button>
       <Button variant="outline">عمده - خط دور</Button>
       <Button variant="ghost">عمده - شبح</Button>
@@ -166,16 +166,16 @@ export const WholesaleTheme: Story = {
 export const LandingPreview: Story = {
   name: 'Landing (both palettes)',
   render: () => (
-    <div className="grid gap-4 md:grid-cols-2">
-      <div className="border-retail-600 bg-retail-50 rounded-xl border p-6">
+    <div className="grid gap-11 md:grid-cols-2">
+      <div className="border-retail-600 bg-retail-50 rounded-8 border p-12">
         <p className="text-retail-900 text-lg font-bold">فروش خرده</p>
-        <div className="mt-4 flex gap-3">
+        <div className="mt-11 flex gap-9">
           <Button className="bg-retail-500 hover:bg-retail-600">ورود به فروشگاه خرده</Button>
         </div>
       </div>
-      <div className="border-wholesale-600 bg-wholesale-50 rounded-xl border p-6">
+      <div className="border-wholesale-600 bg-wholesale-50 rounded-8 border p-12">
         <p className="text-wholesale-900 text-lg font-bold">فروش عمده</p>
-        <div className="mt-4 flex gap-3">
+        <div className="mt-11 flex gap-9">
           <Button className="bg-wholesale-500 hover:bg-wholesale-600">ورود به فروشگاه عمده</Button>
         </div>
       </div>

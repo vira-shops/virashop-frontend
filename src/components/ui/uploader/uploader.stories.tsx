@@ -40,7 +40,7 @@ export const WithPdf: Story = {
 
 export const WithError: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Uploader
         label="عنوان فیلد"
         placeholder="کارت ملی خود را بارگذاری کنید"

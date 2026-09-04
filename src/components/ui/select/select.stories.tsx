@@ -41,7 +41,7 @@ export const Basic: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Select variant="outline" placeholder="خط دور">
         {options}
       </Select>
@@ -57,7 +57,7 @@ export const Variants: Story = {
 
 export const WithLabelAndMessage: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Select label="شهر" placeholder="انتخاب کنید" inputMessage="شهر انتخاب شد" state="success">
         {options}
       </Select>
@@ -75,7 +75,7 @@ export const WithLabelAndMessage: Story = {
 
 export const States: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <Select state="error" placeholder="خطا" inputMessage="پیام خطا">
         {options}
       </Select>
@@ -91,7 +91,7 @@ export const States: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Select size="sm" placeholder="کوچک">
         {options}
       </Select>
@@ -117,7 +117,7 @@ export const Searchable: Story = {
 
 export const SearchableWithRightIcon: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <div className="w-72">
         <Select searchable placeholder="با آیکن پیش‌فرض جستجو">
           {options}
@@ -134,7 +134,7 @@ export const SearchableWithRightIcon: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <Select variant="outline" disabled placeholder="غیرفعال">
         {options}
       </Select>

@@ -50,7 +50,7 @@ export const Basic: Story = {
       <textarea
         id="modal-textarea"
         placeholder="متن..."
-        className="text-body-sm mt-2 min-h-40 flex-1 resize-none rounded-md bg-blue-50 p-4 text-gray-700 placeholder:text-blue-300 focus:outline-none"
+        className="text-body-sm rounded-5 mt-5 min-h-40 flex-1 resize-none bg-blue-50 p-11 text-gray-700 placeholder:text-blue-300 focus:outline-none"
       />
     </ModalTrigger>
   ),
@@ -58,7 +58,7 @@ export const Basic: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <ModalTrigger key={size} size={size} title={`مودال ${size}`}>
           <p className="text-body-sm text-gray-700">محتوای مودال با سایز {size}</p>

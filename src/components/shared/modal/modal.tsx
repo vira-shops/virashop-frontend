@@ -23,6 +23,13 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnBackdrop = true,
   children,
   className,
+  containerClassName,
+  backdropClassName,
+  headerClassName,
+  titleClassName,
+  closeClassName,
+  bodyClassName,
+  footerClassName,
 }) => {
   const titleId = React.useId();
   const mounted = React.useSyncExternalStore(
@@ -52,9 +59,9 @@ export const Modal: React.FC<ModalProps> = ({
   if (!mounted || !open) return null;
 
   return createPortal(
-    <div className="modal-container">
+    <div className={cn('modal-container', containerClassName)}>
       <div
-        className="modal-backdrop"
+        className={cn('modal-backdrop', backdropClassName)}
         data-testid="modal-backdrop"
         onClick={closeOnBackdrop ? onClose : undefined}
       />
@@ -65,18 +72,23 @@ export const Modal: React.FC<ModalProps> = ({
         className={cn('modal-panel', sizeClasses[size], className)}
         dir="rtl"
       >
-        <div className="modal-header">
+        <div className={cn('modal-header', headerClassName)}>
           {title && (
-            <h2 id={titleId} className="modal-title">
+            <h2 id={titleId} className={cn('modal-title', titleClassName)}>
               {title}
             </h2>
           )}
-          <button type="button" aria-label="بستن" className="modal-close" onClick={onClose}>
+          <button
+            type="button"
+            aria-label="بستن"
+            className={cn('modal-close', closeClassName)}
+            onClick={onClose}
+          >
             <CancelIcon />
           </button>
         </div>
-        <div className="modal-body">{children}</div>
-        {footer && <div className="modal-footer">{footer}</div>}
+        <div className={cn('modal-body', bodyClassName)}>{children}</div>
+        {footer && <div className={cn('modal-footer', footerClassName)}>{footer}</div>}
       </div>
     </div>,
     document.body,

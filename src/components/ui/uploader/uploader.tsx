@@ -26,6 +26,13 @@ export const Uploader: React.FC<UploaderProps> = ({
   disabled,
   onChange,
   className,
+  wrapperClassName,
+  labelClassName,
+  previewClassName,
+  fileNameClassName,
+  placeholderClassName,
+  removeClassName,
+  errorMessageClassName,
 }) => {
   const autoId = React.useId();
   const inputId = `uploader-${autoId}`;
@@ -103,9 +110,9 @@ export const Uploader: React.FC<UploaderProps> = ({
   };
 
   return (
-    <div dir="rtl" className="flex flex-col items-start gap-2">
+    <div dir="rtl" className={cn('flex flex-col items-start gap-5', wrapperClassName)}>
       {label && (
-        <label htmlFor={inputId} className="uploader-label">
+        <label htmlFor={inputId} className={cn('uploader-label', labelClassName)}>
           {label}
         </label>
       )}
@@ -134,17 +141,25 @@ export const Uploader: React.FC<UploaderProps> = ({
           {file ? (
             isImage ? (
               /* eslint-disable-next-line @next/next/no-img-element -- blob preview cannot use next/image */
-              <img src={previewUrl ?? undefined} alt={file.name} className="uploader-preview" />
+              <img
+                src={previewUrl ?? undefined}
+                alt={file.name}
+                className={cn('uploader-preview', previewClassName)}
+              />
             ) : (
               <>
                 <DocumentIcon />
-                <span className="uploader-file-name">{file.name}</span>
+                <span className={cn('uploader-file-name', fileNameClassName)}>{file.name}</span>
               </>
             )
           ) : (
             <>
               <GalleryIcon />
-              {placeholder && <span className="uploader-placeholder">{placeholder}</span>}
+              {placeholder && (
+                <span className={cn('uploader-placeholder', placeholderClassName)}>
+                  {placeholder}
+                </span>
+              )}
             </>
           )}
         </button>
@@ -152,7 +167,7 @@ export const Uploader: React.FC<UploaderProps> = ({
           <button
             type="button"
             aria-label="حذف فایل"
-            className="uploader-remove"
+            className={cn('uploader-remove', removeClassName)}
             onClick={handleRemove}
           >
             <CancelIcon />
@@ -169,7 +184,7 @@ export const Uploader: React.FC<UploaderProps> = ({
         tabIndex={-1}
         onChange={(event) => handleFiles(event.target.files)}
       />
-      {error && <p className="uploader-error-message">{error}</p>}
+      {error && <p className={cn('uploader-error-message', errorMessageClassName)}>{error}</p>}
     </div>
   );
 };

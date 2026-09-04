@@ -20,5 +20,10 @@ export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   fullWidth?: boolean;
   dir?: 'rtl' | 'ltr' | 'auto';
   className?: string;
+  /* --- Style overrides (merged with cn; utilities outrank baked-in classes) --- */
+  wrapperClassName?: string;
+  labelClassName?: string;
+  fieldClassName?: string;
+  messageClassName?: string;
   ref?: Ref<HTMLInputElement>;
 }

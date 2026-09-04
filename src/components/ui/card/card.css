@@ -1,0 +1,133 @@
+@layer components {
+  .card {
+    @apply flex w-full flex-col overflow-hidden transition-shadow;
+  }
+
+  /* Variants */
+  .card-outline {
+    @apply border border-gray-100 bg-white;
+  }
+
+  .card-fill {
+    @apply border border-transparent bg-white shadow-sm;
+  }
+
+  .card-ghost {
+    @apply border border-transparent bg-transparent;
+  }
+
+  /* Image */
+  .card-image-link {
+    @apply block w-full;
+  }
+
+  .card-image-wrapper {
+    @apply relative aspect-square w-full overflow-hidden bg-white;
+  }
+
+  .card-image {
+    @apply h-full w-full object-cover;
+  }
+
+  .card-image-badge {
+    @apply absolute top-9 right-9 z-10;
+  }
+
+  .card-image-badge-secondary {
+    @apply absolute top-9 left-9 z-10;
+  }
+
+  /* Content */
+  .card-content {
+    @apply flex w-full flex-col gap-2 p-3;
+  }
+
+  .card-header {
+    @apply flex w-full flex-col gap-1;
+  }
+
+  .card-title {
+    @apply text-body-md font-bold text-black;
+  }
+
+  .card-description {
+    @apply text-caption-md text-gray-700;
+  }
+
+  /* Price */
+  .card-price {
+    @apply flex items-baseline gap-5;
+  }
+
+  .card-price-row {
+    @apply flex items-center justify-between border-t border-gray-100 pt-9;
+  }
+
+  .card-price-label {
+    @apply text-caption-md text-gray-700;
+  }
+
+  .card-price-current {
+    @apply text-body-md font-bold text-primary;
+  }
+
+  .card-price-original {
+    @apply text-caption-md text-gray-300 line-through;
+  }
+
+  .card-price-currency {
+    @apply text-caption-md text-gray-700;
+  }
+
+  /* Action */
+  .card-action {
+    @apply flex w-full;
+  }
+
+  /* Action row (action + stock) */
+  .card-action-row {
+    @apply flex items-center justify-between;
+  }
+
+  .card-action-row-with-stock {
+    @apply gap-11 md:gap-11;
+  }
+
+  .card-stock {
+    @apply w-full text-caption-md text-gray-700;
+  }
+}
+
+/* Radii */
+@utility card-radius-sm {
+  @apply rounded-4;
+}
+
+@utility card-radius-md {
+  @apply rounded-5;
+}
+
+@utility card-radius-lg {
+  @apply rounded-6;
+}
+
+@utility card-radius-xl {
+  @apply rounded-8;
+}
+
+@utility card-radius-2xl {
+  @apply rounded-9;
+}
+
+/* Shadows */
+@utility card-shadow-sm {
+  @apply shadow-sm;
+}
+
+@utility card-shadow-md {
+  @apply shadow-md;
+}
+
+@utility card-shadow-lg {
+  @apply shadow-lg;
+}

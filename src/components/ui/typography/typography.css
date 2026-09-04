@@ -3,7 +3,20 @@
     @apply text-foreground;
   }
 
-  /* Headings */
+  /* Display (design system v2) */
+  .typography-display-1 {
+    @apply text-display-1 font-bold;
+  }
+
+  .typography-display-2 {
+    @apply text-display-2 font-bold;
+  }
+
+  .typography-display-3 {
+    @apply text-display-3 font-bold;
+  }
+
+  /* Headings (design system v2 — fixed sizes, 160%) */
   .typography-h1 {
     @apply text-h1 font-bold;
   }
@@ -25,10 +38,102 @@
   }
 
   .typography-h6 {
-    @apply text-h6 font-medium;
+    @apply text-h6 font-bold;
   }
 
-  /* Body */
+  /* Body 1..15 (design system v2) — each role declares size + line-height +
+     weight directly in one place, exactly as specified. */
+  .typography-body-1 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 180%;
+    font-weight: 600;
+  }
+
+  .typography-body-2 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 180%;
+    font-weight: 500;
+  }
+
+  .typography-body-3 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 180%;
+    font-weight: 400;
+  }
+
+  .typography-body-4 {
+    font-size: 1.25rem; /* 20px */
+    line-height: 190%;
+    font-weight: 600;
+  }
+
+  .typography-body-5 {
+    font-size: 1.25rem; /* 20px */
+    line-height: 170%;
+    font-weight: 500;
+  }
+
+  .typography-body-6 {
+    font-size: 1.25rem; /* 20px */
+    line-height: 180%;
+    font-weight: 400;
+  }
+
+  .typography-body-7 {
+    font-size: 1.125rem; /* 18px */
+    line-height: 190%;
+    font-weight: 600;
+  }
+
+  .typography-body-8 {
+    font-size: 1.125rem; /* 18px */
+    line-height: 190%;
+    font-weight: 500;
+  }
+
+  .typography-body-9 {
+    font-size: 1.125rem; /* 18px */
+    line-height: 180%;
+    font-weight: 400;
+  }
+
+  .typography-body-10 {
+    font-size: 1rem; /* 16px */
+    line-height: 190%;
+    font-weight: 600;
+  }
+
+  .typography-body-11 {
+    font-size: 1rem; /* 16px */
+    line-height: 180%;
+    font-weight: 500;
+  }
+
+  .typography-body-12 {
+    font-size: 1rem; /* 16px */
+    line-height: 160%;
+    font-weight: 400;
+  }
+
+  .typography-body-13 {
+    font-size: 0.875rem; /* 14px */
+    line-height: 190%;
+    font-weight: 600;
+  }
+
+  .typography-body-14 {
+    font-size: 0.875rem; /* 14px */
+    line-height: 180%;
+    font-weight: 500;
+  }
+
+  .typography-body-15 {
+    font-size: 0.875rem; /* 14px */
+    line-height: 180%;
+    font-weight: 400;
+  }
+
+  /* Body — legacy roles */
   .typography-body-xl {
     @apply text-body-xl font-medium;
   }
@@ -47,7 +152,7 @@
 
   /* Caption */
   .typography-caption-lg {
-    @apply text-caption-lg font-medium;
+    @apply text-caption-lg font-bold;
   }
 
   .typography-caption-md {

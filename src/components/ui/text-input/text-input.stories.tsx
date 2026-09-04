@@ -32,7 +32,7 @@ export const Basic: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <TextInput variant="outline" placeholder="خط دور" />
       <TextInput variant="fill" placeholder="پر شده" />
       <TextInput variant="ghost" placeholder="شبح" />
@@ -42,7 +42,7 @@ export const Variants: Story = {
 
 export const WithLabelAndMessage: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <TextInput
         label="ایمیل"
         placeholder="example@mail.com"
@@ -67,7 +67,7 @@ export const WithLabelAndMessage: Story = {
 
 export const States: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <TextInput state="error" placeholder="خطا" inputMessage="پیام خطا" />
       <TextInput state="success" placeholder="موفق" inputMessage="پیام موفقیت" />
       <TextInput state="warning" placeholder="هشدار" inputMessage="پیام هشدار" />
@@ -77,7 +77,7 @@ export const States: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <TextInput size="sm" placeholder="کوچک" />
       <TextInput size="md" placeholder="متوسط" />
       <TextInput size="lg" placeholder="بزرگ" />
@@ -87,7 +87,7 @@ export const Sizes: Story = {
 
 export const WithIcons: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <TextInput rightIcon={<SearchIcon />} placeholder="آیکن راست" />
       <TextInput leftIcon={<SearchIcon />} placeholder="آیکن چپ" />
     </div>
@@ -96,7 +96,7 @@ export const WithIcons: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <TextInput variant="outline" disabled placeholder="غیرفعال" />
       <TextInput variant="fill" disabled placeholder="غیرفعال" />
       <TextInput variant="ghost" disabled placeholder="غیرفعال" />

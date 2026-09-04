@@ -51,3 +51,7 @@ storybook-static
 
 # pnpm
 .pnpm-store/
+
+# local tooling
+/graphify-out/
+AGENTS.md

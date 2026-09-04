@@ -1,0 +1,51 @@
+import * as React from 'react';
+import type { SVGProps } from 'react';
+
+const TaskSquareIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M32.9868 23.6799H46.9868"
+      stroke="#ffac00"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M17.0132 23.6799L19.0132 25.6799L25.0132 19.6799"
+      stroke="#ffac00"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M32.9868 42.3467H46.9868"
+      stroke="#00acac"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M17.0132 42.3467L19.0132 44.3467L25.0132 38.3467"
+      stroke="#00acac"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M24.0002 58.6666H40.0002C53.3335 58.6666 58.6668 53.3332 58.6668 39.9999V23.9999C58.6668 10.6666 53.3335 5.33325 40.0002 5.33325H24.0002C10.6668 5.33325 5.3335 10.6666 5.3335 23.9999V39.9999C5.3335 53.3332 10.6668 58.6666 24.0002 58.6666Z"
+      stroke="#00acac"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export default TaskSquareIcon;

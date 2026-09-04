@@ -2,9 +2,9 @@ import { WhatsappIcon, TelegramIcon, InstagramIcon } from '@icons';
 import { PATHS } from '@/routes/paths';
 
 export const trustBadges = [
-  { src: '/images/landing/footer/footer-1.svg', alt: 'نشان اعتماد ۱' },
-  { src: '/images/landing/footer/footer-2.svg', alt: 'نشان اعتماد ۲' },
-  { src: '/images/landing/footer/footer-3.svg', alt: 'نشان اعتماد ۳' },
+  { src: '/images/landing/footer/footer-1.png', alt: 'نشان اعتماد ۱' },
+  { src: '/images/landing/footer/footer-2.png', alt: 'نشان اعتماد ۲' },
+  { src: '/images/landing/footer/footer-3.png', alt: 'نشان اعتماد ۳' },
 ] as const;
 
 export const footerLinks = [

@@ -6,7 +6,7 @@ import { SelectProps, SelectVariant, SelectColor, SelectState, SelectSize } from
 
 const variantClasses: Record<SelectVariant, string> = {
   outline: 'select-outline',
-  fill: '',
+  fill: 'select-fill',
   ghost: 'select-ghost',
 };
 
@@ -103,6 +103,12 @@ export const Select: React.FC<SelectProps> = ({
   disabled,
   dir = 'rtl',
   className,
+  wrapperClassName,
+  labelClassName,
+  fieldClassName,
+  listClassName,
+  optionClassName,
+  messageClassName,
   children,
   onChange,
   ref,
@@ -211,9 +217,12 @@ export const Select: React.FC<SelectProps> = ({
   );
 
   return (
-    <div dir={dir} className={cn('flex flex-col items-start gap-2', fullWidth && 'w-full')}>
+    <div
+      dir={dir}
+      className={cn('flex flex-col items-start gap-5', fullWidth && 'w-full', wrapperClassName)}
+    >
       {label && (
-        <label htmlFor={selectId} className="select-label">
+        <label htmlFor={selectId} className={cn('select-label', labelClassName)}>
           {label}
         </label>
       )}
@@ -253,7 +262,10 @@ export const Select: React.FC<SelectProps> = ({
                 }}
                 onFocus={() => setOpen(true)}
                 onKeyDown={handleSearchKeyDown}
-                className="h-full w-full flex-1 cursor-text bg-transparent text-inherit focus:outline-none"
+                className={cn(
+                  'h-full w-full flex-1 cursor-text bg-transparent text-inherit focus:outline-none',
+                  fieldClassName,
+                )}
               />
               <button
                 type="button"
@@ -278,6 +290,7 @@ export const Select: React.FC<SelectProps> = ({
                 dir={dir}
                 disabled={disabled}
                 onChange={handleNativeChange}
+                className={fieldClassName}
               >
                 {placeholder !== undefined && (
                   <option value="" disabled hidden>
@@ -291,7 +304,11 @@ export const Select: React.FC<SelectProps> = ({
           )}
         </div>
         {searchable && open && (
-          <ul id={`${selectId}-listbox`} role="listbox" className="select-listbox">
+          <ul
+            id={`${selectId}-listbox`}
+            role="listbox"
+            className={cn('select-listbox', listClassName)}
+          >
             {filteredOptions.length === 0 && (
               <li className="select-option select-option-empty">گزینه‌ای یافت نشد</li>
             )}
@@ -306,6 +323,7 @@ export const Select: React.FC<SelectProps> = ({
                   index === activeIndex && 'select-option-active',
                   option.value === currentValue && 'select-option-selected',
                   option.disabled && 'select-option-disabled',
+                  optionClassName,
                 )}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => handleSelect(option)}
@@ -318,7 +336,9 @@ export const Select: React.FC<SelectProps> = ({
         )}
       </div>
       {showMessage && (
-        <p className={cn('select-message', state && stateMessageClasses[state])}>{inputMessage}</p>
+        <p className={cn('select-message', state && stateMessageClasses[state], messageClassName)}>
+          {inputMessage}
+        </p>
       )}
     </div>
   );

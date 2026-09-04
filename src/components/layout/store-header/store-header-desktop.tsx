@@ -9,7 +9,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
   const { logo, brandName, navItems, userActions } = config;
 
   return (
-    <div className="hidden items-center gap-6 md:flex">
+    <div className="hidden items-center gap-12 md:flex">
       <Logo src={logo.src} alt={logo.alt} />
 
       <Typography variant="body-xl" className="font-bold whitespace-nowrap">
@@ -18,7 +18,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
 
       <SearchBar className="flex-1" />
 
-      <nav className="flex items-center gap-4">
+      <nav className="flex items-center gap-11">
         {navItems.map(({ label, href }) => (
           <Typography key={href} variant="caption-lg" href={href} color="primary">
             {label}

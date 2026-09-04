@@ -1,0 +1,5 @@
+@layer components {
+  .skeleton {
+    @apply block animate-pulse rounded-4 bg-gray-100;
+  }
+}

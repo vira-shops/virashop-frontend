@@ -1,6 +1,6 @@
 @layer components {
   .button {
-    @apply inline-flex rounded-sm h-fit w-fit cursor-pointer items-center justify-center font-medium transition-all focus:outline-none active:scale-95;
+    @apply inline-flex rounded-4 w-fit cursor-pointer items-center justify-center transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current;
   }
 
   /* Primary */
@@ -118,54 +118,72 @@
   
 }
 
-/* Size */
+/* Size — fixed height + min-width per the v2 spec:
+   xs 60×32 (500/14) · sm 78×36 (500/14) · md 97×40 (600/14)
+   lg 134×44 (600/16) · xl 170×48 (600/16) · xxl 200×56 (600/18)
+   Widths are minimums — longer labels grow the button naturally. */
 @utility button-text-xs {
-  @apply gap-1 px-4 py-0.5 text-xs leading-5;
+  @apply h-11 min-w-[60px] gap-1.5 px-3 text-sm leading-none font-medium;
 }
 
 @utility button-text-sm {
-  @apply gap-1.5  px-5 py-1 text-sm leading-6;
+  @apply h-[36px] min-w-[78px] gap-2 px-4 text-sm leading-none font-medium;
 }
 
 @utility button-text-md {
-  @apply gap-2 px-5 py-2 text-md leading-6;
+  @apply h-12 min-w-[97px] gap-2 px-5 text-sm leading-none font-semibold;
 }
 
 @utility button-text-lg {
-  @apply gap-2  px-7 py-4 text-lg leading-none;
+  @apply h-[44px] min-w-[134px] gap-3 px-6 text-md leading-none font-semibold;
 }
 
 @utility button-text-xl {
-  @apply gap-2.5 px-8 py-5 text-xl leading-none;
+  @apply h-13 min-w-[170px] gap-3 px-7 text-md leading-none font-semibold;
 }
 
 @utility button-text-xxl {
-  @apply gap-3 px-9 py-6 text-xxl leading-none;
+  @apply h-[56px] min-w-[200px] gap-4 px-8 text-xl leading-none font-semibold;
 }
 
-/* Icons */
+
+@media (pointer: coarse) {
+  .button-text-xs,
+  .button-text-sm {
+    @apply h-[44px];
+  }
+}
+
 @utility button-icon-xs {
-  @apply  p-1.5;
+  @apply size-3 text-sm;
 }
 
 @utility button-icon-sm {
-  @apply  p-2;
+  @apply size-7 text-sm;
 }
 
 @utility button-icon-md {
-  @apply  p-2.5;
+  @apply size-10 text-md;
 }
 
 @utility button-icon-lg {
-  @apply  p-3;
+  @apply size-10 text-md;
 }
 
 @utility button-icon-xl {
-  @apply  p-3.5;
+  @apply size-12 text-md;
 }
 
 @utility button-icon-xxl {
-  @apply p-4;
+  @apply size-12 text-xl;
+}
+
+/* Touch targets for icon-only buttons follow the same rule. */
+@media (pointer: coarse) {
+  .button-icon-xs,
+  .button-icon-sm {
+    @apply size-[44px];
+  }
 }
 
 /* Additional styles */
