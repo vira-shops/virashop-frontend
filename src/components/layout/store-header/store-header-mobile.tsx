@@ -9,7 +9,7 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
   const { logo, brandName, navItems, userActions } = config;
 
   return (
-    <div className="flex items-center justify-center gap-3 md:hidden">
+    <div className="flex items-center justify-center gap-9 md:hidden">
       <MobileMenu
         items={navItems}
         logo={logo}

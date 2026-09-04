@@ -2,7 +2,7 @@ import Script from 'next/script';
 import { PropsWithChildren } from '@/types/children';
 import { dana, poppins } from '@/config/fonts/fonts';
 import { env } from '@/config/env';
-import { ToastProvider } from '@/components/feedback/toast';
+import { ToastProvider } from '@/components/feedback';
 import { QueryClientProviderWrapper } from '@/providers/QueryClientProviderWrapper';
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -16,7 +16,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
     >
       <body className="antialiased">
         {env.NODE_ENV === 'development' && (
-          // App Router allows beforeInteractive inside the root layout.
           // eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
           <Script
             crossOrigin="anonymous"

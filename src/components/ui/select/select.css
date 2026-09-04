@@ -1,18 +1,26 @@
 @layer components {
   .select {
-    @apply inline-flex items-center gap-2 rounded-xl border border-transparent bg-gray-50 px-4 transition-colors;
+    @apply inline-flex items-center gap-5 rounded-8 border border-transparent bg-gray-50 px-11 transition-colors;
   }
 
   .select select {
     @apply h-full w-full flex-1 cursor-pointer appearance-none bg-transparent text-body-md text-black focus:outline-none disabled:cursor-not-allowed;
   }
 
+  .select input::placeholder {
+    @apply text-gray-300;
+  }
+
   .select select:has(option[value='']:checked) {
     @apply text-gray-700;
   }
 
+  .select input[role='combobox'] {
+    @apply h-full w-full flex-1 cursor-text appearance-none bg-transparent text-body-md text-black focus:outline-none disabled:cursor-not-allowed;
+  }
+
   .select svg {
-    @apply size-5 shrink-0 text-gray-700;
+    @apply size-12 shrink-0 text-gray-300;
   }
 
   .select-label {
@@ -23,7 +31,12 @@
     @apply text-caption-md font-normal;
   }
 
+
   /* Variants */
+  .select-fill {
+    @apply bg-white shadow-sm;
+  } 
+
   .select-outline {
     @apply border-gray-300 bg-white;
   }
@@ -65,11 +78,35 @@
 
   /* Searchable listbox */
   .select-listbox {
-    @apply absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-auto rounded-xl border border-gray-300 bg-white py-1 shadow-md;
+    @apply absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-auto rounded-8 border border-gray-300 bg-white py-1 shadow-md;
+
+    /* Thin custom scrollbar — the default browser scrollbar is bulky and
+       breaks the rounded dropdown look. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-300) transparent;
+  }
+
+  .select-listbox::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .select-listbox::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .select-listbox::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-300);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+
+  .select-listbox::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-gray-700);
   }
 
   .select-option {
-    @apply cursor-pointer px-4 py-2 text-body-sm text-black;
+    @apply cursor-pointer px-11 py-5 text-body-sm text-black;
   }
 
   .select-option-active {
@@ -104,38 +141,38 @@
 
 /* Size */
 @utility select-sm {
-  @apply h-12 gap-2 px-3;
+  @apply h-10 gap-5 px-9;
 
   select {
     @apply text-body-sm;
   }
 
   svg {
-    @apply size-4;
+    @apply size-9;
   }
 }
 
 @utility select-md {
-  @apply h-14 gap-2 px-4;
+  @apply h-13 gap-5 px-9;
 
   select {
     @apply text-body-md;
   }
 
   svg {
-    @apply size-5;
+    @apply size-10;
   }
 }
 
 @utility select-lg {
-  @apply h-16 gap-3  px-5;
+  @apply h-13 gap-9  px-12;
 
   select {
     @apply text-body-xl;
   }
 
   svg {
-    @apply size-6;
+    @apply size-12;
   }
 }
 

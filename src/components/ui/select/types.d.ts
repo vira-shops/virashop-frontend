@@ -23,6 +23,13 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   disabled?: boolean;
   dir?: 'rtl' | 'ltr' | 'auto';
   className?: string;
+  /* --- Style overrides (merged with cn; utilities outrank baked-in classes) --- */
+  wrapperClassName?: string;
+  labelClassName?: string;
+  fieldClassName?: string;
+  listClassName?: string;
+  optionClassName?: string;
+  messageClassName?: string;
   children?: ReactNode;
   ref?: Ref<HTMLSelectElement>;
 }

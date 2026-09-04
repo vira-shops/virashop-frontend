@@ -1,0 +1,44 @@
+import * as React from 'react';
+import type { SVGProps } from 'react';
+
+const NoteIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M53.3337 21.9999V47.9999C53.3337 55.9999 48.5603 58.6666 42.667 58.6666H21.3337C15.4403 58.6666 10.667 55.9999 10.667 47.9999V21.9999C10.667 13.3333 15.4403 11.3333 21.3337 11.3333C21.3337 12.9866 22.0003 14.4799 23.0936 15.5732C24.1869 16.6666 25.6803 17.3333 27.3337 17.3333H36.667C39.9737 17.3333 42.667 14.6399 42.667 11.3333C48.5603 11.3333 53.3337 13.3333 53.3337 21.9999Z"
+      stroke="#00acac"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M42.6663 11.3333C42.6663 14.6399 39.973 17.3333 36.6663 17.3333H27.333C25.6797 17.3333 24.1863 16.6666 23.0929 15.5732C21.9996 14.4799 21.333 12.9866 21.333 11.3333C21.333 8.02659 24.0263 5.33325 27.333 5.33325H36.6663C38.3197 5.33325 39.8131 5.99993 40.9064 7.09326C41.9997 8.1866 42.6663 9.67992 42.6663 11.3333Z"
+      stroke="#00acac"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M21.333 34.6667H31.9997"
+      stroke="#ffac00"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M21.333 45.3333H42.6663"
+      stroke="#ffac00"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export default NoteIcon;

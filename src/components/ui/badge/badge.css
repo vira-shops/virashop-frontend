@@ -1,0 +1,147 @@
+@layer components {
+  .badge {
+    @apply inline-flex w-fit items-center gap-1 leading-none whitespace-nowrap;
+  }
+
+  /* === Variants === */
+
+  .badge-fill {
+    @apply border border-transparent;
+  }
+
+  .badge-outline {
+    @apply border bg-transparent;
+  }
+
+  .badge-soft {
+    @apply border border-transparent;
+  }
+
+  /* === Colors (fill) === */
+
+  .badge-fill.badge-primary {
+    @apply bg-primary text-white;
+  }
+
+  .badge-fill.badge-warning-red {
+    @apply bg-warning-red text-white;
+  }
+
+  .badge-fill.badge-warning-green {
+    @apply bg-warning-green text-white;
+  }
+
+  .badge-fill.badge-warning-blue {
+    @apply bg-warning-blue text-white;
+  }
+
+  .badge-fill.badge-yellow {
+    @apply bg-yellow-100 text-white;
+  }
+
+  .badge-fill.badge-blue {
+    @apply bg-blue-900 text-white;
+  }
+
+  .badge-fill.badge-gray {
+    @apply bg-gray-100 text-gray-700;
+  }
+
+  .badge-fill.badge-dark {
+    @apply bg-black text-white;
+  }
+
+  /* === Colors (outline) === */
+
+  .badge-outline.badge-primary {
+    @apply border-primary text-primary;
+  }
+
+  .badge-outline.badge-warning-red {
+    @apply border-warning-red text-warning-red;
+  }
+
+  .badge-outline.badge-warning-green {
+    @apply border-warning-green text-warning-green;
+  }
+
+  .badge-outline.badge-warning-blue {
+    @apply border-warning-blue text-warning-blue;
+  }
+
+  .badge-outline.badge-yellow {
+    @apply border-yellow-100 text-yellow-100;
+  }
+
+  .badge-outline.badge-blue {
+    @apply border-blue-900 text-blue-900;
+  }
+
+  .badge-outline.badge-gray {
+    @apply border-gray-300 text-gray-700;
+  }
+
+  .badge-outline.badge-dark {
+    @apply border-black text-black;
+  }
+
+  /* === Colors (soft) === */
+
+  .badge-soft.badge-primary {
+    @apply bg-primary-50 text-primary;
+  }
+
+  .badge-soft.badge-warning-red {
+    @apply bg-warning-red/20 text-warning-red;
+  }
+
+  .badge-soft.badge-warning-green {
+    @apply bg-warning-green/20 text-warning-green;
+  }
+
+  .badge-soft.badge-warning-blue {
+    @apply bg-warning-blue/20 text-warning-blue;
+  }
+
+  .badge-soft.badge-yellow {
+    @apply bg-yellow-50 text-yellow-100;
+  } 
+
+  .badge-soft.badge-blue {
+    @apply bg-blue-50 text-blue-900;
+  }
+
+  .badge-soft.badge-gray {
+    @apply bg-gray-50 text-gray-700;
+  }
+
+  .badge-soft.badge-dark {
+    @apply bg-black/5 text-black;
+  }
+}
+
+/* === Sizes === */
+@utility badge-size-xs {
+  @apply text-caption-md px-4 py-0.5;
+}
+
+@utility badge-size-sm {
+  @apply text-caption-lg px-4 py-1;
+}
+
+@utility badge-size-md {
+  @apply text-caption-lg px-5 py-1.5;
+}
+
+/* === Radius === */
+@utility badge-radius-sm {
+  @apply rounded-4;
+}
+
+@utility badge-radius-md {
+  @apply rounded-5;
+}
+
+@utility badge-radius-full {
+  @apply rounded-full;
+}

@@ -22,7 +22,7 @@
 
 @layer components {
   .modal-container {
-    @apply fixed inset-0 z-50 flex items-center justify-center p-4 max-md:items-end max-md:p-0;
+    @apply fixed inset-0 z-50 flex items-center justify-center p-11 max-md:items-end max-md:p-0;
   }
 
   .modal-backdrop {
@@ -31,7 +31,7 @@
   }
 
   .modal-panel {
-    @apply relative flex max-h-[85dvh] w-full flex-col rounded-xl bg-white shadow-xl max-md:max-h-[92dvh] max-md:rounded-b-none;
+    @apply relative flex max-h-[85dvh] w-full flex-col rounded-8 bg-white shadow-xl max-md:max-h-[92dvh] max-md:rounded-b-none;
     animation: modal-slide-up 0.25s ease-out;
   }
 
@@ -48,7 +48,7 @@
   }
 
   .modal-header {
-    @apply flex shrink-0 items-center justify-between gap-2 border-b border-gray-100 px-5 py-4;
+    @apply flex shrink-0 items-center justify-between gap-5 border-b border-gray-100 px-12 py-11;
   }
 
   .modal-title {
@@ -60,14 +60,14 @@
   }
 
   .modal-close svg {
-    @apply size-5;
+    @apply size-12;
   }
 
   .modal-body {
-    @apply flex flex-1 flex-col overflow-y-auto px-5 py-5;
+    @apply flex flex-1 flex-col overflow-y-auto px-12 py-12;
   }
 
   .modal-footer {
-    @apply shrink-0 px-5 py-4;
+    @apply shrink-0 px-12 py-11;
   }
 }

@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* ===== Wholesale / Retail — the storefront sources (unchanged) ===== */
   --wholesale-50: #80d6d6;
   --wholesale-500: #00acac; /*base*/
   --wholesale-600: #019090;
@@ -15,7 +16,96 @@
   --retail-600: #df9700;
   --retail-900: #402b00;
 
-  /* Themed aliases used by the primary-* tokens */
+  /* ===== Design system v2 — canonical scales (raw) ===== */
+
+  /* Primary (full brand scale; storefront-defined steps are re-pointed below) */
+  --primary-50: #ccf0ef;
+  --primary-100: #aae6e4;
+  --primary-200: #80dad6;
+  --primary-300: #55cec8;
+  --primary-400: #2ac1bb;
+  --primary-500: #00b5ad;
+  --primary-600: #009790;
+  --primary-700: #007973;
+  --primary-800: #005a56;
+  --primary-900: #003c3a;
+  --primary-950: #002423;
+
+  /* Secondary */
+  --secondary-50: #ffdfcc;
+  --secondary-100: #ffcaab;
+  --secondary-200: #ffaf80;
+  --secondary-300: #ff9556;
+  --secondary-400: #ff7a2c;
+  --secondary-500: #ff6002;
+  --secondary-600: #d45002;
+  --secondary-700: #aa4001;
+  --secondary-800: #803001;
+  --secondary-900: #552001;
+  --secondary-950: #331300;
+
+  /* Neutral */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f5;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4db;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #27272a;
+  --neutral-800: #18181b;
+  --neutral-900: #09090b;
+
+  /* Success */
+  --success-50: #eaf7ed;
+  --success-100: #d1eed9;
+  --success-200: #a0dbb2;
+  --success-300: #6bc487;
+  --success-400: #3eaa63;
+  --success-500: #198754;
+  --success-600: #146c43;
+  --success-700: #105234;
+  --success-800: #0b3b25;
+  --success-900: #062115;
+
+  /* Info */
+  --info-50: #eff6ff;
+  --info-100: #dbeafe;
+  --info-200: #bfd8fe;
+  --info-300: #93c5fd;
+  --info-400: #60a5fa;
+  --info-500: #3b82f6;
+  --info-600: #2563eb;
+  --info-700: #1d4ed8;
+  --info-800: #1e40af;
+  --info-900: #1e3a8a;
+
+  /* Warning */
+  --warning-50: #fff9ee;
+  --warning-100: #fff1d3;
+  --warning-200: #ffe0a3;
+  --warning-300: #ffc96b;
+  --warning-400: #ffae38;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+  --warning-700: #ba5309;
+  --warning-800: #78350f;
+  --warning-900: #451a03;
+
+  /* Error */
+  --error-50: #fdf2f2;
+  --error-100: #fde2e2;
+  --error-200: #fbc4c4;
+  --error-300: #f79999;
+  --error-400: #f26969;
+  --error-500: #dc3545;
+  --error-600: #c82333;
+  --error-700: #a71d2a;
+  --error-800: #7e1620;
+  --error-900: #4f0e14;
+
+  /* ===== Themed aliases used by the primary-* tokens ===== */
   --primary-50: var(--wholesale-50);
   --primary-500: var(--wholesale-500);
   --primary-600: var(--wholesale-600);
@@ -40,28 +130,34 @@
 
 /* Typography scale */
 @theme {
+  --text-display-1: 3rem; /* 48px */
+  --text-display-1--line-height: 150%;
+  --text-display-2: 2.5rem; /* 40px */
+  --text-display-2--line-height: 150%;
+  --text-display-3: 2rem; /* 32px */
+  --text-display-3--line-height: 150%;
+
+  --text-h1: 1.75rem; /* 28px */
+  --text-h1--line-height: 160%;
+  --text-h2: 1.5rem; /* 24px */
+  --text-h2--line-height: 160%;
+  --text-h3: 1.25rem; /* 20px */
+  --text-h3--line-height: 160%;
+  --text-h4: 1.125rem; /* 18px */
+  --text-h4--line-height: 160%;
+  --text-h5: 1rem; /* 16px */
+  --text-h5--line-height: 160%;
+  --text-h6: 0.875rem; /* 14px */
+  --text-h6--line-height: 160%;
+
+  /* Body 1..15 are defined directly in typography.css (size + line-height + weight in one place per role) */
   --text-xs: 0.75rem; /* 12px */
   --text-sm: 0.875rem; /* 14px */
-  --text-md: 0.875rem; /* 14px */
+  --text-md: 1rem; /* 16px */
   --text-lg: 1rem; /* 16px */
   --text-xl: 1.125rem; /* 18px */
   --text-xxl: 1.25rem; /* 20px */
 
-  /* Heading roles */
-  --text-h1: 2.75rem; /* 44px */
-  --text-h1--line-height: 140%;
-  --text-h2: 2rem; /* 32px */
-  --text-h2--line-height: 140%;
-  --text-h3: 1.5rem; /* 24px */
-  --text-h3--line-height: 140%;
-  --text-h4: 1.25rem; /* 20px */
-  --text-h4--line-height: 140%;
-  --text-h5: 1rem; /* 16px */
-  --text-h5--line-height: 140%;
-  --text-h6: 1rem; /* 16px */
-  --text-h6--line-height: 200%;
-
-  /* Body roles */
   --text-body-xl: 1.25rem; /* 20px */
   --text-body-xl--line-height: 180%;
   --text-body-md: 1rem; /* 16px */
@@ -71,17 +167,55 @@
   --text-body-xs: 0.75rem; /* 12px */
   --text-body-xs--line-height: 180%;
 
-  /* Caption roles */
   --text-caption-lg: 0.875rem; /* 14px */
   --text-caption-lg--line-height: 180%;
   --text-caption-md: 0.75rem; /* 12px */
   --text-caption-md--line-height: 180%;
 
-  /* Overline roles */
   --text-overline-lg: 0.875rem; /* 14px */
   --text-overline-lg--line-height: 170%;
   --text-overline-sm: 0.75rem; /* 12px */
   --text-overline-sm--line-height: 180%;
+}
+
+/* Spacing scale — design system v2 (non-linear). */
+@theme {
+  --spacing-1: 4px;
+  --spacing-2: 6px;
+  --spacing-3: 8px;
+  --spacing-4: 10px;
+  --spacing-5: 12px;
+  --spacing-6: 14px;
+  --spacing-7: 16px;
+  --spacing-8: 18px;
+  --spacing-9: 20px;
+  --spacing-10: 24px;
+  --spacing-11: 32px;
+  --spacing-12: 40px;
+  --spacing-13: 48px;
+  --spacing-14: 64px;
+  --spacing-15: 72px;
+  --spacing-16: 80px;
+  --spacing-17: 88px;
+  --spacing-18: 96px;
+  --spacing-19: 104px;
+  --spacing-20: 128px;
+  --spacing-21: 144px;
+  --spacing-22: 184px;
+
+  /* ===== Component design sizes (semantic spacing tokens) ===== */
+  --spacing-product-card: 226px;
+  --spacing-storefront: 460px;
+  --spacing-storefront-button: 180px;
+  --spacing-hero: 507px;
+  --spacing-hero-offset: 384px;
+  --spacing-footer-paragraph: 636px;
+  --spacing-container: 1440px;
+
+  /* ===== Component aspect ratios ===== */
+  --aspect-product-card: 226 / 184;
+  --aspect-product-card-tall: 226 / 340;
+  --aspect-storefront: 460 / 490;
 }
 
 @theme inline {
@@ -90,11 +224,92 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  /* Primary — full scale, themed-aware (storefront steps stay sourced) */
   --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
   --color-primary-500: var(--primary-500); /*base*/
   --color-primary-600: var(--primary-600);
   --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
   --color-primary-900: var(--primary-900);
+  --color-primary-950: var(--primary-950);
+
+  /* Secondary */
+  --color-secondary-50: #ffdfcc;
+  --color-secondary-100: #ffcaab;
+  --color-secondary-200: #ffaf80;
+  --color-secondary-300: #ff9556;
+  --color-secondary-400: #ff7a2c;
+  --color-secondary-500: #ff6002; /*base*/
+  --color-secondary-600: #d45002;
+  --color-secondary-700: #aa4001;
+  --color-secondary-800: #803001;
+  --color-secondary-900: #552001;
+  --color-secondary-950: #331300;
+
+  /* Neutral */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4db;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #27272a;
+  --color-neutral-800: #18181b;
+  --color-neutral-900: #09090b;
+
+  /* Success */
+  --color-success-50: #eaf7ed;
+  --color-success-100: #d1eed9;
+  --color-success-200: #a0dbb2;
+  --color-success-300: #6bc487;
+  --color-success-400: #3eaa63;
+  --color-success-500: #198754; /*base*/
+  --color-success-600: #146c43;
+  --color-success-700: #105234;
+  --color-success-800: #0b3b25;
+  --color-success-900: #062115;
+
+  /* Info */
+  --color-info-50: #eff6ff;
+  --color-info-100: #dbeafe;
+  --color-info-200: #bfd8fe;
+  --color-info-300: #93c5fd;
+  --color-info-400: #60a5fa;
+  --color-info-500: #3b82f6; /*base*/
+  --color-info-600: #2563eb;
+  --color-info-700: #1d4ed8;
+  --color-info-800: #1e40af;
+  --color-info-900: #1e3a8a;
+
+  /* Warning */
+  --color-warning-50: #fff9ee;
+  --color-warning-100: #fff1d3;
+  --color-warning-200: #ffe0a3;
+  --color-warning-300: #ffc96b;
+  --color-warning-400: #ffae38;
+  --color-warning-500: #f59e0b; /*base*/
+  --color-warning-600: #d97706;
+  --color-warning-700: #ba5309;
+  --color-warning-800: #78350f;
+  --color-warning-900: #451a03;
+
+  /* Error */
+  --color-error-50: #fdf2f2;
+  --color-error-100: #fde2e2;
+  --color-error-200: #fbc4c4;
+  --color-error-300: #f79999;
+  --color-error-400: #f26969;
+  --color-error-500: #dc3545; /*base*/
+  --color-error-600: #c82333;
+  --color-error-700: #a71d2a;
+  --color-error-800: #7e1620;
+  --color-error-900: #4f0e14;
 
   --color-retail-50: var(--retail-50);
   --color-retail-500: var(--retail-500); /*base*/
@@ -107,18 +322,18 @@
   --color-wholesale-700: var(--wholesale-700);
   --color-wholesale-900: var(--wholesale-900);
 
-  /* yellow */
+  /* yellow — legacy */
   --color-yellow-50: #ffe09f;
   --color-yellow-100: #ffcb60;
 
-  /* blue */
+  /* blue — legacy */
   --color-blue-50: #f6f9ff;
   --color-blue-100: #ebedf5;
   --color-blue-200: #cad4e4;
   --color-blue-300: #b4c2d9;
   --color-blue-900: #344456;
 
-  /* gray */
+  /* gray — legacy (prefer neutral-*) */
   --color-gray-50: #f9f9f9;
   --color-gray-100: #ededed;
   --color-gray-300: #cbcbcb;
@@ -127,26 +342,31 @@
   --color-white: #ffffff;
   --color-black: #222222;
 
-  /* warning */
+  /* warning legacy singles (prefer success/info/warning/error scales) */
   --color-warning-red: #ff6464;
   --color-warning-green: #35cb98;
   --color-warning-blue: #61affd;
 
   --color-primary: var(--primary-500);
+  --color-secondary: var(--secondary-500);
 
-  --radius-xxs: 4px;
-  --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
-  --radius-3xl: 24px;
-  --radius-4xl: 32px;
+  /* Radius — design system v2 numeric scale */
+  --radius-0: 0px;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 6px;
+  --radius-4: 8px;
+  --radius-5: 10px;
+  --radius-6: 12px;
+  --radius-7: 14px;
+  --radius-8: 16px;
+  --radius-9: 20px;
+  --radius-10: 24px;
+  --radius-11: 32px;
 }
 
 :root {
-  --background: #f9f9f9;
+  --background: #ffff;
   --foreground: #222222;
 }
 
@@ -205,6 +425,6 @@
   }
 
   .container {
-    @apply w-full max-w-[1440px]! px-5 md:mx-auto md:px-13;
+    @apply w-full px-5 md:mx-auto md:px-13 max-w-[1440px]!;
   }
 }

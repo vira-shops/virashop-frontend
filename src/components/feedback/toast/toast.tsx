@@ -33,7 +33,7 @@ export const Toast: React.FC<ToastProps> = ({ variant = 'info', title, descripti
           </div>
         </div>
       )}
-      <p className={cn('toast-description', onClose && 'pr-12')}>{description}</p>
+      <p className={cn('toast-description', onClose && 'pr-13')}>{description}</p>
     </div>
   );
 };

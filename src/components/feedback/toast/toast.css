@@ -12,11 +12,11 @@
 
 @layer components {
   .toast-viewport {
-    @apply fixed top-6 left-1/2 z-50 flex w-96 max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col gap-4;
+    @apply fixed top-12 left-1/2 z-50 flex w-96 max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col gap-11;
   }
 
   .toast {
-    @apply rounded-xl border-t-[3px] bg-white p-5 shadow-lg shadow-black/5;
+    @apply rounded-8 border-t-[3px] bg-white p-12 shadow-lg shadow-black/5;
     animation: toast-slide-in 0.25s ease-out;
   }
 
@@ -33,11 +33,11 @@
   }
 
   .toast-header {
-    @apply mb-2 flex items-center gap-6;
+    @apply mb-5 flex items-center gap-12;
   }
 
   .toast-title-group {
-    @apply flex items-center gap-2;
+    @apply flex items-center gap-5;
   }
 
   .toast-title {
@@ -45,7 +45,7 @@
   }
 
   .toast-icon {
-    @apply size-6 shrink-0;
+    @apply size-12 shrink-0;
   }
 
   .toast-success .toast-title,
@@ -68,7 +68,7 @@
   }
 
   .toast-close svg {
-    @apply size-4;
+    @apply size-11;
   }
 
   .toast-description {

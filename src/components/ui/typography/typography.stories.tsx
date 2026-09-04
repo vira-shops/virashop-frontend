@@ -54,7 +54,7 @@ export const Basic: Story = {
 
 export const Headings: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Typography variant="h1">هدینگ یک — h1</Typography>
       <Typography variant="h2">هدینگ دو — h2</Typography>
       <Typography variant="h3">هدینگ سه — h3</Typography>
@@ -67,7 +67,7 @@ export const Headings: Story = {
 
 export const Body: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Typography variant="body-xl">بدون ایکس‌ال — body-xl</Typography>
       <Typography variant="body-md">بدون ام‌دی — body-md</Typography>
       <Typography variant="body-sm">بدون اس‌ام — body-sm</Typography>
@@ -78,7 +78,7 @@ export const Body: Story = {
 
 export const CaptionsAndOverlines: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Typography variant="caption-lg">کپشن بزرگ — caption-lg</Typography>
       <Typography variant="caption-md">کپشن کوچک — caption-md</Typography>
       <Typography variant="overline-lg">اورلاین بزرگ — overline-lg</Typography>
@@ -89,7 +89,7 @@ export const CaptionsAndOverlines: Story = {
 
 export const Colors: Story = {
   render: () => (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-5">
       <Typography color="primary" variant="body-md">
         رنگ اصلی
       </Typography>
@@ -111,7 +111,7 @@ export const Colors: Story = {
       <Typography color="warning-blue" variant="body-md">
         هشدار آبی
       </Typography>
-      <div className="bg-black p-2">
+      <div className="bg-black p-5">
         <Typography color="white" variant="body-md">
           سفید
         </Typography>
@@ -122,7 +122,7 @@ export const Colors: Story = {
 
 export const AlignmentAndDecoration: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Typography align="center" variant="body-md">
         وسط‌چین
       </Typography>
@@ -144,7 +144,7 @@ export const AlignmentAndDecoration: Story = {
 
 export const Links: Story = {
   render: () => (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-5">
       <Typography variant="h5" color="primary" href="/about">
         لینک عنوان
       </Typography>

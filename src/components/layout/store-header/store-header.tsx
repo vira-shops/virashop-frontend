@@ -8,7 +8,7 @@ interface StoreHeaderProps {
 
 export function StoreHeader({ config }: StoreHeaderProps) {
   return (
-    <header className="px-6 py-4">
+    <header className="px-12 py-11">
       <StoreHeaderDesktop config={config} />
       <StoreHeaderMobile config={config} />
     </header>

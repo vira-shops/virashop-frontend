@@ -16,7 +16,6 @@ const config: Config = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@icons$': '<rootDir>/src/components/shared/icons/index.ts',
     '^@icons/(.*)$': '<rootDir>/src/components/shared/icons/$1',
-    '^~/(.*)$': '<rootDir>/$1',
   },
 };
 

@@ -12,7 +12,7 @@ import {
 
 const variantClasses: Record<TextInputVariant, string> = {
   outline: 'input-outline',
-  fill: '',
+  fill: 'input-fill',
   ghost: 'input-ghost',
 };
 
@@ -53,6 +53,10 @@ export const TextInput: React.FC<TextInputProps> = ({
   disabled,
   dir = 'rtl',
   className,
+  wrapperClassName,
+  labelClassName,
+  fieldClassName,
+  messageClassName,
   ref,
   ...props
 }) => {
@@ -61,9 +65,12 @@ export const TextInput: React.FC<TextInputProps> = ({
   const showMessage = Boolean(inputMessage);
 
   return (
-    <div dir={dir} className={cn('flex flex-col items-start gap-2', fullWidth && 'w-full')}>
+    <div
+      dir={dir}
+      className={cn('flex flex-col items-start gap-5', fullWidth && 'w-full', wrapperClassName)}
+    >
       {label && (
-        <label htmlFor={inputId} className="input-label">
+        <label htmlFor={inputId} className={cn('input-label', labelClassName)}>
           {label}
         </label>
       )}
@@ -87,12 +94,14 @@ export const TextInput: React.FC<TextInputProps> = ({
           dir={dir}
           type={props.type ?? 'text'}
           disabled={disabled}
-          className="h-full w-full flex-1 focus:outline-none"
+          className={cn('h-full w-full flex-1 focus:outline-none', fieldClassName)}
         />
         {leftIcon}
       </div>
       {showMessage && (
-        <p className={cn('input-message', state && stateMessageClasses[state])}>{inputMessage}</p>
+        <p className={cn('input-message', state && stateMessageClasses[state], messageClassName)}>
+          {inputMessage}
+        </p>
       )}
     </div>
   );

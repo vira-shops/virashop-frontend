@@ -5,7 +5,6 @@ const SITE_URL = 'https://virashop.com';
 const DEFAULT_DESCRIPTION =
   'فروشگاه اینترنتی ویراشاپ — خرید آنلاین با بهترین قیمت و تضمین بازگشت کالا';
 
-// ─── Root ───────────────────────────────────────────────
 export const configMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -34,7 +33,6 @@ export const configMetadata: Metadata = {
   },
 };
 
-// ─── Wholesale ──────────────────────────────────────────
 export const wholesaleMetadata: Metadata = {
   title: {
     default: 'عمده فروشی',
@@ -48,7 +46,6 @@ export const wholesaleMetadata: Metadata = {
   },
 };
 
-// ─── Retail ─────────────────────────────────────────────
 export const retailMetadata: Metadata = {
   title: {
     default: 'خرده فروشی',
@@ -62,7 +59,6 @@ export const retailMetadata: Metadata = {
   },
 };
 
-// ─── Per-page shorthand ─────────────────────────────────
 export const homeMetadata: Metadata = {
   title: `${SITE_NAME} — فروشگاه اینترنتی`,
 };

@@ -19,7 +19,7 @@ const description =
 
 export const Simple: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Toast variant="success" description={description} />
       <Toast variant="error" description={description} />
       <Toast variant="info" description={description} />
@@ -29,7 +29,7 @@ export const Simple: Story = {
 
 export const WithTitle: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-11">
       <Toast
         variant="success"
         title="عنوان پیام تایید"
@@ -46,24 +46,24 @@ const ToastDemo = () => {
   const { success, error, info } = useToast();
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-11">
       <button
         type="button"
-        className="bg-warning-green rounded-md px-4 py-2 text-white"
+        className="bg-warning-green rounded-5 px-11 py-5 text-white"
         onClick={() => success('پرداخت با موفقیت انجام شد', { title: 'عنوان پیام تایید' })}
       >
         نمایش موفقیت
       </button>
       <button
         type="button"
-        className="bg-warning-red rounded-md px-4 py-2 text-white"
+        className="bg-warning-red rounded-5 px-11 py-5 text-white"
         onClick={() => error('خطایی رخ داد، دوباره تلاش کنید')}
       >
         نمایش خطا
       </button>
       <button
         type="button"
-        className="bg-warning-blue rounded-md px-4 py-2 text-white"
+        className="bg-warning-blue rounded-5 px-11 py-5 text-white"
         onClick={() => info('پیام جدید دریافت شد', { title: 'عنوان پیام' })}
       >
         نمایش اطلاع‌رسانی

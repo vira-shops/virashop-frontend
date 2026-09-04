@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BurgerMenuIcon, CancelIcon } from '@icons';
 import { Button, Typography } from '@/components/ui';
+import { cn } from '@/utils/ui';
 import { Logo } from './logo';
 import { SearchBar } from './search-bar';
 import type { NavItem, UserAction, HeaderCTA } from './types';
@@ -16,6 +17,9 @@ interface MobileMenuProps {
   ctas?: HeaderCTA[];
   showSearch?: boolean;
   onSearch?: (value: string) => void;
+  className?: string;
+  backdropClassName?: string;
+  userActionsClassName?: string;
 }
 
 export function MobileMenu({
@@ -25,6 +29,9 @@ export function MobileMenu({
   ctas,
   showSearch = false,
   onSearch,
+  className,
+  backdropClassName,
+  userActionsClassName,
 }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
@@ -54,30 +61,39 @@ export function MobileMenu({
         variant="ghost"
         size="md"
         color="primary"
-        icon={<BurgerMenuIcon className="size-6" />}
+        icon={<BurgerMenuIcon className="size-9" />}
         aria-label="منو"
         onClick={() => setOpen(true)}
       />
 
       {open && (
         <div className="fixed inset-0 z-50 max-h-svh">
-          <div className="absolute inset-0 bg-black/40" onClick={close} aria-hidden="true" />
+          <div
+            className={cn('absolute inset-0 bg-black/40', backdropClassName)}
+            onClick={close}
+            aria-hidden="true"
+          />
 
           <div
             role="dialog"
             aria-modal="true"
             aria-label="منوی موبایل"
             dir="rtl"
-            className="absolute top-0 right-0 flex h-full w-svw flex-col bg-white shadow-xl"
+            className={cn(
+              'absolute top-0 right-0 flex h-full w-svw flex-col bg-white shadow-xl',
+              className,
+            )}
           >
-            <div className="flex items-center justify-between border-b border-gray-100 p-4">
-              {logo && <Logo src={logo.src} alt={logo.alt} />}
+            <div className="container flex items-center justify-between border-b border-gray-100 py-2">
+              {logo && (
+                <Logo src={logo.src} alt={logo.alt} className="flex flex-1 justify-center" />
+              )}
 
               <Button
                 variant="ghost"
                 size="sm"
                 color="primary"
-                icon={<CancelIcon className="size-6" />}
+                icon={<CancelIcon className="size-9" />}
                 aria-label="بستن"
                 onClick={close}
               />
@@ -95,7 +111,7 @@ export function MobileMenu({
                   <Typography
                     variant="caption-lg"
                     href={href}
-                    className="block py-4 pr-8 text-gray-400"
+                    className="block px-11 py-8 text-gray-400"
                     onClick={close}
                   >
                     {label}
@@ -106,7 +122,7 @@ export function MobileMenu({
                       key={child.href}
                       variant="body-sm"
                       href={child.href}
-                      className="block py-2 pr-4 text-gray-700"
+                      className="block p-5 text-gray-700"
                       onClick={close}
                     >
                       {child.label}
@@ -117,13 +133,13 @@ export function MobileMenu({
             </nav>
 
             {userActions && (
-              <div className="border-t border-gray-100 p-4">
-                <UserActions actions={userActions} />
+              <div className="border-t border-gray-100 p-11">
+                <UserActions actions={userActions} className={userActionsClassName} />
               </div>
             )}
 
             {ctas && ctas.length > 0 && (
-              <div className="flex w-full flex-col gap-3 border-t border-gray-100 p-4">
+              <div className="flex w-full flex-col gap-4 border-t border-gray-100 px-2 py-4">
                 {ctas.map(({ label, href, color }) => (
                   <Button key={href} href={href} color={color} fullWidth>
                     {label}

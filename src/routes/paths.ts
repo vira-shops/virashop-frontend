@@ -12,6 +12,7 @@ export const PATHS = {
   WHOLESALE: {
     ROOT: '/wholesale',
     CATEGORIES: '/wholesale/categories',
+    CATEGORY: (slug: string) => `/wholesale/category/${slug}`,
     BEST_SELLERS: '/wholesale/best-sellers',
     OFFERS: '/wholesale/offers',
     PRODUCT: (slug: string) => `/wholesale/${slug}`,
@@ -20,6 +21,7 @@ export const PATHS = {
   RETAIL: {
     ROOT: '/retail',
     CATEGORIES: '/retail/categories',
+    CATEGORY: (slug: string) => `/retail/category/${slug}`,
     BEST_SELLERS: '/retail/best-sellers',
     OFFERS: '/retail/offers',
     PRODUCT: (slug: string) => `/retail/${slug}`,

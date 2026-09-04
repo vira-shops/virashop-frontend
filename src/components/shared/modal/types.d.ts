@@ -11,4 +11,12 @@ export interface ModalProps {
   closeOnBackdrop?: boolean;
   children?: ReactNode;
   className?: string;
+  /* --- Style overrides (merged with cn; utilities outrank baked-in classes) --- */
+  containerClassName?: string;
+  backdropClassName?: string;
+  headerClassName?: string;
+  titleClassName?: string;
+  closeClassName?: string;
+  bodyClassName?: string;
+  footerClassName?: string;
 }

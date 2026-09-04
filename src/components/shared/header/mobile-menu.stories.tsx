@@ -103,10 +103,10 @@ const LandingDrawerPreview = () => (
   <DrawerShell>
     <DrawerHeader logo={logo} />
 
-    <nav className="flex flex-col pt-4">
+    <nav className="flex flex-col pt-11">
       {navItems.map(({ label, href, children }) => (
         <div key={href}>
-          <Typography variant="caption-lg" href={href} className="block py-4 pr-8 text-gray-400">
+          <Typography variant="caption-lg" href={href} className="block py-11 pr-11 text-gray-400">
             {label}
           </Typography>
           {children?.map((child) => (
@@ -114,7 +114,7 @@ const LandingDrawerPreview = () => (
               key={child.href}
               variant="body-sm"
               href={child.href}
-              className="block py-2 pr-4 text-gray-700"
+              className="block py-5 pr-11 text-gray-700"
             >
               {child.label}
             </Typography>
@@ -123,7 +123,7 @@ const LandingDrawerPreview = () => (
       ))}
     </nav>
 
-    <div className="flex w-full flex-col gap-3 border-t border-gray-100 p-4">
+    <div className="flex w-full flex-col gap-9 border-t border-gray-100 p-11">
       {landingCtas.map(({ label, href, color }) => (
         <Button key={href} color={color} fullWidth>
           {label}
@@ -142,15 +142,15 @@ const StoreDrawerPreview: React.FC<{
     <DrawerHeader logo={logo} />
 
     {showSearch && (
-      <div className="p-4">
+      <div className="p-11">
         <SearchBar />
       </div>
     )}
 
-    <nav className="flex flex-col pt-4">
+    <nav className="flex flex-col pt-11">
       {items.map(({ label, href, children }) => (
         <div key={href}>
-          <Typography variant="caption-lg" href={href} className="block py-4 pr-8 text-gray-400">
+          <Typography variant="caption-lg" href={href} className="block py-11 pr-11 text-gray-400">
             {label}
           </Typography>
           {children?.map((child) => (
@@ -158,7 +158,7 @@ const StoreDrawerPreview: React.FC<{
               key={child.href}
               variant="body-sm"
               href={child.href}
-              className="block py-2 pr-4 text-gray-700"
+              className="block py-5 pr-11 text-gray-700"
             >
               {child.label}
             </Typography>
@@ -167,14 +167,14 @@ const StoreDrawerPreview: React.FC<{
       ))}
     </nav>
 
-    <div className="border-t border-gray-100 p-4">
+    <div className="border-t border-gray-100 p-11">
       <UserActions actions={actions} />
     </div>
   </DrawerShell>
 );
 
 const DrawerHeader: React.FC<{ logo: { src: string; alt: string } }> = ({ logo: l }) => (
-  <div className="flex items-center justify-between border-b border-gray-100 p-4">
+  <div className="flex items-center justify-between border-b border-gray-100 p-11">
     <Logo src={l.src} alt={l.alt} />
     <span className="text-caption-md text-gray-400">پیش‌نمایش کشو</span>
   </div>
