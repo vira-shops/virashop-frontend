@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import * as React from 'react';
 import { TickCircleIcon, ShopIcon, CarIcon } from '@icons';
@@ -15,7 +15,7 @@ const FEATURE_ICONS = [TickCircleIcon, ShopIcon, CarIcon];
 export const FeaturesGrid: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <section aria-label={WHOLESALE_FEATURES_TITLE} className={cn('w-full', className)}>
-      <div className="container flex flex-col items-center gap-3 py-14 text-center">
+      <div className="container flex flex-col items-center gap-3 py-20 text-center">
         <Typography variant="h3" className="text-gray-900">
           {WHOLESALE_FEATURES_TITLE}
         </Typography>

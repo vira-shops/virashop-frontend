@@ -1,3 +1,5 @@
+'use client';
+
 import { PropsWithChildren } from '@/types/children';
 import { StoreHeader, wholesaleConfig } from '@/components/layout/store/store-header';
 import { StoreFooter, wholesaleStoreFooterConfig } from '@/components/layout/store/store-footer';

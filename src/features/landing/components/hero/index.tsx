@@ -37,10 +37,7 @@ export const Hero: React.FC<HeroProps> = ({
   const handleClose = () => setOpen(false);
 
   return (
-    <section
-      aria-label="بخش اصلی"
-      className={cn('h-hero relative mb-16 w-full sm:mb-96', className)}
-    >
+    <section aria-label="بخش اصلی" className={cn('h-hero relative w-full', className)}>
       <div
         className="pointer-events-none absolute inset-0"
         style={{ background: HERO_GRADIENT, opacity: HERO_GRADIENT_OPACITY }}

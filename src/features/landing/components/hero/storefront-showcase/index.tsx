@@ -4,11 +4,17 @@ import * as React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui';
 import { cn } from '@/utils/ui';
+import { PATHS } from '@/routes/paths';
 import { useStorefrontShowcase } from '@/features/landing/hooks';
 import type { StorefrontShowcaseProps } from './types';
 import { StorefrontShowcaseSkeleton } from './skeleton';
 
 const IMAGE_SIZES = '(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 460px';
+
+const STOREFRONT_HREF: Record<string, string> = {
+  retail: PATHS.RETAIL.ROOT,
+  wholesale: PATHS.WHOLESALE.ROOT,
+};
 
 export const StorefrontShowcase: React.FC<StorefrontShowcaseProps> = ({ className }) => {
   const showcaseQuery = useStorefrontShowcase();
@@ -37,7 +43,13 @@ export const StorefrontShowcase: React.FC<StorefrontShowcaseProps> = ({ classNam
             </div>
 
             <div className="w-full sm:h-13 sm:w-45">
-              <Button variant="fill" color={item.buttonColor} fullWidth size="lg">
+              <Button
+                href={STOREFRONT_HREF[item.buttonColor]}
+                variant="fill"
+                color={item.buttonColor}
+                fullWidth
+                size="lg"
+              >
                 {item.buttonLabel}
               </Button>
             </div>

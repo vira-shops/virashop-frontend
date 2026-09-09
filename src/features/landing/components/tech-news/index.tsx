@@ -36,17 +36,17 @@ export const TechNews: React.FC = () => {
   return (
     <section aria-label={TECH_NEWS_ARIA_LABEL} className="container py-13">
       <div className="rounded-9 bg-blue-50 px-11 py-13">
-        <div className="flex flex-col items-start gap-4">
-          <div className="flex w-15 gap-2">
+        <div className="flex flex-col items-start gap-3">
+          <div className="mx-auto flex w-15 gap-2 lg:mx-0">
             <div className="bg-retail-500 h-0.5 w-full rounded-full" />
             <div className="bg-wholesale-500 h-0.5 w-full rounded-full" />
           </div>
 
-          <Typography variant="h3" className="text-blue-900">
+          <Typography variant="h3" className="w-full text-center text-blue-900 lg:text-right">
             {TECH_NEWS_TITLE}
           </Typography>
 
-          <Typography variant="body-md" className="text-gray-700">
+          <Typography variant="body-md" className="w-full text-center text-gray-700 lg:text-right">
             {TECH_NEWS_DESCRIPTION}
           </Typography>
         </div>

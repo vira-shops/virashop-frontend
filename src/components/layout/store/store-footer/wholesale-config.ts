@@ -1,3 +1,5 @@
+'use client';
+
 import {
   GuaranteIcon,
   DelivaryIcon,
@@ -56,4 +58,5 @@ export const wholesaleStoreFooterConfig: StoreFooterConfig = {
       { id: 'instagram', label: 'اینستاگرام', href: '#', Icon: InstagramIcon },
     ],
   },
+  featureBandClassName: 'bg-blue-50',
 };

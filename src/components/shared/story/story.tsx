@@ -405,22 +405,10 @@ const StoryViewerInner: React.FC<StoryViewerInnerProps> = ({
     elapsed,
   };
 
-  // Tap zones: left third = previous, right third = next, middle = play/pause
+  // Middle zone only — left/right handled by dedicated buttons
   const handleViewerClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if ((event.target as HTMLElement).closest('button, a, [role="button"]')) return;
-
-    const target = event.currentTarget;
-    const rect = target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const third = rect.width / 3;
-
-    if (x < third) {
-      goPrev();
-    } else if (x > rect.width - third) {
-      goNext();
-    } else {
-      togglePlay();
-    }
+    togglePlay();
   };
 
   return createPortal(

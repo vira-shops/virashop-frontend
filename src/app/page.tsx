@@ -17,7 +17,9 @@ export default function HomePage() {
   return (
     <HomeLayout>
       <Hero />
-      <OfferBanner />
+      <div className="mt-18 sm:mt-96">
+        <OfferBanner />
+      </div>
       <BigOffer />
       <OfferBanner />
       <MakeFuture />

@@ -220,6 +220,7 @@
   /* ===== Marquee (TV-ticker style, uniform speed) ===== */
   --animate-marquee: marquee 40s linear infinite;
   --animate-wiggle: wiggle 3s ease-in-out infinite;
+  --animate-shine: shine 3s ease-in-out infinite;
 }
 
 @keyframes marquee {
@@ -238,6 +239,18 @@
   }
   50% {
     transform: rotate(1.5deg);
+  }
+}
+
+@keyframes shine {
+  0%,
+  100% {
+    opacity: 0.8;
+    filter: blur(0.5px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0.5px);
   }
 }
 
@@ -442,6 +455,10 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+@utility animate-shine {
+  animation: shine 3s ease-in-out infinite;
 }
 
 @layer base {

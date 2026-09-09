@@ -27,21 +27,15 @@ export const PartnerBrandsStrip: React.FC<{ className?: string }> = ({ className
       aria-label="برندهای همکار"
       className={cn('relative my-14 h-[320px] w-full overflow-hidden bg-white md:my-20', className)}
     >
-      {/* Center glow */}
-      <div
-        aria-hidden="true"
-        className="bg-primary-500/10 pointer-events-none absolute top-1/2 left-1/2 z-10 h-36 w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-      />
-
       {/* Side accents */}
       <div
         aria-hidden="true"
-        className="bg-primary-500 absolute top-1/2 left-0 z-20 h-28 w-1.5 -translate-y-1/2 rounded-r-full"
+        className="bg-primary-500 animate-shine absolute top-1/2 left-0 z-20 h-28 w-1.5 -translate-y-1/2 rounded-r-full"
       />
 
       <div
         aria-hidden="true"
-        className="bg-primary-500 absolute top-1/2 right-0 z-20 h-28 w-1.5 -translate-y-1/2 rounded-l-full"
+        className="bg-primary-500 animate-shine absolute top-1/2 right-0 z-20 h-28 w-1.5 -translate-y-1/2 rounded-l-full"
       />
 
       {/* Logo rows */}
@@ -87,7 +81,7 @@ export const PartnerBrandsStrip: React.FC<{ className?: string }> = ({ className
           variant="fill"
           size="xxl"
           color="primary"
-          className="shadow-[0_10px_35px_rgba(0,0,0,0.08)]"
+          className="shadow-primary-500 shadow-[0_0_100px_12px_rgba(0,172,172,0.5)] backdrop-blur-2xl"
         >
           {WHOLESALE_BRANDS_TITLE}
         </Button>

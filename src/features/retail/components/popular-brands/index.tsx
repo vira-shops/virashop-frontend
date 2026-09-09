@@ -30,11 +30,11 @@ export const PopularBrands: React.FC<{ className?: string }> = ({ className }) =
       {/* Subtle orange accents flush against the site walls */}
       <div
         aria-hidden="true"
-        className="bg-primary-500 absolute inset-y-8 top-1/2 right-0 z-50 h-1/3 w-1.5 rounded-l-full"
+        className="bg-primary-500 animate-shine absolute inset-y-8 top-1/2 right-0 z-10 h-1/3 w-1.5 rounded-l-full"
       />
       <div
         aria-hidden="true"
-        className="bg-primary-500 absolute inset-y-7 top-1/2 left-0 z-50 h-1/3 w-1.5 rounded-r-full"
+        className="bg-primary-500 animate-shine absolute inset-y-7 top-1/2 left-0 z-10 h-1/3 w-1.5 rounded-r-full"
       />
 
       <div className="flex flex-col gap-8 py-10">

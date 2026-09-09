@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui';
 import { Logo } from '@/components/shared';
 import { UserIcon } from '@icons';
@@ -9,7 +11,7 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
   const { logo } = config;
 
   return (
-    <div className="md:hidden">
+    <div className="bg-white md:hidden">
       <div className="border-b border-gray-100 py-4">
         <div className="container flex items-center justify-between">
           {/* Right in RTL: burger menu */}

@@ -4,7 +4,7 @@ import { cn } from '@/utils/ui';
 import { PARTNER_BRAND_COLUMNS } from '@/features/landing/components/partner-brands/constants';
 import { PartnerBrandsLogoColumnsProps } from './types';
 
-const COLUMN_CLASS = 'flex md:flex-col gap-12 md:gap-8';
+const COLUMN_CLASS = 'flex lg:flex-col gap-12 lg:gap-8';
 
 /** Staggered logo columns — layout driven by PARTNER_BRAND_COLUMNS. */
 export const PartnerBrandsLogoColumns: React.FC<PartnerBrandsLogoColumnsProps> = ({
@@ -14,8 +14,8 @@ export const PartnerBrandsLogoColumns: React.FC<PartnerBrandsLogoColumnsProps> =
   const slots = Array.from({ length: count }, (_, index) => index);
 
   return (
-    <div className="absolute top-20 left-4 min-h-full md:-top-20">
-      <div className="flex flex-col gap-2 md:flex-row md:gap-10">
+    <div className="left-4 md:-top-20 lg:absolute lg:min-h-full">
+      <div className="flex flex-col gap-2 md:gap-10 lg:flex-row">
         {PARTNER_BRAND_COLUMNS.map((column, columnIndex) => (
           <div
             key={columnIndex}

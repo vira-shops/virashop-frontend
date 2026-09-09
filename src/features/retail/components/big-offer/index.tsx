@@ -10,7 +10,7 @@ export const BigOffer: React.FC = () => {
   const offers = offersQuery.data ?? [];
 
   if (offersQuery.isLoading) {
-    return <CardSectionSkeleton count={4} className="my-11 bg-blue-50 sm:my-14" />;
+    return <CardSectionSkeleton count={4} className="my-11 bg-blue-50 sm:my-10" />;
   }
 
   return (

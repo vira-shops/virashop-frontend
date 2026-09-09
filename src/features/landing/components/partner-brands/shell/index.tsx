@@ -11,7 +11,7 @@ export const PartnerBrandsShell: React.FC<PartnerBrandsShellProps> = ({
     aria-hidden={decorative || undefined}
     className="relative container py-13"
   >
-    <div className="rounded-9 min-h-88.5 items-center bg-blue-50 pt-8 pr-8 pl-8 md:flex md:pt-0 md:pr-11 md:pl-2">
+    <div className="rounded-9 min-h-88.5 items-center bg-blue-50 pt-8 pr-8 pl-8 md:flex md:pr-11 md:pl-2 lg:pt-0">
       <div className="relative flex h-full w-full flex-col items-center justify-center gap-13 md:justify-between lg:flex-row lg:items-center">
         {children}
       </div>

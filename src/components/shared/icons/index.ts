@@ -1,4 +1,6 @@
+export { default as AndroindIcon } from './AndroindIcon';
 export { default as BasketIcon } from './BasketIcon';
+export { default as BazarIcon } from './BazarIcon';
 export { default as BottleIcon } from './BottleIcon';
 export { default as BurgerMenuIcon } from './BurgerMenuIcon';
 export { default as CackeIcon } from './CackeIcon';
@@ -12,6 +14,7 @@ export { default as CloseCircleIcon } from './CloseCircleIcon';
 export { default as DelivaryIcon } from './DelivaryIcon';
 export { default as DownArrowIcon } from './DownArrowIcon';
 export { default as DownIcon } from './DownIcon';
+export { default as DownloadIcon } from './DownloadIcon';
 export { default as EggIcon } from './EggIcon';
 export { default as FishIcon } from './FishIcon';
 export { default as GalleryIcon } from './GalleryIcon';

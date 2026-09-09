@@ -142,8 +142,8 @@ const MegaPanel: React.FC<{
       role="menu"
       aria-label={CATEGORIES_ARIA_LABEL}
       className={cn(
-        'fixed left-1/2 z-40 -translate-x-1/2',
-        'rounded-b-8 border border-t-0 border-gray-100 bg-white shadow-sm',
+        'fixed left-1/2 z-40 -translate-x-1/2 -translate-y-px',
+        'rounded-b-8 shodow-t-none border border-t-0 border-gray-100 bg-white shadow-sm',
       )}
       style={{
         top: MEGA_PANEL_TOP_OFFSET_PX,
@@ -251,7 +251,7 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ classNam
             aria-label={CATEGORIES_ARIA_LABEL}
             className={cn(
               'fixed left-1/2 z-40 -translate-x-1/2',
-              'rounded-b-8 border border-t-0 border-gray-100 bg-white p-11 shadow-sm',
+              'rounded-b-8 border border-gray-100 bg-white p-11 shadow-sm',
             )}
             style={{
               top: MEGA_PANEL_TOP_OFFSET_PX,

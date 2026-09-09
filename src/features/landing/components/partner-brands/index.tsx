@@ -23,17 +23,17 @@ export const PartnerBrands: React.FC = () => {
 
   return (
     <PartnerBrandsShell>
-      <div className="flex flex-col items-center md:items-start md:text-right">
+      <div className="flex flex-col items-center gap-3 lg:items-start lg:text-right">
         <div className="flex w-15 gap-2">
           <div className="bg-retail-500 h-0.5 w-full rounded-full" />
           <div className="bg-wholesale-500 h-0.5 w-full rounded-full" />
         </div>
 
-        <Typography variant="h3" className="mt-4 text-blue-900">
+        <Typography variant="h3" className="text-blue-900">
           {PARTNER_BRANDS_TITLE}
         </Typography>
 
-        <Typography variant="body-md" className="text-center text-gray-700 md:mt-2 md:text-right">
+        <Typography variant="body-md" className="text-center text-gray-700 md:text-right lg:mt-2">
           {PARTNER_BRANDS_DESCRIPTION}
         </Typography>
       </div>

@@ -48,4 +48,6 @@ export interface StoreFooterConfig {
    * ribbon is not rendered at all (e.g. wholesale).
    */
   scrollTargetId?: string;
+  /** Extra className for the feature band section (e.g. background color). */
+  featureBandClassName?: string;
 }

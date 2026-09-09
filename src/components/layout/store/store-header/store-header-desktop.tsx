@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Typography } from '@/components/ui';
 import { Logo, UserActions, CategoriesDropdown, LocationBadge } from '@/components/shared';
 import { PATHS } from '@/routes/paths';
@@ -9,7 +11,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
   const { logo, userActions } = config;
 
   return (
-    <div className="hidden md:block">
+    <div className="hidden bg-white md:block">
       {/* Row 1: Logo + userActions + login/signup button */}
       <div className="border-b border-gray-100 py-4">
         <div className="container flex w-full items-center justify-between gap-12">

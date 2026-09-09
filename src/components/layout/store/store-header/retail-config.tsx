@@ -1,3 +1,5 @@
+'use client';
+
 import type { StoreHeaderConfig } from '@/components/shared';
 import { SearchIcon, HeartIcon, BasketIcon } from '@icons';
 import { PATHS } from '@/routes/paths';
