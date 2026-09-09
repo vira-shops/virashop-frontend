@@ -24,6 +24,7 @@ export const PATHS = {
     CATEGORY: (slug: string) => `/retail/category/${slug}`,
     BEST_SELLERS: '/retail/best-sellers',
     OFFERS: '/retail/offers',
+    FAVORITES: '/retail/favorites',
     PRODUCT: (slug: string) => `/retail/${slug}`,
   },
 

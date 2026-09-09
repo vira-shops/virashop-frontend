@@ -55,3 +55,4 @@ storybook-static
 # local tooling
 /graphify-out/
 AGENTS.md
+*.txt

@@ -10,17 +10,21 @@ interface UserActionsProps {
 
 export function UserActions({ actions, className, itemClassName }: UserActionsProps) {
   return (
-    <div className={cn('flex items-center gap-11', className)}>
+    <div
+      className={cn(
+        'rounded-4 flex items-center gap-4 border border-gray-300 p-[6.2px]',
+        className,
+      )}
+    >
       {actions.map(({ icon, ariaLabel, href }) => (
         <Button
           key={ariaLabel}
           variant="ghost"
           size="md"
-          color="primary"
           icon={icon}
           aria-label={ariaLabel}
           href={href}
-          className={itemClassName}
+          className={cn(itemClassName, 'text-gray-300 hover:bg-transparent hover:text-gray-400')}
         />
       ))}
     </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { SearchIcon } from '@icons';
 import { TextInput } from '@/components/ui';
 
