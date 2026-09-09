@@ -47,11 +47,23 @@ function checkRelativeImports(files) {
  * @param {string[]} files - Array of file paths to lint
  * @returns {boolean} True if linting failed, false otherwise
  */
+function isLintable(file) {
+  // Only real TS/TSX sources. Anything else (assets, config files, files
+  // excluded from ESLint in eslint.config.mjs such as generated icons and
+  // husky hooks) emits a "File ignored / no matching configuration" warning
+  // when linted explicitly, which would fail this --max-warnings=0 check.
+  return (
+    (file.endsWith('.ts') || file.endsWith('.tsx')) &&
+    file.startsWith('src/') &&
+    !file.includes('shared/icons')
+  );
+}
+
 function runLinter(files) {
   let linterFailed = false;
 
   files.forEach((file) => {
-    if (file.endsWith('.ts') || file.endsWith('.tsx')) {
+    if (isLintable(file)) {
       try {
         execSync(`npx eslint ${file} --max-warnings=0`, { stdio: 'inherit' });
       } catch (_error) {
@@ -81,7 +93,7 @@ function restageFiles(files) {
 function tryFixingLinterErrors(files) {
   let linterFailed = false;
   files.forEach((file) => {
-    if (file.endsWith('.ts') || file.endsWith('.tsx')) {
+    if (isLintable(file)) {
       try {
         execSync(`npx eslint ${file} --fix`, { stdio: 'inherit' });
       } catch (_error) {

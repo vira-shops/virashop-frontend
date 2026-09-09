@@ -22,7 +22,7 @@ export const MakeFuture: React.FC = () => {
               className="rounded-8 flex h-[133px] w-[200px] flex-col items-center justify-center gap-2 bg-white shadow-sm"
             >
               <Icon className="size-14" />
-              <Typography variant="body-md" className="font-medium text-blue-900">
+              <Typography variant="body-md" className="text-blue-900">
                 {title}
               </Typography>
             </div>

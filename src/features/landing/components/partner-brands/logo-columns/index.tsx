@@ -14,7 +14,7 @@ export const PartnerBrandsLogoColumns: React.FC<PartnerBrandsLogoColumnsProps> =
   const slots = Array.from({ length: count }, (_, index) => index);
 
   return (
-    <div className="absolute top-21 left-0 min-h-full md:-top-20">
+    <div className="absolute top-20 left-4 min-h-full md:-top-20">
       <div className="flex flex-col gap-2 md:flex-row md:gap-10">
         {PARTNER_BRAND_COLUMNS.map((column, columnIndex) => (
           <div

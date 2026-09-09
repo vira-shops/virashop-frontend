@@ -1,5 +1,6 @@
 import { bannersContracts } from './endpoints/banners';
 import { brandsContracts } from './endpoints/brands';
+import { categoriesContracts } from './endpoints/categories';
 import { citiesContracts } from './endpoints/cities';
 import { postsContracts } from './endpoints/posts';
 import { storefrontsContracts } from './endpoints/storefronts';
@@ -11,6 +12,7 @@ export * from './common';
 export const contracts = {
   ...bannersContracts,
   ...brandsContracts,
+  ...categoriesContracts,
   ...citiesContracts,
   ...postsContracts,
   ...storefrontsContracts,

@@ -216,6 +216,29 @@
   --aspect-product-card: 226 / 184;
   --aspect-product-card-tall: 226 / 340;
   --aspect-storefront: 460 / 490;
+
+  /* ===== Marquee (TV-ticker style, uniform speed) ===== */
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-wiggle: wiggle 3s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
 }
 
 @theme inline {
@@ -409,6 +432,16 @@
 
 @utility gradient-green {
   background-image: linear-gradient(135deg, #3ff964, #26b943);
+}
+
+/* Hides the horizontal scrollbar while keeping the element scrollable
+   (touch/trackpad/drag still work) — e.g. product rows inside banners. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer base {

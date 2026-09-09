@@ -11,8 +11,18 @@ interface LogoProps {
 
 export function Logo({ src, alt, href = '/', className }: LogoProps) {
   return (
-    <Link href={href} className={cn('flex items-center', className)}>
-      <Image src={src} alt={alt} width={164} height={40} priority />
+    <Link
+      href={href}
+      className={cn('flex h-[20px] w-[86px] items-center md:h-[40px] md:w-[164px]', className)}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={86}
+        height={20}
+        priority
+        className="h-full w-full object-contain"
+      />
     </Link>
   );
 }
