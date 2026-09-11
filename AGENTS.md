@@ -294,7 +294,10 @@ not to another theme token:
   on the shared landing.
 - Legacy aliases (`gray-*`, `blue-*`, `yellow-*`, `warning-red/green/blue`,
   `white`, `black`) still exist for older components — prefer the canonical
-  scales in new code.
+  scales in new code. NOTE: the legacy aliases carry bespoke hex values that do
+  NOT match the canonical scales (e.g. `gray-700 #757575` ≠ `neutral-700
+  #27272a`), so migrating a component off them changes rendered colors — treat
+  it as a design decision with visual QA, never a mechanical rename.
 - NOTE: the retail palette has no `700` step, so `[data-theme='retail']` leaves
   `--primary-700` pointing at the wholesale value. Avoid `primary-700` on
   retail-themed pages until a real retail hex is decided with design.
