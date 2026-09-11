@@ -1,4 +1,5 @@
 export { default as AndroindIcon } from './AndroindIcon';
+export { default as ArrowLeftIcon } from './ArrowLeftIcon';
 export { default as BasketIcon } from './BasketIcon';
 export { default as BazarIcon } from './BazarIcon';
 export { default as BottleIcon } from './BottleIcon';
@@ -44,4 +45,5 @@ export { default as TelegramIcon } from './TelegramIcon';
 export { default as TickCircleIcon } from './TickCircleIcon';
 export { default as UpArrowIcon } from './UpArrowIcon';
 export { default as UserIcon } from './UserIcon';
+export { default as ViraLogoIcon } from './ViraLogoIcon';
 export { default as WhatsappIcon } from './WhatsappIcon';
