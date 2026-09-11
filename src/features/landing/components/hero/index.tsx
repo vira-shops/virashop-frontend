@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { cn } from '@/utils/ui';
 import { StoryViewer } from '@/components/shared';
-import { useCities, useActiveStories } from '@/features/landing/hooks';
+import { useCities, useActiveStories } from '@/hooks';
 import { CitySelect } from './city-select';
 import { SearchBar } from './search-bar';
 import { StoryBar, StoryBarSkeleton } from './story-bar';

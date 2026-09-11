@@ -1,10 +1,10 @@
-﻿'use client';
+'use client';
 
 import * as React from 'react';
 import { DownArrowIcon } from '@icons';
 import { StoryViewer } from '@/components/shared';
 import { cn } from '@/utils/ui';
-import { useActiveStories } from '@/features/landing/hooks';
+import { useActiveStories } from '@/hooks';
 import { SearchBar } from '@/features/landing/components/hero/search-bar';
 import { StoryBar, StoryBarSkeleton } from '@/features/landing/components/hero/story-bar';
 import { CategoryShowcase } from './category-showcase';
@@ -38,7 +38,7 @@ export const RetailHero: React.FC = () => {
   return (
     <section
       id="retail-hero"
-      aria-label="بخش اصلی فروشگاه"
+      aria-label="??? ???? ???????"
       className="relative mb-16 w-full md:mb-20"
     >
       <div className="pointer-events-none absolute inset-0 bg-[#FFF9ED]" aria-hidden="true" />
@@ -60,7 +60,7 @@ export const RetailHero: React.FC = () => {
           type="button"
           variant="fill"
           onClick={scrollNext}
-          aria-label="برو به سکشن بعدی"
+          aria-label="??? ?? ???? ????"
           icon={<DownArrowIcon className="size-7 -rotate-45 text-yellow-100" aria-hidden="true" />}
           className={cn(
             'pointer-events-auto flex translate-y-1/3 items-center justify-center',

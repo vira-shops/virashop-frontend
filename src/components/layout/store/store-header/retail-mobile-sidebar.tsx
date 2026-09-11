@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { BurgerMenuIcon, CancelIcon, DownArrowIcon, HeartIcon, ShopIcon } from '@icons';
 import { Button, Typography } from '@/components/ui';
 import { LocationBadge, Logo } from '@/components/shared';
-import { usePopularCategories } from '@/features/landing/hooks';
+import { usePopularCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { PopularCategory } from '@/contracts/endpoints/categories/schemas';
 import { CATEGORIES_SECTION_TITLE, MOCK_USER_CITY, MOBILE_NAV_ITEMS } from './__fixtures__';

@@ -19,7 +19,7 @@ export const MakeFuture: React.FC = () => {
           {MAKE_FUTURE_CARDS.map(({ icon: Icon, title }) => (
             <div
               key={title}
-              className="rounded-8 flex h-[133px] w-[200px] flex-col items-center justify-center gap-2 bg-white shadow-sm"
+              className="rounded-8 flex h-33.25 w-50 flex-col items-center justify-center gap-2 bg-white shadow-sm"
             >
               <Icon className="size-14" />
               <Typography variant="body-md" className="text-blue-900">

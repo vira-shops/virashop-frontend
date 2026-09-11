@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Typography } from '@/components/ui';
-import { usePartnerBrands } from '@/features/landing/hooks';
+import { usePartnerBrands } from '@/hooks';
 import { PARTNER_BRANDS_DESCRIPTION, PARTNER_BRANDS_TITLE } from './constants';
 import { BrandLogoCard } from './brand-logo-card';
 import { PartnerBrandsLogoColumns } from './logo-columns';

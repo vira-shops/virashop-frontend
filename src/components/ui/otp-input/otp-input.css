@@ -1,0 +1,44 @@
+@layer components {
+  .otp-input {
+    @apply flex items-center justify-center gap-2;
+  }
+
+  .otp-cell {
+    @apply size-13 rounded-4 border border-gray-300 bg-white text-center font-bold text-black transition-colors focus:border-primary focus:outline-none;
+  }
+
+  .otp-input-error .otp-cell {
+    @apply border-warning-red focus:border-warning-red;
+  }
+
+  .otp-input-success .otp-cell {
+    @apply border-warning-green focus:border-warning-green;
+  }
+
+  .otp-input-disabled .otp-cell {
+    @apply pointer-events-none cursor-not-allowed bg-gray-100 text-gray-300;
+  }
+
+  .otp-message {
+    @apply text-caption-md font-normal;
+  }
+}
+
+/* Size — square cells with a paired digit size. */
+@utility otp-size-sm {
+  .otp-cell {
+    @apply size-11 rounded-3 text-base;
+  }
+}
+
+@utility otp-size-md {
+  .otp-cell {
+    @apply size-13 text-base;
+  }
+}
+
+@utility otp-size-lg {
+  .otp-cell {
+    @apply size-14 rounded-5 text-base;
+  }
+}

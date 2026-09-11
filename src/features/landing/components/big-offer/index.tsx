@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { CardSection, CardSectionSkeleton } from '@/components/shared';
-import { useBigOffers } from '@/features/landing/hooks';
+import { useBigOffers } from '@/hooks';
 import { PATHS } from '@/routes/paths';
 
 export const BigOffer: React.FC = () => {

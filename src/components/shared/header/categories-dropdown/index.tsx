@@ -16,7 +16,7 @@ import {
   TeaIcon,
 } from '@icons';
 import { Button, Skeleton, Typography } from '@/components/ui';
-import { usePopularCategories } from '@/features/landing/hooks';
+import { usePopularCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { PopularCategory, RetailSubcategory } from '@/contracts/endpoints/categories/schemas';
 import {

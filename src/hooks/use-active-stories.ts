@@ -3,7 +3,7 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import { api, type FailedApiResponse, type SuccessfulApiResponse } from '@/connections';
 import type { StoryItem } from '@/components/shared';
-import { landingQueryKeys } from './query-keys';
+import { queryKeys } from './query-keys';
 import type { StoryWire } from '@/contracts/endpoints/stories/schemas';
 
 export type ActiveStoriesData = SuccessfulApiResponse<StoryWire[]>;
@@ -19,7 +19,7 @@ const toStoryItem = (wire: StoryWire): StoryItem => ({
 
 export const useActiveStories = (): UseQueryResult<StoryItem[], ActiveStoriesError> => {
   return useQuery<StoryItem[], ActiveStoriesError>({
-    queryKey: landingQueryKeys.activeStories(),
+    queryKey: queryKeys.activeStories(),
     queryFn: async () => {
       const response = await api('stories', 'getActive');
 

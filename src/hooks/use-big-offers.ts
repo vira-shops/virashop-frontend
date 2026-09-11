@@ -2,7 +2,7 @@
 
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import { api, type FailedApiResponse, type SuccessfulApiResponse } from '@/connections';
-import { landingQueryKeys } from './query-keys';
+import { queryKeys } from './query-keys';
 import type { BigOfferItem } from '@/contracts/endpoints/banners/schemas';
 
 export type BigOffersData = SuccessfulApiResponse<BigOfferItem[]>;
@@ -10,7 +10,7 @@ export type BigOffersError = FailedApiResponse;
 
 export const useBigOffers = (): UseQueryResult<BigOffersData['data'], BigOffersError> => {
   return useQuery<BigOffersData['data'], BigOffersError>({
-    queryKey: landingQueryKeys.bigOffers(),
+    queryKey: queryKeys.bigOffers(),
     queryFn: async () => {
       const response = await api('banners', 'getBigOffers');
 

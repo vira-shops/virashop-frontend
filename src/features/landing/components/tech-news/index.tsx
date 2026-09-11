@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { NewsCard } from '@/components/shared';
 import { Typography } from '@/components/ui';
-import { useTechNews } from '@/features/landing/hooks';
+import { useTechNews } from '@/hooks';
 import type { TechNewsItem } from '@/contracts/endpoints/posts/schemas';
 import {
   TECH_NEWS_ARIA_LABEL,

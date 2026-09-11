@@ -3,6 +3,7 @@
 import type { StoreHeaderConfig } from '@/components/shared';
 import { SearchIcon, UserIcon, BasketIcon } from '@icons';
 import { PATHS } from '@/routes/paths';
+import { buildAuthHref } from '@/features/auth';
 
 export const wholesaleConfig: StoreHeaderConfig = {
   logo: {
@@ -10,6 +11,7 @@ export const wholesaleConfig: StoreHeaderConfig = {
     alt: 'ویراشاپ عمده',
   },
   brandName: 'ویراشاپ',
+  channel: 'WHOLESALE',
   navItems: [
     { label: 'دسته‌بندی‌ها', href: PATHS.WHOLESALE.CATEGORIES },
     { label: 'پرفروش‌ها', href: PATHS.WHOLESALE.BEST_SELLERS },
@@ -19,7 +21,7 @@ export const wholesaleConfig: StoreHeaderConfig = {
   ],
   userActions: [
     { icon: <SearchIcon />, ariaLabel: 'جستجو' },
-    { icon: <UserIcon />, ariaLabel: 'ورود', href: PATHS.AUTH.LOGIN },
+    { icon: <UserIcon />, ariaLabel: 'ورود', href: buildAuthHref('WHOLESALE') },
     { icon: <BasketIcon />, ariaLabel: 'سبد خرید', href: PATHS.CART },
   ],
 };

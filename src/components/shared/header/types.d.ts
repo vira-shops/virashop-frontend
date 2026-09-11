@@ -24,4 +24,6 @@ export interface StoreHeaderConfig {
   brandName: string;
   navItems: NavItem[];
   userActions: UserAction[];
+  /** Storefront channel — carried into the auth wizard as `?channel=`. */
+  channel?: 'RETAIL' | 'WHOLESALE';
 }

@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui';
 
 const NewsCardSkeleton: React.FC = () => (
   <div className="rounded-9 flex flex-col overflow-hidden bg-white shadow-sm">
-    <Skeleton className="aspect-[400/250] w-full rounded-none" />
+    <Skeleton className="aspect-400/250 w-full rounded-none" />
     <div className="flex flex-col gap-3 p-5">
       <Skeleton className="h-5 w-3/4" />
       <Skeleton className="h-3 w-full" />

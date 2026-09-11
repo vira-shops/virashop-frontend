@@ -2,7 +2,7 @@
 
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import { api, type FailedApiResponse, type SuccessfulApiResponse } from '@/connections';
-import { landingQueryKeys } from './query-keys';
+import { queryKeys } from './query-keys';
 import type { PartnerBrand } from '@/contracts/endpoints/brands/schemas';
 
 export type PartnerBrandsData = SuccessfulApiResponse<PartnerBrand[]>;
@@ -13,7 +13,7 @@ export const usePartnerBrands = (): UseQueryResult<
   PartnerBrandsError
 > => {
   return useQuery<PartnerBrandsData['data'], PartnerBrandsError>({
-    queryKey: landingQueryKeys.partnerBrands(),
+    queryKey: queryKeys.partnerBrands(),
     queryFn: async () => {
       const response = await api('brands', 'getPartnerBrands');
 

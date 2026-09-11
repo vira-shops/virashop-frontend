@@ -2,7 +2,7 @@
 
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import { api, type FailedApiResponse, type SuccessfulApiResponse } from '@/connections';
-import { landingQueryKeys } from './query-keys';
+import { queryKeys } from './query-keys';
 import type { StorefrontShowcaseResponse } from '@/contracts/endpoints/storefronts/schemas';
 
 export type StorefrontShowcaseData = SuccessfulApiResponse<StorefrontShowcaseResponse>;
@@ -13,7 +13,7 @@ export const useStorefrontShowcase = (): UseQueryResult<
   StorefrontShowcaseError
 > => {
   return useQuery<StorefrontShowcaseResponse, StorefrontShowcaseError>({
-    queryKey: landingQueryKeys.showcase(),
+    queryKey: queryKeys.showcase(),
     queryFn: async () => {
       const response = await api('storefronts', 'getShowcase');
 

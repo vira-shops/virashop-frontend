@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { CardSection, CardSectionSkeleton } from '@/components/shared';
-import { useBestSellers } from '@/features/landing/hooks';
+import { useBestSellers } from '@/hooks';
 import { PATHS } from '@/routes/paths';
 
 /** Wholesale best-sellers — shared CardSection with wholesale-scoped links. */
