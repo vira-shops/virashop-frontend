@@ -85,21 +85,32 @@ Section layouts set the theme once with `<div data-theme="retail">` (or `"wholes
 
 ### Feature anatomy
 
-Landing splits by concern (`components/<section>/…`); retail and wholesale are
-flat section folders + `constants.ts` + `index.ts` barrel:
+Every feature follows the same anatomy: a `components/index.ts` barrel, a
+feature barrel (`index.ts`) that re-exports the components barrel + feature
+constants, and data constants at the level where they are used
+(`features/auth` additionally has `hooks/`, `store/`, `types/`,
+`validation/`). Retail and wholesale are flat section folders; landing
+sections keep their section-local `constants.ts` where the data belongs to a
+single section:
 
 ```
 src/features/retail/
 ├── components/
+│   ├── index.ts                 # components barrel (mirrors features/auth)
 │   ├── retail-hero/            # composed section (hero: search + stories + category tiles)
 │   ├── promo-slider/           # thin section feeding the shared ImageCarousel
 │   ├── weekly-offer/           # wires API data into the shared CampaignBanner
 │   ├── popular-brands/         # TV-ticker marquee (data in constants)
-│   ├── best-sellers/           # CardSection wrapper with retail-scoped links
+│   ├── best-sellers/           # thin wrapper scoping the shared BestSellersSection
 │   └── …
 ├── constants.ts                # titles, labels, campaign deadlines, brand lists
-└── index.ts                    # feature barrel (pages import sections from here)
+└── index.ts                    # feature barrel: `export * from './components'` + constants
 ```
+
+Sections that are byte-for-byte the same across storefronts MUST NOT be
+copied — promote them to `components/shared` and let each feature wrap them
+with its own scope (see `BestSellersSection` / `BigOfferSection`, wrapped by
+landing, retail and wholesale).
 
 **No mock data in `app/` pages or in `components/`.** A page imports a feature
 section; the feature owns data fetching via React Query hooks or feature
@@ -407,6 +418,10 @@ Shared sections used by more than one storefront live in
   shared because landing, retail AND wholesale heroes consume them.
 - **`Form`** (`form/`) — RHF-wired field primitives (`Form`, `FormInput`,
   `FormSelect`) used by the auth wizard forms.
+- **`BestSellersSection`** / **`BigOfferSection`** (`best-sellers/`,
+  `big-offer/`) — CardSection sections wired to their shared React Query
+  hook; the caller scopes the view-all `link` and spacing/background via
+  props. Wrapped by the landing, retail and wholesale features.
 - `CardSection` / `ProductCard` — product card sections on embla.
 
 ## Icons

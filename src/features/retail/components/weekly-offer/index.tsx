@@ -25,7 +25,7 @@ export const WeeklyOffers: React.FC = () => {
         title={WEEKLY_OFFERS_TITLE}
         subtitle={WEEKLY_OFFERS_SUBTITLE}
         endsAt={WEEKLY_OFFERS_ENDS_AT}
-        viewAll={{ label: '?????? ???', href: WEEKLY_OFFERS_VIEW_ALL_HREF }}
+        viewAll={{ label: 'مشاهده همه', href: WEEKLY_OFFERS_VIEW_ALL_HREF }}
         items={bestSellers.map((bestSeller) => ({
           id: bestSeller.id,
           image: { src: bestSeller.image, alt: bestSeller.imageAlt },

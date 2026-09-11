@@ -1,9 +1,24 @@
+import type { FC, SVGProps } from 'react';
+import { BottleIcon, CackeIcon, CheeseIcon, FishIcon, LeafIcon } from '@icons';
+
 export const WHOLESALE_HERO_SEARCH_PLACEHOLDER = 'جستجو در ویرا شاپس';
 export const WHOLESALE_HERO_ARIA_LABEL = 'بخش اصلی فروشگاه عمده';
 export const WHOLESALE_CATEGORIES_SECTION_ID = 'wholesale-categories';
 export const WHOLESALE_CATEGORIES_TITLE = 'دستـــــــــــه بندی ها';
 export const WHOLESALE_CATEGORIES_SUBTITLE = 'بیش از 5,000 محصول';
 export const WHOLESALE_CATEGORIES_SOON_LABEL = 'بزودی';
+
+/** Category slug → icon for the wholesale category showcase tiles. */
+export const CATEGORY_ICONS: Record<string, FC<SVGProps<SVGSVGElement>>> = {
+  food: BottleIcon,
+  protein: FishIcon,
+  dairy: CackeIcon,
+  snacks: CheeseIcon,
+  beverages: BottleIcon,
+  detergents: LeafIcon,
+  fruits: LeafIcon,
+  sweets: CackeIcon,
+};
 export const WHOLESALE_BRANDS_TITLE = 'برنــــــد هایی که با ما همکاری کردند';
 export const WHOLESALE_BRANDS_ARIA_LABEL = 'برندهای همکار';
 export const WHOLESALE_BRANDS_ROW_COUNT = 3;

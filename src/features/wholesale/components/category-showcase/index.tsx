@@ -5,12 +5,12 @@ import { CategoryShowcase as SharedCategoryShowcase } from '@/components/shared'
 import { BottleIcon } from '@icons';
 import { usePopularCategories } from '@/hooks';
 import {
+  CATEGORY_ICONS,
   WHOLESALE_CATEGORIES_SECTION_ID,
   WHOLESALE_CATEGORIES_SOON_LABEL,
   WHOLESALE_CATEGORIES_SUBTITLE,
   WHOLESALE_CATEGORIES_TITLE,
 } from '@/features/wholesale/constants';
-import { CATEGORY_ICONS } from './constants';
 
 export const CategoryShowcase: React.FC<{ className?: string }> = ({ className }) => {
   const categoriesQuery = usePopularCategories();
