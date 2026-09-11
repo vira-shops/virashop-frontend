@@ -26,4 +26,9 @@ export interface StoreHeaderConfig {
   userActions: UserAction[];
   /** Storefront channel — carried into the auth wizard as `?channel=`. */
   channel?: 'RETAIL' | 'WHOLESALE';
+  /**
+   * Fallback location shown in the header's city badge until the location
+   * endpoint is wired — replace with backend data once available.
+   */
+  location?: { city: string };
 }

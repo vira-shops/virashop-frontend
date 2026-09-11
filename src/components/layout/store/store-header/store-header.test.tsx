@@ -5,7 +5,7 @@ import { StoreHeader } from './store-header';
 import { wholesaleConfig } from './wholesale-config';
 import { retailConfig } from './retail-config';
 import { usePopularCategories } from '@/hooks';
-import { POPULAR_CATEGORIES_MOCK } from './__fixtures__';
+import { POPULAR_CATEGORIES_MOCK } from '@/contracts/endpoints/categories';
 
 jest.mock('@/hooks', () => ({
   ...jest.requireActual('@/hooks'),
@@ -478,7 +478,7 @@ describe('StoreHeader — mobile sidebar', () => {
     expect(foodContainer).not.toHaveClass('border-primary-500');
   });
 
-  it('renders the mock user city at the bottom of the sidebar', () => {
+  it('renders the configured user city at the bottom of the sidebar', () => {
     renderHeader(retailConfig, 'retail');
     openSidebar();
     const dialog = getDialog();

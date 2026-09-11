@@ -4,11 +4,11 @@ import { Button, Typography } from '@/components/ui';
 import { Logo, UserActions, CategoriesDropdown, LocationBadge } from '@/components/shared';
 import { buildAuthHref, useAuthSession } from '@/features/auth';
 import { cn } from '@/utils/ui';
-import { DESKTOP_NAV_ITEMS, MOCK_USER_CITY } from './__fixtures__';
+import { DESKTOP_NAV_ITEMS } from './constants';
 import type { StoreHeaderDesktopProps } from './types';
 
 export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
-  const { logo, userActions, channel } = config;
+  const { logo, userActions, channel, location } = config;
   const { mounted, user, signOut } = useAuthSession();
 
   return (
@@ -56,7 +56,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
             ))}
           </div>
 
-          <LocationBadge city={MOCK_USER_CITY} />
+          <LocationBadge city={location?.city ?? ''} />
         </div>
       </nav>
     </div>

@@ -8,7 +8,7 @@ import { RetailMobileSidebar } from './retail-mobile-sidebar';
 import type { StoreHeaderMobileProps } from './types';
 
 export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
-  const { logo, channel } = config;
+  const { logo, channel, location } = config;
   const { mounted, user, signOut } = useAuthSession();
 
   return (
@@ -16,7 +16,7 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
       <div className="border-b border-gray-100 py-4">
         <div className="container flex items-center justify-between">
           {/* Right in RTL: burger menu */}
-          <RetailMobileSidebar logo={logo} />
+          <RetailMobileSidebar logo={logo} city={location?.city} />
 
           {/* Center: logo */}
           <Logo src={logo.src} alt={logo.alt} />

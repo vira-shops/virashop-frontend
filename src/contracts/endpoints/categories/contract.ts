@@ -594,7 +594,12 @@ const ICON_BY_CATEGORY: Record<string, string> = {
   sweets: 'CackeIcon',
 };
 
-const POPULAR_CATEGORIES_MOCK = [
+/**
+ * Popular-categories mock — the single source for the mock payload. Exported so
+ * tests (e.g. the store header suite) read the same data the fetcher serves in
+ * mock mode instead of keeping a mirrored copy.
+ */
+export const POPULAR_CATEGORIES_MOCK = [
   {
     slug: 'food',
     title: 'مواد غذایی',

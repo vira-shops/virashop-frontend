@@ -12,6 +12,7 @@ export const retailConfig: StoreHeaderConfig = {
   },
   brandName: 'ویراشاپ',
   channel: 'RETAIL',
+  location: { city: 'تهران' },
   navItems: [
     { label: 'دسته‌بندی‌ها', href: PATHS.RETAIL.CATEGORIES },
     { label: 'پرفروش‌ها', href: PATHS.RETAIL.BEST_SELLERS },
