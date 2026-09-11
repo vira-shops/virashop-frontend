@@ -46,11 +46,12 @@ src/
   config/env.ts          # environment variables
   features/
     landing/             # shared landing sections (hero, offer-banner, partner-brands, tech-news, …)
-                         # + hooks/ (React Query: cities, stories, categories, banners, brands, posts)
     retail/              # retail storefront sections (retail-hero, promo-slider, weekly-offer,
                          #  promo-banners, best-sellers, big-offer, popular-brands)
     wholesale/           # wholesale storefront sections (wholesale-hero, category-showcase,
                          #  special-offers, partner-brands, best-sellers, features-grid)
+  hooks/                 # shared React Query hooks + query-keys (cities, stories, categories,
+                         #  banners, brands, posts, storefronts) — the ONLY cross-feature data layer
   components/
     ui/                  # design system (badge, button, card, carousel, select, text-input, typography, uploader)
     shared/              # modal, story, breadcrumb, header/footer primitives, icons,
@@ -78,8 +79,8 @@ Section layouts set the theme once with `<div data-theme="retail">` (or `"wholes
 
 ### Feature anatomy
 
-Landing splits by concern (`components/<section>/…`, `hooks/`); retail and
-wholesale are flat section folders + `constants.ts` + `index.ts` barrel:
+Landing splits by concern (`components/<section>/…`); retail and wholesale are
+flat section folders + `constants.ts` + `index.ts` barrel:
 
 ```
 src/features/retail/
@@ -97,9 +98,9 @@ src/features/retail/
 **No mock data in `app/` pages or in `components/`.** A page imports a feature
 section; the feature owns data fetching via React Query hooks or feature
 constants. Feature components import shared components — never the reverse.
-Cross-feature DATA access goes through hooks (`@/features/landing/hooks` is
-the shared data layer every storefront feature reads from); never import
-another feature's section components.
+**No feature may use another feature's hooks.** Cross-feature DATA access goes
+through the shared hooks in `src/hooks` (`@/hooks` — the single data layer
+every feature reads from); never import another feature's section components.
 
 ## Storefront Header & Footer (config-driven)
 
@@ -209,17 +210,22 @@ if (response.status === 200) {
 
 ## React Query integration
 
-Each feature exposes typed hooks, one file per query, under
-`src/features/<feature>/hooks/` with a centralized `query-keys.ts` (tuple
-form) for hierarchical invalidation:
+Shared data hooks live in `src/hooks/` — one file per query, with a
+centralized `query-keys.ts` (tuple form) for hierarchical invalidation:
 
 ```ts
+// src/hooks/use-cities.ts
 export const useCities = (): UseQueryResult<City[], FailedApiResponse> =>
   useQuery<City[], FailedApiResponse>({
-    queryKey: landingQueryKeys.citiesList(),
+    queryKey: queryKeys.citiesList(),
     queryFn: async () => { … },
   });
 ```
+
+- Every feature imports these via `@/hooks` — no feature owns its own
+  data-fetching hooks, and no feature may import hooks from another feature.
+- A hook that is only ever used by ONE feature may live in that feature
+  folder, but move it to `src/hooks` the moment a second consumer appears.
 
 ## Validations — shared primitive schemas
 
@@ -355,6 +361,14 @@ Shared sections used by more than one storefront live in
   optional autoplay. Viewport padding zeroed so neighboring slides never leak.
 - **`CategoryCard`** — white square tile, image centered, title outside below;
   `moreLabel` renders a "…more" overlay (truncated mobile rows).
+- **`CategoryShowcase`** (`category-showcase/`) — gradient icon-tile showcase:
+  title/subtitle header, optional detached first tile with a dashed strip
+  (`soonLabel`, e.g. «بزودی»), responsive grid of gradient tiles. Icons come
+  in via `iconMap` + `fallbackIcon`; loading skeleton built in. Content-agnostic.
+- **`BrandsMarquee`** (`brands-marquee/`) — TV-ticker brand-logo marquee:
+  logos distributed round-robin across rows (`rowCount`, default 3), uniform
+  linear speed, center CTA (`ctaLabel`, link via `ctaHref`). Brand glow
+  shadows are caller-side styling via `ctaClassName`.
 - **`SiteFooter`** (`footer/`) — site-wide blue brand band + trust badges +
   copyright; composed INSIDE `StoreFooter` for storefronts and rendered
   directly by the home layout.
@@ -395,8 +409,9 @@ import { StoreHeaderConfig } from '@/components/shared/header/types';
 - **Feature-internal imports use `@/features/<feature>/…` aliases** — the
   pre-commit hook REJECTS relative parent imports (`../../`) in staged files.
   Never import a feature section from another feature's folder; cross-feature
-  data access goes through hooks (`@/features/landing/hooks` is the shared
-  data layer every storefront feature reads from).
+  data access goes through the shared hooks (`@/hooks` — the single data layer
+  every feature reads from). Shared components also import hooks from `@/hooks`,
+  never from another feature.
 
 ## Routing & Metadata
 
