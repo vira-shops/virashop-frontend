@@ -4,12 +4,15 @@ import * as React from 'react';
 import { TextInput } from '@/components/ui';
 import { SearchIcon } from '@icons';
 import { cn } from '@/utils/ui';
-import { SearchBarProps } from './types';
+import { HeroSearchBarProps } from './types';
 
-export const SearchBar: React.FC<SearchBarProps> = ({
+const DEFAULT_SEARCH_PLACEHOLDER = 'برای جست و جو بهتر مکان خود را ثبت کنید';
+
+export const HeroSearchBar: React.FC<HeroSearchBarProps> = ({
   value,
   defaultValue,
   onChange,
+  placeholder,
   className,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +27,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         size="md"
         value={value}
         defaultValue={defaultValue}
-        placeholder="برای جست و جو بهتر مکان خود را ثبت کنید"
+        placeholder={placeholder ?? DEFAULT_SEARCH_PLACEHOLDER}
         rightIcon={<SearchIcon className="size-7" />}
         onChange={handleChange}
         aria-label="جستجو"
@@ -34,4 +37,4 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-SearchBar.displayName = 'SearchBar';
+HeroSearchBar.displayName = 'HeroSearchBar';

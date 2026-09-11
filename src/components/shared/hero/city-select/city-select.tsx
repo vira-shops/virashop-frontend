@@ -13,6 +13,7 @@ export const CitySelect: React.FC<CitySelectProps> = ({
   onChange,
   disabled,
   className,
+  'aria-label': ariaLabel = 'انتخاب شهر',
 }) => {
   const fallback = defaultValue ?? cities[0]?.value ?? '';
   const [inner, setInner] = React.useState(fallback);
@@ -31,7 +32,7 @@ export const CitySelect: React.FC<CitySelectProps> = ({
         size="md"
         value={current}
         onValueChange={handleChange}
-        aria-label="انتخاب شهر"
+        aria-label={ariaLabel}
         disabled={disabled}
         placeholder="انتخاب شهر"
         searchable

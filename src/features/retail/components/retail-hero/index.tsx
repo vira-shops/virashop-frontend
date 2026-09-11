@@ -2,11 +2,9 @@
 
 import * as React from 'react';
 import { DownArrowIcon } from '@icons';
-import { StoryViewer } from '@/components/shared';
+import { HeroSearchBar, StoryBar, StoryBarSkeleton, StoryViewer } from '@/components/shared';
 import { cn } from '@/utils/ui';
 import { useActiveStories } from '@/hooks';
-import { SearchBar } from '@/features/landing/components/hero/search-bar';
-import { StoryBar, StoryBarSkeleton } from '@/features/landing/components/hero/story-bar';
 import { CategoryShowcase } from './category-showcase';
 import {
   RETAIL_HERO_SEARCH_PLACEHOLDER,
@@ -38,13 +36,13 @@ export const RetailHero: React.FC = () => {
   return (
     <section
       id="retail-hero"
-      aria-label="??? ???? ???????"
+      aria-label="بخش اصلی فروشگاه خرده"
       className="relative mb-16 w-full md:mb-20"
     >
       <div className="pointer-events-none absolute inset-0 bg-[#FFF9ED]" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-5 pt-13 pb-20 md:px-0">
-        <SearchBar onChange={() => undefined} placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER} />
+        <HeroSearchBar onChange={() => undefined} placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER} />
         {storiesQuery.isLoading ? (
           <StoryBarSkeleton />
         ) : (
@@ -60,7 +58,7 @@ export const RetailHero: React.FC = () => {
           type="button"
           variant="fill"
           onClick={scrollNext}
-          aria-label="??? ?? ???? ????"
+          aria-label="رفتن به بخش بعدی"
           icon={<DownArrowIcon className="size-7 -rotate-45 text-yellow-100" aria-hidden="true" />}
           className={cn(
             'pointer-events-auto flex translate-y-1/3 items-center justify-center',

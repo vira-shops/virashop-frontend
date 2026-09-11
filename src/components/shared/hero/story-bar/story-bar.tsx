@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { StoryTrigger } from '@/components/shared';
+import { StoryTrigger } from '@/components/shared/story';
 import { cn } from '@/utils/ui';
 import { StoryBarProps } from './types';
 import { STORY_BAR_LABEL_PREFIX } from './constants';
@@ -26,5 +26,3 @@ export const StoryBar: React.FC<StoryBarProps> = ({ stories, onStoryOpen, classN
 };
 
 StoryBar.displayName = 'StoryBar';
-
-export { StoryBarSkeleton } from './skeleton';

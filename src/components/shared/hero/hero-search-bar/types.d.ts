@@ -1,4 +1,4 @@
-export interface SearchBarProps {
+export interface HeroSearchBarProps {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;

@@ -7,6 +7,7 @@ export * from './form';
 export * from './category-card';
 export * from './category-showcase';
 export * from './brands-marquee';
+export * from './hero';
 export * from './campaign-banner';
 export * from './image-carousel';
 export * from './breadcrumb';

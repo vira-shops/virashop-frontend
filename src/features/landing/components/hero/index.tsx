@@ -2,11 +2,14 @@
 
 import * as React from 'react';
 import { cn } from '@/utils/ui';
-import { StoryViewer } from '@/components/shared';
+import {
+  CitySelect,
+  HeroSearchBar,
+  StoryBar,
+  StoryBarSkeleton,
+  StoryViewer,
+} from '@/components/shared';
 import { useCities, useActiveStories } from '@/hooks';
-import { CitySelect } from './city-select';
-import { SearchBar } from './search-bar';
-import { StoryBar, StoryBarSkeleton } from './story-bar';
 import { HeroProps } from './types';
 import { HERO_GRADIENT, HERO_GRADIENT_OPACITY } from './constants';
 import { StorefrontShowcase } from './storefront-showcase';
@@ -54,7 +57,7 @@ export const Hero: React.FC<HeroProps> = ({
               disabled={citiesQuery.isLoading}
             />
           )}
-          <SearchBar onChange={onSearch} placeholder={searchPlaceholder} />
+          <HeroSearchBar onChange={onSearch} placeholder={searchPlaceholder} />
         </div>
 
         {storiesQuery.isLoading ? (

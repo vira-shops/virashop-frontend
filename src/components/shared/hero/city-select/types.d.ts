@@ -10,4 +10,6 @@ export interface CitySelectProps {
   onChange?: (value: string) => void;
   disabled?: boolean;
   className?: string;
+  /** Accessible name for the underlying select trigger. @default «انتخاب شهر» */
+  'aria-label'?: string;
 }
