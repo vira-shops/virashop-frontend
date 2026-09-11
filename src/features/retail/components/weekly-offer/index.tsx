@@ -1,7 +1,7 @@
-﻿'use client';
+'use client';
 
 import * as React from 'react';
-import { useBestSellers } from '@/features/landing/hooks';
+import { useBestSellers } from '@/hooks';
 import { CampaignBanner, CampaignBannerSkeleton } from '@/components/shared';
 import {
   WEEKLY_OFFERS_ENDS_AT,

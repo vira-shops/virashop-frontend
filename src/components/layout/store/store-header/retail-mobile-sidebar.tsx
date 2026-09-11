@@ -5,13 +5,15 @@ import Link from 'next/link';
 import { BurgerMenuIcon, CancelIcon, DownArrowIcon, HeartIcon, ShopIcon } from '@icons';
 import { Button, Typography } from '@/components/ui';
 import { LocationBadge, Logo } from '@/components/shared';
-import { usePopularCategories } from '@/features/landing/hooks';
+import { usePopularCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { PopularCategory } from '@/contracts/endpoints/categories/schemas';
-import { CATEGORIES_SECTION_TITLE, MOCK_USER_CITY, MOBILE_NAV_ITEMS } from './__fixtures__';
+import { CATEGORIES_SECTION_TITLE, MOBILE_NAV_ITEMS } from './constants';
 
 interface RetailMobileSidebarProps {
   logo: { src: string; alt: string };
+  /** Fallback city for the location badge — comes from the header config. */
+  city?: string;
 }
 
 // --- Icon map for dynamic icon rendering ------------------------------------
@@ -248,15 +250,15 @@ const CategoryAccordion: React.FC<{
   );
 };
 
-const SidebarFooter: React.FC = () => (
+const SidebarFooter: React.FC<{ city?: string }> = ({ city }) => (
   <div className="mt-auto border-t border-gray-100 px-11 py-11">
-    <LocationBadge city={MOCK_USER_CITY} />
+    <LocationBadge city={city ?? ''} />
   </div>
 );
 
 // --- Main component ---------------------------------------------------------
 
-export const RetailMobileSidebar: React.FC<RetailMobileSidebarProps> = ({ logo }) => {
+export const RetailMobileSidebar: React.FC<RetailMobileSidebarProps> = ({ logo, city }) => {
   const { data: categories } = usePopularCategories();
   const catList = categories ?? [];
 
@@ -387,7 +389,7 @@ export const RetailMobileSidebar: React.FC<RetailMobileSidebarProps> = ({ logo }
                 ))}
               </nav>
 
-              <SidebarFooter />
+              <SidebarFooter city={city} />
             </div>
           </div>
         </div>

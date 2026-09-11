@@ -2,13 +2,14 @@
 
 import { Button, Typography } from '@/components/ui';
 import { Logo, UserActions, CategoriesDropdown, LocationBadge } from '@/components/shared';
-import { PATHS } from '@/routes/paths';
+import { buildAuthHref, useAuthSession } from '@/features/auth';
 import { cn } from '@/utils/ui';
-import { DESKTOP_NAV_ITEMS, MOCK_USER_CITY } from './__fixtures__';
+import { DESKTOP_NAV_ITEMS } from './constants';
 import type { StoreHeaderDesktopProps } from './types';
 
 export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
-  const { logo, userActions } = config;
+  const { logo, userActions, channel, location } = config;
+  const { mounted, user, signOut } = useAuthSession();
 
   return (
     <div className="hidden bg-white md:block">
@@ -19,9 +20,20 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
 
           <div className="flex items-center gap-2">
             <UserActions actions={userActions} />
-            <Button href={PATHS.AUTH.LOGIN} color="primary" variant="fill" size="md">
-              ورود و ثبت نام
-            </Button>
+            {mounted && user ? (
+              <div className="flex items-center gap-2">
+                <Typography variant="caption-lg" className="text-gray-600">
+                  {user.fullName}
+                </Typography>
+                <Button variant="outline" color="primary" size="sm" onClick={() => void signOut()}>
+                  خروج
+                </Button>
+              </div>
+            ) : (
+              <Button href={buildAuthHref(channel)} color="primary" variant="fill" size="md">
+                ورود و ثبت نام
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -37,14 +49,14 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
                 key={href}
                 variant="caption-lg"
                 href={href}
-                className={cn('text-gray-600 transition-colors hover:text-gray-700')}
+                className={cn('hover:text-primary-500 text-gray-600 transition-colors')}
               >
                 {label}
               </Typography>
             ))}
           </div>
 
-          <LocationBadge city={MOCK_USER_CITY} />
+          <LocationBadge city={location?.city ?? ''} />
         </div>
       </nav>
     </div>

@@ -2,6 +2,8 @@
 @import '../../../components/ui/button/button.css';
 @import '../../../components/ui/card/card.css';
 @import '../../../components/ui/carousel/carousel.css';
+@import '../../../components/ui/otp-input/otp-input.css';
+@import '../../../components/ui/tabs/tabs.css';
 @import '../../../components/shared/story/story.css';
 @import '../../../components/ui/typography/typography.css';
 @import '../../../components/ui/text-input/text-input.css';

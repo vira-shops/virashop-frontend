@@ -1,5 +1,12 @@
 import { z } from 'zod';
-import { ApiResponse, ContractEntry, FailedApiResponse, mockDataWrapper } from './utils';
+import {
+  ApiResponse,
+  ContractEntry,
+  isBackendErrorEnvelope,
+  mockDataWrapper,
+  toFailedApiResponse,
+} from './utils';
+import { getAuthToken } from './auth-token';
 import { contracts } from '@/contracts';
 
 type ContractsMap = typeof contracts;
@@ -77,6 +84,29 @@ const resolveMockData = (namespace: string, endpoint: string): unknown => {
   return wrapped;
 };
 
+const buildRequestHeaders = (init: RequestInit): Record<string, string> => {
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+    // The API translates error messages; the UI copy is Persian.
+    'Accept-Language': 'fa',
+  };
+
+  const token = getAuthToken();
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  // Let the browser set the multipart boundary — never set Content-Type for FormData.
+  if (!(init.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  Object.assign(headers, (init.headers as Record<string, string> | undefined) ?? {});
+
+  return headers;
+};
+
 async function performFetch<TData>(
   url: string,
   init: RequestInit,
@@ -84,11 +114,7 @@ async function performFetch<TData>(
 ): Promise<ApiResponse<TData>> {
   const response = await fetch(url, {
     ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      ...((init.headers as Record<string, string> | undefined) ?? {}),
-    },
+    headers: buildRequestHeaders(init),
   });
 
   let payload: unknown;
@@ -103,14 +129,21 @@ async function performFetch<TData>(
   const parsed = responseSchema.safeParse(payload);
 
   if (parsed.success) {
+    // The backend error envelope matched the schema — flatten it so callers
+    // always see a flat `FailedApiResponse` with `errorCode`.
+    if (isBackendErrorEnvelope(parsed.data)) {
+      return toFailedApiResponse(
+        parsed.data,
+        response.status,
+        response.statusText || 'Request failed',
+      );
+    }
+
     return parsed.data as ApiResponse<TData>;
   }
 
   if (!response.ok) {
-    return {
-      status: (response.status as FailedApiResponse['status']) ?? 500,
-      message: response.statusText || 'Request failed',
-    };
+    return toFailedApiResponse(payload, response.status, response.statusText || 'Request failed');
   }
 
   return {
@@ -170,11 +203,19 @@ export function api(
   const url =
     getBaseUrl() + resolvePath(entry.path, options.pathParams) + buildQueryString(init.query);
 
+  // FormData (multipart uploads) passes through untouched — JSON otherwise.
+  const body =
+    init.body instanceof FormData
+      ? init.body
+      : init.body !== undefined
+        ? JSON.stringify(init.body)
+        : undefined;
+
   return performFetch(
     url,
     {
       method: entry.method,
-      body: init.body !== undefined ? JSON.stringify(init.body) : undefined,
+      body,
     },
     entry.response,
   );

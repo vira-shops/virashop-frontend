@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui';
 import { cn } from '@/utils/ui';
 import { PATHS } from '@/routes/paths';
-import { useStorefrontShowcase } from '@/features/landing/hooks';
+import { useStorefrontShowcase } from '@/hooks';
 import type { StorefrontShowcaseProps } from './types';
 import { StorefrontShowcaseSkeleton } from './skeleton';
 

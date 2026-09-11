@@ -16,7 +16,7 @@ import {
   TeaIcon,
 } from '@icons';
 import { Button, Skeleton, Typography } from '@/components/ui';
-import { usePopularCategories } from '@/features/landing/hooks';
+import { usePopularCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { PopularCategory, RetailSubcategory } from '@/contracts/endpoints/categories/schemas';
 import {
@@ -239,7 +239,7 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ classNam
         className="flex items-center gap-2 bg-transparent"
       >
         <BurgerMenuIcon className="size-10 text-gray-600" aria-hidden="true" />
-        <Typography variant="caption-lg" className="text-gray-600">
+        <Typography variant="caption-lg" className="hover:text-primary-500 text-gray-600">
           {CATEGORIES_TRIGGER_LABEL}
         </Typography>
       </button>

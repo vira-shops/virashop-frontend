@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export const PromoBanners: React.FC<PromoBannersProps> = ({
               className={cn(
                 'rounded-9 relative flex h-44 w-full items-center justify-center overflow-hidden sm:h-52 lg:h-80',
               )}
-              style={{ backgroundColor: background ?? '#FFF7E6' }}
+              style={{ backgroundColor: background ?? 'var(--retail-tint-strong)' }}
             >
               {/* Banner artwork — awaiting final promo artwork assets */}
             </div>

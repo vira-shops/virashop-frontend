@@ -40,33 +40,40 @@ After ANY change run, and keep green:
 
 ```
 src/
-  app/                   # pages: page.tsx (home), retail/page.tsx, wholesale/page.tsx
+  app/                   # pages: page.tsx (home), retail/page.tsx, wholesale/page.tsx,
+                         #  auth/login/page.tsx, auth/register/page.tsx
   routes/paths.ts        # centralized route constants (static + dynamic functions)
-  config/metadata.ts     # centralized metadata (root template, home/retail/wholesale)
+  config/metadata.ts     # centralized metadata (root template, home/retail/wholesale/auth)
   config/env.ts          # environment variables
   features/
     landing/             # shared landing sections (hero, offer-banner, partner-brands, tech-news, …)
-                         # + hooks/ (React Query: cities, stories, categories, banners, brands, posts)
     retail/              # retail storefront sections (retail-hero, promo-slider, weekly-offer,
                          #  promo-banners, best-sellers, big-offer, popular-brands)
     wholesale/           # wholesale storefront sections (wholesale-hero, category-showcase,
                          #  special-offers, partner-brands, best-sellers, features-grid)
+    auth/                # auth wizard + role/otp/credentials/booth forms, local hooks/store/types/validation
+  hooks/                 # shared React Query hooks + query-keys (cities, stories, categories,
+                         #  banners, brands, posts, storefronts) — the ONLY cross-feature data layer;
+                         #  auth/ subfolder holds auth-domain server hooks (consumed by features/auth
+                         #  AND providers/auth-provider, so they stay app-level, not feature-owned)
   components/
-    ui/                  # design system (badge, button, card, carousel, select, text-input, typography, uploader)
-    shared/              # modal, story, breadcrumb, header/footer primitives, icons,
-                         # category-card, campaign-banner, image-carousel,
-                         # product-card, card-section, news-card
+    ui/                  # design system (badge, button, card, carousel, otp-input, select, skeleton,
+                         #  tabs, text-input, typography, uploader)
+    shared/              # modal, story, breadcrumb, header/footer primitives, icons, form,
+                         #  hero primitives (HeroSearchBar, CitySelect, StoryBar), category-card,
+                         #  category-showcase, brands-marquee, campaign-banner, image-carousel,
+                         #  product-card, card-section, news-card
     feedback/            # toast
     layout/
       home/              # LandingHeader + Footer (thin re-export of shared SiteFooter)
       store/
-        store-header/    # StoreHeader (desktop + mobile sidebar) + retail/wholesale configs
+        store-header/    # StoreHeader (desktop + mobile sidebar) + constants.ts + retail/wholesale configs
         store-footer/    # StoreFooter (pre-section + SiteFooter) + retail/wholesale configs
   contracts/             # API contracts (see Contracts section below)
   connections/           # transport layer used by contracts (see Connections section below)
-  providers/             # app-level React providers (QueryClient, Theme, etc.)
+  providers/             # app-level React providers (QueryClient, auth session, etc.)
   validations/           # shared primitive zod schemas (IDSchema, EmailSchema, etc.)
-  layouts/               # home-layout, retail-layout, wholesale-layout, root-layout
+  layouts/               # home-layout, retail-layout, wholesale-layout, auth-layout, root-layout
   styles/
     tailwind.css         # single Tailwind v4 theme source (NO tailwind.config file)
     components/ui/styles.css  # imports every ui component's css
@@ -78,28 +85,45 @@ Section layouts set the theme once with `<div data-theme="retail">` (or `"wholes
 
 ### Feature anatomy
 
-Landing splits by concern (`components/<section>/…`, `hooks/`); retail and
-wholesale are flat section folders + `constants.ts` + `index.ts` barrel:
+Every feature follows the same anatomy: a `components/index.ts` barrel, a
+feature barrel (`index.ts`) that re-exports the components barrel + feature
+constants, and data constants at the level where they are used
+(`features/auth` additionally has `hooks/`, `store/`, `types/`,
+`validation/`). Retail and wholesale are flat section folders; landing
+sections keep their section-local `constants.ts` where the data belongs to a
+single section:
 
 ```
 src/features/retail/
 ├── components/
+│   ├── index.ts                 # components barrel (mirrors features/auth)
 │   ├── retail-hero/            # composed section (hero: search + stories + category tiles)
 │   ├── promo-slider/           # thin section feeding the shared ImageCarousel
 │   ├── weekly-offer/           # wires API data into the shared CampaignBanner
 │   ├── popular-brands/         # TV-ticker marquee (data in constants)
-│   ├── best-sellers/           # CardSection wrapper with retail-scoped links
+│   ├── best-sellers/           # thin wrapper scoping the shared BestSellersSection
 │   └── …
 ├── constants.ts                # titles, labels, campaign deadlines, brand lists
-└── index.ts                    # feature barrel (pages import sections from here)
+└── index.ts                    # feature barrel: `export * from './components'` + constants
 ```
+
+Sections that are byte-for-byte the same across storefronts MUST NOT be
+copied — promote them to `components/shared` and let each feature wrap them
+with its own scope (see `BestSellersSection` / `BigOfferSection`, wrapped by
+landing, retail and wholesale).
 
 **No mock data in `app/` pages or in `components/`.** A page imports a feature
 section; the feature owns data fetching via React Query hooks or feature
 constants. Feature components import shared components — never the reverse.
-Cross-feature DATA access goes through hooks (`@/features/landing/hooks` is
-the shared data layer every storefront feature reads from); never import
-another feature's section components.
+**No feature may use another feature's hooks.** Cross-feature DATA access goes
+through the shared hooks in `src/hooks` (`@/hooks` — the single data layer
+every feature reads from); never import another feature's section components.
+**Contract mocks are the single source of mock payloads**: components that
+still render static data read the endpoint's exported mock (e.g.
+`POPULAR_CATEGORIES_MOCK` from `@/contracts/endpoints/categories`) — never a
+local copy; tests import the same symbols. Static UI lists that are NOT API
+data (nav items, section titles) live in a `constants.ts` beside the layout
+(e.g. `store-header/constants.ts`) and build hrefs via `PATHS`.
 
 ## Storefront Header & Footer (config-driven)
 
@@ -119,7 +143,12 @@ components/layout/store/
     └── wholesale-config.ts  #   wholesaleStoreFooterConfig (StoreFooterConfig)
 ```
 
-- `StoreHeaderConfig`: logo, brandName, navItems, userActions
+- `StoreHeaderConfig`: logo, brandName, navItems, userActions,
+  optional `channel` (`'RETAIL' | 'WHOLESALE'` — carried into the auth wizard
+  as `?channel=`) and optional `location.city` (fallback city for the header
+  badge until the location endpoint is wired)
+- Header nav lists and section titles live in `store-header/constants.ts`
+  (they are static UI config, not test fixtures)
 - `StoreFooterConfig`: features (icon tiles), link columns, contact
   (phone + socials), optional `scrollTargetId` (footer ribbon scroll target —
   omit to hide the ribbon; e.g. wholesale)
@@ -138,6 +167,7 @@ contracts layer so a wire change is a one-file edit.
 src/contracts/
 ├── common/                       # reusable request/response schemas
 ├── endpoints/
+│   ├── auth/                      # session, otp, signup, seller booth
 │   ├── banners/                  # big offers + best sellers (identical shape)
 │   ├── brands/                   # partner brands
 │   ├── categories/               # popular categories + 3-level category tree
@@ -180,7 +210,8 @@ export const categoriesContracts = {
 ```
 
 - `mockData` lives inside `contract.ts`; large arrays stay at the top of the
-  same file
+  same file; mocks that need route strings build them with `PATHS.*` builders
+  (see the categories mock), never hardcoded literals
 - The contract object MUST end with `as const satisfies Contracts`
 
 ### Central registry
@@ -206,20 +237,30 @@ if (response.status === 200) {
   change. Pass `useMock: true` only to force mocks (Storybook, unit tests).
 - `pathParams` substitutes `{name}` segments; `query` appends a query string;
   `body` is JSON-serialized automatically.
+- `auth-token.ts` is a registry the auth feature fills at module load
+  (`setAuthTokenProvider`) so the fetcher can attach `Authorization` without
+  importing feature stores — dependency direction stays features → connections.
+- `next.config.ts` proxies API calls via a `/backend/:path*` rewrite (the API
+  sends no CORS headers); API paths have no `/api` prefix.
 
 ## React Query integration
 
-Each feature exposes typed hooks, one file per query, under
-`src/features/<feature>/hooks/` with a centralized `query-keys.ts` (tuple
-form) for hierarchical invalidation:
+Shared data hooks live in `src/hooks/` — one file per query, with a
+centralized `query-keys.ts` (tuple form) for hierarchical invalidation:
 
 ```ts
+// src/hooks/use-cities.ts
 export const useCities = (): UseQueryResult<City[], FailedApiResponse> =>
   useQuery<City[], FailedApiResponse>({
-    queryKey: landingQueryKeys.citiesList(),
+    queryKey: queryKeys.citiesList(),
     queryFn: async () => { … },
   });
 ```
+
+- Every feature imports these via `@/hooks` — no feature owns its own
+  data-fetching hooks, and no feature may import hooks from another feature.
+- A hook that is only ever used by ONE feature may live in that feature
+  folder, but move it to `src/hooks` the moment a second consumer appears.
 
 ## Validations — shared primitive schemas
 
@@ -264,7 +305,10 @@ not to another theme token:
   on the shared landing.
 - Legacy aliases (`gray-*`, `blue-*`, `yellow-*`, `warning-red/green/blue`,
   `white`, `black`) still exist for older components — prefer the canonical
-  scales in new code.
+  scales in new code. NOTE: the legacy aliases carry bespoke hex values that do
+  NOT match the canonical scales (e.g. `gray-700 #757575` ≠ `neutral-700
+  #27272a`), so migrating a component off them changes rendered colors — treat
+  it as a design decision with visual QA, never a mechanical rename.
 - NOTE: the retail palette has no `700` step, so `[data-theme='retail']` leaves
   `--primary-700` pointing at the wholesale value. Avoid `primary-700` on
   retail-themed pages until a real retail hex is decided with design.
@@ -355,9 +399,29 @@ Shared sections used by more than one storefront live in
   optional autoplay. Viewport padding zeroed so neighboring slides never leak.
 - **`CategoryCard`** — white square tile, image centered, title outside below;
   `moreLabel` renders a "…more" overlay (truncated mobile rows).
+- **`CategoryShowcase`** (`category-showcase/`) — gradient icon-tile showcase:
+  title/subtitle header, optional detached first tile with a dashed strip
+  (`soonLabel`, e.g. «بزودی»), responsive grid of gradient tiles. Icons come
+  in via `iconMap` + `fallbackIcon`; loading skeleton built in. Content-agnostic.
+- **`BrandsMarquee`** (`brands-marquee/`) — TV-ticker brand-logo marquee:
+  logos distributed round-robin across rows (`rowCount`, default 3), uniform
+  linear speed, center CTA (`ctaLabel`, link via `ctaHref`). Brand glow
+  shadows are caller-side styling via `ctaClassName`.
 - **`SiteFooter`** (`footer/`) — site-wide blue brand band + trust badges +
   copyright; composed INSIDE `StoreFooter` for storefronts and rendered
   directly by the home layout.
+- **Hero primitives** (`hero/`) — the search/stories/city trio every storefront
+  hero composes: `HeroSearchBar` (controlled/uncontrolled search input with
+  `placeholder` support), `CitySelect` (searchable select over `useCities`
+  data, `aria-label` with «انتخاب شهر» default), `StoryBar` +
+  `StoryBarSkeleton` (story triggers over shared `StoryTrigger`). They live in
+  shared because landing, retail AND wholesale heroes consume them.
+- **`Form`** (`form/`) — RHF-wired field primitives (`Form`, `FormInput`,
+  `FormSelect`) used by the auth wizard forms.
+- **`BestSellersSection`** / **`BigOfferSection`** (`best-sellers/`,
+  `big-offer/`) — CardSection sections wired to their shared React Query
+  hook; the caller scopes the view-all `link` and spacing/background via
+  props. Wrapped by the landing, retail and wholesale features.
 - `CardSection` / `ProductCard` — product card sections on embla.
 
 ## Icons
@@ -395,8 +459,9 @@ import { StoreHeaderConfig } from '@/components/shared/header/types';
 - **Feature-internal imports use `@/features/<feature>/…` aliases** — the
   pre-commit hook REJECTS relative parent imports (`../../`) in staged files.
   Never import a feature section from another feature's folder; cross-feature
-  data access goes through hooks (`@/features/landing/hooks` is the shared
-  data layer every storefront feature reads from).
+  data access goes through the shared hooks (`@/hooks` — the single data layer
+  every feature reads from). Shared components also import hooks from `@/hooks`,
+  never from another feature.
 
 ## Routing & Metadata
 
@@ -405,7 +470,8 @@ import { StoreHeaderConfig } from '@/components/shared/header/types';
   (`PATHS.WHOLESALE.PRODUCT(slug)`).
 - Metadata is centralized in `src/config/metadata.ts`:
   - Root metadata with title template: `%s | ویراشاپ`
-  - Section-specific: `homeMetadata`, `retailMetadata`, `wholesaleMetadata`
+  - Section-specific: `homeMetadata`, `retailMetadata`, `wholesaleMetadata`,
+    `loginMetadata`, `registerMetadata`
   - Per-page shorthand: `aboutMetadata`, `contactMetadata`, etc.
 - Each `page.tsx` exports `metadata` from the config.
 

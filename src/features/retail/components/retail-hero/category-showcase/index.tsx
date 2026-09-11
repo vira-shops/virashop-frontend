@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Typography, Skeleton } from '@/components/ui';
 import { CategoryCard, HeroObjIcon } from '@/components/shared';
 import { cn } from '@/utils/ui';
-import { usePopularCategories } from '@/features/landing/hooks';
+import { usePopularCategories } from '@/hooks';
 import {
   RETAIL_CATEGORIES_MORE_LABEL,
   RETAIL_CATEGORIES_MOBILE_COUNT,

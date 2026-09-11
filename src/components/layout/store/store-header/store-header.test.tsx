@@ -1,14 +1,14 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StoreHeader } from './store-header';
 import { wholesaleConfig } from './wholesale-config';
 import { retailConfig } from './retail-config';
-import { usePopularCategories } from '@/features/landing/hooks';
-import { POPULAR_CATEGORIES_MOCK } from './__fixtures__';
+import { usePopularCategories } from '@/hooks';
+import { POPULAR_CATEGORIES_MOCK } from '@/contracts/endpoints/categories';
 
-jest.mock('@/features/landing/hooks', () => ({
-  ...jest.requireActual('@/features/landing/hooks'),
+jest.mock('@/hooks', () => ({
+  ...jest.requireActual('@/hooks'),
   usePopularCategories: jest.fn(),
 }));
 
@@ -69,7 +69,8 @@ describe('StoreHeader — desktop', () => {
 
       const loginButton = getLoginButton();
       expect(loginButton).toBeInTheDocument();
-      expect(loginButton).toHaveAttribute('href', '/auth/login');
+      // The auth wizard receives the storefront channel via query param.
+      expect(loginButton).toHaveAttribute('href', '/auth/login?channel=RETAIL');
       expect(loginButton).toHaveClass('button-primary');
     });
 
@@ -477,7 +478,7 @@ describe('StoreHeader — mobile sidebar', () => {
     expect(foodContainer).not.toHaveClass('border-primary-500');
   });
 
-  it('renders the mock user city at the bottom of the sidebar', () => {
+  it('renders the configured user city at the bottom of the sidebar', () => {
     renderHeader(retailConfig, 'retail');
     openSidebar();
     const dialog = getDialog();

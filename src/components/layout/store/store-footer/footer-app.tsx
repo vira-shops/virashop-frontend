@@ -20,13 +20,13 @@ export function FooterApp() {
         >
           <DownloadIcon className="absolute -right-12 -bottom-12 size-20 rotate-[-20deg] text-white/10" />
 
-          <DownloadIcon className="absolute top-[-8px] right-[28%] size-16 rotate-12 text-white/10" />
+          <DownloadIcon className="absolute -top-3 right-[28%] size-16 rotate-12 text-white/10" />
 
-          <DownloadIcon className="absolute right-[42%] bottom-[10px] size-14 rotate-[25deg] text-white/10" />
+          <DownloadIcon className="absolute right-[42%] bottom-[10px] size-14 rotate-25 text-white/10" />
 
           <DownloadIcon className="absolute right-[12%] bottom-[-6px] size-9 rotate-[-20deg] text-white/10" />
 
-          <DownloadIcon className="absolute top-[-8px] -right-2 size-8 rotate-15 text-white/10" />
+          <DownloadIcon className="absolute -top-3 -right-2 size-8 rotate-15 text-white/10" />
         </div>
 
         {/* Title */}
@@ -39,21 +39,21 @@ export function FooterApp() {
         </Typography>
 
         {/* Download buttons */}
-        <div className="relative flex flex-wrap items-center justify-center gap-4">
+        <div className="relative flex items-center justify-center gap-4">
           <Button
             variant="ghost"
-            size="xxl"
+            size="lg"
             href="#"
-            leftIcon={<BazarIcon className="size-12" aria-hidden="true" />}
+            leftIcon={<BazarIcon className="size-11" aria-hidden="true" />}
             className="bg-white/20 text-white"
           >
             دانلود از بازار
           </Button>
           <Button
             variant="ghost"
-            size="xxl"
+            size="lg"
             href="#"
-            leftIcon={<AndroindIcon className="size-12" aria-hidden="true" />}
+            leftIcon={<AndroindIcon className="size-11" aria-hidden="true" />}
             className="bg-white/20 text-white"
           >
             دانلود مستقیم
