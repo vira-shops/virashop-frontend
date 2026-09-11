@@ -13,4 +13,6 @@ export * from './image-carousel';
 export * from './breadcrumb';
 export * from './product-card';
 export * from './card-section';
+export * from './best-sellers';
+export * from './big-offer';
 export * from './news-card';
