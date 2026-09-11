@@ -40,9 +40,10 @@ After ANY change run, and keep green:
 
 ```
 src/
-  app/                   # pages: page.tsx (home), retail/page.tsx, wholesale/page.tsx
+  app/                   # pages: page.tsx (home), retail/page.tsx, wholesale/page.tsx,
+                         #  auth/login/page.tsx, auth/register/page.tsx
   routes/paths.ts        # centralized route constants (static + dynamic functions)
-  config/metadata.ts     # centralized metadata (root template, home/retail/wholesale)
+  config/metadata.ts     # centralized metadata (root template, home/retail/wholesale/auth)
   config/env.ts          # environment variables
   features/
     landing/             # shared landing sections (hero, offer-banner, partner-brands, tech-news, …)
@@ -50,24 +51,29 @@ src/
                          #  promo-banners, best-sellers, big-offer, popular-brands)
     wholesale/           # wholesale storefront sections (wholesale-hero, category-showcase,
                          #  special-offers, partner-brands, best-sellers, features-grid)
+    auth/                # auth wizard + role/otp/credentials/booth forms, local hooks/store/types/validation
   hooks/                 # shared React Query hooks + query-keys (cities, stories, categories,
-                         #  banners, brands, posts, storefronts) — the ONLY cross-feature data layer
+                         #  banners, brands, posts, storefronts) — the ONLY cross-feature data layer;
+                         #  auth/ subfolder holds auth-domain server hooks (consumed by features/auth
+                         #  AND providers/auth-provider, so they stay app-level, not feature-owned)
   components/
-    ui/                  # design system (badge, button, card, carousel, select, text-input, typography, uploader)
-    shared/              # modal, story, breadcrumb, header/footer primitives, icons,
-                         # category-card, campaign-banner, image-carousel,
-                         # product-card, card-section, news-card
+    ui/                  # design system (badge, button, card, carousel, otp-input, select, skeleton,
+                         #  tabs, text-input, typography, uploader)
+    shared/              # modal, story, breadcrumb, header/footer primitives, icons, form,
+                         #  hero primitives (HeroSearchBar, CitySelect, StoryBar), category-card,
+                         #  category-showcase, brands-marquee, campaign-banner, image-carousel,
+                         #  product-card, card-section, news-card
     feedback/            # toast
     layout/
       home/              # LandingHeader + Footer (thin re-export of shared SiteFooter)
       store/
-        store-header/    # StoreHeader (desktop + mobile sidebar) + retail/wholesale configs
+        store-header/    # StoreHeader (desktop + mobile sidebar) + constants.ts + retail/wholesale configs
         store-footer/    # StoreFooter (pre-section + SiteFooter) + retail/wholesale configs
   contracts/             # API contracts (see Contracts section below)
   connections/           # transport layer used by contracts (see Connections section below)
-  providers/             # app-level React providers (QueryClient, Theme, etc.)
+  providers/             # app-level React providers (QueryClient, auth session, etc.)
   validations/           # shared primitive zod schemas (IDSchema, EmailSchema, etc.)
-  layouts/               # home-layout, retail-layout, wholesale-layout, root-layout
+  layouts/               # home-layout, retail-layout, wholesale-layout, auth-layout, root-layout
   styles/
     tailwind.css         # single Tailwind v4 theme source (NO tailwind.config file)
     components/ui/styles.css  # imports every ui component's css
@@ -101,6 +107,12 @@ constants. Feature components import shared components — never the reverse.
 **No feature may use another feature's hooks.** Cross-feature DATA access goes
 through the shared hooks in `src/hooks` (`@/hooks` — the single data layer
 every feature reads from); never import another feature's section components.
+**Contract mocks are the single source of mock payloads**: components that
+still render static data read the endpoint's exported mock (e.g.
+`POPULAR_CATEGORIES_MOCK` from `@/contracts/endpoints/categories`) — never a
+local copy; tests import the same symbols. Static UI lists that are NOT API
+data (nav items, section titles) live in a `constants.ts` beside the layout
+(e.g. `store-header/constants.ts`) and build hrefs via `PATHS`.
 
 ## Storefront Header & Footer (config-driven)
 
@@ -120,7 +132,12 @@ components/layout/store/
     └── wholesale-config.ts  #   wholesaleStoreFooterConfig (StoreFooterConfig)
 ```
 
-- `StoreHeaderConfig`: logo, brandName, navItems, userActions
+- `StoreHeaderConfig`: logo, brandName, navItems, userActions,
+  optional `channel` (`'RETAIL' | 'WHOLESALE'` — carried into the auth wizard
+  as `?channel=`) and optional `location.city` (fallback city for the header
+  badge until the location endpoint is wired)
+- Header nav lists and section titles live in `store-header/constants.ts`
+  (they are static UI config, not test fixtures)
 - `StoreFooterConfig`: features (icon tiles), link columns, contact
   (phone + socials), optional `scrollTargetId` (footer ribbon scroll target —
   omit to hide the ribbon; e.g. wholesale)
@@ -139,6 +156,7 @@ contracts layer so a wire change is a one-file edit.
 src/contracts/
 ├── common/                       # reusable request/response schemas
 ├── endpoints/
+│   ├── auth/                      # session, otp, signup, seller booth
 │   ├── banners/                  # big offers + best sellers (identical shape)
 │   ├── brands/                   # partner brands
 │   ├── categories/               # popular categories + 3-level category tree
@@ -181,7 +199,8 @@ export const categoriesContracts = {
 ```
 
 - `mockData` lives inside `contract.ts`; large arrays stay at the top of the
-  same file
+  same file; mocks that need route strings build them with `PATHS.*` builders
+  (see the categories mock), never hardcoded literals
 - The contract object MUST end with `as const satisfies Contracts`
 
 ### Central registry
@@ -207,6 +226,11 @@ if (response.status === 200) {
   change. Pass `useMock: true` only to force mocks (Storybook, unit tests).
 - `pathParams` substitutes `{name}` segments; `query` appends a query string;
   `body` is JSON-serialized automatically.
+- `auth-token.ts` is a registry the auth feature fills at module load
+  (`setAuthTokenProvider`) so the fetcher can attach `Authorization` without
+  importing feature stores — dependency direction stays features → connections.
+- `next.config.ts` proxies API calls via a `/backend/:path*` rewrite (the API
+  sends no CORS headers); API paths have no `/api` prefix.
 
 ## React Query integration
 
@@ -372,6 +396,14 @@ Shared sections used by more than one storefront live in
 - **`SiteFooter`** (`footer/`) — site-wide blue brand band + trust badges +
   copyright; composed INSIDE `StoreFooter` for storefronts and rendered
   directly by the home layout.
+- **Hero primitives** (`hero/`) — the search/stories/city trio every storefront
+  hero composes: `HeroSearchBar` (controlled/uncontrolled search input with
+  `placeholder` support), `CitySelect` (searchable select over `useCities`
+  data, `aria-label` with «انتخاب شهر» default), `StoryBar` +
+  `StoryBarSkeleton` (story triggers over shared `StoryTrigger`). They live in
+  shared because landing, retail AND wholesale heroes consume them.
+- **`Form`** (`form/`) — RHF-wired field primitives (`Form`, `FormInput`,
+  `FormSelect`) used by the auth wizard forms.
 - `CardSection` / `ProductCard` — product card sections on embla.
 
 ## Icons
@@ -420,7 +452,8 @@ import { StoreHeaderConfig } from '@/components/shared/header/types';
   (`PATHS.WHOLESALE.PRODUCT(slug)`).
 - Metadata is centralized in `src/config/metadata.ts`:
   - Root metadata with title template: `%s | ویراشاپ`
-  - Section-specific: `homeMetadata`, `retailMetadata`, `wholesaleMetadata`
+  - Section-specific: `homeMetadata`, `retailMetadata`, `wholesaleMetadata`,
+    `loginMetadata`, `registerMetadata`
   - Per-page shorthand: `aboutMetadata`, `contactMetadata`, etc.
 - Each `page.tsx` exports `metadata` from the config.
 
