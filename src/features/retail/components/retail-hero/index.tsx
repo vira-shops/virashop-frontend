@@ -39,7 +39,7 @@ export const RetailHero: React.FC = () => {
       aria-label="بخش اصلی فروشگاه خرده"
       className="relative mb-16 w-full md:mb-20"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[#FFF9ED]" aria-hidden="true" />
+      <div className="bg-retail-tint pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-5 pt-13 pb-20 md:px-0">
         <HeroSearchBar onChange={() => undefined} placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER} />
@@ -62,7 +62,7 @@ export const RetailHero: React.FC = () => {
           icon={<DownArrowIcon className="size-7 -rotate-45 text-yellow-100" aria-hidden="true" />}
           className={cn(
             'pointer-events-auto flex translate-y-1/3 items-center justify-center',
-            'rounded-10 size-14 rotate-45 bg-[#FFF9ED]',
+            'rounded-10 bg-retail-tint size-14 rotate-45',
             '-z-50 transition-transform hover:scale-105',
           )}
         />

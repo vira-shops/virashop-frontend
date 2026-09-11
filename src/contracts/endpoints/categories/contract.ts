@@ -1,5 +1,6 @@
 import { Contracts, apiResponseWrapper, mockDataWrapper } from '@/connections';
 import { EmptyRequestSchema } from '@/contracts/common';
+import { PATHS } from '@/routes/paths';
 import { PopularCategoriesResponseSchema } from './schemas';
 
 /**
@@ -645,16 +646,16 @@ export const POPULAR_CATEGORIES_MOCK = [
   ...category,
   image: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
   imageAlt: `دسته‌بندی ${category.title}`,
-  href: `/retail/category/${category.slug}`,
+  href: PATHS.RETAIL.CATEGORY(category.slug),
   icon: ICON_BY_CATEGORY[category.slug],
   subcategories: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group) => ({
     id: group.id,
     title: group.title,
-    href: `/retail/category/${category.slug}/${group.id}`,
+    href: PATHS.RETAIL.CATEGORY(`${category.slug}/${group.id}`),
     items: group.items.map((item) => ({
       id: item.id,
       title: item.title,
-      href: `/retail/category/${category.slug}/${group.id}/${item.id}`,
+      href: PATHS.RETAIL.CATEGORY(`${category.slug}/${group.id}/${item.id}`),
     })),
   })),
   products: (PRODUCT_TITLES[category.slug] ?? []).map((title, productIndex) => ({
@@ -662,7 +663,7 @@ export const POPULAR_CATEGORIES_MOCK = [
     title,
     image: PRODUCT_IMAGES[(categoryIndex + productIndex) % PRODUCT_IMAGES.length],
     imageAlt: title,
-    href: `/retail/${category.slug}-${productIndex + 1}`,
+    href: PATHS.RETAIL.PRODUCT(`${category.slug}-${productIndex + 1}`),
   })),
 }));
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Card } from './card';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 
 describe('Card', () => {
   it('renders with the default variant, radius and shadow', () => {

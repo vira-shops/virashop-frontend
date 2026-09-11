@@ -15,6 +15,8 @@
   --retail-500: #ffac00; /*base*/
   --retail-600: #df9700;
   --retail-900: #402b00;
+  --retail-tint: #fff9ed; /* warm hero backdrop (retail storefront) */
+  --retail-tint-strong: #fff7e6; /* promo banner fallback tint */
 
   /* ===== Design system v2 — canonical scales (raw) ===== */
 
@@ -351,6 +353,8 @@
   --color-retail-500: var(--retail-500); /*base*/
   --color-retail-600: var(--retail-600);
   --color-retail-900: var(--retail-900);
+  --color-retail-tint: var(--retail-tint);
+  --color-retail-tint-strong: var(--retail-tint-strong);
 
   --color-wholesale-50: var(--wholesale-50);
   --color-wholesale-500: var(--wholesale-500); /*base*/
