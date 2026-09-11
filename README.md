@@ -49,12 +49,18 @@ See [`AGENTS.md`](AGENTS.md) for the full design-system and contribution rules.
 
 ```
 src/
-  features/        # domain components (feature-based)
-  components/ui/   # design system (button, typography, …)
-  styles/          # Tailwind v4 theme + component css imports
-  layouts/         # root layout (rtl, fa) + section layouts
   app/             # Next.js App Router pages
-  config/          # env + fonts
+  features/        # domain sections (landing, retail, wholesale, auth)
+  components/      # ui/ design system, shared/ primitives, layout/ shells
+  hooks/           # shared React Query hooks + query-keys (single data layer)
+  contracts/       # typed API contracts (endpoints, schemas, mock data)
+  connections/     # transport layer (fetcher + auth token registry)
+  layouts/         # root layout (rtl, fa) + section layouts
+  providers/       # app-level providers (React Query, auth session)
+  validations/     # shared primitive zod schemas
+  config/          # env, fonts, metadata
+  routes/          # centralized route constants (PATHS)
+  styles/          # Tailwind v4 theme + component css imports
   utils/           # cn() and helpers
 ```
 
