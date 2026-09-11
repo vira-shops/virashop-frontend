@@ -49,7 +49,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
                 key={href}
                 variant="caption-lg"
                 href={href}
-                className={cn('text-gray-600 transition-colors hover:text-gray-700')}
+                className={cn('hover:text-primary-500 text-gray-600 transition-colors')}
               >
                 {label}
               </Typography>

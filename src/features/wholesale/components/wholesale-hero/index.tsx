@@ -34,7 +34,7 @@ export const WholesaleHero: React.FC<{ className?: string }> = ({ className }) =
 
   return (
     <section aria-label={WHOLESALE_HERO_ARIA_LABEL} className={cn('relative w-full', className)}>
-      <div className="container flex w-full flex-col items-center gap-12 pt-13 pb-4">
+      <div className="container mx-auto flex max-w-4xl flex-col items-center gap-12 pt-13 pb-4">
         <div className="flex w-full flex-col gap-4 sm:gap-9 md:flex-row">
           <CitySelect cities={cities} disabled={citiesQuery.isLoading} />
           <HeroSearchBar

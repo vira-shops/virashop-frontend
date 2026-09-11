@@ -239,7 +239,7 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ classNam
         className="flex items-center gap-2 bg-transparent"
       >
         <BurgerMenuIcon className="size-10 text-gray-600" aria-hidden="true" />
-        <Typography variant="caption-lg" className="text-gray-600">
+        <Typography variant="caption-lg" className="hover:text-primary-500 text-gray-600">
           {CATEGORIES_TRIGGER_LABEL}
         </Typography>
       </button>

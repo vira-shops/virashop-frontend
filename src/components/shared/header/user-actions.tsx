@@ -24,7 +24,7 @@ export function UserActions({ actions, className, itemClassName }: UserActionsPr
           icon={icon}
           aria-label={ariaLabel}
           href={href}
-          className={cn(itemClassName, 'text-gray-300 hover:bg-transparent hover:text-gray-400')}
+          className={cn(itemClassName, 'hover:text-primary-500 text-gray-300 hover:bg-transparent')}
         />
       ))}
     </div>
