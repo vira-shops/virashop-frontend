@@ -11,10 +11,7 @@ interface LogoProps {
 
 export function Logo({ src, alt, href = '/', className }: LogoProps) {
   return (
-    <Link
-      href={href}
-      className={cn('flex h-[20px] w-[86px] items-center md:h-[40px] md:w-[164px]', className)}
-    >
+    <Link href={href} className={cn('flex h-9 w-21.5 items-center md:h-12 md:w-41', className)}>
       <Image
         src={src}
         alt={alt}
