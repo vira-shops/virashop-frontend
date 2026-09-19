@@ -4,6 +4,17 @@ import * as React from 'react';
 import { cn } from '@/utils/ui';
 import { SelectProps, SelectVariant, SelectColor, SelectState, SelectSize } from './types';
 
+/** Combines an internal ref with a caller-supplied one (e.g. RHF's `field.ref`). */
+function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>): React.RefCallback<T> {
+  return (node) => {
+    for (const ref of refs) {
+      if (!ref) continue;
+      if (typeof ref === 'function') ref(node);
+      else (ref as React.RefObject<T | null>).current = node;
+    }
+  };
+}
+
 const variantClasses: Record<SelectVariant, string> = {
   outline: 'select-outline',
   fill: 'select-fill',
@@ -97,6 +108,7 @@ export const Select: React.FC<SelectProps> = ({
   inputMessage,
   placeholder,
   searchable = false,
+  filterable = true,
   rightIcon,
   onValueChange,
   fullWidth,
@@ -132,7 +144,8 @@ export const Select: React.FC<SelectProps> = ({
   const optionList = React.useMemo(() => flattenOptions(children), [children]);
 
   const selectedLabel = optionList.find((option) => option.value === currentValue)?.label;
-  const filteredOptions = searchable
+  const canFilter = searchable && filterable;
+  const filteredOptions = canFilter
     ? optionList.filter(
         (option) =>
           typeof option.label === 'string' &&
@@ -230,9 +243,15 @@ export const Select: React.FC<SelectProps> = ({
         <div className={triggerClasses}>
           {searchable ? (
             <>
-              {rightIcon ?? <SearchIcon />}
+              {rightIcon !== undefined ? rightIcon : canFilter ? <SearchIcon /> : null}
               <input
-                ref={inputRef}
+                // Safe to forward the external ref here (focus only): this
+                // field is driven by `FormSelect` via `useController`, a
+                // fully controlled value/onChange pair — RHF never reads
+                // this DOM node's `.value` (which would be the human
+                // -readable label, not the option value) to get the field's
+                // value.
+                ref={mergeRefs(inputRef, ref as unknown as React.Ref<HTMLInputElement> | undefined)}
                 id={selectId}
                 name={props.name}
                 autoFocus={props.autoFocus}
@@ -246,10 +265,11 @@ export const Select: React.FC<SelectProps> = ({
                 aria-controls={`${selectId}-listbox`}
                 aria-autocomplete="list"
                 autoComplete="off"
+                readOnly={!canFilter}
                 disabled={disabled}
                 placeholder={placeholder}
                 value={
-                  open
+                  canFilter && open
                     ? query
                     : typeof selectedLabel === 'string' || typeof selectedLabel === 'number'
                       ? String(selectedLabel)
@@ -261,9 +281,11 @@ export const Select: React.FC<SelectProps> = ({
                   setActiveIndex(0);
                 }}
                 onFocus={() => setOpen(true)}
+                onBlur={props.onBlur as unknown as React.FocusEventHandler<HTMLInputElement>}
                 onKeyDown={handleSearchKeyDown}
                 className={cn(
-                  'h-full w-full flex-1 cursor-text bg-transparent text-inherit focus:outline-none',
+                  'h-full w-full flex-1 bg-transparent text-inherit focus:outline-none',
+                  canFilter ? 'cursor-text' : 'cursor-pointer',
                   fieldClassName,
                 )}
               />

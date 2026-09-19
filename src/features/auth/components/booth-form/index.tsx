@@ -10,15 +10,9 @@ import { BoothSchema, type BoothValues } from '@/features/auth/validation/schema
 import { authErrorMessage } from '@/features/auth/utils';
 
 interface BoothFormProps {
-  /** Fires after `PATCH /auth/sellers/me` succeeds (booth still PENDING). */
   onSuccess: (booth: SellerBoothResponse) => void;
 }
 
-/**
- * Post-OTP booth completion for seller/both signups — filling this form is
- * required before the user enters the site. It only completes the shop
- * profile; the booth itself stays `PENDING` until an admin activates it.
- */
 export function BoothForm({ onSuccess }: BoothFormProps) {
   const updateBooth = useUpdateSellerBooth();
   const [serverError, setServerError] = React.useState<string | null>(null);
@@ -71,7 +65,13 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
         fullWidth
       />
 
-      <FormSelect<BoothValues> name="province" label="استان" placeholder="انتخاب کنید" fullWidth>
+      <FormSelect<BoothValues>
+        name="province"
+        label="استان"
+        placeholder="انتخاب کنید"
+        searchable
+        fullWidth
+      >
         {PROVINCE_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -86,7 +86,13 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
         fullWidth
       />
 
-      <FormSelect<BoothValues> name="salesType" label="نوع فروش" fullWidth>
+      <FormSelect<BoothValues>
+        name="salesType"
+        label="نوع فروش"
+        searchable
+        filterable={false}
+        fullWidth
+      >
         {SALES_TYPE_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

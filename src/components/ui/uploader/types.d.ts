@@ -1,4 +1,12 @@
+export type UploaderVariant = 'tile' | 'bar';
+
 export interface UploaderProps {
+  /**
+   * `tile` (default) — square image-preview tile for photo uploads.
+   * `bar` — full-width dashed link bar for a single document upload
+   * (shows the file name once picked, no image preview).
+   */
+  variant?: UploaderVariant;
   label?: string;
   placeholder?: string;
   accept?: string;

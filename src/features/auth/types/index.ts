@@ -1,15 +1,10 @@
-/**
- * Auth feature types — store shapes, wizard state, and shared option types
- * in one place (sections kept in sync with the feature anatomy).
- */
-
 import type { AccountType, Channel, DocumentType } from '@/contracts/endpoints/auth';
 
 /* =========================================================
    Wizard flow (persisted via `auth-flow-store`)
    ========================================================= */
 
-export type AuthFlowStep = 'credentials' | 'role' | 'otp' | 'booth';
+export type AuthFlowStep = 'credentials' | 'otp' | 'role' | 'success' | 'booth';
 
 export type AuthFlowMode = 'login' | 'signup';
 
@@ -35,12 +30,13 @@ export interface AuthSelectOption<T extends string = string> {
   label: string;
 }
 
-/* Re-exported so feature modules can import wire types from one place. */
 export type {
   AccountType,
+  AuthSession,
   AuthUser,
   Channel,
   DocumentType,
+  NeedsStep2,
   SalesType,
   SellerBoothResponse,
   SellerSummary,

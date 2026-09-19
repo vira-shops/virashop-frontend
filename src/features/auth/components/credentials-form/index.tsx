@@ -3,23 +3,17 @@
 import * as React from 'react';
 import { Button, Typography } from '@/components/ui';
 import { Form, FormInput } from '@/components/shared';
-import { useOtpRequest } from '@/hooks';
+import { useSignupStep1 } from '@/hooks';
 import { useAuthFlowStore } from '@/features/auth/store';
 import { CredentialsSchema, type CredentialsValues } from '@/features/auth/validation/schema';
-import { normalizeIranianMobile, pickErrorCode, authErrorMessage } from '@/features/auth/utils';
+import { normalizeIranianMobile, authErrorMessage } from '@/features/auth/utils';
 
-/**
- * Step 1 — first name, last name, mobile. Works for both entry modes:
- * an existing phone goes straight to the OTP step, an unknown phone
- * (`ACCOUNT_NOT_FOUND`) switches the wizard to the signup path.
- */
 export function CredentialsForm() {
   const draft = useAuthFlowStore((state) => state.draft);
   const patchDraft = useAuthFlowStore((state) => state.patchDraft);
-  const setMode = useAuthFlowStore((state) => state.setMode);
   const setStep = useAuthFlowStore((state) => state.setStep);
   const markOtpSent = useAuthFlowStore((state) => state.markOtpSent);
-  const otpRequest = useOtpRequest();
+  const signupStep1 = useSignupStep1();
 
   const [serverError, setServerError] = React.useState<string | null>(null);
 
@@ -27,28 +21,15 @@ export function CredentialsForm() {
     setServerError(null);
 
     const phone = normalizeIranianMobile(values.phone);
-    patchDraft({
-      firstName: values.firstName.trim(),
-      lastName: values.lastName.trim(),
-      phone,
-    });
+    const firstName = values.firstName.trim();
+    const lastName = values.lastName.trim();
+    patchDraft({ firstName, lastName, phone });
 
     try {
-      await otpRequest.mutateAsync({ phone });
-      setMode('login');
+      await signupStep1.mutateAsync({ firstName, lastName, phone });
       setStep('otp');
       markOtpSent();
     } catch (error) {
-      const code = pickErrorCode(error);
-
-      if (code === 'ACCOUNT_NOT_FOUND') {
-        // Unknown phone — the API has no pending signup for it. Role
-        // selection comes first, then `/auth/signup` sends the code.
-        setMode('signup');
-        setStep('role');
-        return;
-      }
-
       setServerError(authErrorMessage(error));
     }
   };
@@ -99,8 +80,8 @@ export function CredentialsForm() {
         state={serverError ? 'error' : undefined}
       />
 
-      <Button type="submit" color="primary" size="lg" fullWidth disabled={otpRequest.isPending}>
-        {otpRequest.isPending ? 'در حال ارسال...' : 'ادامه'}
+      <Button type="submit" color="primary" size="lg" fullWidth disabled={signupStep1.isPending}>
+        {signupStep1.isPending ? 'در حال ارسال...' : 'ادامه'}
       </Button>
     </Form>
   );

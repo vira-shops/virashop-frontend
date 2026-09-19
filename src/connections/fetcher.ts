@@ -6,7 +6,7 @@ import {
   mockDataWrapper,
   toFailedApiResponse,
 } from './utils';
-import { getAuthToken } from './auth-token';
+import { getAuthToken, notifyUnauthorized } from './auth-token';
 import { contracts } from '@/contracts';
 
 type ContractsMap = typeof contracts;
@@ -52,13 +52,11 @@ const buildQueryString = (query: ApiInit['query'] = {}): string => {
   return result ? `?${result}` : '';
 };
 
-const env = (typeof process !== 'undefined' ? process.env : {}) as Record<
-  string,
-  string | undefined
->;
-
 const getBaseUrl = (): string => {
-  const baseUrl = env.NEXT_PUBLIC_API_BASE_URL;
+  // Read directly off `process.env` — Next.js only inlines `NEXT_PUBLIC_*`
+  // into the browser bundle when it sees this exact member-expression
+  // pattern; indirecting through a variable defeats that replacement.
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseUrl) {
     throw new Error(
@@ -126,6 +124,12 @@ async function performFetch<TData>(
     payload = null;
   }
 
+  // Any 401 means the token is missing/invalid/expired/denylisted — drop the
+  // session everywhere, not just wherever this particular call surfaced it.
+  if (response.status === 401) {
+    notifyUnauthorized();
+  }
+
   const parsed = responseSchema.safeParse(payload);
 
   if (parsed.success) {
@@ -186,7 +190,7 @@ export function api(
     throw new Error(`Unknown contract: ${namespace}.${endpoint}`);
   }
 
-  const useMock = init.useMock ?? !env.NEXT_PUBLIC_API_BASE_URL;
+  const useMock = init.useMock ?? !process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (useMock) {
     const mock = resolveMockData(namespace, endpoint);

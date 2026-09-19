@@ -12,6 +12,13 @@ export interface FormProps<TFieldValues extends FieldValues> extends Omit<
   onSubmit: (values: TFieldValues) => void | Promise<void>;
   children: ReactNode | ((form: UseFormReturn<TFieldValues>) => ReactNode);
   className?: string;
+  /** Centered heading rendered above the fields — omit for forms with no header. */
+  title?: string;
+  /**
+   * Renders a top-left back button (ghost, icon-only) that calls this when
+   * clicked — the single prop any step needing "go back" passes in.
+   */
+  onBack?: () => void;
 }
 
 export interface FormInputProps<TFieldValues extends FieldValues> extends Omit<
@@ -23,7 +30,7 @@ export interface FormInputProps<TFieldValues extends FieldValues> extends Omit<
 
 export interface FormSelectProps<TFieldValues extends FieldValues> extends Omit<
   SelectProps,
-  'name' | 'value' | 'defaultValue' | 'onChange' | 'onBlur' | 'searchable'
+  'name' | 'value' | 'defaultValue' | 'onChange' | 'onBlur'
 > {
   name: Path<TFieldValues>;
 }

@@ -3,6 +3,7 @@ import { Contracts, apiResponseWrapper } from '@/connections';
 import { EmptyRequestSchema } from '@/contracts/common';
 import {
   AuthMeResponseSchema,
+  AuthSessionSchema,
   BuyerSignUpSchema,
   LogoutResponseSchema,
   OtpRequestSchema,
@@ -12,6 +13,7 @@ import {
   SellerBoothUpdateSchema,
   SellerBoothResponseSchema,
   SellerSignUpSchema,
+  SignupStep1RequestSchema,
 } from './schemas';
 
 /**
@@ -21,12 +23,24 @@ import {
  */
 export const authContracts = {
   auth: {
-    /** Start signup + send OTP. Buyer: JSON — seller/both: multipart + `document` file. */
-    signup: {
+    /** Step 1 — name + phone, sends the OTP. No JWT yet. */
+    signupStep1: {
       method: 'POST',
-      path: '/auth/signup',
-      request: z.union([BuyerSignUpSchema, SellerSignUpSchema]),
+      path: '/auth/signup/step1',
+      request: SignupStep1RequestSchema,
       response: apiResponseWrapper(OtpSentResponseSchema),
+    },
+
+    /**
+     * Step 2 — role + profile, called only after OTP verify returned
+     * `needsStep2: true`. Buyer: JSON — seller/both: multipart + `document`.
+     * Returns the JWT — roles are assigned here.
+     */
+    signupStep2: {
+      method: 'POST',
+      path: '/auth/signup/step2',
+      request: z.union([BuyerSignUpSchema, SellerSignUpSchema]),
+      response: apiResponseWrapper(AuthSessionSchema),
     },
 
     /** Login OTP or signup resend. */

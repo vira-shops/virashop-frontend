@@ -4,27 +4,32 @@ import * as React from 'react';
 import { Controller } from 'react-hook-form';
 import { Button, Tabs, Typography, Uploader } from '@/components/ui';
 import { Form, FormSelect } from '@/components/shared';
-import { useOtpRequest, useSignUp } from '@/hooks';
+import { useOtpRequest, useSignupStep2 } from '@/hooks';
+import type { AuthSession } from '@/contracts/endpoints/auth';
 import { useAuthFlowStore } from '@/features/auth/store';
 import {
   ACCOUNT_TYPE_OPTIONS,
   ACTIVITY_TYPE_OPTIONS,
   CATEGORY_OPTIONS,
   DOCUMENT_ACCEPT,
-  DOCUMENT_TYPE_OPTIONS,
   GUILD_TYPE_OPTIONS,
   INDUSTRY_TYPE_OPTIONS,
 } from '@/features/auth/constants';
 import { RoleSchema, type RoleValues } from '@/features/auth/validation/schema';
 import { pickErrorCode, authErrorMessage } from '@/features/auth/utils';
 
-export function RoleForm() {
+interface RoleFormProps {
+  onSuccess: (session: AuthSession) => void;
+  onBack: () => void;
+}
+
+export function RoleForm({ onSuccess, onBack }: RoleFormProps) {
   const draft = useAuthFlowStore((state) => state.draft);
   const patchDraft = useAuthFlowStore((state) => state.patchDraft);
   const setMode = useAuthFlowStore((state) => state.setMode);
   const setStep = useAuthFlowStore((state) => state.setStep);
   const markOtpSent = useAuthFlowStore((state) => state.markOtpSent);
-  const signUp = useSignUp();
+  const signupStep2 = useSignupStep2();
   const otpRequest = useOtpRequest();
 
   const [serverError, setServerError] = React.useState<string | null>(null);
@@ -42,15 +47,13 @@ export function RoleForm() {
     });
 
     const base = {
-      firstName: draft.firstName,
-      lastName: draft.lastName,
       phone: draft.phone,
       channel: draft.channel,
       activityType: values.activityType,
     };
 
     try {
-      await signUp.mutateAsync(
+      const session = await signupStep2.mutateAsync(
         values.accountType === 'BUYER'
           ? {
               ...base,
@@ -67,13 +70,11 @@ export function RoleForm() {
             },
       );
 
-      setStep('otp');
-      markOtpSent();
+      onSuccess(session);
     } catch (error) {
       const code = pickErrorCode(error);
 
       if (code === 'PHONE_ALREADY_REGISTERED' || code === 'SELLER_ALREADY_EXISTS') {
-        // A verified account already exists — fall back to the login path.
         try {
           await otpRequest.mutateAsync({ phone: draft.phone });
           setMode('login');
@@ -93,6 +94,8 @@ export function RoleForm() {
   return (
     <Form<RoleValues>
       schema={RoleSchema}
+      title="اطلاعات کاربری"
+      onBack={onBack}
       defaultValues={{
         accountType: draft.accountType ?? 'BUYER',
         activityType: draft.activityType,
@@ -110,108 +113,127 @@ export function RoleForm() {
 
         return (
           <>
-            <Typography variant="h4" className="text-center text-black">
-              نقش خود را انتخاب کنید
-            </Typography>
-            <Typography variant="body-sm" className="text-center text-gray-400">
-              نحوه فعالیت خود در ویراشاپ را مشخص کنید
-            </Typography>
-
-            <Controller
-              name="accountType"
-              control={form.control}
-              render={({ field }) => (
-                <Tabs
-                  items={ACCOUNT_TYPE_OPTIONS}
-                  value={field.value}
-                  onChange={field.onChange}
-                  fullWidth
-                  aria-label="نقش"
-                />
-              )}
-            />
-
-            <FormSelect<RoleValues>
-              name="activityType"
-              label="نوع فعالیت"
-              placeholder="انتخاب کنید"
-              fullWidth
-            >
-              {ACTIVITY_TYPE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </FormSelect>
+            <div className="flex flex-col gap-3">
+              <Typography variant="body-sm" className="font-medium text-black">
+                نوع حساب
+              </Typography>
+              <Controller
+                name="accountType"
+                control={form.control}
+                render={({ field }) => (
+                  <Tabs
+                    items={ACCOUNT_TYPE_OPTIONS}
+                    value={field.value}
+                    onChange={field.onChange}
+                    variant="outline"
+                    fullWidth
+                    aria-label="نوع حساب"
+                  />
+                )}
+              />
+            </div>
 
             {isBuyer ? (
-              <FormSelect<RoleValues>
-                name="guildType"
-                label="گروه صنفی"
-                placeholder="انتخاب کنید"
-                fullWidth
-              >
-                {GUILD_TYPE_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </FormSelect>
-            ) : (
               <>
                 <FormSelect<RoleValues>
-                  name="industryType"
-                  label="حوزه فعالیت"
+                  name="activityType"
+                  label="نوع فعالیت"
                   placeholder="انتخاب کنید"
+                  searchable
+                  filterable={false}
                   fullWidth
                 >
-                  {INDUSTRY_TYPE_OPTIONS.map((option) => (
+                  {ACTIVITY_TYPE_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </FormSelect>
                 <FormSelect<RoleValues>
-                  name="category"
-                  label="دسته‌بندی کالا"
+                  name="guildType"
+                  label="نوع صنف"
                   placeholder="انتخاب کنید"
+                  searchable
+                  filterable={false}
                   fullWidth
                 >
-                  {CATEGORY_OPTIONS.map((option) => (
+                  {GUILD_TYPE_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </FormSelect>
-                <FormSelect<RoleValues> name="documentType" label="نوع مدرک" fullWidth>
-                  {DOCUMENT_TYPE_OPTIONS.map((option) => (
+              </>
+            ) : (
+              <>
+                <div className="flex gap-6">
+                  <FormSelect<RoleValues>
+                    name="category"
+                    label="دسته‌بندی"
+                    placeholder="انتخاب کنید"
+                    searchable
+                    filterable={false}
+                    fullWidth
+                  >
+                    {CATEGORY_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </FormSelect>
+                  <FormSelect<RoleValues>
+                    name="industryType"
+                    label="نوع صنف"
+                    placeholder="انتخاب کنید"
+                    searchable
+                    filterable={false}
+                    fullWidth
+                  >
+                    {INDUSTRY_TYPE_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </FormSelect>
+                </div>
+                <FormSelect<RoleValues>
+                  name="activityType"
+                  label="نوع فعالیت"
+                  placeholder="انتخاب کنید"
+                  searchable
+                  filterable={false}
+                  fullWidth
+                >
+                  {ACTIVITY_TYPE_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </FormSelect>
-                <Controller
-                  name="document"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <div className="flex flex-col gap-1">
-                      <Uploader
-                        label="تصویر مدرک"
-                        placeholder="فایل مدرک را بارگذاری کنید"
-                        accept={DOCUMENT_ACCEPT}
-                        file={field.value ?? null}
-                        onChange={field.onChange}
-                      />
-                      {fieldState.error && (
-                        <Typography variant="caption-md" className="text-warning-red">
-                          {fieldState.error.message}
-                        </Typography>
-                      )}
-                    </div>
-                  )}
-                />
               </>
             )}
+
+            <Controller
+              name="document"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <div className="flex w-full flex-col gap-1">
+                  <Uploader
+                    variant="bar"
+                    label="مدارک"
+                    placeholder="جهت آپلود عکس پروانه کسب یا کارت ملی کلیک کنید"
+                    accept={DOCUMENT_ACCEPT}
+                    file={field.value ?? null}
+                    onChange={field.onChange}
+                  />
+                  {fieldState.error && (
+                    <Typography variant="caption-md" className="text-warning-red">
+                      {fieldState.error.message}
+                    </Typography>
+                  )}
+                </div>
+              )}
+            />
 
             {serverError && (
               <Typography variant="caption-md" className="text-warning-red">
@@ -219,8 +241,14 @@ export function RoleForm() {
               </Typography>
             )}
 
-            <Button type="submit" color="primary" size="lg" fullWidth disabled={signUp.isPending}>
-              {signUp.isPending ? 'در حال ثبت‌نام...' : 'ثبت‌نام و دریافت کد'}
+            <Button
+              type="submit"
+              color="primary"
+              size="lg"
+              fullWidth
+              disabled={signupStep2.isPending}
+            >
+              {signupStep2.isPending ? 'در حال ثبت‌نام...' : 'تایید و ثبت‌نام'}
             </Button>
           </>
         );

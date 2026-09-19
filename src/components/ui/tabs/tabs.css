@@ -1,6 +1,6 @@
 @layer components {
   .tabs {
-    @apply inline-flex items-stretch gap-1 rounded-4 bg-gray-50 p-1;
+    @apply inline-flex items-stretch gap-1 rounded-6 bg-gray-50 p-1;
   }
 
   .tabs-outline {
@@ -8,52 +8,59 @@
   }
 
   .tab-item {
-    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-3 px-4 text-body-sm font-medium whitespace-nowrap text-gray-400 transition-all select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current;
+    @apply inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-4 px-4 text-body-sm font-medium whitespace-nowrap text-gray-400 transition-all select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current;
   }
 
   .tabs:not(.tabs-disabled) .tab-item:hover:not(.tab-item-active):not(.tab-item-disabled) {
     @apply text-gray-600;
   }
 
+  /*
+   * Active — the color modifier (`tabs-primary`, `tabs-blue`, …) lives on
+   * the container alongside `.tabs`, never on the item itself, so these
+   * must be descendant selectors — a same-element compound here can never
+   * match.
+   */
+
   /* Active — fill variant: solid pill */
-  .tabs-fill .tab-item-active.tabs-primary {
-    @apply bg-primary text-white;
+  .tabs-fill.tabs-primary .tab-item-active {
+    @apply bg-primary text-white border border-primary;
   }
 
-  .tabs-fill .tab-item-active.tabs-blue {
+  .tabs-fill.tabs-blue .tab-item-active {
     @apply bg-blue-900 text-white;
   }
 
-  .tabs-fill .tab-item-active.tabs-yellow {
+  .tabs-fill.tabs-yellow .tab-item-active {
     @apply bg-yellow-100 text-white;
   }
 
-  .tabs-fill .tab-item-active.tabs-retail {
+  .tabs-fill.tabs-retail .tab-item-active {
     @apply bg-retail-500 text-white;
   }
 
-  .tabs-fill .tab-item-active.tabs-wholesale {
+  .tabs-fill.tabs-wholesale .tab-item-active {
     @apply bg-wholesale-500 text-white;
   }
 
   /* Active — outline variant: soft pill */
-  .tabs-outline .tab-item-active.tabs-primary {
-    @apply bg-primary-50 text-primary;
+  .tabs-outline.tabs-primary .tab-item-active {
+    @apply bg-primary/20 text-primary border border-primary;
   }
 
-  .tabs-outline .tab-item-active.tabs-blue {
+  .tabs-outline.tabs-blue .tab-item-active {
     @apply bg-blue-50 text-blue-900;
   }
 
-  .tabs-outline .tab-item-active.tabs-yellow {
+  .tabs-outline.tabs-yellow .tab-item-active {
     @apply bg-yellow-50 text-yellow-100;
   }
 
-  .tabs-outline .tab-item-active.tabs-retail {
+  .tabs-outline.tabs-retail .tab-item-active {
     @apply bg-retail-50 text-retail-500;
   }
 
-  .tabs-outline .tab-item-active.tabs-wholesale {
+  .tabs-outline.tabs-wholesale .tab-item-active {
     @apply bg-wholesale-50 text-wholesale-500;
   }
 
@@ -68,11 +75,11 @@
 
 /* Size — the container carries the height, items stretch to fill. */
 @utility tabs-size-sm {
-  @apply h-9 p-0.5;
+  @apply h-10 p-0.5;
 }
 
 @utility tabs-size-md {
-  @apply h-11 p-1;
+  @apply h-13 p-1;
 }
 
 @utility tabs-size-lg {

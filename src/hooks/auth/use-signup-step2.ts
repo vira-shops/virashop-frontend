@@ -3,21 +3,24 @@
 import { useMutation } from '@tanstack/react-query';
 import { api } from '@/connections';
 import type {
+  AuthSession,
   BuyerSignUpRequest,
-  OtpSentResponse,
   SellerSignUpRequest,
 } from '@/contracts/endpoints/auth';
 import { queryKeys } from '@/hooks/query-keys';
 import type { AuthError } from './use-auth-me';
 
-/** Seller/both signup rides `multipart/form-data` + the `document` file. */
-export type SignUpMutationInput =
+/** Seller/both step 2 rides `multipart/form-data` + the `document` file. */
+export type SignupStep2MutationInput =
   BuyerSignUpRequest | (SellerSignUpRequest & { document?: File | null });
 
-/** Start signup + send OTP — buyer: JSON; seller/both: `POST /auth/signup` multipart. */
-export const useSignUp = () =>
-  useMutation<OtpSentResponse, AuthError, SignUpMutationInput>({
-    mutationKey: [...queryKeys.auth(), 'signup'],
+/**
+ * Step 2 — role + profile, called only after OTP verify returned
+ * `needsStep2: true` — `POST /auth/signup/step2`. Returns the JWT.
+ */
+export const useSignupStep2 = () =>
+  useMutation<AuthSession, AuthError, SignupStep2MutationInput>({
+    mutationKey: [...queryKeys.auth(), 'signup-step2'],
     mutationFn: async (input) => {
       let body: unknown;
 
@@ -42,7 +45,7 @@ export const useSignUp = () =>
         body = formData;
       }
 
-      const response = await api('auth', 'signup', { body });
+      const response = await api('auth', 'signupStep2', { body });
 
       if (response.status !== 200) {
         throw response;

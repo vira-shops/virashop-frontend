@@ -1,4 +1,4 @@
-import type { AuthErrorCode, DocumentType, SalesType } from '@/contracts/endpoints/auth';
+import type { AuthErrorCode, SalesType } from '@/contracts/endpoints/auth';
 import type { AccountType, AuthSelectOption } from './types';
 
 /* =========================================================
@@ -92,11 +92,6 @@ export const CATEGORY_OPTIONS: AuthSelectOption[] = [
   { value: 'OTHER', label: 'سایر' },
 ];
 
-export const DOCUMENT_TYPE_OPTIONS: AuthSelectOption<DocumentType>[] = [
-  { value: 'NATIONAL_ID', label: 'کارت ملی' },
-  { value: 'BUSINESS_LICENSE', label: 'جواز کسب' },
-];
-
 export const SALES_TYPE_OPTIONS: AuthSelectOption<SalesType>[] = [
   { value: 'SUPERMARKET', label: 'سوپرمارکت' },
   { value: 'STORE', label: 'فروشگاه' },
@@ -143,7 +138,8 @@ export const PROVINCE_OPTIONS: AuthSelectOption[] = [
 
 export const AUTH_WIZARD_STEPS = {
   credentials: 'اطلاعات حساب',
-  role: 'نقش خود را انتخاب کنید',
   otp: 'کد تایید',
+  role: 'نقش خود را انتخاب کنید',
+  success: 'ثبت‌نام موفق',
   booth: 'تکمیل اطلاعات غرفه',
 } as const;

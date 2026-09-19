@@ -58,21 +58,32 @@ export type AuthUser = z.infer<typeof AuthUserSchema>;
    Auth — requests
    ========================================================= */
 
-const SignUpBaseSchema = z.object({
+/** `POST /auth/signup/step1` — name + phone, sends the OTP. No JWT yet. */
+export const SignupStep1RequestSchema = z.object({
   firstName: z.string().min(2).max(80),
   lastName: z.string().min(2).max(80),
+  phone: MobileSchema,
+});
+export type SignupStep1Request = z.infer<typeof SignupStep1RequestSchema>;
+
+/**
+ * `POST /auth/signup/step2` — role + profile, called only after OTP verify
+ * returned `needsStep2: true`. Do NOT send `firstName`/`lastName` (already
+ * captured by step 1; extra fields fail `forbidNonWhitelisted`).
+ */
+const SignupStep2BaseSchema = z.object({
   phone: MobileSchema,
   channel: ChannelSchema,
   activityType: z.string().min(1),
 });
 
-export const BuyerSignUpSchema = SignUpBaseSchema.extend({
+export const BuyerSignUpSchema = SignupStep2BaseSchema.extend({
   accountType: z.literal('BUYER'),
   guildType: z.string().min(1),
 });
 export type BuyerSignUpRequest = z.infer<typeof BuyerSignUpSchema>;
 
-export const SellerSignUpSchema = SignUpBaseSchema.extend({
+export const SellerSignUpSchema = SignupStep2BaseSchema.extend({
   accountType: z.enum(['SELLER', 'BOTH']),
   industryType: z.string().min(1),
   category: z.string().min(1),
@@ -80,9 +91,9 @@ export const SellerSignUpSchema = SignUpBaseSchema.extend({
 });
 export type SellerSignUpRequest = z.infer<typeof SellerSignUpSchema>;
 
-/** Buyer signup rides JSON; seller/both rides `multipart/form-data` + `document` file. */
-export const SignUpRequestSchema = z.union([BuyerSignUpSchema, SellerSignUpSchema]);
-export type SignUpRequest = z.infer<typeof SignUpRequestSchema>;
+/** Buyer step 2 rides JSON; seller/both rides `multipart/form-data` + `document` file. */
+export const SignupStep2RequestSchema = z.union([BuyerSignUpSchema, SellerSignUpSchema]);
+export type SignupStep2Request = z.infer<typeof SignupStep2RequestSchema>;
 
 export const OtpRequestSchema = z.object({
   phone: MobileSchema,
@@ -105,11 +116,32 @@ export const OtpSentResponseSchema = z.object({
 });
 export type OtpSentResponse = z.infer<typeof OtpSentResponseSchema>;
 
-export const OtpVerifyResponseSchema = z.object({
+/** Login, legacy signup verify, and `signup/step2` all return this shape. */
+export const AuthSessionSchema = z.object({
   accessToken: z.string(),
   user: AuthUserSchema,
 });
+export type AuthSession = z.infer<typeof AuthSessionSchema>;
+
+/** Signup only — after OTP verify, before step 2. No JWT yet. */
+export const NeedsStep2Schema = z.object({
+  needsStep2: z.literal(true),
+  phone: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+});
+export type NeedsStep2 = z.infer<typeof NeedsStep2Schema>;
+
+/**
+ * `POST /auth/otp/verify` — login / legacy signup resolve to `AuthSession`;
+ * a fresh `signup/step1` draft resolves to `NeedsStep2` instead (no token
+ * until step 2 completes). Discriminate with `isNeedsStep2`.
+ */
+export const OtpVerifyResponseSchema = z.union([AuthSessionSchema, NeedsStep2Schema]);
 export type OtpVerifyResponse = z.infer<typeof OtpVerifyResponseSchema>;
+
+export const isNeedsStep2 = (data: OtpVerifyResponse): data is NeedsStep2 =>
+  'needsStep2' in data && data.needsStep2 === true;
 
 export const AuthMeResponseSchema = AuthUserSchema;
 

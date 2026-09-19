@@ -8,8 +8,9 @@ import { useAuthStore } from '@/features/auth';
 export function AuthProvider({ children }: { children: ReactNode }) {
   const accessToken = useAuthStore((state) => state.accessToken);
   const setUser = useAuthStore((state) => state.setUser);
-  const clearSession = useAuthStore((state) => state.clearSession);
 
+  // A `401` here (denylisted/expired token) drops the session globally via
+  // the fetcher's unauthorized handler — see `auth-store.ts`.
   const me = useAuthMe({ enabled: Boolean(accessToken) });
 
   React.useEffect(() => {
@@ -17,12 +18,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(me.data);
     }
   }, [me.data, setUser]);
-
-  React.useEffect(() => {
-    if (me.isError && me.error?.status === 401) {
-      clearSession();
-    }
-  }, [me.isError, me.error, clearSession]);
 
   return <>{children}</>;
 }

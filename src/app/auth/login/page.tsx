@@ -9,8 +9,6 @@ export const metadata: Metadata = loginMetadata;
 export default function LoginPage() {
   return (
     <AuthLayout>
-      {/* The wizard reads `?channel=` / `?returnTo=` — a Suspense boundary is
-          required so the page can still be statically prerendered. */}
       <Suspense fallback={null}>
         <AuthWizard initialMode="login" />
       </Suspense>

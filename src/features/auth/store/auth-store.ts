@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { setAuthTokenProvider } from '@/connections';
+import { setAuthTokenProvider, setUnauthorizedHandler } from '@/connections';
 import type { AuthUser } from '@/contracts/endpoints/auth';
 
 interface AuthSessionState {
@@ -39,3 +39,7 @@ export const useAuthStore = create<AuthStore>()(
 // Register the token getter once so the fetcher attaches `Authorization`
 // without a connections → feature dependency.
 setAuthTokenProvider(() => useAuthStore.getState().accessToken);
+
+// Any `401` from any endpoint means this token is no longer valid — drop the
+// session everywhere, not just wherever the 401 happened to surface.
+setUnauthorizedHandler(() => useAuthStore.getState().clearSession());

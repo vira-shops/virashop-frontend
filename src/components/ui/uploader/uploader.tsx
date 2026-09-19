@@ -18,6 +18,7 @@ const DocumentIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export const Uploader: React.FC<UploaderProps> = ({
+  variant = 'tile',
   label,
   placeholder,
   accept = 'image/*,application/pdf',
@@ -109,6 +110,77 @@ export const Uploader: React.FC<UploaderProps> = ({
     handleFiles(event.dataTransfer.files);
   };
 
+  const hiddenInput = (
+    <input
+      ref={inputRef}
+      id={inputId}
+      type="file"
+      accept={accept}
+      className="hidden"
+      aria-hidden="true"
+      tabIndex={-1}
+      onChange={(event) => handleFiles(event.target.files)}
+    />
+  );
+
+  if (variant === 'bar') {
+    return (
+      <div dir="rtl" className={cn('flex w-full flex-col items-start gap-2', wrapperClassName)}>
+        {label && (
+          <label htmlFor={inputId} className={cn('uploader-label', labelClassName)}>
+            {label}
+          </label>
+        )}
+        <button
+          type="button"
+          disabled={disabled}
+          className={cn(
+            'uploader-bar',
+            isDragging && 'uploader-bar-dragover',
+            error && 'uploader-bar-error',
+            disabled && 'uploader-disabled',
+            className,
+          )}
+          onClick={() => inputRef.current?.click()}
+          onDragOver={(event) => {
+            event.preventDefault();
+            if (!disabled) setIsDragging(true);
+          }}
+          onDragLeave={() => setIsDragging(false)}
+          onDrop={handleDrop}
+        >
+          {file ? (
+            <span className={cn('uploader-bar-filename', fileNameClassName)}>{file.name}</span>
+          ) : (
+            <span className={cn('uploader-bar-text', placeholderClassName)}>{placeholder}</span>
+          )}
+          {file && !disabled && (
+            <span
+              role="button"
+              tabIndex={0}
+              aria-label="حذف فایل"
+              className={cn('uploader-bar-remove', removeClassName)}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleRemove();
+              }}
+              onKeyDown={(event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                event.stopPropagation();
+                handleRemove();
+              }}
+            >
+              <CancelIcon />
+            </span>
+          )}
+        </button>
+        {hiddenInput}
+        {error && <p className={cn('uploader-error-message', errorMessageClassName)}>{error}</p>}
+      </div>
+    );
+  }
+
   return (
     <div dir="rtl" className={cn('flex flex-col items-start gap-5', wrapperClassName)}>
       {label && (
@@ -174,16 +246,7 @@ export const Uploader: React.FC<UploaderProps> = ({
           </button>
         )}
       </div>
-      <input
-        ref={inputRef}
-        id={inputId}
-        type="file"
-        accept={accept}
-        className="hidden"
-        aria-hidden="true"
-        tabIndex={-1}
-        onChange={(event) => handleFiles(event.target.files)}
-      />
+      {hiddenInput}
       {error && <p className={cn('uploader-error-message', errorMessageClassName)}>{error}</p>}
     </div>
   );

@@ -3,11 +3,6 @@ import { AccountTypeSchema, DocumentTypeSchema } from '@/contracts/endpoints/aut
 import { MobileSchema } from '@/validations';
 import { DOCUMENT_ACCEPTED_MIME, DOCUMENT_MAX_SIZE_MB } from '@/features/auth/constants';
 
-/* =========================================================
-   Auth forms — zod schemas (feature-local; primitives reuse
-   `@/validations` so contract and form rules never drift)
-   ========================================================= */
-
 export const CredentialsSchema = z.object({
   firstName: z.string().trim().min(2, 'نام باید حداقل ۲ حرف باشد').max(80, 'نام حداکثر ۸۰ حرف است'),
   lastName: z
@@ -19,12 +14,16 @@ export const CredentialsSchema = z.object({
 });
 export type CredentialsValues = z.infer<typeof CredentialsSchema>;
 
+export const LoginSchema = z.object({
+  phone: MobileSchema,
+});
+export type LoginValues = z.infer<typeof LoginSchema>;
+
 export const OtpCodeSchema = z.object({
   code: z.string().regex(/^\d{6}$/, 'کد تایید باید ۶ رقم باشد'),
 });
 export type OtpCodeValues = z.infer<typeof OtpCodeSchema>;
 
-/** Booth completion — mirrors `PATCH /auth/sellers/me` field rules. */
 export const BoothSchema = z.object({
   shopName: z
     .string()

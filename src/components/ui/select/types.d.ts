@@ -17,6 +17,14 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   inputMessage?: string;
   placeholder?: string;
   searchable?: boolean;
+  /**
+   * Only meaningful when `searchable`. `false` renders the same styled
+   * listbox as a plain, non-filterable picker: the trigger shows the
+   * selected label (never an editable query) and typing does nothing —
+   * use this to replace a native `<select>`'s unstyleable open state
+   * without adding a search box. Defaults to `true`.
+   */
+  filterable?: boolean;
   rightIcon?: ReactNode;
   onValueChange?: (value: string) => void;
   fullWidth?: boolean;

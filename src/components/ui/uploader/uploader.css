@@ -67,4 +67,33 @@
   .uploader-error-message {
     @apply text-caption-md text-warning-red;
   }
+
+  /* Bar variant — full-width dashed link bar for a single document */
+  .uploader-bar {
+    @apply flex w-full cursor-pointer items-center justify-center gap-4 rounded-6 border border-dashed border-blue-200 bg-blue-50 px-11 py-9 text-center transition-colors focus:outline-none;
+  }
+
+  .uploader-bar-dragover {
+    @apply border-primary bg-primary-50;
+  }
+
+  .uploader-bar-error {
+    @apply border-warning-red;
+  }
+
+  .uploader-bar-text {
+    @apply text-caption-lg text-blue-500 underline;
+  }
+
+  .uploader-bar-filename {
+    @apply text-caption-lg break-all text-gray-700;
+  }
+
+  .uploader-bar-remove {
+    @apply flex shrink-0 cursor-pointer items-center justify-center text-blue-200 transition-colors hover:text-blue-300 focus:outline-none;
+  }
+
+  .uploader-bar-remove svg {
+    @apply size-11;
+  }
 }

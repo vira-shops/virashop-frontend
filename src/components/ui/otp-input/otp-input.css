@@ -1,6 +1,6 @@
 @layer components {
   .otp-input {
-    @apply flex items-center justify-center gap-2;
+    @apply flex items-center justify-between w-full gap-2;
   }
 
   .otp-cell {
@@ -33,7 +33,7 @@
 
 @utility otp-size-md {
   .otp-cell {
-    @apply size-13 text-base;
+    @apply size-12 md:size-13 text-base;
   }
 }
 

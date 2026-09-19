@@ -37,7 +37,9 @@ export function AuthLayout({ children }: PropsWithChildren) {
         <Link href="/" aria-label="ویراشاپ" className="text-black">
           <ViraLogoIcon className="h-14 w-auto" />
         </Link>
-        <div className="rounded-5 mt-6 w-full max-w-110 bg-white p-11 shadow-sm">{children}</div>
+        <div className="rounded-5 mt-6 w-full max-w-110 border border-neutral-100 bg-white p-11">
+          {children}
+        </div>
       </main>
     </div>
   );

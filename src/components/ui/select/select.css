@@ -1,6 +1,6 @@
 @layer components {
   .select {
-    @apply inline-flex items-center gap-5 rounded-8 border border-transparent bg-gray-50 px-11 transition-colors;
+    @apply inline-flex items-center gap-5 rounded-6 border border-transparent bg-gray-50 px-11 transition-colors;
   }
 
   .select select {

@@ -5,30 +5,33 @@ import { Controller } from 'react-hook-form';
 import { Button, OtpInput, Typography } from '@/components/ui';
 import { Form } from '@/components/shared';
 import { useOtpRequest, useOtpVerify } from '@/hooks';
-import type { AuthUser } from '@/contracts/endpoints/auth';
+import type { AuthSession, NeedsStep2 } from '@/contracts/endpoints/auth';
+import { isNeedsStep2 } from '@/contracts/endpoints/auth';
 import { useAuthFlowStore } from '@/features/auth/store';
 import { useOtpTimer } from '@/features/auth/hooks';
 import { OtpCodeSchema, type OtpCodeValues } from '@/features/auth/validation/schema';
 import { pickErrorCode, authErrorMessage, toPersianDigits } from '@/features/auth/utils';
 
 interface OtpFormProps {
-  /** Fires once `/auth/otp/verify` returns the JWT + user. */
-  onSuccess: (accessToken: string, user: AuthUser) => void;
-  /** «تغییر شماره» — back to the credentials step. */
+  onSuccess: (session: AuthSession) => void;
+  onNeedsStep2: (draft: NeedsStep2) => void;
   onChangePhone: () => void;
 }
 
-/**
- * OTP step — 6 digits, 120s TTL, 60s resend cooldown. Handles both the
- * login resend (`/auth/otp/request`) and the expired-signup-draft case.
- */
-export function OtpForm({ onSuccess, onChangePhone }: OtpFormProps) {
+const formatCountdown = (totalSeconds: number): string => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${toPersianDigits(minutes)}:${toPersianDigits(String(seconds).padStart(2, '0'))}`;
+};
+
+export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps) {
   const draft = useAuthFlowStore((state) => state.draft);
   const otpSentAt = useAuthFlowStore((state) => state.otpSentAt);
   const markOtpSent = useAuthFlowStore((state) => state.markOtpSent);
   const verify = useOtpVerify();
   const otpRequest = useOtpRequest();
-  const { remainingTtl, remainingCooldown } = useOtpTimer(otpSentAt);
+  const { remainingCooldown } = useOtpTimer(otpSentAt);
 
   const [serverError, setServerError] = React.useState<string | null>(null);
 
@@ -36,13 +39,18 @@ export function OtpForm({ onSuccess, onChangePhone }: OtpFormProps) {
     setServerError(null);
 
     try {
-      const { accessToken, user } = await verify.mutateAsync({ phone: draft.phone, code });
-      onSuccess(accessToken, user);
+      const result = await verify.mutateAsync({ phone: draft.phone, code });
+
+      if (isNeedsStep2(result)) {
+        onNeedsStep2(result);
+        return;
+      }
+
+      onSuccess(result);
     } catch (error) {
       const code = pickErrorCode(error);
 
       if (code === 'ACCOUNT_NOT_FOUND') {
-        // Signup draft expired server-side (~120s) — start over.
         setServerError('مهلت ثبت‌نام به پایان رسیده است؛ دوباره تلاش کنید');
         onChangePhone();
         return;
@@ -66,6 +74,8 @@ export function OtpForm({ onSuccess, onChangePhone }: OtpFormProps) {
   return (
     <Form<OtpCodeValues>
       schema={OtpCodeSchema}
+      title="کد تایید را وارد کنید"
+      onBack={onChangePhone}
       defaultValues={{ code: '' }}
       onSubmit={handleSubmit}
     >
@@ -75,62 +85,51 @@ export function OtpForm({ onSuccess, onChangePhone }: OtpFormProps) {
 
         return (
           <>
-            <Typography variant="h4" className="text-center text-black">
-              کد تایید
-            </Typography>
-            <Typography variant="body-sm" className="text-center text-gray-400">
-              کد ۶ رقمی به شماره {toPersianDigits(draft.phone)} ارسال شد{' '}
-              <button
-                type="button"
-                onClick={onChangePhone}
-                className="text-primary cursor-pointer underline"
-              >
-                تغییر شماره
-              </button>
-            </Typography>
+            <div className="flex flex-col items-center gap-1">
+              <Typography variant="body-sm" className="text-center text-gray-400">
+                برای شماره {toPersianDigits(draft.phone)} یک کد ۶ رقمی ارسال کرده‌ایم،
+              </Typography>
+              <Typography variant="body-sm" className="text-center text-gray-400">
+                لطفا آن را در فیلد زیر وارد نمایید.
+              </Typography>
+            </div>
 
-            <Controller
-              name="code"
-              control={form.control}
-              render={({ field }) => (
-                <OtpInput
-                  value={field.value}
-                  onChange={(value) => {
-                    field.onChange(value);
-                    setServerError(null);
-                  }}
-                  // OtpInput guarantees 6 ASCII digits — submit directly.
-                  onComplete={(value) => void handleSubmit({ code: value })}
-                  autoFocus
-                  state={errorMessage ? 'error' : undefined}
-                  message={errorMessage}
-                />
-              )}
-            />
+            <div className="flex flex-col gap-4">
+              <Controller
+                name="code"
+                control={form.control}
+                render={({ field }) => (
+                  <OtpInput
+                    value={field.value}
+                    onChange={(value) => {
+                      field.onChange(value);
+                      setServerError(null);
+                    }}
+                    onComplete={(value) => void handleSubmit({ code: value })}
+                    size="md"
+                    autoFocus
+                    state={errorMessage ? 'error' : undefined}
+                    message={errorMessage}
+                  />
+                )}
+              />
 
-            <div className="flex flex-col items-center gap-2">
-              {remainingTtl > 0 ? (
-                <Typography variant="caption-md" className="text-gray-400">
-                  اعتبار کد: {toPersianDigits(remainingTtl)} ثانیه
-                </Typography>
-              ) : (
-                <Typography variant="caption-md" className="text-warning-red">
-                  کد تایید منقضی شده است
-                </Typography>
-              )}
-
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                color="primary"
-                disabled={remainingCooldown > 0 || otpRequest.isPending}
-                onClick={handleResend}
-              >
-                {remainingCooldown > 0
-                  ? `ارسال مجدد تا ${toPersianDigits(remainingCooldown)} ثانیه دیگر`
-                  : 'ارسال مجدد کد'}
-              </Button>
+              <div className="flex justify-start">
+                {remainingCooldown > 0 ? (
+                  <Typography variant="caption-md" className="text-gray-400">
+                    ارسال مجدد ({formatCountdown(remainingCooldown)})
+                  </Typography>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={otpRequest.isPending}
+                    onClick={handleResend}
+                    className="text-primary text-caption-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    ارسال مجدد
+                  </button>
+                )}
+              </div>
             </div>
 
             <Button type="submit" color="primary" size="lg" fullWidth disabled={verify.isPending}>
