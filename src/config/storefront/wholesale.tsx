@@ -48,7 +48,7 @@ export const wholesaleChannel: StorefrontChannel = {
     userActions: [
       { icon: <SearchIcon />, ariaLabel: 'جستجو' },
       { icon: <UserIcon />, ariaLabel: 'ورود', href: PATHS.AUTH.LOGIN_FOR('WHOLESALE') },
-      { icon: <BasketIcon />, ariaLabel: 'سبد خرید', href: PATHS.CART },
+      { icon: <BasketIcon />, ariaLabel: 'سبد خرید', href: PATHS.CART_FOR('WHOLESALE') },
     ],
   },
 
@@ -73,7 +73,7 @@ export const wholesaleChannel: StorefrontChannel = {
         links: [
           { label: 'فروشگاه', href: PATHS.WHOLESALE.ROOT },
           { label: 'حساب کاربری', href: PATHS.AUTH.LOGIN },
-          { label: 'سبد خرید', href: PATHS.CART },
+          { label: 'سبد خرید', href: PATHS.CART_FOR('WHOLESALE') },
           { label: 'فرصت های شغلی', href: '#' },
         ],
       },

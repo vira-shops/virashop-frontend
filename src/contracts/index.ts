@@ -2,6 +2,7 @@ import { authContracts } from './endpoints/auth';
 import { bannersContracts } from './endpoints/banners';
 import { brandsContracts } from './endpoints/brands';
 import { categoriesContracts } from './endpoints/categories';
+import { checkoutContracts } from './endpoints/checkout';
 import { citiesContracts } from './endpoints/cities';
 import { postsContracts } from './endpoints/posts';
 import { productsContracts } from './endpoints/products';
@@ -17,6 +18,7 @@ export const contracts = {
   ...bannersContracts,
   ...brandsContracts,
   ...categoriesContracts,
+  ...checkoutContracts,
   ...citiesContracts,
   ...postsContracts,
   ...productsContracts,

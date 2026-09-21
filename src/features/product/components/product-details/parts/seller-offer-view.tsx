@@ -27,6 +27,7 @@ export interface SellerOfferViewProps {
   endBadge?: string;
   /** Back to the full seller list. */
   onShowAllSellers: () => void;
+  onAddToCart: () => void;
 }
 
 const SellerOfferViewSkeleton: React.FC = () => (
@@ -54,6 +55,7 @@ export const SellerOfferView: React.FC<SellerOfferViewProps> = ({
   startBadge,
   endBadge,
   onShowAllSellers,
+  onAddToCart,
 }) => {
   /** The colours row prints swatches instead of a text value. */
   const renderAttributeValue = (row: OfferTableRow): React.ReactNode =>
@@ -75,7 +77,7 @@ export const SellerOfferView: React.FC<SellerOfferViewProps> = ({
     // flips it back on desktop so the terms sit on the start side.
     <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start">
       <div className="flex w-full flex-col gap-4 lg:w-64 lg:shrink-0">
-        <PurchaseAside price={offer?.price ?? product.price} />
+        <PurchaseAside price={offer?.price ?? product.price} onAddToCart={onAddToCart} />
 
         <Button
           variant="ghost"
