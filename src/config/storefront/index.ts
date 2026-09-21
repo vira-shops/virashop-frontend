@@ -13,4 +13,8 @@ export type {
 } from './types';
 export { retailChannel } from './retail';
 export { wholesaleChannel } from './wholesale';
-export { STOREFRONT_SEGMENTS, getStorefrontChannel } from './registry';
+export {
+  STOREFRONT_SEGMENTS,
+  getStorefrontChannel,
+  getStorefrontChannelByChannel,
+} from './registry';

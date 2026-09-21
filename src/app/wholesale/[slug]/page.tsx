@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { WholesaleLayout } from '@/layouts/wholesale-layout';
 import { ProductDetails } from '@/features/product';
-import { wholesaleChannel } from '@/config/storefront';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -14,7 +13,7 @@ export default async function WholesaleProductPage({ params }: PageProps) {
 
   return (
     <WholesaleLayout>
-      <ProductDetails channel={wholesaleChannel} slug={slug} />
+      <ProductDetails channel="WHOLESALE" slug={slug} />
     </WholesaleLayout>
   );
 }

@@ -10,6 +10,7 @@ import { ProductFilterPanel } from '@/components/shared/product-filter-panel';
 import { ProductGrid } from '@/components/shared/product-grid';
 import { useCategoryBrowse, useProductListingFilters, useProducts } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
+import { getStorefrontChannelByChannel } from '@/config/storefront';
 import type { ProductCard, ProductSort } from '@/contracts/endpoints/products';
 import type { ProductListingProps } from './types';
 
@@ -38,21 +39,22 @@ const FilterIcon = (props: React.SVGProps<SVGSVGElement>) => (
  * Product listing — wires `/categories/:slug` (breadcrumb + child-category
  * row) and `/products` (grid + filter/sort/pagination) into the shared
  * primitives. Identical behavior for retail/wholesale; the caller supplies
- * the `StorefrontChannel`, which carries the channel value, route builders,
- * and price-filter ceiling.
+ * the plain `channel` value, resolved here into the full `StorefrontChannel`
+ * (route builders + price-filter ceiling) — see `ProductListingProps`.
  */
 export const ProductListing: React.FC<ProductListingProps> = ({ channel, categorySlug }) => {
   const router = useRouter();
+  const config = getStorefrontChannelByChannel(channel);
   const [isFilterOpen, setFilterOpen] = React.useState(false);
   const categoryBrowseQuery = useCategoryBrowse(categorySlug);
   const { page, sort, minPrice, maxPrice, setSort, setPage, setPriceRange, clearFilters } =
     useProductListingFilters();
 
-  const priceMax = channel.priceMax;
+  const priceMax = config.priceMax;
   const priceValue: [number, number] = [minPrice ?? PRICE_MIN, maxPrice ?? priceMax];
 
   const productsQuery = useProducts({
-    channel: channel.channel,
+    channel,
     categorySlug,
     page,
     limit: PAGE_SIZE,
@@ -68,7 +70,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
   const breadcrumbItems = [
     ...ancestors.map((ancestor) => ({
       label: ancestor.name,
-      href: channel.paths.CATEGORY(ancestor.slug),
+      href: config.paths.CATEGORY(ancestor.slug),
     })),
     ...(category ? [{ label: category.name }] : []),
   ];
@@ -91,7 +93,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
         productCount: child.productCount,
       }))}
       activeCategorySlug={categorySlug}
-      onCategorySelect={(slug) => router.push(channel.paths.CATEGORY(slug))}
+      onCategorySelect={(slug) => router.push(config.paths.CATEGORY(slug))}
       onClear={clearFilters}
     />
   );
@@ -108,7 +110,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
             // `imageKey` is a raw asset slug/storage key, not a URL — categories have
             // no resolved `imageUrl` yet, so fall back to a static placeholder.
             image: '/images/landing/big-offer/01.png',
-            href: channel.paths.CATEGORY(child.slug),
+            href: config.paths.CATEGORY(child.slug),
           }))}
         />
       )}
@@ -160,7 +162,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
               title: product.name,
               price: `${formatToman(product.price)} تومان`,
               stockNote: STOCK_NOTE[product.stockStatus],
-              action: { label: 'مشاهده', href: channel.paths.PRODUCT(product.slug) },
+              action: { label: 'مشاهده', href: config.paths.PRODUCT(product.slug) },
             }))}
           />
 

@@ -5,6 +5,7 @@ import { Pagination, Select, Typography } from '@/components/ui';
 import { ProductGrid } from '@/components/shared/product-grid';
 import { useProductListingFilters, useSearch } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
+import { getStorefrontChannelByChannel } from '@/config/storefront';
 import type { ProductCard, ProductSort } from '@/contracts/endpoints/products';
 import type { SearchResultsProps } from './types';
 
@@ -24,11 +25,12 @@ const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
 
 /** Search results page — `/search?q=` results, reusing the listing filter/sort URL state. */
 export const SearchResults: React.FC<SearchResultsProps> = ({ channel, query }) => {
+  const config = getStorefrontChannelByChannel(channel);
   const { page, sort, setSort, setPage } = useProductListingFilters();
 
   const searchQuery = useSearch({
     q: query,
-    channel: channel.channel,
+    channel,
     page,
     limit: PAGE_SIZE,
     sort,
@@ -50,7 +52,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ channel, query }) 
           {categories.map((category) => (
             <a
               key={category.slug}
-              href={channel.paths.CATEGORY(category.slug)}
+              href={config.paths.CATEGORY(category.slug)}
               className="rounded-full bg-gray-100 px-4 py-2"
             >
               <Typography variant="body-sm" className="text-gray-700">
@@ -91,7 +93,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ channel, query }) 
           title: product.name,
           price: `${formatToman(product.price)} تومان`,
           stockNote: STOCK_NOTE[product.stockStatus],
-          action: { label: 'مشاهده', href: channel.paths.PRODUCT(product.slug) },
+          action: { label: 'مشاهده', href: config.paths.PRODUCT(product.slug) },
         }))}
       />
 

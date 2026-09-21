@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { SearchResults } from './index';
-import { retailChannel } from '@/config/storefront';
 import { useProductListingFilters, useSearch } from '@/hooks';
 
 jest.mock('@/hooks', () => ({
@@ -60,7 +59,7 @@ describe('SearchResults', () => {
   });
 
   it('renders the query heading, category chip and product grid', () => {
-    render(<SearchResults channel={retailChannel} query="مرغ" />);
+    render(<SearchResults channel="RETAIL" query="مرغ" />);
 
     expect(screen.getByText('نتایج جستجو برای «مرغ»')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'مرغ' })).toHaveAttribute(

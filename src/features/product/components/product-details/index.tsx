@@ -8,6 +8,7 @@ import { ProductGrid } from '@/components/shared/product-grid';
 import { ProductPriceBlock } from '@/components/shared/product-price-block';
 import { useProduct } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
+import { getStorefrontChannelByChannel } from '@/config/storefront';
 import type { ProductCard } from '@/contracts/endpoints/products';
 import type { ProductDetailsProps } from './types';
 
@@ -23,7 +24,8 @@ const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
  * alone decides whether `wholesale` pricing renders (see `ProductPriceBlock`).
  */
 export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug }) => {
-  const productQuery = useProduct(slug, channel.channel);
+  const config = getStorefrontChannelByChannel(channel);
+  const productQuery = useProduct(slug, channel);
 
   if (productQuery.isLoading) {
     return (
@@ -57,7 +59,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
     <div className="container flex flex-col gap-10 py-8">
       <Breadcrumb
         items={[
-          { label: product.category.name, href: channel.paths.CATEGORY(product.category.slug) },
+          { label: product.category.name, href: config.paths.CATEGORY(product.category.slug) },
           { label: product.name },
         ]}
       />
@@ -152,7 +154,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
               title: related.name,
               price: `${formatToman(related.price)} تومان`,
               stockNote: STOCK_NOTE[related.stockStatus],
-              action: { label: 'مشاهده', href: channel.paths.PRODUCT(related.slug) },
+              action: { label: 'مشاهده', href: config.paths.PRODUCT(related.slug) },
             }))}
           />
         </div>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ProductDetails } from './index';
-import { retailChannel } from '@/config/storefront';
 import { useProduct } from '@/hooks';
 
 jest.mock('@/hooks', () => ({
@@ -45,7 +44,7 @@ describe('ProductDetails', () => {
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    render(<ProductDetails channel={retailChannel} slug="protein-1" />);
+    render(<ProductDetails channel="RETAIL" slug="protein-1" />);
 
     expect(screen.getByRole('heading', { name: 'سینه مرغ تازه' })).toBeInTheDocument();
     expect(screen.getByText('فروشنده: ویراشاپس')).toBeInTheDocument();
@@ -59,7 +58,7 @@ describe('ProductDetails', () => {
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    const { container } = render(<ProductDetails channel={retailChannel} slug="missing" />);
+    const { container } = render(<ProductDetails channel="RETAIL" slug="missing" />);
 
     expect(container).toBeEmptyDOMElement();
   });

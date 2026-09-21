@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ProductListing } from './index';
-import { retailChannel } from '@/config/storefront';
 import { useCategoryBrowse, useProductListingFilters, useProducts } from '@/hooks';
 
 jest.mock('next/navigation', () => ({
@@ -115,7 +114,7 @@ describe('ProductListing', () => {
   });
 
   it('renders the breadcrumb, child-category nav and product grid', () => {
-    render(<ProductListing channel={retailChannel} categorySlug="protein-poultry" />);
+    render(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
 
     expect(screen.getByText('پروتئینی')).toBeInTheDocument();
     expect(screen.getByText('مرغ و ماکیان')).toBeInTheDocument();

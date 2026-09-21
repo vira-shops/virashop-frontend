@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { WholesaleLayout } from '@/layouts/wholesale-layout';
 import { SearchResults } from '@/features/search';
-import { wholesaleChannel } from '@/config/storefront';
 
 interface PageProps {
   searchParams: Promise<{ q?: string }>;
@@ -14,7 +13,7 @@ export default async function WholesaleSearchPage({ searchParams }: PageProps) {
 
   return (
     <WholesaleLayout>
-      <SearchResults channel={wholesaleChannel} query={q ?? ''} />
+      <SearchResults channel="WHOLESALE" query={q ?? ''} />
     </WholesaleLayout>
   );
 }
