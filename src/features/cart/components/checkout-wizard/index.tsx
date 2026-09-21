@@ -83,8 +83,6 @@ export const CheckoutWizard: React.FC<CheckoutWizardProps> = ({ channel }) => {
       {invoice && <InvoiceHeader seller={invoice.seller} />}
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        {/* Aside first in the DOM so it leads on mobile; `lg:order-2` moves it
-            to the end side on desktop, matching the design. */}
         <div className="flex w-full flex-col gap-4 lg:order-2 lg:w-64 lg:shrink-0">
           <CheckoutSummary
             totals={totals}

@@ -49,7 +49,7 @@ export const CartTable: React.FC<CartTableProps> = ({
       >
         <span />
         {HEAD_CELLS.map((label) => (
-          <Typography key={label} variant="caption-md" className="text-center text-gray-300">
+          <Typography key={label} variant="body-sm" className="text-center text-gray-400">
             {label}
           </Typography>
         ))}
@@ -59,13 +59,13 @@ export const CartTable: React.FC<CartTableProps> = ({
         {lines.map((line) => (
           <div
             key={line.id}
-            className="rounded-8 grid grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] items-center gap-3 bg-gray-50 px-2 py-3"
+            className="rounded-8 grid grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] items-center gap-3 px-2 py-3"
           >
             <ProductCell line={line} />
 
             <Money value={line.unitPrice} />
 
-            <Typography variant="caption-md" className="text-center text-gray-400">
+            <Typography variant="body-sm" className="text-center text-gray-400">
               {toFaDigits(line.commissionPercent)}%
             </Typography>
 
@@ -101,7 +101,7 @@ export const CartTable: React.FC<CartTableProps> = ({
               className="justify-self-center"
             />
 
-            <Typography variant="caption-md" className="text-primary text-center font-bold">
+            <Typography variant="body-sm" className="text-primary text-center font-bold">
               {formatToman(lineTotal(line))} {CURRENCY_LABEL}
             </Typography>
           </div>
@@ -112,7 +112,7 @@ export const CartTable: React.FC<CartTableProps> = ({
     {/* Mobile: the same data, stacked and labelled. */}
     <div className="flex flex-col gap-4 md:hidden">
       {lines.map((line) => (
-        <div key={line.id} className="rounded-8 flex flex-col gap-4 bg-gray-50 p-4">
+        <div key={line.id} className="rounded-8 flex flex-col gap-4 p-4">
           <ProductCell line={line} />
 
           <StackedRow label={CART_COLUMNS.unitPrice}>
@@ -120,7 +120,7 @@ export const CartTable: React.FC<CartTableProps> = ({
           </StackedRow>
 
           <StackedRow label={CART_COLUMNS.commission}>
-            <Typography variant="caption-md" className="text-gray-400">
+            <Typography variant="body-sm" className="text-gray-400">
               {toFaDigits(line.commissionPercent)}%
             </Typography>
           </StackedRow>
@@ -161,7 +161,7 @@ export const CartTable: React.FC<CartTableProps> = ({
           </StackedRow>
 
           <StackedRow label={CART_COLUMNS.total}>
-            <Typography variant="caption-md" className="text-primary font-bold">
+            <Typography variant="body-sm" className="text-primary font-bold">
               {formatToman(lineTotal(line))} {CURRENCY_LABEL}
             </Typography>
           </StackedRow>
@@ -172,7 +172,7 @@ export const CartTable: React.FC<CartTableProps> = ({
 );
 
 const Money: React.FC<{ value: number }> = ({ value }) => (
-  <Typography variant="caption-md" className="text-center text-gray-400">
+  <Typography variant="body-sm" className="text-center text-gray-400">
     {formatToman(value)} {CURRENCY_LABEL}
   </Typography>
 );
@@ -188,7 +188,7 @@ const ProductCell: React.FC<{ line: CartLine }> = ({ line }) => (
         className="object-contain"
       />
     </span>
-    <Typography variant="caption-md" className="line-clamp-2 text-gray-700">
+    <Typography variant="body-sm" className="line-clamp-2 text-gray-700">
       {line.name}
     </Typography>
   </div>
@@ -199,7 +199,7 @@ const StackedRow: React.FC<{ label: string; children: React.ReactNode }> = ({
   children,
 }) => (
   <div className="flex items-center justify-between gap-4">
-    <Typography variant="caption-md" className="text-gray-300">
+    <Typography variant="body-sm" className="text-gray-300">
       {label}
     </Typography>
     {children}

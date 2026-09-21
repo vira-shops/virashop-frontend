@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Typography } from '@/components/ui';
+import { Button, Typography } from '@/components/ui';
 import { BasketIcon, CarIcon, PaymentIcon, TaskSquareIcon } from '@icons';
 import { cn } from '@/utils/ui';
 import { CHECKOUT_STEPS } from '@/features/cart/constants';
@@ -31,11 +31,11 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
   return (
     <nav
       aria-label="مراحل خرید"
-      className="rounded-8 no-scrollbar relative overflow-x-auto bg-gray-50 px-5 pt-4 pb-5"
+      className="rounded-8 no-scrollbar relative overflow-x-auto bg-gray-100 px-5 pt-4 pb-5"
     >
       {/* Four labelled steps do not fit a phone, so the row scrolls rather
           than clipping the last one. */}
-      <ol className="flex min-w-max items-center gap-8 md:min-w-0 md:justify-between md:gap-2">
+      <ol className="flex min-w-max items-center justify-between md:min-w-0 md:gap-2">
         {CHECKOUT_STEPS.map((step, index) => {
           const Icon = STEP_ICONS[step.id];
           const isDone = index <= currentIndex;
@@ -43,25 +43,21 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
 
           return (
             <li key={step.id}>
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="xs"
                 aria-current={isCurrent ? 'step' : undefined}
                 disabled={index > currentIndex}
                 onClick={() => onStepClick(step.id)}
                 className={cn(
-                  'flex items-center gap-2 transition-colors',
+                  'flex items-center gap-2 transition-colors hover:bg-transparent',
                   isDone ? 'text-primary' : 'text-gray-300',
                   index > currentIndex ? 'cursor-default' : 'cursor-pointer',
                 )}
+                rightIcon={<Icon className="size-8 shrink-0 md:size-11" aria-hidden="true" />}
               >
-                <Icon className="size-10 shrink-0" aria-hidden="true" />
-                <Typography
-                  variant="body-sm"
-                  className={cn('text-current', isCurrent && 'font-bold')}
-                >
-                  {step.label}
-                </Typography>
-              </button>
+                {step.label}
+              </Button>
             </li>
           );
         })}

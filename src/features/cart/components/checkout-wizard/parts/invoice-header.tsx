@@ -12,12 +12,12 @@ export interface InvoiceHeaderProps {
 
 /** «فاکتور فروشگاه X» with the seller's mark, above steps 2–4. */
 export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ seller }) => (
-  <div className="flex items-center justify-end gap-3">
+  <div className="flex items-center justify-start gap-3">
+    <SellerMark seller={seller} />
+
     <Typography variant="body-sm" className="font-bold text-gray-700">
       فاکتور فروشگاه {seller.shopName}
     </Typography>
-
-    <SellerMark seller={seller} />
   </div>
 );
 

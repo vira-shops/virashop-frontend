@@ -30,12 +30,27 @@ const InvoiceCard: React.FC<{ invoice: CartInvoice; onOpen: () => void }> = ({
 
   return (
     <article className="rounded-9 flex flex-col gap-5 bg-white p-5 shadow-sm md:flex-row-reverse md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 md:w-56">
+        <div className="flex items-center justify-between gap-4">
+          <Typography variant="caption-md" className="text-gray-400">
+            {GRAND_TOTAL_LABEL}
+          </Typography>
+          <Typography variant="caption-md" className="text-primary font-bold">
+            {formatToman(invoice.total)} {CURRENCY_LABEL}
+          </Typography>
+        </div>
+
+        <Button variant="fill" color="primary" size="md" fullWidth onClick={onOpen}>
+          {PAY_LABEL}
+        </Button>
+      </div>
+
       <div className="flex flex-col items-end gap-4">
         <div className="flex items-center gap-3">
+          <SellerMark seller={invoice.seller} />
           <Typography variant="body-sm" className="font-bold text-gray-700">
             {invoice.seller.shopName}
           </Typography>
-          <SellerMark seller={invoice.seller} />
         </div>
 
         <div className="flex items-center gap-2">
@@ -64,21 +79,6 @@ const InvoiceCard: React.FC<{ invoice: CartInvoice; onOpen: () => void }> = ({
             </Typography>
           )}
         </div>
-      </div>
-
-      <div className="flex flex-col gap-4 md:w-56">
-        <div className="flex items-center justify-between gap-4">
-          <Typography variant="caption-md" className="text-primary font-bold">
-            {formatToman(invoice.total)} {CURRENCY_LABEL}
-          </Typography>
-          <Typography variant="caption-md" className="text-gray-400">
-            {GRAND_TOTAL_LABEL}
-          </Typography>
-        </div>
-
-        <Button variant="fill" color="primary" size="md" fullWidth onClick={onOpen}>
-          {PAY_LABEL}
-        </Button>
       </div>
     </article>
   );
