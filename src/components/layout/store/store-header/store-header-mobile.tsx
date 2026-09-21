@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui';
-import { Logo } from '@/components/shared';
+import { Logo, UserMenu } from '@/components/shared';
 import { UserIcon } from '@icons';
 import { useAuthSession } from '@/hooks/auth';
 import { PATHS } from '@/routes/paths';
@@ -10,7 +10,7 @@ import type { StoreHeaderMobileProps } from './types';
 
 export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
   const { logo, mobileNavItems, channel, location } = config;
-  const { mounted, user, signOut } = useAuthSession();
+  const { mounted, user, signOut, isPending } = useAuthSession();
 
   return (
     <div className="bg-white md:hidden">
@@ -27,11 +27,9 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
           {/* Center: logo */}
           <Logo src={logo.src} alt={logo.alt} />
 
-          {/* Left in RTL: user icon (login) / logout when signed in */}
+          {/* Left in RTL: profile menu (signed in) / login icon */}
           {mounted && user ? (
-            <Button variant="outline" color="primary" size="sm" onClick={() => void signOut()}>
-              خروج
-            </Button>
+            <UserMenu user={user} onSignOut={() => void signOut()} isPending={isPending} />
           ) : (
             <Button
               href={PATHS.AUTH.LOGIN_FOR(channel)}
