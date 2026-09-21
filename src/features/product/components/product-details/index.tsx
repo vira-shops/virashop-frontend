@@ -2,10 +2,7 @@
 
 import * as React from 'react';
 import { Skeleton, Typography } from '@/components/ui';
-import { Breadcrumb } from '@/components/shared/breadcrumb';
-import { ProductGallery } from '@/components/shared/product-gallery';
-import { ProductGrid } from '@/components/shared/product-grid';
-import { ProductPriceBlock } from '@/components/shared/product-price-block';
+import { ProductPriceBlock, ProductGrid, ProductGallery, Breadcrumb } from '@/components/shared';
 import { useProduct } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
 import { getStorefrontChannelByChannel } from '@/config/storefront';
@@ -18,11 +15,6 @@ const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
   OUT_OF_STOCK: 'ناموجود',
 };
 
-/**
- * PDP — wires `/products/:slug` into the gallery + price block + related
- * grid. Identical behavior for retail/wholesale: the `channel` query param
- * alone decides whether `wholesale` pricing renders (see `ProductPriceBlock`).
- */
 export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug }) => {
   const config = getStorefrontChannelByChannel(channel);
   const productQuery = useProduct(slug, channel);

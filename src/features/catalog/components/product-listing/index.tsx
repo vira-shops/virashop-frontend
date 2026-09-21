@@ -3,11 +3,14 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Pagination, Select, Typography } from '@/components/ui';
-import { Breadcrumb } from '@/components/shared/breadcrumb';
-import { CategoryIconNav } from '@/components/shared/category-icon-nav';
-import { Modal } from '@/components/shared/modal';
-import { ProductFilterPanel } from '@/components/shared/product-filter-panel';
-import { ProductGrid } from '@/components/shared/product-grid';
+import {
+  Modal,
+  CategoryIconNav,
+  Breadcrumb,
+  ProductFilterPanel,
+  ProductGrid,
+} from '@/components/shared';
+import { FilterIcon } from '@icons';
 import { useCategoryBrowse, useProductListingFilters, useProducts } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
 import { getStorefrontChannelByChannel } from '@/config/storefront';
@@ -29,19 +32,6 @@ const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
   OUT_OF_STOCK: 'ناموجود',
 };
 
-const FilterIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M7 12h10M10 18h4" />
-  </svg>
-);
-
-/**
- * Product listing — wires `/categories/:slug` (breadcrumb + child-category
- * row) and `/products` (grid + filter/sort/pagination) into the shared
- * primitives. Identical behavior for retail/wholesale; the caller supplies
- * the plain `channel` value, resolved here into the full `StorefrontChannel`
- * (route builders + price-filter ceiling) — see `ProductListingProps`.
- */
 export const ProductListing: React.FC<ProductListingProps> = ({ channel, categorySlug }) => {
   const router = useRouter();
   const config = getStorefrontChannelByChannel(channel);
@@ -107,8 +97,6 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
           items={children.map((child) => ({
             id: child.id,
             title: child.name,
-            // `imageKey` is a raw asset slug/storage key, not a URL — categories have
-            // no resolved `imageUrl` yet, so fall back to a static placeholder.
             image: '/images/landing/big-offer/01.png',
             href: config.paths.CATEGORY(child.slug),
           }))}

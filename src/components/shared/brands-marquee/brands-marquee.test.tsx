@@ -57,7 +57,7 @@ describe('BrandsMarquee', () => {
     render(<BrandsMarquee brands={brands} ctaLabel="برندها" logoSize="sm" />);
 
     const logo = screen.getByAltText('برند یک');
-    expect(logo).toHaveClass('h-9');
+    expect(logo).toHaveClass('h-10');
     expect(logo).not.toHaveClass('h-14');
   });
 

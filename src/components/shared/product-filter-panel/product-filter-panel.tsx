@@ -23,22 +23,20 @@ export const ProductFilterPanel: React.FC<ProductFilterPanelProps> = ({
   className,
   categoryListClassName,
 }) => (
-  <div className={cn('flex flex-col gap-8', className)}>
-    <div className="flex items-center justify-between">
-      <Typography variant="h6" className="text-gray-900">
-        فیلترها
-      </Typography>
-      {onClear && (
-        <Button size="xs" variant="ghost" color="primary" onClick={onClear}>
-          حذف فیلترها
-        </Button>
-      )}
-    </div>
+  <div className={cn('flex flex-col gap-2', className)}>
+    {onClear && (
+      <Button
+        size="xs"
+        variant="ghost"
+        onClick={onClear}
+        className="text-warning-red hover:text-warning-red/80 p-0 hover:bg-transparent"
+      >
+        حذف فیلترها
+      </Button>
+    )}
 
-    <div className="flex flex-col gap-4">
-      <Typography variant="body-sm" className="text-gray-700">
-        محدوده قیمت
-      </Typography>
+    <div className="rounded-8 flex flex-col bg-gray-50 p-4">
+      <Typography variant="body-sm">محدوده قیمت</Typography>
       <RangeSlider
         min={priceMin}
         max={priceMax}
@@ -50,7 +48,7 @@ export const ProductFilterPanel: React.FC<ProductFilterPanelProps> = ({
     </div>
 
     {categories.length > 0 && (
-      <div className="flex flex-col gap-4">
+      <div className="rounded-8 flex flex-col gap-4 bg-gray-50 p-4">
         <Typography variant="body-sm" className="text-gray-700">
           دسته‌بندی
         </Typography>

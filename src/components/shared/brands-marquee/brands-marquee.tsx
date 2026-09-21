@@ -18,14 +18,9 @@ const distributeRows = (brands: BrandsMarqueeBrand[], rowCount: number): BrandsM
 /** Logo tile + image sizing per `logoSize`. */
 const LOGO_SIZE_CLASSES: Record<BrandsMarqueeLogoSize, { tile: string; image: string }> = {
   md: { tile: 'h-14 w-24 md:h-16 md:w-28', image: 'h-14 w-14 md:h-16 md:w-16' },
-  sm: { tile: 'h-9 w-16 md:h-10 md:w-20', image: 'h-9 w-9 md:h-10 md:w-10' },
+  sm: { tile: 'h-10 w-18 md:h-12 md:w-22', image: 'h-10 w-10 md:h-12 md:w-12' },
 };
 
-/**
- * Reusable brand-logo marquee — TV-ticker style rows scrolling at a constant
- * uniform speed with a center CTA. Fully content-agnostic: logos, CTA label
- * and row count come in as props (see the wholesale feature for the wiring).
- */
 export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
   brands,
   ctaLabel,
@@ -45,7 +40,7 @@ export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
   return (
     <section
       aria-label={ariaLabel ?? ctaLabel}
-      className={cn('relative my-14 h-80 w-full overflow-hidden bg-white md:my-20', className)}
+      className={cn('relative h-80 w-full overflow-hidden bg-white', className)}
     >
       {/* Side accents */}
       <div
@@ -62,10 +57,6 @@ export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
       <div
         className={cn(
           'absolute inset-0 flex flex-col py-5',
-          // A single visible row centered by `justify-between` sits at the
-          // top of the box instead of the middle — only rows.length > 1
-          // actually needs even top/middle/bottom distribution (the accent
-          // bars are pinned to the vertical center regardless).
           visibleRowCount > 1 ? 'justify-between' : 'justify-center',
         )}
       >

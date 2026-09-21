@@ -13,9 +13,6 @@ import {
 export const SpecialOffers: React.FC = () => {
   const offersQuery = useBigOffers();
   const offers = offersQuery.data ?? [];
-  // Computed once per mount (lazy initializer), not at module load — a
-  // module-scope `Date.now()` gets frozen into the static build output and
-  // never advances, and would also mismatch between SSR and hydration.
   const [endsAt] = React.useState(() => Date.now() + SPECIAL_OFFERS_DURATION_MS);
 
   if (offersQuery.isLoading) {

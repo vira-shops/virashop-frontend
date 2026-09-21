@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Pagination, Select, Typography } from '@/components/ui';
-import { ProductGrid } from '@/components/shared/product-grid';
+import { ProductGrid } from '@/components/shared';
 import { useProductListingFilters, useSearch } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
 import { getStorefrontChannelByChannel } from '@/config/storefront';
