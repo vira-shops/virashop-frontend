@@ -7,7 +7,7 @@ export { usePartnerBrands } from './use-partner-brands';
 export { useTechNews } from './use-tech-news';
 export { usePopularCategories } from './use-popular-categories';
 export { useCategoryBrowse } from './use-category-browse';
-export { useProducts } from './use-products';
+export { useProducts, useProductsByCategories } from './use-products';
 export { useProduct } from './use-product';
 export { useProductListingFilters } from './use-product-listing-filters';
 export type {

@@ -25,13 +25,13 @@ export function Breadcrumb({
             )}
 
             {isLast || !item.href ? (
-              <Typography variant="caption-lg" color="gray" className={activeClassName}>
+              <Typography variant="body-xs" color="gray" className={activeClassName}>
                 {item.label}
               </Typography>
             ) : (
               <Link href={item.href}>
                 <Typography
-                  variant="caption-lg"
+                  variant="body-xs"
                   color="primary"
                   className={cn('hover:underline', linkClassName)}
                 >

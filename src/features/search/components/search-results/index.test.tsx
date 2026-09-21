@@ -22,10 +22,13 @@ describe('SearchResults', () => {
       minPrice: undefined,
       maxPrice: undefined,
       inStock: false,
+      categories: [],
       setSort: jest.fn(),
       setPage: jest.fn(),
       setPriceRange: jest.fn(),
       setInStock: jest.fn(),
+      toggleCategory: jest.fn(),
+      setCategories: jest.fn(),
       clearFilters: jest.fn(),
     });
 

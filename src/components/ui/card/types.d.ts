@@ -10,6 +10,8 @@ export interface CardImage {
   badge?: ReactNode;
   secondaryBadge?: ReactNode;
   href?: string;
+  /** `next/image` `sizes`. Override when the card's image box is much smaller than the default. */
+  sizes?: string;
   imageWrapperClassName?: string;
   imageClassName?: string;
 }

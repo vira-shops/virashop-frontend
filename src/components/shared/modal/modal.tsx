@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { cn } from '@/utils/ui';
 import { CancelIcon } from '@icons';
 import { ModalProps, ModalSize } from './types';
+import { Button } from '@/components/ui';
 
 const sizeClasses: Record<ModalSize, string> = {
   sm: 'modal-sm',
@@ -20,6 +21,8 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   footer,
   size = 'sm',
+  theme,
+  icon,
   closeOnBackdrop = true,
   children,
   className,
@@ -59,7 +62,7 @@ export const Modal: React.FC<ModalProps> = ({
   if (!mounted || !open) return null;
 
   return createPortal(
-    <div className={cn('modal-container', containerClassName)}>
+    <div data-theme={theme} className={cn('modal-container', containerClassName)}>
       <div
         className={cn('modal-backdrop', backdropClassName)}
         data-testid="modal-backdrop"
@@ -73,19 +76,19 @@ export const Modal: React.FC<ModalProps> = ({
         dir="rtl"
       >
         <div className={cn('modal-header', headerClassName)}>
-          {title && (
-            <h2 id={titleId} className={cn('modal-title', titleClassName)}>
-              {title}
-            </h2>
-          )}
-          <button
-            type="button"
+          <Button
+            icon={<CancelIcon className="text-black" />}
+            variant="ghost"
             aria-label="بستن"
             className={cn('modal-close', closeClassName)}
             onClick={onClose}
-          >
-            <CancelIcon />
-          </button>
+          />
+          {title && (
+            <h2 id={titleId} className={cn('modal-title', titleClassName)}>
+              <span>{icon}</span>
+              {title}
+            </h2>
+          )}
         </div>
         <div className={cn('modal-body', bodyClassName)}>{children}</div>
         {footer && <div className={cn('modal-footer', footerClassName)}>{footer}</div>}

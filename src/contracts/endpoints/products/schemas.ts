@@ -8,6 +8,15 @@ import { ChannelSchema, SlugSchema } from '@/validations';
 export const ProductStockStatusSchema = z.enum(['IN_STOCK', 'LOW_STOCK', 'OUT_OF_STOCK']);
 export type ProductStockStatus = z.infer<typeof ProductStockStatusSchema>;
 
+/** Sort values `GET /products` accepts on the wire — it 400s on anything else. */
+export const ProductWireSortSchema = z.enum(['relevant', 'newest', 'cheapest']);
+export type ProductWireSort = z.infer<typeof ProductWireSortSchema>;
+
+/**
+ * The listing's full sort vocabulary. `bestselling` / `expensive` /
+ * `discounted` have no server-side equivalent yet, so `useProducts` resolves
+ * them client-side — see `WIRE_SORT` there.
+ */
 export const ProductSortSchema = z.enum([
   'relevant',
   'newest',
@@ -69,9 +78,17 @@ export const ProductListQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(50).default(20),
   sort: ProductSortSchema.default('relevant'),
   categoryId: z.coerce.number().optional(),
-  /** Unknown slug → empty page, not an error. */
+  /**
+   * Unknown slug → empty page, not an error. Exactly one slug: the endpoint
+   * has no multi-category facet, so the listing's multi-select filter fans out
+   * into one request per slug and merges them (see `useProductsByCategories`).
+   */
   categorySlug: z.string().optional(),
-  /** `true` drops OUT_OF_STOCK items (the listing's «کالای موجود» toggle). */
+  /**
+   * `true` drops OUT_OF_STOCK items (the listing's «کالای موجود» toggle).
+   * CLIENT-SIDE ONLY — the endpoint rejects an `inStock` param, so the hook
+   * strips it from the request and applies it to the response instead.
+   */
   inStock: z.coerce.boolean().optional(),
   /** Matches name / brand / slug. */
   q: z.string().optional(),

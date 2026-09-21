@@ -6,6 +6,13 @@ export interface ProductCardAction {
   disabled?: boolean;
 }
 
+/**
+ * `vertical` is the default card used everywhere (grids, carousels, banners).
+ * `horizontal` is the compact list row — image beside the content — used by
+ * the catalog listing on mobile.
+ */
+export type ProductCardOrientation = 'vertical' | 'horizontal';
+
 export interface ProductCardProps {
   image: {
     src: string;
@@ -20,11 +27,14 @@ export interface ProductCardProps {
   price?: string;
   stockNote?: string;
   action?: ProductCardAction;
+  /** @default 'vertical' */
+  orientation?: ProductCardOrientation;
   className?: string;
   /* --- Style overrides (merged with cn; utilities outrank baked-in classes) --- */
   headerClassName?: string;
   imageWrapperClassName?: string;
   imageClassName?: string;
+  contentClassName?: string;
   titleClassName?: string;
   separatorClassName?: string;
   priceRowClassName?: string;

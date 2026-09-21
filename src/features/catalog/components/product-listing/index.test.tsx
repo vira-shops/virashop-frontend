@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProductListing } from './index';
-import { useCategoryBrowse, useProductListingFilters, useProducts } from '@/hooks';
+import { useCategoryBrowse, useProductListingFilters, useProductsByCategories } from '@/hooks';
+
+const push = jest.fn();
 
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn() }),
+  useRouter: () => ({ push }),
 }));
 
 /** The catalog hero's search bar runs its own (unmocked) React Query hook. */
@@ -21,14 +23,30 @@ jest.mock('@/hooks', () => ({
   ...jest.requireActual('@/hooks'),
   useCategoryBrowse: jest.fn(),
   useProductListingFilters: jest.fn(),
-  useProducts: jest.fn(),
+  useProductsByCategories: jest.fn(),
 }));
 
 const mockUseCategoryBrowse = useCategoryBrowse as jest.MockedFunction<typeof useCategoryBrowse>;
 const mockUseProductListingFilters = useProductListingFilters as jest.MockedFunction<
   typeof useProductListingFilters
 >;
-const mockUseProducts = useProducts as jest.MockedFunction<typeof useProducts>;
+const mockUseProducts = useProductsByCategories as jest.MockedFunction<
+  typeof useProductsByCategories
+>;
+
+const child = (id: number, slug: string, name: string) => ({
+  id,
+  slug,
+  name,
+  nameFa: name,
+  nameEn: slug,
+  parentId: 2,
+  depth: 2,
+  iconKey: null,
+  imageKey: null,
+  sortOrder: 0,
+  productCount: 10,
+});
 
 const categoryBrowse = {
   category: {
@@ -60,19 +78,9 @@ const categoryBrowse = {
     },
   ],
   children: [
-    {
-      id: 3,
-      slug: 'chicken-breast',
-      name: 'سینه مرغ',
-      nameFa: 'سینه مرغ',
-      nameEn: 'chicken-breast',
-      parentId: 2,
-      depth: 2,
-      iconKey: null,
-      imageKey: null,
-      sortOrder: 0,
-      productCount: 10,
-    },
+    child(3, 'chicken-breast', 'سینه مرغ'),
+    child(4, 'chicken-leg', 'ران مرغ'),
+    child(5, 'turkey', 'بوقلمون'),
   ],
 };
 
@@ -99,30 +107,42 @@ const products = {
   limit: 20,
 };
 
+const toggleCategory = jest.fn();
+const setCategories = jest.fn();
+
+const mockFilters = (overrides: Partial<ReturnType<typeof useProductListingFilters>> = {}) =>
+  mockUseProductListingFilters.mockReturnValue({
+    page: 1,
+    sort: 'relevant',
+    minPrice: undefined,
+    maxPrice: undefined,
+    inStock: false,
+    categories: [],
+    setSort: jest.fn(),
+    setPage: jest.fn(),
+    setPriceRange: jest.fn(),
+    setInStock: jest.fn(),
+    toggleCategory,
+    setCategories,
+    clearFilters: jest.fn(),
+    ...overrides,
+  });
+
 describe('ProductListing', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
+
     mockUseCategoryBrowse.mockReturnValue({
       data: categoryBrowse,
       isLoading: false,
     } as unknown as ReturnType<typeof useCategoryBrowse>);
 
-    mockUseProductListingFilters.mockReturnValue({
-      page: 1,
-      sort: 'relevant',
-      minPrice: undefined,
-      maxPrice: undefined,
-      inStock: false,
-      setSort: jest.fn(),
-      setPage: jest.fn(),
-      setPriceRange: jest.fn(),
-      setInStock: jest.fn(),
-      clearFilters: jest.fn(),
-    });
+    mockFilters();
 
     mockUseProducts.mockReturnValue({
       data: products,
       isLoading: false,
-    } as unknown as ReturnType<typeof useProducts>);
+    } as unknown as ReturnType<typeof useProductsByCategories>);
   });
 
   it('renders the breadcrumb, child-category nav and product grid', () => {
@@ -131,7 +151,7 @@ describe('ProductListing', () => {
     expect(screen.getByText('پروتئینی')).toBeInTheDocument();
     expect(screen.getAllByText('مرغ و ماکیان').length).toBeGreaterThan(0);
     expect(screen.getAllByText('سینه مرغ').length).toBeGreaterThan(0);
-    expect(screen.getByText('سینه مرغ تازه')).toBeInTheDocument();
+    expect(screen.getAllByText('سینه مرغ تازه').length).toBeGreaterThan(0);
   });
 
   it('renders the hero search bar and the sort tabs', () => {
@@ -152,5 +172,42 @@ describe('ProductListing', () => {
     fireEvent.click(screen.getByRole('button', { name: 'مرتب سازی' }));
     expect(await screen.findByRole('dialog')).toHaveTextContent('مرتب سازی');
     expect(screen.getByRole('radio', { name: 'گران ترین' })).toBeInTheDocument();
+  });
+
+  it('filters by category instead of navigating away', () => {
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'سینه مرغ' }));
+
+    expect(toggleCategory).toHaveBeenCalledWith('chicken-breast');
+    expect(push).not.toHaveBeenCalled();
+  });
+
+  it('keeps every sibling selectable while several are checked', () => {
+    mockFilters({ categories: ['chicken-breast', 'turkey'] });
+
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+
+    expect(screen.getByRole('checkbox', { name: 'سینه مرغ' })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'بوقلمون' })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'ران مرغ' })).not.toBeChecked();
+  });
+
+  it('shows the selected categories as the last breadcrumb entry', () => {
+    mockFilters({ categories: ['chicken-breast', 'turkey'] });
+
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+
+    const breadcrumb = screen.getByRole('navigation', { name: 'breadcrumb' });
+
+    expect(within(breadcrumb).getByText('سینه مرغ، بوقلمون')).toBeInTheDocument();
+    expect(within(breadcrumb).getByRole('link', { name: 'مرغ و ماکیان' })).toBeInTheDocument();
+  });
+
+  it('renders the compact mobile row beside the desktop card grid', () => {
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+
+    // Same product, two layouts — one visible per breakpoint.
+    expect(screen.getAllByText('سینه مرغ تازه')).toHaveLength(2);
   });
 });

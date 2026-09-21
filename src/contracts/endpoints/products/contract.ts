@@ -61,6 +61,36 @@ export const PRODUCTS_MOCK: ProductCard[] = CATEGORY_LIST.flatMap((category, cat
   });
 });
 
+/**
+ * Mock product → the category slugs it belongs to, at every depth (L1 + one
+ * L2 group + one L3 leaf). `ProductCard` carries no category field, so the
+ * listing's category filter needs this side table to answer «which products
+ * are in نان?» in mock mode. Products are spread round-robin over their
+ * category's groups/leaves so every filter combination returns something.
+ */
+export const MOCK_PRODUCT_CATEGORY_SLUGS: Record<string, string[]> = Object.fromEntries(
+  CATEGORY_TREE_MOCK.flatMap((l1) => {
+    const products = PRODUCTS_MOCK.filter((product) => product.slug.startsWith(`${l1.slug}-`));
+
+    return products.map((product, index) => {
+      const group = l1.children[index % Math.max(1, l1.children.length)];
+      const leaf = group?.children[index % Math.max(1, group.children.length)];
+
+      return [
+        product.slug,
+        [l1.slug, group?.slug, leaf?.slug].filter((slug): slug is string => Boolean(slug)),
+      ] as const;
+    });
+  }),
+);
+
+/** `true` when the product sits under ANY of the given category slugs. */
+export const isProductInCategories = (productSlug: string, categorySlugs: string[]): boolean => {
+  const lineage = MOCK_PRODUCT_CATEGORY_SLUGS[productSlug] ?? [];
+
+  return categorySlugs.some((slug) => lineage.includes(slug));
+};
+
 const findProductBySlug = (slug: string): ProductCard | undefined =>
   PRODUCTS_MOCK.find((product) => product.slug === slug);
 

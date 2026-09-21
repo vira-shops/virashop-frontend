@@ -32,19 +32,14 @@ const renderImage = (image: NonNullable<CardProps['image']>) => {
     badge,
     secondaryBadge,
     href,
+    sizes = '(max-width: 768px) 100vw, 320px',
     imageWrapperClassName,
     imageClassName,
   } = image;
 
   const img = (
     <div className={cn('card-image-wrapper', imageWrapperClassName)}>
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes="(max-width: 768px) 100vw, 320px"
-        className={cn('card-image', imageClassName)}
-      />
+      <Image src={src} alt={alt} fill sizes={sizes} className={cn('card-image', imageClassName)} />
       {secondaryBadge && <div className="card-image-badge-secondary">{secondaryBadge}</div>}
       {badge && <div className="card-image-badge">{badge}</div>}
     </div>

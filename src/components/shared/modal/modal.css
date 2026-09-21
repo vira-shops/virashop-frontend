@@ -48,15 +48,15 @@
   }
 
   .modal-header {
-    @apply flex shrink-0 items-center justify-between gap-5 border-b border-gray-100 px-12 py-11;
+    @apply flex shrink-0 items-center justify-between gap-5 px-6 py-4;
   }
 
   .modal-title {
-    @apply text-body-md font-bold text-black;
+    @apply text-body-md font-bold text-black flex items-center gap-2;
   }
 
   .modal-close {
-    @apply cursor-pointer border-0 bg-transparent p-0 text-gray-400 transition-colors hover:text-gray-700 focus:outline-none;
+    @apply absolute left-4  hover:bg-transparent;
   }
 
   .modal-close svg {
@@ -64,7 +64,7 @@
   }
 
   .modal-body {
-    @apply flex flex-1 flex-col overflow-y-auto px-12 py-12;
+    @apply flex flex-1 flex-col overflow-y-auto px-6 pt-4 pb-20;
   }
 
   .modal-footer {

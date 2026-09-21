@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useMemo } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import type { ProductSort } from '@/contracts/endpoints/products';
 
 export interface ProductListingFilters {
@@ -11,6 +11,8 @@ export interface ProductListingFilters {
   maxPrice?: number;
   /** «کالای موجود» — drops out-of-stock items when on. */
   inStock: boolean;
+  /** Multi-select subcategory filter (`?categories=a,b`). Empty = the whole category. */
+  categories: string[];
 }
 
 export interface UseProductListingFiltersResult extends ProductListingFilters {
@@ -18,17 +20,25 @@ export interface UseProductListingFiltersResult extends ProductListingFilters {
   setPage: (page: number) => void;
   setPriceRange: (range: [number, number]) => void;
   setInStock: (value: boolean) => void;
+  /** Adds/removes one slug from the category selection. */
+  toggleCategory: (slug: string) => void;
+  setCategories: (slugs: string[]) => void;
   clearFilters: () => void;
 }
 
 /**
- * Reads/writes the product listing's filter state (page/sort/price range) as
- * URL query params — reused by the retail AND wholesale listing sections so
+ * Reads/writes the product listing's filter state (page/sort/price/categories)
+ * as URL query params — reused by the retail AND wholesale listing sections so
  * filters survive reload/back-navigation, matching the `?channel=`/`?returnTo=`
  * precedent in the auth wizard.
+ *
+ * Updates go through `window.history.pushState` rather than `router.push`.
+ * Next.js keeps `useSearchParams` in sync with the native history methods, so
+ * a filter change re-renders only the client components that read this hook —
+ * no server round-trip, no scroll reset, no remounted hero. Route changes
+ * (picking a different category in the hero) stay real navigations via `Link`.
  */
 export function useProductListingFilters(): UseProductListingFiltersResult {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -39,6 +49,12 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
   const minPrice = minPriceParam ? Number(minPriceParam) : undefined;
   const maxPrice = maxPriceParam ? Number(maxPriceParam) : undefined;
   const inStock = searchParams.get('inStock') === '1';
+  const categoriesParam = searchParams.get('categories');
+  // Memoised so `toggleCategory` keeps a stable identity between renders.
+  const categories = useMemo(
+    () => (categoriesParam ? categoriesParam.split(',').filter(Boolean) : []),
+    [categoriesParam],
+  );
 
   const pushParams = useCallback(
     (updates: Record<string, string | undefined>) => {
@@ -49,9 +65,11 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
         else params.set(key, value);
       });
 
-      router.push(`${pathname}?${params.toString()}`);
+      const search = params.toString();
+
+      window.history.pushState(null, '', search ? `${pathname}?${search}` : pathname);
     },
-    [pathname, router, searchParams],
+    [pathname, searchParams],
   );
 
   const setSort = useCallback(
@@ -72,6 +90,22 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
     [pushParams],
   );
 
+  const setCategories = useCallback(
+    (slugs: string[]) =>
+      pushParams({ categories: slugs.length ? slugs.join(',') : undefined, page: undefined }),
+    [pushParams],
+  );
+
+  const toggleCategory = useCallback(
+    (slug: string) =>
+      setCategories(
+        categories.includes(slug)
+          ? categories.filter((item) => item !== slug)
+          : [...categories, slug],
+      ),
+    [categories, setCategories],
+  );
+
   const clearFilters = useCallback(
     () =>
       pushParams({
@@ -79,6 +113,7 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
         minPrice: undefined,
         maxPrice: undefined,
         inStock: undefined,
+        categories: undefined,
         page: undefined,
       }),
     [pushParams],
@@ -90,10 +125,13 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
     minPrice,
     maxPrice,
     inStock,
+    categories,
     setSort,
     setPage,
     setPriceRange,
     setInStock,
+    toggleCategory,
+    setCategories,
     clearFilters,
   };
 }

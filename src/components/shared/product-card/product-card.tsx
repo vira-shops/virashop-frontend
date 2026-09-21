@@ -1,7 +1,38 @@
 import * as React from 'react';
 import { Badge, Button, Card, Typography } from '@/components/ui';
 import { cn } from '@/utils/ui';
-import { ProductCardProps } from './types';
+import { ProductCardOrientation, ProductCardProps } from './types';
+
+/**
+ * Shell + image sizing per orientation. `horizontal` lays the image beside the
+ * content as a fixed 96px square (`size-18` on this project's spacing scale);
+ * `vertical` keeps the full-bleed banner image above the content.
+ */
+const shellClasses: Record<ProductCardOrientation, string> = {
+  vertical: 'w-product-card',
+  horizontal: 'w-full flex-row items-center gap-3 p-3',
+};
+
+const imageWrapperClasses: Record<ProductCardOrientation, string> = {
+  vertical: 'aspect-product-card',
+  horizontal: 'rounded-8 size-18 shrink-0',
+};
+
+const contentClasses: Record<ProductCardOrientation, string> = {
+  vertical: '',
+  horizontal: 'min-w-0 flex-1 p-0',
+};
+
+const badgeRowClasses: Record<ProductCardOrientation, string> = {
+  vertical: 'px-3 pt-5',
+  horizontal: '',
+};
+
+/** The horizontal box is a 96px thumbnail — without this it would fetch a full-width source. */
+const imageSizes: Record<ProductCardOrientation, string | undefined> = {
+  vertical: undefined,
+  horizontal: '96px',
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   image,
@@ -12,10 +43,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   price,
   stockNote,
   action,
+  orientation = 'vertical',
   className,
   headerClassName,
   imageWrapperClassName,
   imageClassName,
+  contentClassName,
   titleClassName,
   separatorClassName,
   priceRowClassName,
@@ -24,6 +57,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   stockNoteClassName,
   actionRowClassName,
 }) => {
+  const isHorizontal = orientation === 'horizontal';
+
   const buyButton = !action ? null : action.href ? (
     <Button size="xs" variant="fill" color="primary" href={action.href}>
       {action.label}
@@ -40,33 +75,47 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     </Button>
   );
 
+  const badgeRow =
+    startBadge || endBadge ? (
+      <div
+        className={cn(
+          'flex items-center justify-between gap-2',
+          badgeRowClasses[orientation],
+          headerClassName,
+        )}
+      >
+        {startBadge && (
+          <Badge variant="soft" color="warning-blue" size="sm" radius="sm">
+            {startBadge}
+          </Badge>
+        )}
+        {endBadge && (
+          <Badge variant="soft" color="warning-green" size="sm" radius="sm">
+            {endBadge}
+          </Badge>
+        )}
+      </div>
+    ) : null;
+
   return (
     <Card
       variant="fill"
-      className={cn('w-product-card', className)}
-      header={
-        startBadge || endBadge ? (
-          <div className={cn('flex items-center justify-between gap-2 px-3 pt-5', headerClassName)}>
-            {startBadge && (
-              <Badge variant="soft" color="warning-blue" size="sm" radius="sm">
-                {startBadge}
-              </Badge>
-            )}
-            {endBadge && (
-              <Badge variant="soft" color="warning-green" size="sm" radius="sm">
-                {endBadge}
-              </Badge>
-            )}
-          </div>
-        ) : undefined
-      }
+      className={cn(shellClasses[orientation], className)}
+      // Horizontal puts the badges inside the content column, next to the
+      // title — Card renders `header` above the image, which only works for
+      // the vertical layout.
+      header={isHorizontal ? undefined : badgeRow}
       image={{
         src: image.src,
         alt: image.alt,
-        imageWrapperClassName: cn('aspect-product-card', imageWrapperClassName),
+        sizes: imageSizes[orientation],
+        imageWrapperClassName: cn(imageWrapperClasses[orientation], imageWrapperClassName),
         imageClassName: cn('object-contain', imageClassName),
       }}
+      contentClassName={cn(contentClasses[orientation], contentClassName)}
     >
+      {isHorizontal && badgeRow}
+
       <Typography variant="body-sm" className={cn('line-clamp-2 text-gray-400', titleClassName)}>
         {title}
       </Typography>

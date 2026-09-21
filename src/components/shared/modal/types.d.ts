@@ -8,10 +8,11 @@ export interface ModalProps {
   title?: string;
   footer?: ReactNode;
   size?: ModalSize;
+  theme?: string;
+  icon?: ReactNode;
   closeOnBackdrop?: boolean;
   children?: ReactNode;
   className?: string;
-  /* --- Style overrides (merged with cn; utilities outrank baked-in classes) --- */
   containerClassName?: string;
   backdropClassName?: string;
   headerClassName?: string;

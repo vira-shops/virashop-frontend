@@ -15,14 +15,6 @@
     @apply text-gray-600;
   }
 
-  /*
-   * Active — the color modifier (`tabs-primary`, `tabs-blue`, …) lives on
-   * the container alongside `.tabs`, never on the item itself, so these
-   * must be descendant selectors — a same-element compound here can never
-   * match.
-   */
-
-  /* Active — fill variant: solid pill */
   .tabs-fill.tabs-primary .tab-item-active {
     @apply bg-primary text-white border border-primary;
   }
@@ -64,16 +56,12 @@
     @apply bg-wholesale-50 text-wholesale-500;
   }
 
-  /*
-   * Underline variant — no container chrome at all: plain text items with an
-   * accent rule under the active one (catalog listing sort row).
-   */
   .tabs-underline {
     @apply gap-6 rounded-none bg-transparent p-0;
   }
 
   .tabs-underline .tab-item {
-    @apply w-auto rounded-none border-b-2 border-transparent px-0 pb-3;
+    @apply w-auto rounded-none border-b-1 border-transparent px-0;
   }
 
   .tabs-underline.tabs-primary .tab-item-active {
