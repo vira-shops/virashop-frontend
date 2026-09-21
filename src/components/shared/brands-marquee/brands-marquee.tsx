@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui';
 import { cn } from '@/utils/ui';
-import type { BrandsMarqueeBrand, BrandsMarqueeProps } from './types';
+import type { BrandsMarqueeBrand, BrandsMarqueeLogoSize, BrandsMarqueeProps } from './types';
 
 /** Distributes brands round-robin across `rowCount` rows. */
 const distributeRows = (brands: BrandsMarqueeBrand[], rowCount: number): BrandsMarqueeBrand[][] => {
@@ -13,6 +13,12 @@ const distributeRows = (brands: BrandsMarqueeBrand[], rowCount: number): BrandsM
     rows[index % rowCount].push(brand);
   });
   return rows;
+};
+
+/** Logo tile + image sizing per `logoSize`. */
+const LOGO_SIZE_CLASSES: Record<BrandsMarqueeLogoSize, { tile: string; image: string }> = {
+  md: { tile: 'h-14 w-24 md:h-16 md:w-28', image: 'h-14 w-14 md:h-16 md:w-16' },
+  sm: { tile: 'h-9 w-16 md:h-10 md:w-20', image: 'h-9 w-9 md:h-10 md:w-10' },
 };
 
 /**
@@ -25,12 +31,16 @@ export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
   ctaLabel,
   ctaHref,
   onCtaClick,
+  showCta = true,
   rowCount = 3,
+  logoSize = 'md',
   ariaLabel,
   className,
   ctaClassName,
 }) => {
   const rows = distributeRows(brands, rowCount);
+  const sizeClasses = LOGO_SIZE_CLASSES[logoSize];
+  const visibleRowCount = rows.filter((row) => row.length > 0).length;
 
   return (
     <section
@@ -49,7 +59,16 @@ export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
       />
 
       {/* Logo rows */}
-      <div className="absolute inset-0 flex flex-col justify-between py-5">
+      <div
+        className={cn(
+          'absolute inset-0 flex flex-col py-5',
+          // A single visible row centered by `justify-between` sits at the
+          // top of the box instead of the middle — only rows.length > 1
+          // actually needs even top/middle/bottom distribution (the accent
+          // bars are pinned to the vertical center regardless).
+          visibleRowCount > 1 ? 'justify-between' : 'justify-center',
+        )}
+      >
         {rows.map((rowBrands, rowIndex) => {
           if (!rowBrands.length) return null;
 
@@ -68,14 +87,17 @@ export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
                   <div
                     key={`${brand.id}-${rowIndex}-${index}`}
                     aria-hidden={index >= rowBrands.length}
-                    className="mx-5 flex h-14 w-24 shrink-0 items-center justify-center opacity-[0.22] md:mx-7 md:h-16 md:w-28"
+                    className={cn(
+                      'mx-5 flex shrink-0 items-center justify-center opacity-[0.22] md:mx-7',
+                      sizeClasses.tile,
+                    )}
                   >
                     <Image
                       src={brand.logo}
                       alt={index < rowBrands.length ? (brand.logoAlt ?? brand.name) : ''}
                       width={80}
                       height={80}
-                      className="h-14 w-14 object-contain grayscale md:h-16 md:w-16"
+                      className={cn('object-contain grayscale', sizeClasses.image)}
                     />
                   </div>
                 ))}
@@ -86,18 +108,20 @@ export const BrandsMarquee: React.FC<BrandsMarqueeProps> = ({
       </div>
 
       {/* Center CTA */}
-      <div className="absolute inset-0 z-30 flex items-center justify-center">
-        <Button
-          variant="fill"
-          size="xxl"
-          color="primary"
-          href={ctaHref}
-          onClick={ctaHref ? undefined : onCtaClick}
-          className={ctaClassName}
-        >
-          {ctaLabel}
-        </Button>
-      </div>
+      {showCta && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center">
+          <Button
+            variant="fill"
+            size="xxl"
+            color="primary"
+            href={ctaHref}
+            onClick={ctaHref ? undefined : onCtaClick}
+            className={ctaClassName}
+          >
+            {ctaLabel}
+          </Button>
+        </div>
+      )}
     </section>
   );
 };

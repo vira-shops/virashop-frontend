@@ -44,6 +44,30 @@ describe('BrandsMarquee', () => {
     );
   });
 
+  it('hides the center CTA when showCta is false', () => {
+    render(<BrandsMarquee brands={brands} ctaLabel="برندهای محبوب" showCta={false} />);
+
+    expect(screen.queryByRole('button', { name: 'برندهای محبوب' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'برندهای محبوب' })).not.toBeInTheDocument();
+    // ctaLabel still names the section even with the CTA hidden.
+    expect(screen.getByLabelText('برندهای محبوب')).toBeInTheDocument();
+  });
+
+  it('renders smaller logo tiles when logoSize is "sm"', () => {
+    render(<BrandsMarquee brands={brands} ctaLabel="برندها" logoSize="sm" />);
+
+    const logo = screen.getByAltText('برند یک');
+    expect(logo).toHaveClass('h-9');
+    expect(logo).not.toHaveClass('h-14');
+  });
+
+  it('defaults to the "md" logo size', () => {
+    render(<BrandsMarquee brands={brands} ctaLabel="برندها" />);
+
+    const logo = screen.getByAltText('برند یک');
+    expect(logo).toHaveClass('h-14');
+  });
+
   it('does not render rows for empty brand lists beyond the first row', () => {
     const { container } = render(
       <BrandsMarquee brands={brands.slice(0, 2)} ctaLabel="برندها" rowCount={3} />,
