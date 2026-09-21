@@ -1,7 +1,13 @@
 'use client';
 
 import { Button, Typography } from '@/components/ui';
-import { Logo, UserActions, CategoriesDropdown, LocationBadge } from '@/components/shared';
+import {
+  Logo,
+  UserActions,
+  CategoriesDropdown,
+  LocationBadge,
+  UserMenu,
+} from '@/components/shared';
 import { useAuthSession } from '@/hooks/auth';
 import { PATHS } from '@/routes/paths';
 import { cn } from '@/utils/ui';
@@ -9,7 +15,7 @@ import type { StoreHeaderDesktopProps } from './types';
 
 export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
   const { logo, navItems, userActions, channel, location } = config;
-  const { mounted, user, signOut } = useAuthSession();
+  const { mounted, user, signOut, isPending } = useAuthSession();
 
   return (
     <div className="hidden bg-white md:block">
@@ -21,14 +27,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
           <div className="flex items-center gap-2">
             <UserActions actions={userActions} />
             {mounted && user ? (
-              <div className="flex items-center gap-2">
-                <Typography variant="caption-lg" className="text-gray-600">
-                  {user.fullName}
-                </Typography>
-                <Button variant="outline" color="primary" size="sm" onClick={() => void signOut()}>
-                  خروج
-                </Button>
-              </div>
+              <UserMenu user={user} onSignOut={() => void signOut()} isPending={isPending} />
             ) : (
               <Button href={PATHS.AUTH.LOGIN_FOR(channel)} color="primary" variant="fill" size="md">
                 ورود و ثبت نام
