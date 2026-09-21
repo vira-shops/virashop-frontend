@@ -3,7 +3,6 @@
 import type { StoreHeaderConfig } from '@/components/shared';
 import { SearchIcon, UserIcon, BasketIcon } from '@icons';
 import { PATHS } from '@/routes/paths';
-import { buildAuthHref } from '@/features/auth';
 
 export const wholesaleConfig: StoreHeaderConfig = {
   logo: {
@@ -22,7 +21,7 @@ export const wholesaleConfig: StoreHeaderConfig = {
   ],
   userActions: [
     { icon: <SearchIcon />, ariaLabel: 'جستجو' },
-    { icon: <UserIcon />, ariaLabel: 'ورود', href: buildAuthHref('WHOLESALE') },
+    { icon: <UserIcon />, ariaLabel: 'ورود', href: PATHS.AUTH.LOGIN_FOR('WHOLESALE') },
     { icon: <BasketIcon />, ariaLabel: 'سبد خرید', href: PATHS.CART },
   ],
 };

@@ -1,8 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { useHydration, useLogout } from '@/hooks';
-import { useAuthStore } from '@/features/auth/store';
+import { useHydration } from '@/hooks/use-hydration';
+import { useLogout } from './use-logout';
+import { useAuthStore } from './auth-store';
 
 /**
  * Header-facing session state — hydration-guarded so the persisted store is

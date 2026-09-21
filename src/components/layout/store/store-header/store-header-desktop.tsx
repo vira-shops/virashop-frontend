@@ -2,7 +2,8 @@
 
 import { Button, Typography } from '@/components/ui';
 import { Logo, UserActions, CategoriesDropdown, LocationBadge } from '@/components/shared';
-import { buildAuthHref, useAuthSession } from '@/features/auth';
+import { useAuthSession } from '@/hooks/auth';
+import { PATHS } from '@/routes/paths';
 import { cn } from '@/utils/ui';
 import { DESKTOP_NAV_ITEMS } from './constants';
 import type { StoreHeaderDesktopProps } from './types';
@@ -30,7 +31,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
                 </Button>
               </div>
             ) : (
-              <Button href={buildAuthHref(channel)} color="primary" variant="fill" size="md">
+              <Button href={PATHS.AUTH.LOGIN_FOR(channel)} color="primary" variant="fill" size="md">
                 ورود و ثبت نام
               </Button>
             )}

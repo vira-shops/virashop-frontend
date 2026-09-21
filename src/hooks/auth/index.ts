@@ -6,3 +6,5 @@ export { useSignupStep2, type SignupStep2MutationInput } from './use-signup-step
 export { useOtpVerify } from './use-otp-verify';
 export { useLogout } from './use-logout';
 export { useUpdateSellerBooth } from './use-update-seller-booth';
+export { useAuthStore, type AuthStore } from './auth-store';
+export { useAuthSession } from './use-auth-session';

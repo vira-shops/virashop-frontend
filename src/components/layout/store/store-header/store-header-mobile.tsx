@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui';
 import { Logo } from '@/components/shared';
 import { UserIcon } from '@icons';
-import { buildAuthHref, useAuthSession } from '@/features/auth';
+import { useAuthSession } from '@/hooks/auth';
+import { PATHS } from '@/routes/paths';
 import { RetailMobileSidebar } from './retail-mobile-sidebar';
 import type { StoreHeaderMobileProps } from './types';
 
@@ -28,7 +29,7 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
             </Button>
           ) : (
             <Button
-              href={buildAuthHref(channel)}
+              href={PATHS.AUTH.LOGIN_FOR(channel)}
               color="primary"
               variant="fill"
               size="xl"

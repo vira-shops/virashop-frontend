@@ -1,19 +1,6 @@
 import type { AuthErrorCode } from '@/contracts/endpoints/auth';
 import type { FailedApiResponse } from '@/connections';
-import type { Channel } from '@/contracts/endpoints/auth';
-import { PATHS } from '@/routes/paths';
 import { AUTH_ERROR_MESSAGES } from './constants';
-
-/** Builds the wizard entry href carrying the storefront channel context. */
-export const buildAuthHref = (channel?: Channel, returnTo?: string): string => {
-  const params = new URLSearchParams({ channel: channel ?? 'RETAIL' });
-
-  if (returnTo) {
-    params.set('returnTo', returnTo);
-  }
-
-  return `${PATHS.AUTH.LOGIN}?${params.toString()}`;
-};
 
 /** Normalizes Persian/Arabic digits to ASCII and strips separators. */
 const toAsciiDigits = (raw: string): string =>
