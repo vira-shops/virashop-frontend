@@ -9,6 +9,22 @@ import { useCountdown, toFaDigits } from './use-countdown';
 import type { CampaignBannerProps } from './types';
 import { DownArrowIcon } from '@icons';
 
+/**
+ * Splits a plain-string title into its lead segment and the emphasized
+ * (black) rest, at the first space or ZWNJ (نیم‌فاصله) boundary — e.g.
+ * "تخفیف بزرگ" → "تخفیف" + " بزرگ", "پرفروش‌ترین‌ها" → "پرفروش" + "‌ترین‌ها".
+ * A single-word title (no boundary) renders unemphasized.
+ */
+const splitTitleEmphasis = (title: string): { lead: string; rest: string } => {
+  const boundaryIndex = title.search(/[\s‌]/);
+
+  if (boundaryIndex === -1) {
+    return { lead: title, rest: '' };
+  }
+
+  return { lead: title.slice(0, boundaryIndex), rest: title.slice(boundaryIndex) };
+};
+
 const TimeCell: React.FC<{ value: number; label: string }> = ({ value, label }) => (
   <div className="flex min-w-14 flex-col items-center gap-0.5">
     <div className="rounded-3 flex h-13.5 w-13.5 items-center justify-center bg-white">
@@ -32,6 +48,7 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
   className,
 }) => {
   const { days, hours, minutes, ended } = useCountdown(endsAt);
+  const titleParts = typeof title === 'string' ? splitTitleEmphasis(title) : null;
 
   if (items.length === 0) {
     return null;
@@ -67,7 +84,14 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
         <div className="flex flex-col items-center">
           <div className="flex h-full flex-col items-center gap-1">
             <Typography variant="h2" className="text-white">
-              {title}
+              {titleParts ? (
+                <>
+                  {titleParts.lead}
+                  {titleParts.rest && <span className="text-black">{titleParts.rest}</span>}
+                </>
+              ) : (
+                title
+              )}
             </Typography>
             {subtitle && (
               <Typography variant="body-xs" className="text-white">
