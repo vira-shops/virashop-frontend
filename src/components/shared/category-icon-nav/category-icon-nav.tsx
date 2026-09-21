@@ -14,10 +14,7 @@ export const CategoryIconNav: React.FC<CategoryIconNavProps> = ({
   if (items.length === 0) return null;
 
   return (
-    <nav
-      aria-label="دسته‌بندی‌ها"
-      className={cn('no-scrollbar flex gap-6 overflow-x-auto', className)}
-    >
+    <nav aria-label="دسته‌بندی‌ها" className={cn('no-scrollbar flex h-fit gap-6', className)}>
       {items.map((item) => (
         <div key={item.id} className="shrink-0">
           <CategoryCard

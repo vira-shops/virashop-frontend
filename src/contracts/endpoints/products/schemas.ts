@@ -178,3 +178,50 @@ export const ProductDetailQuerySchema = z.object({
   channel: ChannelSchema.default('RETAIL'),
 });
 export type ProductDetailQuery = z.infer<typeof ProductDetailQuerySchema>;
+
+/* =========================================================
+   Products — seller offers («فروشنده ها»)
+   ========================================================= */
+
+/** Ordering of the seller list: cheapest / closest / best overall value. */
+export const SellerOfferSortSchema = z.enum(['cheapest', 'nearest', 'best']);
+export type SellerOfferSort = z.infer<typeof SellerOfferSortSchema>;
+
+/** One storefront's offer for a product — a row in the PDP's seller list. */
+export const SellerOfferSchema = z.object({
+  id: z.number(),
+  seller: ProductSellerSchema,
+  /** «ویژه» — a promoted storefront, flagged next to its name. */
+  isFeatured: z.boolean(),
+  /** Tomans, for this seller's own offer. */
+  price: z.number(),
+  discountPercent: z.number(),
+  /** Months this seller offers on installments; `null` when it offers none. */
+  installmentMonths: z.number().nullable(),
+  /** Marketplace commission, shown as «کارمزد ٪»; `null` when there is none. */
+  commissionPercent: z.number().nullable(),
+  /** City the seller ships from, e.g. «یزد». */
+  city: z.string(),
+  /** Whole years on the marketplace, shown as «N سال عضویت». */
+  membershipYears: z.number(),
+  /** «نوع ارسال», e.g. «باربری». */
+  shippingType: z.string(),
+  /** «موجودی» — free text, e.g. «۵تن (فروش عمده و خرده)». */
+  stockLabel: z.string(),
+  /** ISO date of the seller's last price/stock change («آخرین تغییرات»). */
+  updatedAt: z.string(),
+});
+export type SellerOffer = z.infer<typeof SellerOfferSchema>;
+
+export const SellerOffersQuerySchema = z.object({
+  channel: ChannelSchema.default('RETAIL'),
+  sort: SellerOfferSortSchema.default('cheapest'),
+});
+export type SellerOffersQuery = z.infer<typeof SellerOffersQuerySchema>;
+
+export const SellerOffersResponseSchema = z.object({
+  items: z.array(SellerOfferSchema),
+  /** Every seller carrying the product, including those beyond `items`. */
+  total: z.number(),
+});
+export type SellerOffersResponse = z.infer<typeof SellerOffersResponseSchema>;

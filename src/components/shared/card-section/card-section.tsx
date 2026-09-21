@@ -24,6 +24,10 @@ export const CardSection: React.FC<CardSectionProps> = ({
 
   const { lead, rest } = splitTitleEmphasis(title);
 
+  // See `ProductGrid` — holds the badge row open on the cards without one so
+  // the row of cards stays aligned.
+  const reserveBadgeRow = items.some((item) => item.startBadge || item.endBadge);
+
   const linkButton = !link ? null : link.href ? (
     <Button
       size="sm"
@@ -63,7 +67,7 @@ export const CardSection: React.FC<CardSectionProps> = ({
                 key={id ?? `card-section-item-${index}`}
                 className={cn('w-product-card', itemClassName)}
               >
-                <ProductCard {...item} />
+                <ProductCard reserveBadgeRow={reserveBadgeRow} {...item} />
               </CarouselItem>
             ))}
           </CarouselContent>

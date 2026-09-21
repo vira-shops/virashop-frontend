@@ -10,8 +10,12 @@ import {
   ProductDetailSchema,
   ProductListQuerySchema,
   ProductListResponseSchema,
+  SellerOffersQuerySchema,
+  SellerOffersResponseSchema,
   type ProductCard,
   type ProductDetail,
+  type SellerOffer,
+  type SellerOfferSort,
 } from './schemas';
 
 /** Single seller for every mock product — matches the backend guide's search example. */
@@ -164,6 +168,139 @@ const withWholesalePricing = (detail: ProductDetail): ProductDetail => ({
  */
 const FIRST_DETAIL_MOCK = buildProductDetailMock(PRODUCTS_MOCK[0].slug)!;
 
+/* =========================================================
+   Seller offers («فروشنده ها») — mock only
+   ========================================================= */
+
+/**
+ * Invented storefronts, not real marketplaces — the PDP's seller list has no
+ * endpoint yet, so `use-seller-offers.ts` forces this mock (same pattern as
+ * the best-sellers banner). Replace with the real payload when
+ * `GET /products/{slug}/offers` ships.
+ */
+const SELLER_OFFER_SEEDS = [
+  {
+    shopName: 'پارس کالا',
+    isFeatured: true,
+    city: 'یزد',
+    membershipYears: 1,
+    priceFactor: 1,
+    discountPercent: 20,
+    installmentMonths: 12,
+    commissionPercent: 5,
+    shippingType: 'باربری',
+    stockLabel: '۵تن (فروش عمده و خرده)',
+    distanceKm: 4,
+    updatedAt: '2026-02-27',
+  },
+  {
+    shopName: 'هایپر کالا',
+    isFeatured: false,
+    city: 'یزد',
+    membershipYears: 1,
+    priceFactor: 1.02,
+    discountPercent: 0,
+    installmentMonths: null,
+    commissionPercent: null,
+    shippingType: 'باربری',
+    stockLabel: '۵تن (فروش عمده و خرده)',
+    distanceKm: 11,
+    updatedAt: '2026-02-27',
+  },
+  {
+    shopName: 'پخش آرین',
+    isFeatured: true,
+    city: 'اصفهان',
+    membershipYears: 3,
+    priceFactor: 1.05,
+    discountPercent: 20,
+    installmentMonths: 6,
+    commissionPercent: 4,
+    shippingType: 'پست پیشتاز',
+    stockLabel: '۲تن (فروش عمده)',
+    distanceKm: 280,
+    updatedAt: '2026-02-20',
+  },
+  {
+    shopName: 'نیک‌کالا',
+    isFeatured: false,
+    city: 'تهران',
+    membershipYears: 5,
+    priceFactor: 1.08,
+    discountPercent: 10,
+    installmentMonths: 3,
+    commissionPercent: 6,
+    shippingType: 'تیپاکس',
+    stockLabel: '۸۰۰ کیلو (فروش خرده)',
+    distanceKm: 620,
+    updatedAt: '2026-02-11',
+  },
+] as const;
+
+/** Sellers carrying the product beyond the four listed — drives «نمایش N فروشگاه دیگر». */
+const SELLER_OFFERS_HIDDEN_COUNT = 24;
+
+/**
+ * Builds the seller list for one product. Each offer's `price` is derived
+ * from the product's own price, so the cheapest offer always matches the
+ * headline «قیمت از» exactly as the real endpoint would.
+ *
+ * «مناسب ترین» (best) ranks on price after discount, then on how close the
+ * seller is — the tab is a value judgement, not a single field.
+ */
+export const buildSellerOffersMock = (
+  slug: string,
+  sort: SellerOfferSort = 'cheapest',
+  basePrice?: number,
+): { items: SellerOffer[]; total: number } | undefined => {
+  const product = PRODUCTS_MOCK.find((item) => item.slug === slug) ?? PRODUCTS_MOCK[0];
+
+  if (!product) return undefined;
+
+  // Real products are not in the mock catalog, so the caller passes the live
+  // price — otherwise the seller list would quote a different product's.
+  const anchorPrice = basePrice ?? product.price;
+
+  const rows = SELLER_OFFER_SEEDS.map((seed, index) => ({
+    distanceKm: seed.distanceKm,
+    offer: {
+      id: product.id * 100 + index,
+      seller: {
+        id: 900_100 + index,
+        shopName: seed.shopName,
+        logoKey: null,
+        logoUrl: null,
+      },
+      isFeatured: seed.isFeatured,
+      price: Math.round((anchorPrice * seed.priceFactor) / 1000) * 1000,
+      discountPercent: seed.discountPercent,
+      installmentMonths: seed.installmentMonths,
+      commissionPercent: seed.commissionPercent,
+      city: seed.city,
+      membershipYears: seed.membershipYears,
+      shippingType: seed.shippingType,
+      stockLabel: seed.stockLabel,
+      updatedAt: seed.updatedAt,
+    } satisfies SellerOffer,
+  }));
+
+  const netPrice = (row: (typeof rows)[number]) =>
+    row.offer.price * (1 - row.offer.discountPercent / 100);
+
+  const sorted = [...rows].sort((a, b) => {
+    if (sort === 'nearest') return a.distanceKm - b.distanceKm;
+    if (sort === 'best') return netPrice(a) - netPrice(b) || a.distanceKm - b.distanceKm;
+    return a.offer.price - b.offer.price;
+  });
+
+  return {
+    items: sorted.map((row) => row.offer),
+    total: rows.length + SELLER_OFFERS_HIDDEN_COUNT,
+  };
+};
+
+const SELLER_OFFERS_MOCK = buildSellerOffersMock(PRODUCTS_MOCK[0].slug)!;
+
 export const productsContracts = {
   products: {
     /** `GET /products` — filtered/sorted/paginated list. */
@@ -187,6 +324,21 @@ export const productsContracts = {
       request: ProductDetailQuerySchema,
       response: apiResponseWrapper(ProductDetailSchema),
       mockData: mockDataWrapper(FIRST_DETAIL_MOCK),
+    },
+
+    /**
+     * `GET /products/{slug}/offers` — every storefront carrying the product.
+     * NOT LIVE YET: the route 404s on the current backend, so
+     * `use-seller-offers.ts` forces `mockData`. Same mock-mode limitation as
+     * `getDetail` — the static mock can't key off `{slug}`, so the hook
+     * resolves the right payload with `buildSellerOffersMock`.
+     */
+    getOffers: {
+      method: 'GET',
+      path: '/products/{slug}/offers',
+      request: SellerOffersQuerySchema,
+      response: apiResponseWrapper(SellerOffersResponseSchema),
+      mockData: mockDataWrapper(SELLER_OFFERS_MOCK),
     },
   },
 } as const satisfies Contracts;

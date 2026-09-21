@@ -22,7 +22,7 @@ export const CatalogHero: React.FC<CatalogHeroProps> = ({
   className,
 }) => (
   <section aria-label="جستجو و دسته‌بندی‌ها" className={cn('relative w-full', className)}>
-    <div className="bg-retail-tint pointer-events-none absolute inset-0" aria-hidden="true" />
+    <div className="bg-primary-500/10 pointer-events-none absolute inset-0" aria-hidden="true" />
 
     <div className="relative container flex flex-col items-center gap-6 py-12 md:gap-8">
       {breadcrumbItems.length > 0 && (

@@ -69,10 +69,19 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     );
   }
 
+  // Only some products carry badges. Holding the row open on the others keeps
+  // their images, prices and buttons on the same lines across the grid.
+  const reserveBadgeRow = items.some((item) => item.startBadge || item.endBadge);
+
   return (
     <div className={cn(GRID_CLASSES[orientation], gridClassName, className)}>
       {items.map(({ id, ...item }) => (
-        <ProductCard key={id} orientation={orientation} {...item} />
+        <ProductCard
+          key={id}
+          orientation={orientation}
+          reserveBadgeRow={reserveBadgeRow}
+          {...item}
+        />
       ))}
     </div>
   );

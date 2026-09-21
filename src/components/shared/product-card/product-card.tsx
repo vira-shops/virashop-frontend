@@ -9,7 +9,9 @@ import { ProductCardOrientation, ProductCardProps } from './types';
  * `vertical` keeps the full-bleed banner image above the content.
  */
 const shellClasses: Record<ProductCardOrientation, string> = {
-  vertical: 'w-product-card',
+  // `h-full` lets a grid/carousel cell stretch the card, which is what keeps
+  // the bottom group (price + action) on one line across a row.
+  vertical: 'w-product-card h-full',
   horizontal: 'w-full flex-row items-center gap-3 p-3',
 };
 
@@ -19,7 +21,7 @@ const imageWrapperClasses: Record<ProductCardOrientation, string> = {
 };
 
 const contentClasses: Record<ProductCardOrientation, string> = {
-  vertical: '',
+  vertical: 'flex-1',
   horizontal: 'min-w-0 flex-1 p-0',
 };
 
@@ -44,6 +46,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   stockNote,
   action,
   orientation = 'vertical',
+  reserveBadgeRow = false,
   className,
   headerClassName,
   imageWrapperClassName,
@@ -75,8 +78,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     </Button>
   );
 
+  const hasBadges = Boolean(startBadge || endBadge);
+
   const badgeRow =
-    startBadge || endBadge ? (
+    hasBadges || reserveBadgeRow ? (
       <div
         className={cn(
           'flex items-center justify-between gap-2',
@@ -92,6 +97,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {endBadge && (
           <Badge variant="soft" color="warning-green" size="sm" radius="sm">
             {endBadge}
+          </Badge>
+        )}
+        {/*
+          Holds the row open at exactly one badge's height so a card with no
+          badge still starts its image on the same line as its neighbours —
+          no magic pixel value to keep in sync with the Badge sizes.
+        */}
+        {!hasBadges && (
+          <Badge
+            variant="soft"
+            color="gray"
+            size="sm"
+            radius="sm"
+            aria-hidden
+            className="invisible"
+          >
+            &zwnj;
           </Badge>
         )}
       </div>
@@ -120,39 +142,49 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {title}
       </Typography>
 
-      <div
-        className={cn('border-t border-dotted border-gray-300', separatorClassName)}
-        aria-hidden="true"
-      />
+      {/*
+        Everything below the title is bottom-aligned, so a one-line and a
+        two-line title still leave their prices and buy buttons on the same
+        line across a row of cards.
+      */}
+      <div className="mt-auto flex flex-col gap-2">
+        <div
+          className={cn('border-t border-dotted border-gray-300', separatorClassName)}
+          aria-hidden="true"
+        />
 
-      {(priceLabel || price) && (
-        <div className={cn('flex items-center justify-between gap-5', priceRowClassName)}>
-          {priceLabel && (
-            <Typography variant="caption-md" className={cn('text-gray-700', priceLabelClassName)}>
-              {priceLabel}
-            </Typography>
-          )}
-          {price && (
-            <Typography variant="body-md" className={cn('font-bold text-black', priceClassName)}>
-              {price}
-            </Typography>
-          )}
-        </div>
-      )}
+        {(priceLabel || price) && (
+          <div className={cn('flex items-center justify-between gap-5', priceRowClassName)}>
+            {priceLabel && (
+              <Typography variant="caption-md" className={cn('text-gray-700', priceLabelClassName)}>
+                {priceLabel}
+              </Typography>
+            )}
+            {price && (
+              <Typography variant="body-md" className={cn('font-bold text-black', priceClassName)}>
+                {price}
+              </Typography>
+            )}
+          </div>
+        )}
 
-      {(stockNote || buyButton) && (
-        <div className={cn('flex items-center justify-between gap-5', actionRowClassName)}>
-          {stockNote && (
-            <Typography
-              variant="caption-md"
-              className={cn('rounded-5 bg-blue-100 px-9 py-1.5 text-gray-400', stockNoteClassName)}
-            >
-              {stockNote}
-            </Typography>
-          )}
-          {buyButton}
-        </div>
-      )}
+        {(stockNote || buyButton) && (
+          <div className={cn('flex items-center justify-between gap-5', actionRowClassName)}>
+            {stockNote && (
+              <Typography
+                variant="caption-md"
+                className={cn(
+                  'rounded-5 bg-blue-100 px-9 py-1.5 text-gray-400',
+                  stockNoteClassName,
+                )}
+              >
+                {stockNote}
+              </Typography>
+            )}
+            {buyButton}
+          </div>
+        )}
+      </div>
     </Card>
   );
 };

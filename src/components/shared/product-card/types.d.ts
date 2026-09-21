@@ -29,6 +29,12 @@ export interface ProductCardProps {
   action?: ProductCardAction;
   /** @default 'vertical' */
   orientation?: ProductCardOrientation;
+  /**
+   * Keeps the badge row's height even when this card has no badge, so a row
+   * of cards where only some carry badges still lines up. `ProductGrid` sets
+   * this for you when any of its items has one.
+   */
+  reserveBadgeRow?: boolean;
   className?: string;
   /* --- Style overrides (merged with cn; utilities outrank baked-in classes) --- */
   headerClassName?: string;

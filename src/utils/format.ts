@@ -22,3 +22,21 @@ export const splitTitleEmphasis = (title: string): { lead: string; rest: string 
 
   return { lead: title.slice(0, boundaryIndex), rest: title.slice(boundaryIndex) };
 };
+
+/**
+ * ISO date → Jalali `۱۴۰۴/۱۲/۸`, through the platform's Persian calendar.
+ * Pinned to Tehran so the server and the client never disagree on the day
+ * and trip a hydration mismatch.
+ */
+export const formatJalaliDate = (iso: string): string => {
+  const date = new Date(iso);
+
+  if (Number.isNaN(date.getTime())) return '';
+
+  return new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    timeZone: 'Asia/Tehran',
+  }).format(date);
+};

@@ -34,6 +34,8 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
 }) => {
   const { days, hours, minutes, ended } = useCountdown(endsAt);
   const titleParts = typeof title === 'string' ? splitTitleEmphasis(title) : null;
+  // See `ProductGrid` — keeps the cards aligned when only some carry badges.
+  const reserveBadgeRow = items.some((item) => item.startBadge || item.endBadge);
 
   if (items.length === 0) {
     return null;
@@ -115,7 +117,7 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
                   key={itemId ?? `campaign-item-${index}`}
                   className="w-product-card basis-auto pl-0"
                 >
-                  <ProductCard {...item} />
+                  <ProductCard reserveBadgeRow={reserveBadgeRow} {...item} />
                 </CarouselItem>
               ))}
             </CarouselContent>

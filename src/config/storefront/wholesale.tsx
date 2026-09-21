@@ -19,7 +19,7 @@ export const wholesaleChannel: StorefrontChannel = {
   segment: 'wholesale',
   paths: PATHS.WHOLESALE,
   metadata: wholesaleMetadata,
-  mainClassName: 'bg-blue-50',
+  // mainClassName: 'bg-blue-50',
   priceMax: 50_000_000,
 
   header: {

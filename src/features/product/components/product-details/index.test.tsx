@@ -1,14 +1,26 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProductDetails } from './index';
-import { useProduct } from '@/hooks';
+import { useProduct, useSellerOffers } from '@/hooks';
 
 jest.mock('@/hooks', () => ({
   ...jest.requireActual('@/hooks'),
   useProduct: jest.fn(),
+  useSellerOffers: jest.fn(),
 }));
 
 const mockUseProduct = useProduct as jest.MockedFunction<typeof useProduct>;
+const mockUseSellerOffers = useSellerOffers as jest.MockedFunction<typeof useSellerOffers>;
+
+/** The best-sellers section at the bottom runs its own (unmocked) query. */
+const renderDetails = (ui: React.ReactElement) => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false, gcTime: 0, staleTime: 0 } },
+  });
+
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+};
 
 const product = {
   id: 1,
@@ -19,7 +31,7 @@ const product = {
   price: 250_000,
   compareAtPrice: 300_000,
   discountPercent: 15,
-  badges: [],
+  badges: ['اقساط ۵ ماهه'],
   stockStatus: 'IN_STOCK' as const,
   seller: { id: 1, shopName: 'ویراشاپس', logoKey: null, logoUrl: null },
   storeCount: 1,
@@ -29,7 +41,10 @@ const product = {
   brand: null,
   sku: null,
   gallery: [],
-  specs: [{ key: 'weight', label: 'وزن', value: '۱ کیلوگرم' }],
+  specs: [
+    { key: 'weight', label: 'وزن', value: '۱ کیلوگرم' },
+    { key: 'pack', label: 'بسته‌بندی', value: 'بسته ۶ عددی' },
+  ],
   productionDate: null,
   expiryDate: null,
   category: { id: 2, slug: 'protein-poultry', name: 'مرغ و ماکیان' },
@@ -37,19 +52,109 @@ const product = {
   related: [],
 };
 
+const offer = (id: number, shopName: string, price: number) => ({
+  id,
+  seller: { id, shopName, logoKey: null, logoUrl: null },
+  isFeatured: id === 1,
+  price,
+  discountPercent: 20,
+  installmentMonths: 12,
+  commissionPercent: 5,
+  city: 'یزد',
+  membershipYears: 1,
+  shippingType: 'باربری',
+  stockLabel: '۵تن (فروش عمده و خرده)',
+  updatedAt: '2026-02-27',
+});
+
+const offers = {
+  items: [
+    offer(1, 'بازرگانی پارس کالا', 250_000),
+    offer(2, 'هایپر کالای مرکزی', 255_000),
+    offer(3, 'پخش سراسری آرین', 262_000),
+    offer(4, 'فروشگاه نیک‌کالا', 245_000),
+  ],
+  total: 28,
+};
+
+const setSellerOffers = (data: typeof offers | undefined, isLoading = false) =>
+  mockUseSellerOffers.mockReturnValue({ data, isLoading } as unknown as ReturnType<
+    typeof useSellerOffers
+  >);
+
 describe('ProductDetails', () => {
-  it('renders the product name, seller, price block and specs', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+
     mockUseProduct.mockReturnValue({
       data: product,
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    render(<ProductDetails channel="RETAIL" slug="protein-1" />);
+    setSellerOffers(offers);
+  });
+
+  it('renders the summary card with the spec bullets and the «قیمت از» row', () => {
+    renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
 
     expect(screen.getByRole('heading', { name: 'سینه مرغ تازه' })).toBeInTheDocument();
-    expect(screen.getByText('فروشنده: ویراشاپس')).toBeInTheDocument();
-    expect(screen.getByText('وزن')).toBeInTheDocument();
     expect(screen.getByText('۱ کیلوگرم')).toBeInTheDocument();
+    expect(screen.getByText('بسته ۶ عددی')).toBeInTheDocument();
+    expect(screen.getByText('قیمت از')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'افزودن به علاقه‌مندی‌ها' })).toBeInTheDocument();
+  });
+
+  it('renders the discount and installment badges', () => {
+    renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
+
+    expect(screen.getByText('اقساط ۵ ماهه')).toBeInTheDocument();
+    expect(screen.getByText('۱۵٪ تخفیف')).toBeInTheDocument();
+  });
+
+  it('renders the marketplace buy bar', () => {
+    renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
+
+    const bar = screen.getByRole('link', { name: /خرید از ویراشاپس/ });
+
+    expect(bar).toHaveAttribute('href', '/retail/protein-1');
+    expect(within(bar).getByText('ارزان ترین')).toBeInTheDocument();
+  });
+
+  it('lists the first sellers with their terms and hides the rest behind a link', () => {
+    renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
+
+    expect(screen.getByRole('heading', { name: 'فروشنده ها' })).toBeInTheDocument();
+    expect(screen.getByText('بازرگانی پارس کالا')).toBeInTheDocument();
+    expect(screen.getByText('پخش سراسری آرین')).toBeInTheDocument();
+    // Fourth seller stays hidden until the list is expanded.
+    expect(screen.queryByText('فروشگاه نیک‌کالا')).not.toBeInTheDocument();
+    expect(screen.getAllByText('اقساط ۱۲ ماهه')).toHaveLength(3);
+    expect(screen.getAllByText('آخرین تغییرات ۱۴۰۴/۱۲/۸')).toHaveLength(3);
+
+    fireEvent.click(screen.getByRole('button', { name: 'نمایش ۲۵ فروشگاه دیگر' }));
+
+    expect(screen.getByText('فروشگاه نیک‌کالا')).toBeInTheDocument();
+  });
+
+  it('switches the seller ordering tab', () => {
+    renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
+
+    expect(screen.getByRole('tab', { name: 'ارزان ترین' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+
+    fireEvent.click(screen.getByRole('tab', { name: 'نزدیک ترین' }));
+
+    expect(screen.getByRole('tab', { name: 'نزدیک ترین' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    expect(mockUseSellerOffers).toHaveBeenLastCalledWith(
+      'protein-1',
+      { channel: 'RETAIL', sort: 'nearest' },
+      product.price,
+    );
   });
 
   it('renders nothing when there is no product and not loading', () => {
@@ -58,7 +163,7 @@ describe('ProductDetails', () => {
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    const { container } = render(<ProductDetails channel="RETAIL" slug="missing" />);
+    const { container } = renderDetails(<ProductDetails channel="RETAIL" slug="missing" />);
 
     expect(container).toBeEmptyDOMElement();
   });

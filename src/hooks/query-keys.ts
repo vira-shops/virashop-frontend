@@ -16,6 +16,8 @@ export const queryKeys = {
     [...queryKeys.products(), 'list', query] as const,
   productDetail: (slug: string, channel: string) =>
     [...queryKeys.products(), 'detail', slug, channel] as const,
+  sellerOffers: (slug: string, channel: string, sort: string, basePrice?: number) =>
+    [...queryKeys.products(), 'offers', slug, channel, sort, basePrice] as const,
   posts: () => [...queryKeys.all, 'posts'] as const,
   techNews: () => [...queryKeys.posts(), 'tech-news'] as const,
   cities: () => [...queryKeys.all, 'cities'] as const,
