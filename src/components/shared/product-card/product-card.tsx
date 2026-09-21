@@ -63,7 +63,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const isHorizontal = orientation === 'horizontal';
 
   const buyButton = !action ? null : action.href ? (
-    <Button size="xs" variant="fill" color="primary" href={action.href}>
+    <Button
+      size="xs"
+      variant="fill"
+      color="primary"
+      href={action.href}
+      // `button-text-xs` grows to a 44px touch target on coarse pointers
+      // (button.css) — right for a standalone button, but here it sits in a
+      // row next to the stock-note pill and only needs to match its ~32px
+      // height, so the bump is pinned back to the desktop size.
+      className="h-11!"
+    >
       {action.label}
     </Button>
   ) : (
@@ -73,6 +83,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       color="primary"
       onClick={action.onClick}
       disabled={action.disabled}
+      // Same touch-target override as the `xs` branch above, for `sm`'s own
+      // desktop height.
+      className="h-[36px]!"
     >
       {action.label}
     </Button>
