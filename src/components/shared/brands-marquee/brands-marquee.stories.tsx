@@ -46,3 +46,14 @@ export const WithCtaLink: StoryObj<typeof BrandsMarquee> = {
     ctaHref: '/wholesale/brands',
   },
 };
+
+export const NoCtaSmallLogos: StoryObj<typeof BrandsMarquee> = {
+  name: 'No CTA, small logos (retail)',
+  args: {
+    brands,
+    ctaLabel: 'برندهای محبوب',
+    showCta: false,
+    logoSize: 'sm',
+    rowCount: 1,
+  },
+};
