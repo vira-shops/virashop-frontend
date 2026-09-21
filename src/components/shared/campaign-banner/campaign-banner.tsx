@@ -6,6 +6,7 @@ import { ProductCard } from '@/components/shared/product-card';
 import { cn } from '@/utils/ui';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui';
 import { useCountdown, toFaDigits } from './use-countdown';
+import { splitTitleEmphasis } from '@/utils/format';
 import type { CampaignBannerProps } from './types';
 import { DownArrowIcon } from '@icons';
 
@@ -32,6 +33,7 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
   className,
 }) => {
   const { days, hours, minutes, ended } = useCountdown(endsAt);
+  const titleParts = typeof title === 'string' ? splitTitleEmphasis(title) : null;
 
   if (items.length === 0) {
     return null;
@@ -67,7 +69,14 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
         <div className="flex flex-col items-center">
           <div className="flex h-full flex-col items-center gap-1">
             <Typography variant="h2" className="text-white">
-              {title}
+              {titleParts ? (
+                <>
+                  {titleParts.lead}
+                  {titleParts.rest && <span className="text-black">{titleParts.rest}</span>}
+                </>
+              ) : (
+                title
+              )}
             </Typography>
             {subtitle && (
               <Typography variant="body-xs" className="text-white">

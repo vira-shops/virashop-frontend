@@ -39,7 +39,9 @@ describe('BestSellersSection', () => {
       />,
     );
 
-    expect(screen.getByText('پرفروش‌ترین‌ها')).toBeInTheDocument();
+    // The title's emphasized segment renders in its own <span>, splitting
+    // the text across elements — match on the heading's full text content.
+    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('پرفروش‌ترین‌ها');
     expect(screen.getByText('حراج محصولات تا %55 تخفیف')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'مشاهده همه' })).toHaveAttribute(
       'href',

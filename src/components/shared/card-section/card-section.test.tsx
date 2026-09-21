@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CardSection } from './card-section';
 
@@ -30,7 +30,10 @@ describe('CardSection', () => {
       />,
     );
 
-    expect(screen.getByText('تخفیف بزرگ')).toBeInTheDocument();
+    // The title's emphasized segment renders in its own <span> (see the
+    // two-tone emphasis test below), so it's split across elements — match
+    // on the heading's full text content instead of a single text node.
+    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('تخفیف بزرگ');
     expect(screen.getByRole('link', { name: 'مشاهده همه' })).toHaveAttribute(
       'href',
       '/wholesale/offers',
@@ -42,7 +45,7 @@ describe('CardSection', () => {
   it('does not render the header link when none is given', () => {
     render(<CardSection title="پرفروش‌ترین‌ها" items={items} />);
 
-    expect(screen.getByText('پرفروش‌ترین‌ها')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('پرفروش‌ترین‌ها');
     expect(screen.queryByRole('link', { name: 'مشاهده همه' })).not.toBeInTheDocument();
   });
 
@@ -64,10 +67,47 @@ describe('CardSection', () => {
       />,
     );
 
-    expect(screen.getByText('تخفیف بزرگ')).toHaveClass('title-override');
-    expect(screen.getByText('تخفیف بزرگ').closest('.header-override')).not.toBeNull();
+    const heading = screen.getByRole('heading', { level: 4 });
+
+    expect(heading).toHaveTextContent('تخفیف بزرگ');
+    expect(heading).toHaveClass('title-override');
+    expect(heading.closest('.header-override')).not.toBeNull();
     expect(document.querySelector('.carousel-override')).not.toBeNull();
     expect(screen.getByText('کارت یک').closest('.item-override')).not.toBeNull();
+  });
+
+  it('renders the part of the title after the first space in black', () => {
+    render(<CardSection title="تخفیف بزرگ" items={items} />);
+
+    const heading = screen.getByRole('heading', { level: 4 });
+    const emphasis = within(heading).getByText('بزرگ', { exact: false });
+
+    expect(emphasis.tagName).toBe('SPAN');
+    expect(emphasis).toHaveClass('text-black');
+  });
+
+  it('splits a ZWNJ-joined compound title at the first نیم‌فاصله', () => {
+    render(<CardSection title="پرفروش‌ترین‌ها" items={items} />);
+
+    const heading = screen.getByRole('heading', { level: 4 });
+    const emphasis = within(heading).getByText('ترین‌ها', { exact: false });
+
+    expect(emphasis).toHaveClass('text-black');
+  });
+
+  it('does not emphasize a single-word title', () => {
+    render(<CardSection title="ویژه" items={items} />);
+
+    const heading = screen.getByRole('heading', { level: 4 });
+
+    expect(heading).toHaveTextContent('ویژه');
+    expect(heading.querySelector('span.text-black')).not.toBeInTheDocument();
+  });
+
+  it('keeps the full, unsplit title as the section aria-label', () => {
+    render(<CardSection title="پرفروش‌ترین‌ها" items={items} />);
+
+    expect(screen.getByLabelText('پرفروش‌ترین‌ها')).toBeInTheDocument();
   });
 
   it('renders the link as a button with a working onClick when no href is given', async () => {

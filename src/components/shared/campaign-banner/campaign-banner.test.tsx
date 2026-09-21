@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { CampaignBanner } from './campaign-banner';
 
 const items = [
@@ -30,7 +30,10 @@ describe('CampaignBanner', () => {
       />,
     );
 
-    expect(screen.getByText('Weekly Offers')).toBeInTheDocument();
+    // The title's second word renders in its own <span> (see the two-tone
+    // emphasis test below), so it's split across elements — match on the
+    // heading's full text content instead of a single text node.
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Weekly Offers');
     expect(screen.getByText('تخفیف‌های ویژهٔ این هفته')).toBeInTheDocument();
     expect(screen.getByText('کارت یک')).toBeInTheDocument();
     expect(screen.getByText('کارت دو')).toBeInTheDocument();
@@ -88,6 +91,36 @@ describe('CampaignBanner', () => {
     );
 
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it('renders the part of the title after the first space in black', () => {
+    render(<CampaignBanner title="تخفیف بزرگ" endsAt={Date.now() + 60_000} items={items} />);
+
+    const heading = screen.getByRole('heading', { level: 2 });
+    const emphasis = within(heading).getByText('بزرگ', { exact: false });
+
+    expect(heading).toHaveTextContent('تخفیف بزرگ');
+    expect(emphasis.tagName).toBe('SPAN');
+    expect(emphasis).toHaveClass('text-black');
+  });
+
+  it('splits a ZWNJ-joined compound title at the first نیم‌فاصله', () => {
+    render(<CampaignBanner title="پرفروش‌ترین‌ها" endsAt={Date.now() + 60_000} items={items} />);
+
+    const heading = screen.getByRole('heading', { level: 2 });
+    const emphasis = within(heading).getByText('ترین‌ها', { exact: false });
+
+    expect(heading).toHaveTextContent('پرفروش‌ترین‌ها');
+    expect(emphasis).toHaveClass('text-black');
+  });
+
+  it('does not emphasize a single-word title', () => {
+    render(<CampaignBanner title="ویژه" endsAt={Date.now() + 60_000} items={items} />);
+
+    const heading = screen.getByRole('heading', { level: 2 });
+
+    expect(heading).toHaveTextContent('ویژه');
+    expect(heading.querySelector('span.text-black')).not.toBeInTheDocument();
   });
 
   it('sets the section id for scroll anchoring', () => {

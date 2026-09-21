@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Button, Carousel, CarouselContent, CarouselItem, Typography } from '@/components/ui';
 import { ProductCard } from '@/components/shared/product-card';
 import { cn } from '@/utils/ui';
+import { splitTitleEmphasis } from '@/utils/format';
 import { CardSectionProps } from './types';
 
 export const CardSection: React.FC<CardSectionProps> = ({
@@ -20,6 +21,8 @@ export const CardSection: React.FC<CardSectionProps> = ({
   if (items.length === 0) {
     return null;
   }
+
+  const { lead, rest } = splitTitleEmphasis(title);
 
   const linkButton = !link ? null : link.href ? (
     <Button
@@ -43,7 +46,8 @@ export const CardSection: React.FC<CardSectionProps> = ({
         <div className={cn('mb-8 flex w-full items-end justify-between', headerClassName)}>
           <div className="flex flex-col items-start gap-4">
             <Typography variant="h4" color="primary" className={titleClassName}>
-              {title}
+              {lead}
+              {rest && <span className="text-black">{rest}</span>}
             </Typography>
             <Typography variant="body-sm" className="text-gray-300">
               {description}
