@@ -6,24 +6,9 @@ import { ProductCard } from '@/components/shared/product-card';
 import { cn } from '@/utils/ui';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui';
 import { useCountdown, toFaDigits } from './use-countdown';
+import { splitTitleEmphasis } from '@/utils/format';
 import type { CampaignBannerProps } from './types';
 import { DownArrowIcon } from '@icons';
-
-/**
- * Splits a plain-string title into its lead segment and the emphasized
- * (black) rest, at the first space or ZWNJ (نیم‌فاصله) boundary — e.g.
- * "تخفیف بزرگ" → "تخفیف" + " بزرگ", "پرفروش‌ترین‌ها" → "پرفروش" + "‌ترین‌ها".
- * A single-word title (no boundary) renders unemphasized.
- */
-const splitTitleEmphasis = (title: string): { lead: string; rest: string } => {
-  const boundaryIndex = title.search(/[\s‌]/);
-
-  if (boundaryIndex === -1) {
-    return { lead: title, rest: '' };
-  }
-
-  return { lead: title.slice(0, boundaryIndex), rest: title.slice(boundaryIndex) };
-};
 
 const TimeCell: React.FC<{ value: number; label: string }> = ({ value, label }) => (
   <div className="flex min-w-14 flex-col items-center gap-0.5">
