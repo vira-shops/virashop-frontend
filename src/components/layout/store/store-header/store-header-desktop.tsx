@@ -5,11 +5,10 @@ import { Logo, UserActions, CategoriesDropdown, LocationBadge } from '@/componen
 import { useAuthSession } from '@/hooks/auth';
 import { PATHS } from '@/routes/paths';
 import { cn } from '@/utils/ui';
-import { DESKTOP_NAV_ITEMS } from './constants';
 import type { StoreHeaderDesktopProps } from './types';
 
 export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
-  const { logo, userActions, channel, location } = config;
+  const { logo, navItems, userActions, channel, location } = config;
   const { mounted, user, signOut } = useAuthSession();
 
   return (
@@ -45,7 +44,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
           <div className="flex items-center gap-11">
             <CategoriesDropdown />
 
-            {DESKTOP_NAV_ITEMS.map(({ label, href }) => (
+            {navItems.map(({ label, href }) => (
               <Typography
                 key={href}
                 variant="caption-lg"

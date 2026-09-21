@@ -8,12 +8,15 @@ import { LocationBadge, Logo } from '@/components/shared';
 import { usePopularCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { PopularCategory } from '@/contracts/endpoints/categories/schemas';
-import { CATEGORIES_SECTION_TITLE, MOBILE_NAV_ITEMS } from './constants';
+import type { NavItem } from '@/config/storefront';
+import { CATEGORIES_SECTION_TITLE } from './constants';
 
-interface RetailMobileSidebarProps {
+interface StoreMobileSidebarProps {
   logo: { src: string; alt: string };
   /** Fallback city for the location badge — comes from the header config. */
   city?: string;
+  /** Channel-specific nav links — comes from the header config. */
+  navItems: NavItem[];
 }
 
 // --- Icon map for dynamic icon rendering ------------------------------------
@@ -45,10 +48,13 @@ const SidebarHeader: React.FC<{ logo: { src: string; alt: string }; onClose: () 
   </div>
 );
 
-/** Navigation links at the top of the sidebar (Favorites, Blog, Offers, About, Best Sellers). */
-const NavigationLinks: React.FC<{ onItemClick: () => void }> = ({ onItemClick }) => (
+/** Navigation links at the top of the sidebar — content comes from the header config. */
+const NavigationLinks: React.FC<{ items: NavItem[]; onItemClick: () => void }> = ({
+  items,
+  onItemClick,
+}) => (
   <nav className="flex flex-col gap-8 px-4 py-10">
-    {MOBILE_NAV_ITEMS.map(({ label, href, icon }) => {
+    {items.map(({ label, href, icon }) => {
       const Icon = icon ? ICON_MAP[icon] : null;
       return (
         <Link
@@ -152,7 +158,11 @@ const CategoryGroupsPanel: React.FC<{
       <Typography
         variant="body-sm"
         color="primary"
-        href={category.href ?? `/retail/category/${category.slug}`}
+        // `category.href` comes from the popular-categories mock, which is
+        // not yet channel-aware (see the desktop CategoriesDropdown, which
+        // has the same limitation) — '#' matches its existing fallback
+        // rather than hardcoding a retail path here.
+        href={category.href ?? '#'}
         onClick={onItemClick}
       >
         مشاهده همهٔ {category.title}
@@ -258,7 +268,7 @@ const SidebarFooter: React.FC<{ city?: string }> = ({ city }) => (
 
 // --- Main component ---------------------------------------------------------
 
-export const RetailMobileSidebar: React.FC<RetailMobileSidebarProps> = ({ logo, city }) => {
+export const StoreMobileSidebar: React.FC<StoreMobileSidebarProps> = ({ logo, city, navItems }) => {
   const { data: categories } = usePopularCategories();
   const catList = categories ?? [];
 
@@ -364,7 +374,7 @@ export const RetailMobileSidebar: React.FC<RetailMobileSidebarProps> = ({ logo, 
 
             <div className="flex flex-1 flex-col overflow-y-auto">
               {/* Navigation Links */}
-              <NavigationLinks onItemClick={close} />
+              <NavigationLinks items={navItems} onItemClick={close} />
 
               {/* Divider */}
               <Divider />
@@ -398,4 +408,4 @@ export const RetailMobileSidebar: React.FC<RetailMobileSidebarProps> = ({ logo, 
   );
 };
 
-RetailMobileSidebar.displayName = 'RetailMobileSidebar';
+StoreMobileSidebar.displayName = 'StoreMobileSidebar';
