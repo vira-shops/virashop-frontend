@@ -1,10 +1,10 @@
 @layer components {
   .stepper {
-    @apply rounded-8 inline-flex items-center justify-center border border-gray-100 bg-white;
+    @apply rounded-3 inline-flex items-center justify-center bg-gray-200;
   }
 
   .stepper-button {
-    @apply text-primary flex shrink-0 cursor-pointer items-center justify-center leading-none transition-opacity;
+    @apply flex shrink-0 cursor-pointer items-center justify-center leading-none transition-opacity;
   }
 
   .stepper-button:disabled {
@@ -13,6 +13,10 @@
 
   .stepper-value {
     @apply text-body-sm min-w-16 text-center font-bold whitespace-nowrap text-gray-700;
+  }
+
+  .steper-value-unit {
+    @apply text-[9px]
   }
 
   .stepper-disabled {

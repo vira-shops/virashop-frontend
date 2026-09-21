@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useProduct, useSellerOffer, useSellerOffers } from '@/hooks';
+import { useRouter } from 'next/navigation';
+import { useCartStore, useProduct, useSellerOffer, useSellerOffers } from '@/hooks';
+import { useToast } from '@/components/feedback';
+import { PATHS } from '@/routes/paths';
 import { getStorefrontChannelByChannel } from '@/config/storefront';
 import { toFaDigits } from '@/utils/format';
 import {
@@ -43,6 +46,8 @@ export interface ProductDetailsViewModel {
   hrefForOffer: (offerId: number) => string;
   /** Clears the selection and returns to the seller list. */
   clearSelectedOffer: () => void;
+  /** Puts the selected seller's offer in the basket and opens the checkout. */
+  addSelectedOfferToCart: () => void;
   /** Storefront `data-theme` value. */
   theme: string;
 }
@@ -53,8 +58,11 @@ export interface ProductDetailsViewModel {
  */
 export const useProductDetails = (channel: Channel, slug: string): ProductDetailsViewModel => {
   const config = getStorefrontChannelByChannel(channel);
+  const router = useRouter();
+  const toast = useToast();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const addLine = useCartStore((state) => state.addLine);
   const [sort, setSort] = React.useState<SellerOfferSort>('cheapest');
 
   const sellerParam = searchParams.get(SELLER_PARAM);
@@ -112,6 +120,31 @@ export const useProductDetails = (channel: Channel, slug: string): ProductDetail
     hrefForOffer: (offerId) => `${pathname}?${SELLER_PARAM}=${offerId}`,
     // Shallow, so picking and unpicking a seller never re-runs the route.
     clearSelectedOffer: () => window.history.pushState(null, '', pathname),
+    addSelectedOfferToCart: () => {
+      const offer = selectedOfferQuery.data;
+
+      if (!product || !offer) return;
+
+      addLine({
+        productSlug: product.slug,
+        name: product.name,
+        imageUrl: product.imageUrl ?? null,
+        seller: {
+          id: offer.seller.id,
+          shopName: offer.seller.shopName,
+          logoUrl: offer.seller.logoUrl ?? null,
+        },
+        unitPrice: offer.price,
+        commissionPercent: offer.commissionPercent ?? 0,
+        // One pack by default; the cart step is where quantities get tuned.
+        shrinks: 1,
+        units: 0,
+        prepayment: 0,
+      });
+
+      toast.success('به سبد خرید اضافه شد');
+      router.push(PATHS.CART_FOR(channel));
+    },
     theme: config.segment,
   };
 };

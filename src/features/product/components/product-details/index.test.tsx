@@ -2,14 +2,17 @@ import * as React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProductDetails } from './index';
-import { useProduct, useSellerOffer, useSellerOffers } from '@/hooks';
+import { ToastProvider } from '@/components/feedback';
+import { useCartStore, useProduct, useSellerOffer, useSellerOffers } from '@/hooks';
 
 /** Selection lives in the URL, so the view reads `useSearchParams`. */
 let searchParams = new URLSearchParams();
+const push = jest.fn();
 
 jest.mock('next/navigation', () => ({
   usePathname: () => '/retail/protein-1',
   useSearchParams: () => searchParams,
+  useRouter: () => ({ push }),
 }));
 
 jest.mock('@/hooks', () => ({
@@ -23,13 +26,20 @@ const mockUseProduct = useProduct as jest.MockedFunction<typeof useProduct>;
 const mockUseSellerOffers = useSellerOffers as jest.MockedFunction<typeof useSellerOffers>;
 const mockUseSellerOffer = useSellerOffer as jest.MockedFunction<typeof useSellerOffer>;
 
-/** The best-sellers section at the bottom runs its own (unmocked) query. */
+/**
+ * The best-sellers section runs its own (unmocked) query, and adding to the
+ * cart raises a toast — both need their providers.
+ */
 const renderDetails = (ui: React.ReactElement) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false, gcTime: 0, staleTime: 0 } },
   });
 
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>{ui}</ToastProvider>
+    </QueryClientProvider>,
+  );
 };
 
 const product = {
@@ -136,6 +146,7 @@ describe('ProductDetails', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     searchParams = new URLSearchParams();
+    useCartStore.getState().reset();
 
     mockUseSellerOffer.mockReturnValue({
       data: undefined,
@@ -273,14 +284,35 @@ describe('ProductDetails', () => {
     );
   });
 
+  it('puts the selected offer in the cart and heads to checkout', () => {
+    selectSeller(1);
+
+    renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'افزودن به سبد خرید' }));
+
+    const [line] = useCartStore.getState().lines;
+
+    expect(line).toMatchObject({
+      productSlug: 'protein-1',
+      unitPrice: 250_000,
+      commissionPercent: 5,
+      shrinks: 1,
+      seller: { shopName: 'بازرگانی پارس کالا' },
+    });
+    expect(push).toHaveBeenCalledWith('/cart?channel=RETAIL');
+  });
+
   it('renders nothing when there is no product and not loading', () => {
     mockUseProduct.mockReturnValue({
       data: undefined,
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    const { container } = renderDetails(<ProductDetails channel="RETAIL" slug="missing" />);
+    renderDetails(<ProductDetails channel="RETAIL" slug="missing" />);
 
-    expect(container).toBeEmptyDOMElement();
+    // Only the toast viewport from the provider remains.
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /خرید از/ })).not.toBeInTheDocument();
   });
 });

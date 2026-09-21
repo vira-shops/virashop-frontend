@@ -12,6 +12,7 @@
 @import '../../../components/ui/select/select.css';
 @import '../../../components/ui/skeleton/skeleton.css';
 @import '../../../components/ui/uploader/uploader.css';
+@import '../../../components/ui/radio/radio.css';
 @import '../../../components/ui/range-slider/range-slider.css';
 @import '../../../components/ui/pagination/pagination.css';
 @import '../../../components/ui/stepper/stepper.css';

@@ -46,7 +46,7 @@ export const retailChannel: StorefrontChannel = {
     userActions: [
       { icon: <SearchIcon />, ariaLabel: 'جستجو' },
       { icon: <HeartIcon />, ariaLabel: 'ورود', href: PATHS.AUTH.LOGIN_FOR('RETAIL') },
-      { icon: <BasketIcon />, ariaLabel: 'سبد خرید', href: PATHS.CART },
+      { icon: <BasketIcon />, ariaLabel: 'سبد خرید', href: PATHS.CART_FOR('RETAIL') },
     ],
   },
 
@@ -71,7 +71,7 @@ export const retailChannel: StorefrontChannel = {
         links: [
           { label: 'فروشگاه', href: PATHS.RETAIL.ROOT },
           { label: 'حساب کاربری', href: PATHS.AUTH.LOGIN },
-          { label: 'سبد خرید', href: PATHS.CART },
+          { label: 'سبد خرید', href: PATHS.CART_FOR('RETAIL') },
           { label: 'فرصت های شغلی', href: '#' },
         ],
       },

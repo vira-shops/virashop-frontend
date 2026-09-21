@@ -48,6 +48,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
     selectedOfferLoading,
     hrefForOffer,
     clearSelectedOffer,
+    addSelectedOfferToCart,
   } = useProductDetails(channel, slug);
 
   if (isLoading) return <ProductDetailsSkeleton />;
@@ -69,6 +70,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
             startBadge={startBadge}
             endBadge={endBadge}
             onShowAllSellers={clearSelectedOffer}
+            onAddToCart={addSelectedOfferToCart}
           />
         ) : (
           <>

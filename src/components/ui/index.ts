@@ -5,6 +5,7 @@ export * from './carousel';
 export * from './checkbox';
 export * from './otp-input';
 export * from './pagination';
+export * from './radio';
 export * from './range-slider';
 export * from './select';
 export * from './skeleton';
