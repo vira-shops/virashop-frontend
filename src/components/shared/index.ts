@@ -21,3 +21,4 @@ export * from './product-filter-panel';
 export * from './category-icon-nav';
 export * from './product-gallery';
 export * from './product-price-block';
+export * from './offer-banner';

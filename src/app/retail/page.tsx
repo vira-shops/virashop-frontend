@@ -8,7 +8,7 @@ import {
   WeeklyOffers,
   PromoBanners,
   PopularBrands,
-} from '@/features/retail';
+} from '@/features/storefront';
 import { PATHS } from '@/routes/paths';
 
 export const metadata: Metadata = retailMetadata;

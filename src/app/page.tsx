@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { homeMetadata } from '@/config/metadata';
 import { HomeLayout } from '@/layouts/home-layout';
-import { BestSellersSection, BigOfferSection } from '@/components/shared';
-import { Hero, MakeFuture, OfferBanner, PartnerBrands, TechNews } from '@/features/landing';
+import { BestSellersSection, BigOfferSection, OfferBanner } from '@/components/shared';
+import { Hero, MakeFuture, PartnerBrands, TechNews } from '@/features/landing';
 import { PATHS } from '@/routes/paths';
 
 export const metadata: Metadata = homeMetadata;

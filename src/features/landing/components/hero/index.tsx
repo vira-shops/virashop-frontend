@@ -18,8 +18,6 @@ import { StorefrontShowcase } from './storefront-showcase';
 export const Hero: React.FC<HeroProps> = ({
   defaultCity,
   onCityChange,
-  showCitySelect = true,
-  showStorefront = true,
   searchPlaceholder,
   className,
 }) => {
@@ -49,14 +47,12 @@ export const Hero: React.FC<HeroProps> = ({
 
       <div className="relative container flex w-full flex-col items-center justify-center gap-10 py-13 sm:gap-13 md:w-4xl md:gap-13 md:py-13">
         <div className="flex w-full flex-col gap-4 sm:gap-9 md:flex-row">
-          {showCitySelect && (
-            <CitySelect
-              cities={cities}
-              defaultValue={defaultCity}
-              onChange={onCityChange}
-              disabled={citiesQuery.isLoading}
-            />
-          )}
+          <CitySelect
+            cities={cities}
+            defaultValue={defaultCity}
+            onChange={onCityChange}
+            disabled={citiesQuery.isLoading}
+          />
           <HeroSearchBar
             placeholder={searchPlaceholder}
             hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY(slug)}
@@ -73,7 +69,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       <StoryViewer items={stories} open={open} startIndex={startIndex} onClose={handleClose} />
 
-      {showStorefront && <StorefrontShowcase />}
+      <StorefrontShowcase />
     </section>
   );
 };

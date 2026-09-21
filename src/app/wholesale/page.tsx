@@ -1,15 +1,14 @@
 import type { Metadata } from 'next';
 import { wholesaleMetadata } from '@/config/metadata';
 import { WholesaleLayout } from '@/layouts/wholesale-layout';
-import { BestSellersSection } from '@/components/shared';
-import { OfferBanner } from '@/features/landing';
+import { BestSellersSection, OfferBanner } from '@/components/shared';
 import {
   WholesaleHero,
   CategoryShowcase,
   SpecialOffers,
   PartnerBrandsStrip,
   FeaturesGrid,
-} from '@/features/wholesale';
+} from '@/features/storefront';
 import { PATHS } from '@/routes/paths';
 
 export const metadata: Metadata = wholesaleMetadata;
