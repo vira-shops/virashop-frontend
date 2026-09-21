@@ -1,34 +1,15 @@
-import { ReactNode } from 'react';
 import type { ButtonColor } from '@/components/ui';
 
-export interface NavItem {
-  label: string;
-  href: string;
-  children?: NavItem[];
-}
+// `NavItem`, `UserAction`, and `StoreHeaderConfig` are defined in
+// `@/config/storefront` — the storefront channel registry needs them to
+// type the retail/wholesale config objects, and that registry cannot import
+// from `components/shared` (features depend on it too). Re-exported here so
+// local consumers (`mobile-menu.tsx`, `user-actions.tsx`) and existing
+// `@/components/shared` call sites are unaffected.
+export type { NavItem, UserAction, StoreHeaderConfig } from '@/config/storefront';
 
 export interface HeaderCTA {
   label: string;
   href: string;
   color?: ButtonColor;
-}
-
-export interface UserAction {
-  icon: ReactNode;
-  ariaLabel: string;
-  href?: string;
-}
-
-export interface StoreHeaderConfig {
-  logo: { src: string; alt: string };
-  brandName: string;
-  navItems: NavItem[];
-  userActions: UserAction[];
-  /** Storefront channel — carried into the auth wizard as `?channel=`. */
-  channel?: 'RETAIL' | 'WHOLESALE';
-  /**
-   * Fallback location shown in the header's city badge until the location
-   * endpoint is wired — replace with backend data once available.
-   */
-  location?: { city: string };
 }

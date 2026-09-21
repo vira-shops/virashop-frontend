@@ -1,0 +1,39 @@
+@layer components {
+  .pagination {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .pagination-item {
+    @apply flex shrink-0 cursor-pointer items-center justify-center rounded-4 border border-transparent text-body-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  .pagination-nav {
+    @apply text-gray-400;
+  }
+
+  .pagination-dots {
+    @apply flex items-center justify-center text-gray-300;
+  }
+
+  .pagination-primary .pagination-item-active {
+    @apply border-primary bg-primary-50 text-primary hover:bg-primary-50;
+  }
+
+  .pagination-blue .pagination-item-active {
+    @apply border-blue-900 bg-blue-50 text-blue-900 hover:bg-blue-50;
+  }
+}
+
+@utility pagination-size-sm {
+  .pagination-item,
+  .pagination-dots {
+    @apply size-9 text-caption-lg;
+  }
+}
+
+@utility pagination-size-md {
+  .pagination-item,
+  .pagination-dots {
+    @apply size-11 text-body-sm;
+  }
+}

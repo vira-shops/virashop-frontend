@@ -1,13 +1,25 @@
 import { Contracts, apiResponseWrapper, mockDataWrapper } from '@/connections';
 import { EmptyRequestSchema } from '@/contracts/common';
-import { PATHS } from '@/routes/paths';
-import { PopularCategoriesResponseSchema } from './schemas';
+import { PATHS, type StorefrontSegment } from '@/routes/paths';
+import type { Channel } from '@/validations/primitives';
+import {
+  CategoryBrowseResponseSchema,
+  CategoryTreeResponseSchema,
+  PopularCategoriesQuerySchema,
+  PopularCategoriesResponseSchema,
+  type CategoryBrowseResponse,
+  type CategorySummary,
+  type CategoryTreeNode,
+  type PopularCategoriesResponse,
+} from './schemas';
 
 /**
  * Mock imagery reuses the existing big-offer assets so the retail landing
- * renders before real category/product photography exists.
+ * renders before real category/product photography exists. Exported so the
+ * products contract's mock can reuse the same assets/titles instead of
+ * keeping a second copy.
  */
-const PRODUCT_IMAGES = [
+export const PRODUCT_IMAGES = [
   '/images/landing/big-offer/01.png',
   '/images/landing/big-offer/02.png',
   '/images/landing/big-offer/03.png',
@@ -15,7 +27,7 @@ const PRODUCT_IMAGES = [
   '/images/landing/big-offer/05.png',
 ];
 
-const PRODUCT_TITLES: Record<string, string[]> = {
+export const PRODUCT_TITLES: Record<string, string[]> = {
   food: [
     'برنج ایرانی طارم ۱۰ کیلویی',
     'روغن سرخ‌کردنی آفتابگردان',
@@ -102,7 +114,7 @@ const PRODUCT_TITLES: Record<string, string[]> = {
  * Subcategory groups (سرگروه) per category, each carrying its own leaf items —
  * the shared tree rendered by the desktop mega menu and the mobile sidebar.
  */
-const SUBCATEGORY_GROUPS: Record<
+export const SUBCATEGORY_GROUPS: Record<
   string,
   { id: string; title: string; items: { id: string; title: string }[] }[]
 > = {
@@ -584,7 +596,7 @@ const SUBCATEGORY_GROUPS: Record<
   ],
 };
 
-const ICON_BY_CATEGORY: Record<string, string> = {
+export const ICON_BY_CATEGORY: Record<string, string> = {
   food: 'BottleIcon',
   protein: 'FishIcon',
   dairy: 'CackeIcon',
@@ -596,85 +608,236 @@ const ICON_BY_CATEGORY: Record<string, string> = {
 };
 
 /**
- * Popular-categories mock — the single source for the mock payload. Exported so
- * tests (e.g. the store header suite) read the same data the fetcher serves in
+ * The eight top-level (L1) categories — single source for both the popular
+ * -categories mock and the real `/categories/tree` + `/categories/:slug`
+ * mocks below, so slugs/titles/counts never drift between the two.
+ */
+export const CATEGORY_LIST = [
+  { slug: 'food', title: 'مواد غذایی', productCount: 128 },
+  { slug: 'protein', title: 'پروتئینی', productCount: 64 },
+  { slug: 'dairy', title: 'لبنیات', productCount: 45 },
+  { slug: 'snacks', title: 'تنقلات', productCount: 87 },
+  { slug: 'beverages', title: 'نوشیدنی‌ها', productCount: 52 },
+  { slug: 'detergents', title: 'شویندگان', productCount: 73 },
+  { slug: 'fruits', title: 'میوه و سبزیجات', productCount: 96 },
+  { slug: 'sweets', title: 'شیرینی‌جات', productCount: 38 },
+];
+
+/** Channel → URL segment, for building this mock's hrefs against the right storefront. */
+const SEGMENT_BY_CHANNEL: Record<Channel, StorefrontSegment> = {
+  RETAIL: 'retail',
+  WHOLESALE: 'wholesale',
+};
+
+/**
+ * Popular-categories mock — the single source for the mock payload, built
+ * per-channel so every href points at the storefront that requested it
+ * (`/retail/*` or `/wholesale/*`), not always retail. Exported so tests
+ * (e.g. the store header suite) read the same data the fetcher serves in
  * mock mode instead of keeping a mirrored copy.
  */
-export const POPULAR_CATEGORIES_MOCK = [
-  {
-    slug: 'food',
-    title: 'مواد غذایی',
-    productCount: 128,
-  },
-  {
-    slug: 'protein',
-    title: 'پروتئینی',
-    productCount: 64,
-  },
-  {
-    slug: 'dairy',
-    title: 'لبنیات',
-    productCount: 45,
-  },
-  {
-    slug: 'snacks',
-    title: 'تنقلات',
-    productCount: 87,
-  },
-  {
-    slug: 'beverages',
-    title: 'نوشیدنی‌ها',
-    productCount: 52,
-  },
-  {
-    slug: 'detergents',
-    title: 'شویندگان',
-    productCount: 73,
-  },
-  {
-    slug: 'fruits',
-    title: 'میوه و سبزیجات',
-    productCount: 96,
-  },
-  {
-    slug: 'sweets',
-    title: 'شیرینی‌جات',
-    productCount: 38,
-  },
-].map((category, categoryIndex) => ({
-  id: category.slug,
-  ...category,
-  image: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
-  imageAlt: `دسته‌بندی ${category.title}`,
-  href: PATHS.RETAIL.CATEGORY(category.slug),
-  icon: ICON_BY_CATEGORY[category.slug],
-  subcategories: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group) => ({
-    id: group.id,
-    title: group.title,
-    href: PATHS.RETAIL.CATEGORY(`${category.slug}/${group.id}`),
-    items: group.items.map((item) => ({
-      id: item.id,
-      title: item.title,
-      href: PATHS.RETAIL.CATEGORY(`${category.slug}/${group.id}/${item.id}`),
+export const buildPopularCategoriesMock = (channel: Channel): PopularCategoriesResponse => {
+  const paths = PATHS.STORE(SEGMENT_BY_CHANNEL[channel]);
+
+  return CATEGORY_LIST.map((category, categoryIndex) => ({
+    id: category.slug,
+    ...category,
+    image: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
+    imageAlt: `دسته‌بندی ${category.title}`,
+    href: paths.CATEGORY(category.slug),
+    icon: ICON_BY_CATEGORY[category.slug],
+    subcategories: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group) => ({
+      id: group.id,
+      title: group.title,
+      href: paths.CATEGORY(`${category.slug}/${group.id}`),
+      items: group.items.map((item) => ({
+        id: item.id,
+        title: item.title,
+        href: paths.CATEGORY(`${category.slug}/${group.id}/${item.id}`),
+      })),
     })),
-  })),
-  products: (PRODUCT_TITLES[category.slug] ?? []).map((title, productIndex) => ({
-    id: `${category.slug}-${productIndex + 1}`,
-    title,
-    image: PRODUCT_IMAGES[(categoryIndex + productIndex) % PRODUCT_IMAGES.length],
-    imageAlt: title,
-    href: PATHS.RETAIL.PRODUCT(`${category.slug}-${productIndex + 1}`),
-  })),
-}));
+    products: (PRODUCT_TITLES[category.slug] ?? []).map((title, productIndex) => ({
+      id: `${category.slug}-${productIndex + 1}`,
+      title,
+      image: PRODUCT_IMAGES[(categoryIndex + productIndex) % PRODUCT_IMAGES.length],
+      imageAlt: title,
+      href: paths.PRODUCT(`${category.slug}-${productIndex + 1}`),
+    })),
+  }));
+};
+
+/** Retail-channel popular-categories mock — the default/original shape existing tests read. */
+export const POPULAR_CATEGORIES_MOCK = buildPopularCategoriesMock('RETAIL');
+
+/**
+ * Real backend category tree mock (`CategoryTreeNode[]`) — numeric ids,
+ * `depth` 0/1/2, built from the same `CATEGORY_LIST`/`SUBCATEGORY_GROUPS`
+ * used above, independent of `POPULAR_CATEGORIES_MOCK`'s string-id shape.
+ */
+let nextCategoryTreeId = 1;
+
+export const CATEGORY_TREE_MOCK: CategoryTreeNode[] = CATEGORY_LIST.map(
+  (category, categoryIndex) => {
+    const l1Id = nextCategoryTreeId++;
+
+    return {
+      id: l1Id,
+      slug: category.slug,
+      name: category.title,
+      nameFa: category.title,
+      nameEn: category.slug,
+      parentId: null,
+      depth: 0,
+      iconKey: ICON_BY_CATEGORY[category.slug] ?? null,
+      imageKey: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
+      sortOrder: categoryIndex,
+      productCount: category.productCount,
+      children: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group, groupIndex) => {
+        const l2Id = nextCategoryTreeId++;
+
+        return {
+          id: l2Id,
+          slug: group.id,
+          name: group.title,
+          nameFa: group.title,
+          nameEn: group.id,
+          parentId: l1Id,
+          depth: 1,
+          iconKey: null,
+          imageKey: null,
+          sortOrder: groupIndex,
+          productCount: group.items.length * 10,
+          children: group.items.map((item, itemIndex) => ({
+            id: nextCategoryTreeId++,
+            slug: item.id,
+            name: item.title,
+            nameFa: item.title,
+            nameEn: item.id,
+            parentId: l2Id,
+            depth: 2,
+            iconKey: null,
+            imageKey: null,
+            sortOrder: itemIndex,
+            productCount: 10,
+            children: [],
+          })),
+        };
+      }),
+    };
+  },
+);
+
+const toSummary = (node: CategoryTreeNode): CategorySummary => {
+  const { children: _children, ...summary } = node;
+  void _children;
+  return summary;
+};
+
+/** Depth-first search for a node by slug anywhere in the tree. */
+const findNodeBySlug = (nodes: CategoryTreeNode[], slug: string): CategoryTreeNode | undefined => {
+  for (const node of nodes) {
+    if (node.slug === slug) return node;
+
+    const found = findNodeBySlug(node.children, slug);
+
+    if (found) return found;
+  }
+
+  return undefined;
+};
+
+/** Walks `parentId` up to the root, nearest ancestor last (root first). */
+const collectAncestors = (node: CategoryTreeNode): CategorySummary[] => {
+  const flatIndex = new Map<number, CategoryTreeNode>();
+
+  const index = (nodes: CategoryTreeNode[]) => {
+    for (const item of nodes) {
+      flatIndex.set(item.id, item);
+      index(item.children);
+    }
+  };
+
+  index(CATEGORY_TREE_MOCK);
+
+  const ancestors: CategorySummary[] = [];
+  let current = node.parentId !== null ? flatIndex.get(node.parentId) : undefined;
+
+  while (current) {
+    ancestors.unshift(toSummary(current));
+    current = current.parentId !== null ? flatIndex.get(current.parentId) : undefined;
+  }
+
+  return ancestors;
+};
+
+/**
+ * Client-side lookup used by `use-category-browse.ts` in mock mode (the
+ * fetcher can't key a static mock by path param) — resolves any real slug
+ * in `CATEGORY_TREE_MOCK` to a correct `{category, ancestors, children}`.
+ */
+export const findCategoryBrowseBySlug = (slug: string): CategoryBrowseResponse | undefined => {
+  const node = findNodeBySlug(CATEGORY_TREE_MOCK, slug);
+
+  if (!node) return undefined;
+
+  return {
+    category: toSummary(node),
+    ancestors: collectAncestors(node),
+    children: node.children.map(toSummary),
+  };
+};
+
+/**
+ * `/categories/:slug` browse mock — browsing "مرغ و ماکیان" (L2, poultry),
+ * under the "پروتئینی" (L1, protein) category. See the mock-mode limitation
+ * note on the `getBySlug` endpoint below.
+ */
+const PROTEIN_L1_NODE = CATEGORY_TREE_MOCK.find((node) => node.slug === 'protein')!;
+const POULTRY_L2_NODE = PROTEIN_L1_NODE.children.find((node) => node.slug === 'protein-poultry')!;
+
+export const CATEGORY_BROWSE_MOCK = {
+  category: toSummary(POULTRY_L2_NODE),
+  ancestors: [toSummary(PROTEIN_L1_NODE)],
+  children: POULTRY_L2_NODE.children.map(toSummary),
+};
 
 export const categoriesContracts = {
   categories: {
     getPopular: {
       method: 'GET',
       path: '/categories/popular',
-      request: EmptyRequestSchema,
+      request: PopularCategoriesQuerySchema,
       response: apiResponseWrapper(PopularCategoriesResponseSchema),
       mockData: mockDataWrapper(POPULAR_CATEGORIES_MOCK),
+    },
+
+    /**
+     * Real backend tree (`GET /categories/tree`) — recursive L1→L2→L3 nodes,
+     * built from the same `CATEGORY_LIST`/`SUBCATEGORY_GROUPS` as the
+     * mega-menu mock above so slugs/titles never drift between the two.
+     */
+    getTree: {
+      method: 'GET',
+      path: '/categories/tree',
+      request: EmptyRequestSchema,
+      response: apiResponseWrapper(CategoryTreeResponseSchema),
+      mockData: mockDataWrapper(CATEGORY_TREE_MOCK),
+    },
+
+    /**
+     * `GET /categories/:slug` — one node + its ancestors + its children.
+     * `slug` is a path param (see `pathParams` at the call site), not part
+     * of `request`. Mock-mode limitation (same as elsewhere in this
+     * codebase): the static mock always returns the same node regardless of
+     * the requested slug — this resolves correctly once the real backend
+     * arrives; `use-category-browse.ts` works around it client-side.
+     */
+    getBySlug: {
+      method: 'GET',
+      path: '/categories/{slug}',
+      request: EmptyRequestSchema,
+      response: apiResponseWrapper(CategoryBrowseResponseSchema),
+      mockData: mockDataWrapper(CATEGORY_BROWSE_MOCK),
     },
   },
 } as const satisfies Contracts;

@@ -12,7 +12,8 @@ export const useCities = (): UseQueryResult<CitiesData['data'], CitiesError> => 
   return useQuery<CitiesData['data'], CitiesError>({
     queryKey: queryKeys.citiesList(),
     queryFn: async () => {
-      const response = await api('cities', 'getList');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('cities', 'getList', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

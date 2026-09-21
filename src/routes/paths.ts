@@ -1,3 +1,20 @@
+import type { Channel } from '@/validations/primitives';
+
+export type StorefrontSegment = 'retail' | 'wholesale';
+
+/** One builder for both storefront channels — retail/wholesale route shape is defined once here. */
+const storePaths = (segment: StorefrontSegment) =>
+  ({
+    ROOT: `/${segment}`,
+    CATEGORIES: `/${segment}/categories`,
+    CATEGORY: (slug: string) => `/${segment}/category/${slug}`,
+    BEST_SELLERS: `/${segment}/best-sellers`,
+    OFFERS: `/${segment}/offers`,
+    FAVORITES: `/${segment}/favorites`,
+    PRODUCT: (slug: string) => `/${segment}/${slug}`,
+    SEARCH: `/${segment}/search`,
+  }) as const;
+
 export const PATHS = {
   ROOT: '/',
   ABOUT: '/about',
@@ -7,26 +24,23 @@ export const PATHS = {
   AUTH: {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
+    /** Wizard entry href carrying the storefront channel context (`?channel=`). */
+    LOGIN_FOR: (channel?: Channel, returnTo?: string): string => {
+      const params = new URLSearchParams({ channel: channel ?? 'RETAIL' });
+
+      if (returnTo) {
+        params.set('returnTo', returnTo);
+      }
+
+      return `/auth/login?${params.toString()}`;
+    },
   },
 
-  WHOLESALE: {
-    ROOT: '/wholesale',
-    CATEGORIES: '/wholesale/categories',
-    CATEGORY: (slug: string) => `/wholesale/category/${slug}`,
-    BEST_SELLERS: '/wholesale/best-sellers',
-    OFFERS: '/wholesale/offers',
-    PRODUCT: (slug: string) => `/wholesale/${slug}`,
-  },
+  /** Channel-generic route builder — new code should prefer `PATHS.STORE(segment)`. */
+  STORE: storePaths,
 
-  RETAIL: {
-    ROOT: '/retail',
-    CATEGORIES: '/retail/categories',
-    CATEGORY: (slug: string) => `/retail/category/${slug}`,
-    BEST_SELLERS: '/retail/best-sellers',
-    OFFERS: '/retail/offers',
-    FAVORITES: '/retail/favorites',
-    PRODUCT: (slug: string) => `/retail/${slug}`,
-  },
+  WHOLESALE: storePaths('wholesale'),
+  RETAIL: storePaths('retail'),
 
   CART: '/cart',
 } as const;

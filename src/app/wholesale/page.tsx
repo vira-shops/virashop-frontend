@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import { wholesaleMetadata } from '@/config/metadata';
 import { WholesaleLayout } from '@/layouts/wholesale-layout';
-import { OfferBanner } from '@/features/landing';
+import { BestSellersSection, OfferBanner } from '@/components/shared';
 import {
   WholesaleHero,
   CategoryShowcase,
   SpecialOffers,
   PartnerBrandsStrip,
-  BestSellers,
   FeaturesGrid,
-} from '@/features/wholesale';
+} from '@/features/storefront';
+import { PATHS } from '@/routes/paths';
 
 export const metadata: Metadata = wholesaleMetadata;
 
@@ -21,7 +21,10 @@ export default function WholesalePage() {
       <CategoryShowcase />
       <SpecialOffers />
       <PartnerBrandsStrip />
-      <BestSellers />
+      <BestSellersSection
+        link={{ label: 'مشاهده همه', href: PATHS.WHOLESALE.BEST_SELLERS }}
+        className="my-11 sm:my-10"
+      />
       <FeaturesGrid />
     </WholesaleLayout>
   );

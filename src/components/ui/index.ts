@@ -3,6 +3,8 @@ export * from './button';
 export * from './card';
 export * from './carousel';
 export * from './otp-input';
+export * from './pagination';
+export * from './range-slider';
 export * from './select';
 export * from './skeleton';
 export * from './tabs';

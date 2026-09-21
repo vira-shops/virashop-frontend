@@ -1,11 +1,12 @@
 import { z } from 'zod';
-import { MobileSchema } from '@/validations';
+import { ChannelSchema, MobileSchema } from '@/validations';
 
 /* =========================================================
    Auth — enums (single source of truth for the wire)
    ========================================================= */
 
-export const ChannelSchema = z.enum(['RETAIL', 'WHOLESALE']);
+/** Re-exported so existing `@/contracts/endpoints/auth` imports keep working. */
+export { ChannelSchema };
 export type Channel = z.infer<typeof ChannelSchema>;
 
 export const AccountTypeSchema = z.enum(['BUYER', 'SELLER', 'BOTH']);

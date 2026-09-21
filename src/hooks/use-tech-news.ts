@@ -12,7 +12,8 @@ export const useTechNews = (): UseQueryResult<TechNewsData['data'], TechNewsErro
   return useQuery<TechNewsData['data'], TechNewsError>({
     queryKey: queryKeys.techNews(),
     queryFn: async () => {
-      const response = await api('posts', 'getTechNews');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('posts', 'getTechNews', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

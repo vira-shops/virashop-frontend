@@ -1,0 +1,71 @@
+@layer components {
+  .range-slider {
+    @apply relative w-full select-none;
+    padding-block: 10px;
+  }
+
+  .range-slider-track {
+    @apply pointer-events-none absolute inset-x-0 top-1/2 h-2 -translate-y-1/2 rounded-full bg-gray-100;
+  }
+
+  .range-slider-range {
+    @apply pointer-events-none absolute top-0 h-full rounded-full;
+  }
+
+  .range-slider-primary .range-slider-range {
+    @apply bg-primary;
+  }
+
+  .range-slider-blue .range-slider-range {
+    @apply bg-blue-900;
+  }
+
+  /* Two stacked native ranges — only each thumb (not the full track) is
+     interactive, so both handles stay independently draggable even when
+     visually overlapping. */
+  .range-slider-input {
+    @apply absolute inset-x-0 top-1/2 m-0 h-2 w-full -translate-y-1/2 cursor-pointer appearance-none bg-transparent;
+    pointer-events: none;
+  }
+
+  .range-slider-input::-webkit-slider-runnable-track {
+    @apply appearance-none bg-transparent;
+  }
+
+  .range-slider-input::-moz-range-track {
+    @apply appearance-none bg-transparent;
+  }
+
+  .range-slider-input::-webkit-slider-thumb {
+    @apply size-7 appearance-none rounded-full border-2 bg-white shadow-sm;
+    pointer-events: auto;
+    margin-top: 0;
+  }
+
+  .range-slider-input::-moz-range-thumb {
+    @apply size-7 appearance-none rounded-full border-2 bg-white shadow-sm;
+    pointer-events: auto;
+  }
+
+  .range-slider-primary .range-slider-input::-webkit-slider-thumb {
+    @apply border-primary;
+  }
+  .range-slider-primary .range-slider-input::-moz-range-thumb {
+    @apply border-primary;
+  }
+
+  .range-slider-blue .range-slider-input::-webkit-slider-thumb {
+    @apply border-blue-900;
+  }
+  .range-slider-blue .range-slider-input::-moz-range-thumb {
+    @apply border-blue-900;
+  }
+
+  .range-slider-labels {
+    @apply mt-9 flex items-center justify-between text-caption-md text-gray-400;
+  }
+
+  .range-slider-disabled {
+    @apply pointer-events-none opacity-60;
+  }
+}

@@ -12,7 +12,8 @@ export const useBestSellers = (): UseQueryResult<BestSellersData['data'], BestSe
   return useQuery<BestSellersData['data'], BestSellersError>({
     queryKey: queryKeys.bestSellers(),
     queryFn: async () => {
-      const response = await api('banners', 'getBestSellers');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('banners', 'getBestSellers', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

@@ -2,9 +2,11 @@ import * as React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StoreHeader } from './store-header';
-import { wholesaleConfig } from './wholesale-config';
-import { retailConfig } from './retail-config';
+import { retailChannel, wholesaleChannel } from '@/config/storefront';
 import { usePopularCategories } from '@/hooks';
+
+const wholesaleConfig = wholesaleChannel.header;
+const retailConfig = retailChannel.header;
 import { POPULAR_CATEGORIES_MOCK } from '@/contracts/endpoints/categories';
 
 jest.mock('@/hooks', () => ({

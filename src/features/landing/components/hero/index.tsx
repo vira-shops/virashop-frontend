@@ -10,6 +10,7 @@ import {
   StoryViewer,
 } from '@/components/shared';
 import { useCities, useActiveStories } from '@/hooks';
+import { PATHS } from '@/routes/paths';
 import { HeroProps } from './types';
 import { HERO_GRADIENT, HERO_GRADIENT_OPACITY } from './constants';
 import { StorefrontShowcase } from './storefront-showcase';
@@ -17,9 +18,6 @@ import { StorefrontShowcase } from './storefront-showcase';
 export const Hero: React.FC<HeroProps> = ({
   defaultCity,
   onCityChange,
-  onSearch,
-  showCitySelect = true,
-  showStorefront = true,
   searchPlaceholder,
   className,
 }) => {
@@ -49,15 +47,17 @@ export const Hero: React.FC<HeroProps> = ({
 
       <div className="relative container flex w-full flex-col items-center justify-center gap-10 py-13 sm:gap-13 md:w-4xl md:gap-13 md:py-13">
         <div className="flex w-full flex-col gap-4 sm:gap-9 md:flex-row">
-          {showCitySelect && (
-            <CitySelect
-              cities={cities}
-              defaultValue={defaultCity}
-              onChange={onCityChange}
-              disabled={citiesQuery.isLoading}
-            />
-          )}
-          <HeroSearchBar onChange={onSearch} placeholder={searchPlaceholder} />
+          <CitySelect
+            cities={cities}
+            defaultValue={defaultCity}
+            onChange={onCityChange}
+            disabled={citiesQuery.isLoading}
+          />
+          <HeroSearchBar
+            placeholder={searchPlaceholder}
+            hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY(slug)}
+            hrefForSearch={(q) => `${PATHS.RETAIL.SEARCH}?q=${encodeURIComponent(q)}`}
+          />
         </div>
 
         {storiesQuery.isLoading ? (
@@ -69,7 +69,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       <StoryViewer items={stories} open={open} startIndex={startIndex} onClose={handleClose} />
 
-      {showStorefront && <StorefrontShowcase />}
+      <StorefrontShowcase />
     </section>
   );
 };

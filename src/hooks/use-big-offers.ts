@@ -12,7 +12,8 @@ export const useBigOffers = (): UseQueryResult<BigOffersData['data'], BigOffersE
   return useQuery<BigOffersData['data'], BigOffersError>({
     queryKey: queryKeys.bigOffers(),
     queryFn: async () => {
-      const response = await api('banners', 'getBigOffers');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('banners', 'getBigOffers', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

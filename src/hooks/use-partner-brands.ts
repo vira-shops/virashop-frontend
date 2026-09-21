@@ -15,7 +15,8 @@ export const usePartnerBrands = (): UseQueryResult<
   return useQuery<PartnerBrandsData['data'], PartnerBrandsError>({
     queryKey: queryKeys.partnerBrands(),
     queryFn: async () => {
-      const response = await api('brands', 'getPartnerBrands');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('brands', 'getPartnerBrands', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

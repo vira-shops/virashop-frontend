@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import * as React from 'react';
 import { StoreHeader } from './store-header';
-import { wholesaleConfig } from './wholesale-config';
-import { retailConfig } from './retail-config';
+import { retailChannel, wholesaleChannel } from '@/config/storefront';
+
+const wholesaleConfig = wholesaleChannel.header;
+const retailConfig = retailChannel.header;
 
 const meta: Meta<typeof StoreHeader> = {
   title: 'Layout/StoreHeader',
