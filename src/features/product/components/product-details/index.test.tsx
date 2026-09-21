@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ProductDetailsSection } from './product-details-section';
+import { ProductDetails } from './index';
+import { retailChannel } from '@/config/storefront';
 import { useProduct } from '@/hooks';
 
 jest.mock('@/hooks', () => ({
@@ -37,21 +38,14 @@ const product = {
   related: [],
 };
 
-describe('ProductDetailsSection', () => {
+describe('ProductDetails', () => {
   it('renders the product name, seller, price block and specs', () => {
     mockUseProduct.mockReturnValue({
       data: product,
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    render(
-      <ProductDetailsSection
-        channel="RETAIL"
-        slug="protein-1"
-        hrefForProduct={(slug) => `/retail/${slug}`}
-        hrefForCategory={(slug) => `/retail/category/${slug}`}
-      />,
-    );
+    render(<ProductDetails channel={retailChannel} slug="protein-1" />);
 
     expect(screen.getByRole('heading', { name: 'سینه مرغ تازه' })).toBeInTheDocument();
     expect(screen.getByText('فروشنده: ویراشاپس')).toBeInTheDocument();
@@ -65,14 +59,7 @@ describe('ProductDetailsSection', () => {
       isLoading: false,
     } as unknown as ReturnType<typeof useProduct>);
 
-    const { container } = render(
-      <ProductDetailsSection
-        channel="RETAIL"
-        slug="missing"
-        hrefForProduct={(slug) => `/retail/${slug}`}
-        hrefForCategory={(slug) => `/retail/category/${slug}`}
-      />,
-    );
+    const { container } = render(<ProductDetails channel={retailChannel} slug="missing" />);
 
     expect(container).toBeEmptyDOMElement();
   });

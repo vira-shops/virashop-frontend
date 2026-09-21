@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ProductListingSection } from './product-listing-section';
+import { ProductListing } from './index';
+import { retailChannel } from '@/config/storefront';
 import { useCategoryBrowse, useProductListingFilters, useProducts } from '@/hooks';
 
 jest.mock('next/navigation', () => ({
@@ -89,7 +90,7 @@ const products = {
   limit: 20,
 };
 
-describe('ProductListingSection', () => {
+describe('ProductListing', () => {
   beforeEach(() => {
     mockUseCategoryBrowse.mockReturnValue({
       data: categoryBrowse,
@@ -114,14 +115,7 @@ describe('ProductListingSection', () => {
   });
 
   it('renders the breadcrumb, child-category nav and product grid', () => {
-    render(
-      <ProductListingSection
-        channel="RETAIL"
-        categorySlug="protein-poultry"
-        hrefForProduct={(slug) => `/retail/${slug}`}
-        hrefForCategory={(slug) => `/retail/category/${slug}`}
-      />,
-    );
+    render(<ProductListing channel={retailChannel} categorySlug="protein-poultry" />);
 
     expect(screen.getByText('پروتئینی')).toBeInTheDocument();
     expect(screen.getByText('مرغ و ماکیان')).toBeInTheDocument();

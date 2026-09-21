@@ -5,9 +5,8 @@ import { Pagination, Select, Typography } from '@/components/ui';
 import { ProductGrid } from '@/components/shared/product-grid';
 import { useProductListingFilters, useSearch } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
-import { cn } from '@/utils/ui';
 import type { ProductCard, ProductSort } from '@/contracts/endpoints/products';
-import type { SearchResultsSectionProps } from './types';
+import type { SearchResultsProps } from './types';
 
 const PAGE_SIZE = 20;
 
@@ -24,16 +23,16 @@ const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
 };
 
 /** Search results page — `/search?q=` results, reusing the listing filter/sort URL state. */
-export const SearchResultsSection: React.FC<SearchResultsSectionProps> = ({
-  channel,
-  query,
-  hrefForProduct,
-  hrefForCategory,
-  className,
-}) => {
+export const SearchResults: React.FC<SearchResultsProps> = ({ channel, query }) => {
   const { page, sort, setSort, setPage } = useProductListingFilters();
 
-  const searchQuery = useSearch({ q: query, channel, page, limit: PAGE_SIZE, sort });
+  const searchQuery = useSearch({
+    q: query,
+    channel: channel.channel,
+    page,
+    limit: PAGE_SIZE,
+    sort,
+  });
 
   const items = searchQuery.data?.products.items ?? [];
   const total = searchQuery.data?.products.total ?? 0;
@@ -41,7 +40,7 @@ export const SearchResultsSection: React.FC<SearchResultsSectionProps> = ({
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <div className={cn('container flex flex-col gap-6 py-8', className)}>
+    <div className="container flex flex-col gap-6 py-8">
       <Typography variant="h5" className="text-black">
         نتایج جستجو برای «{query}»
       </Typography>
@@ -51,7 +50,7 @@ export const SearchResultsSection: React.FC<SearchResultsSectionProps> = ({
           {categories.map((category) => (
             <a
               key={category.slug}
-              href={hrefForCategory(category.slug)}
+              href={channel.paths.CATEGORY(category.slug)}
               className="rounded-full bg-gray-100 px-4 py-2"
             >
               <Typography variant="body-sm" className="text-gray-700">
@@ -92,7 +91,7 @@ export const SearchResultsSection: React.FC<SearchResultsSectionProps> = ({
           title: product.name,
           price: `${formatToman(product.price)} تومان`,
           stockNote: STOCK_NOTE[product.stockStatus],
-          action: { label: 'مشاهده', href: hrefForProduct(product.slug) },
+          action: { label: 'مشاهده', href: channel.paths.PRODUCT(product.slug) },
         }))}
       />
 
@@ -101,4 +100,4 @@ export const SearchResultsSection: React.FC<SearchResultsSectionProps> = ({
   );
 };
 
-SearchResultsSection.displayName = 'SearchResultsSection';
+SearchResults.displayName = 'SearchResults';

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { RetailLayout } from '@/layouts/retail-layout';
-import { ProductListing } from '@/features/retail';
+import { ProductListing } from '@/features/catalog';
+import { retailChannel } from '@/config/storefront';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -13,7 +14,7 @@ export default async function RetailCategoryPage({ params }: PageProps) {
 
   return (
     <RetailLayout>
-      <ProductListing categorySlug={slug} />
+      <ProductListing channel={retailChannel} categorySlug={slug} />
     </RetailLayout>
   );
 }

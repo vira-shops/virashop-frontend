@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { SearchResultsSection } from './search-results-section';
+import { SearchResults } from './index';
+import { retailChannel } from '@/config/storefront';
 import { useProductListingFilters, useSearch } from '@/hooks';
 
 jest.mock('@/hooks', () => ({
@@ -14,7 +15,7 @@ const mockUseProductListingFilters = useProductListingFilters as jest.MockedFunc
 >;
 const mockUseSearch = useSearch as jest.MockedFunction<typeof useSearch>;
 
-describe('SearchResultsSection', () => {
+describe('SearchResults', () => {
   beforeEach(() => {
     mockUseProductListingFilters.mockReturnValue({
       page: 1,
@@ -59,14 +60,7 @@ describe('SearchResultsSection', () => {
   });
 
   it('renders the query heading, category chip and product grid', () => {
-    render(
-      <SearchResultsSection
-        channel="RETAIL"
-        query="مرغ"
-        hrefForProduct={(slug) => `/retail/${slug}`}
-        hrefForCategory={(slug) => `/retail/category/${slug}`}
-      />,
-    );
+    render(<SearchResults channel={retailChannel} query="مرغ" />);
 
     expect(screen.getByText('نتایج جستجو برای «مرغ»')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'مرغ' })).toHaveAttribute(

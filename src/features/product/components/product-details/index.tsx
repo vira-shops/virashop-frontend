@@ -8,9 +8,8 @@ import { ProductGrid } from '@/components/shared/product-grid';
 import { ProductPriceBlock } from '@/components/shared/product-price-block';
 import { useProduct } from '@/hooks';
 import { formatToman, toFaDigits } from '@/utils/format';
-import { cn } from '@/utils/ui';
 import type { ProductCard } from '@/contracts/endpoints/products';
-import type { ProductDetailsSectionProps } from './types';
+import type { ProductDetailsProps } from './types';
 
 const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
   IN_STOCK: undefined,
@@ -23,18 +22,12 @@ const STOCK_NOTE: Record<ProductCard['stockStatus'], string | undefined> = {
  * grid. Identical behavior for retail/wholesale: the `channel` query param
  * alone decides whether `wholesale` pricing renders (see `ProductPriceBlock`).
  */
-export const ProductDetailsSection: React.FC<ProductDetailsSectionProps> = ({
-  channel,
-  slug,
-  hrefForProduct,
-  hrefForCategory,
-  className,
-}) => {
-  const productQuery = useProduct(slug, channel);
+export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug }) => {
+  const productQuery = useProduct(slug, channel.channel);
 
   if (productQuery.isLoading) {
     return (
-      <div className={cn('container flex flex-col gap-8 py-8', className)}>
+      <div className="container flex flex-col gap-8 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <Skeleton className="rounded-9 aspect-square w-full" />
           <div className="flex flex-col gap-4">
@@ -61,10 +54,10 @@ export const ProductDetailsSection: React.FC<ProductDetailsSectionProps> = ({
       : [{ src: product.imageUrl ?? '/images/landing/big-offer/01.png', alt: product.name }];
 
   return (
-    <div className={cn('container flex flex-col gap-10 py-8', className)}>
+    <div className="container flex flex-col gap-10 py-8">
       <Breadcrumb
         items={[
-          { label: product.category.name, href: hrefForCategory(product.category.slug) },
+          { label: product.category.name, href: channel.paths.CATEGORY(product.category.slug) },
           { label: product.name },
         ]}
       />
@@ -159,7 +152,7 @@ export const ProductDetailsSection: React.FC<ProductDetailsSectionProps> = ({
               title: related.name,
               price: `${formatToman(related.price)} تومان`,
               stockNote: STOCK_NOTE[related.stockStatus],
-              action: { label: 'مشاهده', href: hrefForProduct(related.slug) },
+              action: { label: 'مشاهده', href: channel.paths.PRODUCT(related.slug) },
             }))}
           />
         </div>
@@ -168,4 +161,4 @@ export const ProductDetailsSection: React.FC<ProductDetailsSectionProps> = ({
   );
 };
 
-ProductDetailsSection.displayName = 'ProductDetailsSection';
+ProductDetails.displayName = 'ProductDetails';
