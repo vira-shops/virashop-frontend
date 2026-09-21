@@ -13,7 +13,7 @@ import {
 } from '@/features/storefront/components/wholesale/constants';
 
 export const CategoryShowcase: React.FC<{ className?: string }> = ({ className }) => {
-  const categoriesQuery = usePopularCategories();
+  const categoriesQuery = usePopularCategories('WHOLESALE');
   const categories = categoriesQuery.data ?? [];
 
   return (
