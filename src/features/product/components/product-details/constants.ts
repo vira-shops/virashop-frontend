@@ -11,6 +11,15 @@ export const SELLERS_TITLE = 'فروشنده ها';
 export const PRICE_FROM_LABEL = 'قیمت از';
 export const CURRENCY_LABEL = 'تومان';
 export const CHEAPEST_TAG = 'ارزان ترین';
+export const PRICE_LABEL = 'قیمت';
+export const ADD_TO_CART_LABEL = 'افزودن به سبد خرید';
+export const TARIFFS_TITLE = 'تعرفه‌ها';
+export const INSTALLMENTS_TITLE = 'قیمت / اقساط';
+export const SHRINK_TITLE = 'طرح فروش شیرینگ';
+export const ATTRIBUTES_TITLE = 'مشخصات محصول / شرایط پرداخت';
+export const MORE_LABEL = 'بیشتر';
+/** Query param carrying the selected seller offer on the PDP. */
+export const SELLER_PARAM = 'seller';
 
 /** Sellers shown before «نمایش N فروشگاه دیگر» takes over. */
 export const SELLER_OFFERS_VISIBLE = 3;

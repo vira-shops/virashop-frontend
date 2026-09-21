@@ -1,0 +1,21 @@
+@layer components {
+  .stepper {
+    @apply rounded-8 inline-flex items-center justify-center border border-gray-100 bg-white;
+  }
+
+  .stepper-button {
+    @apply text-primary flex shrink-0 cursor-pointer items-center justify-center leading-none transition-opacity;
+  }
+
+  .stepper-button:disabled {
+    @apply cursor-not-allowed opacity-30;
+  }
+
+  .stepper-value {
+    @apply text-body-sm min-w-16 text-center font-bold whitespace-nowrap text-gray-700;
+  }
+
+  .stepper-disabled {
+    @apply pointer-events-none opacity-60;
+  }
+}

@@ -1,4 +1,5 @@
 import { Contracts, apiResponseWrapper, mockDataWrapper } from '@/connections';
+import { toFaDigits } from '@/utils/format';
 import {
   CATEGORY_LIST,
   CATEGORY_TREE_MOCK,
@@ -10,11 +11,14 @@ import {
   ProductDetailSchema,
   ProductListQuerySchema,
   ProductListResponseSchema,
+  SellerOfferDetailQuerySchema,
+  SellerOfferDetailSchema,
   SellerOffersQuerySchema,
   SellerOffersResponseSchema,
   type ProductCard,
   type ProductDetail,
   type SellerOffer,
+  type SellerOfferDetail,
   type SellerOfferSort,
 } from './schemas';
 
@@ -301,6 +305,145 @@ export const buildSellerOffersMock = (
 
 const SELLER_OFFERS_MOCK = buildSellerOffersMock(PRODUCTS_MOCK[0].slug)!;
 
+/* =========================================================
+   One seller's offer in detail — mock only
+   ========================================================= */
+
+/** Tomans → «۲٬۵۴۰٬۰۰۰ تومان», the format every table row in this view uses. */
+const offerMoney = (value: number): string =>
+  `${toFaDigits(Math.round(value).toLocaleString('en-US').replace(/,/g, '٬'))} تومان`;
+
+/** Volume brackets of the «طرح فروش شیرینگ» table, with their unit discount. */
+const SHRINK_TIERS = [
+  { id: 'tier-1', label: '۱ تا ۵ شل', factor: 1 },
+  { id: 'tier-2', label: '۵ تا ۱۰ شل', factor: 0.97 },
+  { id: 'tier-3', label: '۱۰ تا ۲۰ شل', factor: 0.94 },
+  { id: 'tier-4', label: '۲۰ شل به بالا', factor: 0.9 },
+] as const;
+
+/** Payment terms of the calculator grid, with the surcharge each one carries. */
+const PAYMENT_TERMS = [
+  { id: 'cash', label: 'نقدی', factor: 1 },
+  { id: 'month-1', label: 'یک ماهه', factor: 1.04 },
+  { id: 'month-2', label: 'دو ماهه', factor: 1.08 },
+  { id: 'month-3', label: 'سه ماهه', factor: 1.12 },
+  { id: 'month-4', label: 'چهار ماهه', factor: 1.16 },
+  { id: 'month-5', label: 'پنج ماهه', factor: 1.2 },
+] as const;
+
+/** Swatches behind the «N رنگ» attribute row. */
+const OFFER_COLORS = ['#F87171', '#FB923C', '#A855F7', '#3B82F6', '#22C55E'];
+
+/** Units per shrink pack — the «شل (۱۲ عددی)» row. */
+const UNITS_PER_SHRINK = 12;
+
+/**
+ * Expands one seller offer into the tables the selected-seller view renders.
+ * Every figure is derived from the offer's own price so the page stays
+ * internally consistent; swap the whole builder for the real payload when
+ * `GET /products/{slug}/offers/{offerId}` ships.
+ */
+export const buildSellerOfferDetailMock = (
+  slug: string,
+  offerId: number,
+  basePrice?: number,
+): SellerOfferDetail | undefined => {
+  const offers = buildSellerOffersMock(slug, 'cheapest', basePrice);
+  const offer = offers?.items.find((item) => item.id === offerId) ?? offers?.items[0];
+
+  if (!offer) return undefined;
+
+  const consumerPrice =
+    Math.round(offer.price / (1 - offer.discountPercent / 100 || 1) / 1000) * 1000;
+  const basePriceRow = Math.round((consumerPrice * 0.9) / 1000) * 1000;
+  const cashPrice = Math.round((consumerPrice * 0.8) / 1000) * 1000;
+  const bulkPrice = Math.round((consumerPrice * 0.75) / 1000) * 1000;
+  const shrinkPrice = offer.price * UNITS_PER_SHRINK;
+
+  return {
+    ...offer,
+    tariffs: [
+      {
+        id: 'consumer',
+        label: 'قیمت مصرف کننده',
+        value: offerMoney(consumerPrice),
+        isStruck: true,
+      },
+      {
+        id: 'base',
+        label: 'قیمت پایه (اقساطی یا چکی)',
+        value: offerMoney(basePriceRow),
+        isStruck: false,
+      },
+      { id: 'cash', label: 'تخفیف نقدی ۲۰٪', value: offerMoney(cashPrice), isStruck: false },
+      { id: 'bulk', label: 'تخفیف عمده (حجمی) ۵٪', value: offerMoney(bulkPrice), isStruck: false },
+    ],
+    installmentRows: [
+      { id: 'unit', label: 'نقدی دانه', value: offerMoney(offer.price), isStruck: false },
+      {
+        id: 'shrink',
+        label: `شل (${toFaDigits(UNITS_PER_SHRINK)} عددی)`,
+        value: offerMoney(shrinkPrice),
+        isStruck: false,
+      },
+      {
+        id: 'months',
+        label: 'تعداد اقساط',
+        value: offer.installmentMonths ? `${toFaDigits(offer.installmentMonths)} ماهه` : 'ندارد',
+        isStruck: false,
+      },
+      {
+        id: 'fee',
+        label: 'کارمزد ماهانه',
+        value: offer.commissionPercent
+          ? `${toFaDigits(offer.commissionPercent)}٪ (بانکی)`
+          : 'ندارد',
+        isStruck: false,
+      },
+    ],
+    shrinkTiers: SHRINK_TIERS.map((tier) => ({
+      id: tier.id,
+      label: tier.label,
+      value: offerMoney(Math.round((shrinkPrice * tier.factor) / 1000) * 1000),
+      isStruck: false,
+    })),
+    shrinkNote: 'قیمت هر شل',
+    attributes: [
+      { id: 'produced', label: 'تاریخ تولید', value: '۱۴۰۲/۰۵/۱۷', isStruck: false },
+      { id: 'expires', label: 'تاریخ انقضا', value: '۱۴۰۲/۰۵/۱۷', isStruck: false },
+      { id: 'colors', label: `${toFaDigits(OFFER_COLORS.length)} رنگ`, value: '', isStruck: false },
+    ],
+    colors: OFFER_COLORS,
+    calculator: {
+      note: 'چک ۱۰ روزه نقدی محاسبه می‌شود.',
+      terms: PAYMENT_TERMS.map((term) => ({
+        id: term.id,
+        label: term.label,
+        price: Math.round((shrinkPrice * term.factor) / 1000) * 1000,
+      })),
+      defaultTermId: 'cash',
+      quantity: {
+        id: 'shrink-count',
+        unit: 'شل',
+        min: 1,
+        max: 45,
+        defaultValue: 3,
+        ariaLabel: 'تعداد شل',
+      },
+      sliders: [
+        { id: 'days', unit: 'روز', min: 1, max: 120, defaultValue: 45, ariaLabel: 'مدت پرداخت' },
+        { id: 'shrinks', unit: 'شل', min: 1, max: 45, defaultValue: 3, ariaLabel: 'تعداد شل' },
+        { id: 'units', unit: 'عدد', min: 1, max: 3, defaultValue: 1, ariaLabel: 'تعداد دانه' },
+      ],
+    },
+  } satisfies SellerOfferDetail;
+};
+
+const SELLER_OFFER_DETAIL_MOCK = buildSellerOfferDetailMock(
+  PRODUCTS_MOCK[0].slug,
+  SELLER_OFFERS_MOCK.items[0].id,
+)!;
+
 export const productsContracts = {
   products: {
     /** `GET /products` — filtered/sorted/paginated list. */
@@ -339,6 +482,19 @@ export const productsContracts = {
       request: SellerOffersQuerySchema,
       response: apiResponseWrapper(SellerOffersResponseSchema),
       mockData: mockDataWrapper(SELLER_OFFERS_MOCK),
+    },
+
+    /**
+     * `GET /products/{slug}/offers/{offerId}` — one seller's full terms:
+     * tariffs, installments, volume brackets and the calculator inputs.
+     * NOT LIVE YET, same as `getOffers` — `use-seller-offer.ts` forces the mock.
+     */
+    getOfferDetail: {
+      method: 'GET',
+      path: '/products/{slug}/offers/{offerId}',
+      request: SellerOfferDetailQuerySchema,
+      response: apiResponseWrapper(SellerOfferDetailSchema),
+      mockData: mockDataWrapper(SELLER_OFFER_DETAIL_MOCK),
     },
   },
 } as const satisfies Contracts;

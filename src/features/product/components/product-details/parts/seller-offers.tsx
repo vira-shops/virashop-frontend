@@ -18,8 +18,8 @@ export interface SellerOffersProps {
   isLoading: boolean;
   sort: SellerOfferSort;
   onSortChange: (sort: SellerOfferSort) => void;
-  /** Where a seller's «خرید»/«بیشتر» goes. */
-  offerHref: string;
+  /** Builds the href that opens one seller's terms. */
+  hrefForOffer: (offerId: number) => string;
 }
 
 const SellerOffersSkeleton: React.FC = () => (
@@ -40,7 +40,7 @@ export const SellerOffers: React.FC<SellerOffersProps> = ({
   isLoading,
   sort,
   onSortChange,
-  offerHref,
+  hrefForOffer,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
   const visible = showAll ? offers : offers.slice(0, SELLER_OFFERS_VISIBLE);
@@ -74,7 +74,7 @@ export const SellerOffers: React.FC<SellerOffersProps> = ({
       ) : (
         <div className="flex flex-col gap-4">
           {visible.map((offer) => (
-            <SellerOfferCard key={offer.id} offer={offer} href={offerHref} />
+            <SellerOfferCard key={offer.id} offer={offer} href={hrefForOffer(offer.id)} />
           ))}
         </div>
       )}

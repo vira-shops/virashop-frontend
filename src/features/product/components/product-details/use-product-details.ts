@@ -1,13 +1,22 @@
 'use client';
 
 import * as React from 'react';
-import { useProduct, useSellerOffers } from '@/hooks';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useProduct, useSellerOffer, useSellerOffers } from '@/hooks';
 import { getStorefrontChannelByChannel } from '@/config/storefront';
 import { toFaDigits } from '@/utils/format';
-import { PRODUCT_IMAGE_FALLBACK } from '@/features/product/components/product-details/constants';
+import {
+  PRODUCT_IMAGE_FALLBACK,
+  SELLER_PARAM,
+} from '@/features/product/components/product-details/constants';
 import type { BreadcrumbItem } from '@/components/shared/breadcrumb/types';
 import type { ProductGalleryImage } from '@/components/shared/product-gallery/types';
-import type { ProductDetail, SellerOffer, SellerOfferSort } from '@/contracts/endpoints/products';
+import type {
+  ProductDetail,
+  SellerOffer,
+  SellerOfferDetail,
+  SellerOfferSort,
+} from '@/contracts/endpoints/products';
 import type { Channel } from '@/validations/primitives';
 
 export interface ProductDetailsViewModel {
@@ -26,6 +35,14 @@ export interface ProductDetailsViewModel {
   setSort: (sort: SellerOfferSort) => void;
   buyHref: string;
   bestSellersHref: string;
+  /** Id of the seller whose terms are open, or `undefined` for the list. */
+  selectedOfferId?: number;
+  selectedOffer?: SellerOfferDetail;
+  selectedOfferLoading: boolean;
+  /** Builds the href that opens one seller's terms. */
+  hrefForOffer: (offerId: number) => string;
+  /** Clears the selection and returns to the seller list. */
+  clearSelectedOffer: () => void;
   /** Storefront `data-theme` value. */
   theme: string;
 }
@@ -36,11 +53,17 @@ export interface ProductDetailsViewModel {
  */
 export const useProductDetails = (channel: Channel, slug: string): ProductDetailsViewModel => {
   const config = getStorefrontChannelByChannel(channel);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [sort, setSort] = React.useState<SellerOfferSort>('cheapest');
+
+  const sellerParam = searchParams.get(SELLER_PARAM);
+  const selectedOfferId = sellerParam ? Number(sellerParam) : undefined;
 
   const productQuery = useProduct(slug, channel);
   const product = productQuery.data;
   const offersQuery = useSellerOffers(slug, { channel, sort }, product?.price);
+  const selectedOfferQuery = useSellerOffer(slug, selectedOfferId, { channel }, product?.price);
 
   const images: ProductGalleryImage[] = !product
     ? []
@@ -83,6 +106,12 @@ export const useProductDetails = (channel: Channel, slug: string): ProductDetail
     setSort,
     buyHref: product ? config.paths.PRODUCT(product.slug) : config.paths.ROOT,
     bestSellersHref: config.paths.BEST_SELLERS,
+    selectedOfferId,
+    selectedOffer: selectedOfferQuery.data,
+    selectedOfferLoading: selectedOfferQuery.isLoading,
+    hrefForOffer: (offerId) => `${pathname}?${SELLER_PARAM}=${offerId}`,
+    // Shallow, so picking and unpicking a seller never re-runs the route.
+    clearSelectedOffer: () => window.history.pushState(null, '', pathname),
     theme: config.segment,
   };
 };

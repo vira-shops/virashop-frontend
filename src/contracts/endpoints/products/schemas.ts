@@ -225,3 +225,74 @@ export const SellerOffersResponseSchema = z.object({
   total: z.number(),
 });
 export type SellerOffersResponse = z.infer<typeof SellerOffersResponseSchema>;
+
+/* =========================================================
+   Products — one seller's offer in detail (the selected-seller view)
+   ========================================================= */
+
+/** A label/value row in one of the offer's pricing tables. */
+export const OfferTableRowSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  value: z.string(),
+  /** Struck through — used for the «قیمت مصرف کننده» reference price. */
+  isStruck: z.boolean().default(false),
+});
+export type OfferTableRow = z.infer<typeof OfferTableRowSchema>;
+
+/** One payment term in the calculator's grid, e.g. «نقدی» or «سه ماهه». */
+export const OfferPaymentTermSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  /** Tomans for the currently selected quantity. */
+  price: z.number(),
+});
+export type OfferPaymentTerm = z.infer<typeof OfferPaymentTermSchema>;
+
+/** A slider axis in the calculator («مدت»، «تعداد شل»، «تعداد»). */
+export const OfferCalculatorAxisSchema = z.object({
+  id: z.string(),
+  /** Unit rendered after the number, e.g. «روز» / «شل» / «عدد». */
+  unit: z.string(),
+  min: z.number(),
+  max: z.number(),
+  defaultValue: z.number(),
+  /** Accessible name — the design shows only the value bubble. */
+  ariaLabel: z.string(),
+});
+export type OfferCalculatorAxis = z.infer<typeof OfferCalculatorAxisSchema>;
+
+export const OfferCalculatorSchema = z.object({
+  /** The dashed callout above the term grid. */
+  note: z.string(),
+  terms: z.array(OfferPaymentTermSchema),
+  /** Term selected when the view opens. */
+  defaultTermId: z.string(),
+  /** The «− N شل +» quantity control. */
+  quantity: OfferCalculatorAxisSchema,
+  sliders: z.array(OfferCalculatorAxisSchema),
+});
+export type OfferCalculator = z.infer<typeof OfferCalculatorSchema>;
+
+export const SellerOfferDetailSchema = SellerOfferSchema.extend({
+  /** «تعرفه‌ها» — consumer price down to the bulk-discounted one. */
+  tariffs: z.array(OfferTableRowSchema),
+  /** «قیمت / اقساط». */
+  installmentRows: z.array(OfferTableRowSchema),
+  /** «طرح فروش شیرینگ» — volume brackets. */
+  shrinkTiers: z.array(OfferTableRowSchema),
+  /** Caption printed next to the shrink heading, e.g. «قیمت هر شل». */
+  shrinkNote: z.string(),
+  /** «مشخصات محصول / شرایط پرداخت». */
+  attributes: z.array(OfferTableRowSchema),
+  /** Swatches for the «N رنگ» attribute row; empty when the product has none. */
+  colors: z.array(z.string()),
+  /** «ماشین حساب ویرا». */
+  calculator: OfferCalculatorSchema,
+});
+export type SellerOfferDetail = z.infer<typeof SellerOfferDetailSchema>;
+
+export const SellerOfferDetailQuerySchema = z.object({
+  channel: ChannelSchema.default('RETAIL'),
+});
+export type SellerOfferDetailQuery = z.infer<typeof SellerOfferDetailQuerySchema>;

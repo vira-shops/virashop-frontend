@@ -14,5 +14,7 @@
 @import '../../../components/ui/uploader/uploader.css';
 @import '../../../components/ui/range-slider/range-slider.css';
 @import '../../../components/ui/pagination/pagination.css';
+@import '../../../components/ui/stepper/stepper.css';
+@import '../../../components/ui/value-slider/value-slider.css';
 @import '../../../components/feedback/toast/toast.css';
 @import '../../../components/shared/modal/modal.css';

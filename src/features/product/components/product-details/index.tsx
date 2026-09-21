@@ -1,11 +1,12 @@
 'use client';
 
 import * as React from 'react';
-import { Skeleton, Typography } from '@/components/ui';
+import { Skeleton } from '@/components/ui';
 import { BestSellersSection, Breadcrumb } from '@/components/shared';
 import {
   ProductBuyBar,
   ProductSummaryCard,
+  SellerOfferView,
   SellerOffers,
 } from '@/features/product/components/product-details/parts';
 import { useProductDetails } from '@/features/product/components/product-details/use-product-details';
@@ -42,6 +43,11 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
     setSort,
     buyHref,
     bestSellersHref,
+    selectedOfferId,
+    selectedOffer,
+    selectedOfferLoading,
+    hrefForOffer,
+    clearSelectedOffer,
   } = useProductDetails(channel, slug);
 
   if (isLoading) return <ProductDetailsSkeleton />;
@@ -53,41 +59,49 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
       <div className="container flex flex-col gap-8 py-6 md:py-8">
         <Breadcrumb items={breadcrumbItems} className="hidden md:flex" />
 
-        <div className="flex flex-col gap-4">
-          <ProductSummaryCard
-            name={product.name}
+        {selectedOfferId !== undefined ? (
+          <SellerOfferView
+            product={product}
+            offer={selectedOffer}
+            isLoading={selectedOfferLoading}
             images={images}
             highlights={highlights}
-            price={product.price}
-            compareAtPrice={product.compareAtPrice}
-            discountPercent={product.discountPercent}
             startBadge={startBadge}
             endBadge={endBadge}
-            wholesale={product.wholesale}
+            onShowAllSellers={clearSelectedOffer}
           />
+        ) : (
+          <>
+            <div className="flex flex-col gap-4">
+              <ProductSummaryCard
+                name={product.name}
+                images={images}
+                highlights={highlights}
+                price={product.price}
+                compareAtPrice={product.compareAtPrice}
+                discountPercent={product.discountPercent}
+                startBadge={startBadge}
+                endBadge={endBadge}
+                wholesale={product.wholesale}
+              />
 
-          <ProductBuyBar shopName={product.seller.shopName} price={product.price} href={buyHref} />
-        </div>
+              <ProductBuyBar
+                shopName={product.seller.shopName}
+                price={product.price}
+                href={buyHref}
+              />
+            </div>
 
-        <SellerOffers
-          offers={offers}
-          total={offersTotal}
-          isLoading={offersLoading}
-          sort={sort}
-          onSortChange={setSort}
-          offerHref={buyHref}
-        />
-
-        {/* {product.description && (
-          <section className="flex flex-col gap-3">
-            <Typography variant="h6" className="text-gray-700">
-              توضیحات محصول
-            </Typography>
-            <Typography variant="body-sm" className="whitespace-pre-line text-gray-400">
-              {product.description}
-            </Typography>
-          </section>
-        )} */}
+            <SellerOffers
+              offers={offers}
+              total={offersTotal}
+              isLoading={offersLoading}
+              sort={sort}
+              onSortChange={setSort}
+              hrefForOffer={hrefForOffer}
+            />
+          </>
+        )}
       </div>
 
       <BestSellersSection

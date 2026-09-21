@@ -26,6 +26,11 @@ export interface ProductSummaryCardProps {
   endBadge?: string;
   /** Wholesale tier/MOQ pricing — replaces the «قیمت از» row when present. */
   wholesale: WholesaleInfo | null;
+  /**
+   * Hides the price row. The selected-seller view moves the price into its
+   * buy panel, so the card would otherwise print it twice. @default true
+   */
+  showPrice?: boolean;
 }
 
 /** Wishlist / compare — display-only until the accounts feature lands. */
@@ -56,6 +61,7 @@ export const ProductSummaryCard: React.FC<ProductSummaryCardProps> = ({
   startBadge,
   endBadge,
   wholesale,
+  showPrice = true,
 }) => (
   <div className="flex flex-col gap-3">
     {(startBadge || endBadge) && (
@@ -106,7 +112,7 @@ export const ProductSummaryCard: React.FC<ProductSummaryCardProps> = ({
           )}
         </div>
 
-        {wholesale ? (
+        {!showPrice ? null : wholesale ? (
           <ProductPriceBlock
             price={price}
             compareAtPrice={compareAtPrice}

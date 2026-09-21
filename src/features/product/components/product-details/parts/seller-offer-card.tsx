@@ -10,7 +10,7 @@ import type { SellerOffer } from '@/contracts/endpoints/products';
 
 export interface SellerOfferCardProps {
   offer: SellerOffer;
-  /** Where «خرید» goes — the seller's own offer page once one exists. */
+  /** Opens this seller's full terms — the selected-seller view of the PDP. */
   href: string;
 }
 

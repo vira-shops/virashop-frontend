@@ -1,0 +1,66 @@
+@layer components {
+  .value-slider {
+    @apply relative w-full select-none;
+    /* Top room for the bubble, bottom room for the end labels. */
+    padding-block: 28px 0;
+  }
+
+  .value-slider-track {
+    @apply pointer-events-none absolute inset-x-0 h-2 rounded-full bg-gray-100;
+    top: 32px;
+  }
+
+  .value-slider-range {
+    @apply pointer-events-none absolute inset-y-0 start-0 rounded-full;
+  }
+
+  .value-slider-primary .value-slider-range {
+    @apply bg-primary;
+  }
+
+  .value-slider-blue .value-slider-range {
+    @apply bg-blue-900;
+  }
+
+  /* Centred on the thumb; its `left` offset is set inline. */
+  .value-slider-bubble {
+    @apply text-caption-md absolute top-0 -translate-x-1/2 rounded-full px-3 py-1 font-bold whitespace-nowrap text-white;
+  }
+
+  .value-slider-primary .value-slider-bubble {
+    @apply bg-primary;
+  }
+
+  .value-slider-blue .value-slider-bubble {
+    @apply bg-blue-900;
+  }
+
+  .value-slider-input {
+    @apply absolute inset-x-0 m-0 h-2 w-full cursor-pointer appearance-none bg-transparent;
+    top: 32px;
+  }
+
+  .value-slider-input::-webkit-slider-runnable-track {
+    @apply appearance-none bg-transparent;
+  }
+
+  .value-slider-input::-moz-range-track {
+    @apply appearance-none bg-transparent;
+  }
+
+  .value-slider-input::-webkit-slider-thumb {
+    @apply size-7 appearance-none rounded-full border-2 border-white bg-transparent;
+  }
+
+  .value-slider-input::-moz-range-thumb {
+    @apply size-7 appearance-none rounded-full border-2 border-white bg-transparent;
+  }
+
+  .value-slider-labels {
+    @apply text-caption-md mt-5 flex items-center justify-between text-gray-300;
+  }
+
+  .value-slider-disabled {
+    @apply pointer-events-none opacity-60;
+  }
+}
