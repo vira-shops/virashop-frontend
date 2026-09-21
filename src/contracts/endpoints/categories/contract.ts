@@ -1,13 +1,16 @@
 import { Contracts, apiResponseWrapper, mockDataWrapper } from '@/connections';
 import { EmptyRequestSchema } from '@/contracts/common';
-import { PATHS } from '@/routes/paths';
+import { PATHS, type StorefrontSegment } from '@/routes/paths';
+import type { Channel } from '@/validations/primitives';
 import {
   CategoryBrowseResponseSchema,
   CategoryTreeResponseSchema,
+  PopularCategoriesQuerySchema,
   PopularCategoriesResponseSchema,
   type CategoryBrowseResponse,
   type CategorySummary,
   type CategoryTreeNode,
+  type PopularCategoriesResponse,
 } from './schemas';
 
 /**
@@ -620,36 +623,51 @@ export const CATEGORY_LIST = [
   { slug: 'sweets', title: 'شیرینی‌جات', productCount: 38 },
 ];
 
+/** Channel → URL segment, for building this mock's hrefs against the right storefront. */
+const SEGMENT_BY_CHANNEL: Record<Channel, StorefrontSegment> = {
+  RETAIL: 'retail',
+  WHOLESALE: 'wholesale',
+};
+
 /**
- * Popular-categories mock — the single source for the mock payload. Exported so
- * tests (e.g. the store header suite) read the same data the fetcher serves in
+ * Popular-categories mock — the single source for the mock payload, built
+ * per-channel so every href points at the storefront that requested it
+ * (`/retail/*` or `/wholesale/*`), not always retail. Exported so tests
+ * (e.g. the store header suite) read the same data the fetcher serves in
  * mock mode instead of keeping a mirrored copy.
  */
-export const POPULAR_CATEGORIES_MOCK = CATEGORY_LIST.map((category, categoryIndex) => ({
-  id: category.slug,
-  ...category,
-  image: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
-  imageAlt: `دسته‌بندی ${category.title}`,
-  href: PATHS.RETAIL.CATEGORY(category.slug),
-  icon: ICON_BY_CATEGORY[category.slug],
-  subcategories: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group) => ({
-    id: group.id,
-    title: group.title,
-    href: PATHS.RETAIL.CATEGORY(`${category.slug}/${group.id}`),
-    items: group.items.map((item) => ({
-      id: item.id,
-      title: item.title,
-      href: PATHS.RETAIL.CATEGORY(`${category.slug}/${group.id}/${item.id}`),
+export const buildPopularCategoriesMock = (channel: Channel): PopularCategoriesResponse => {
+  const paths = PATHS.STORE(SEGMENT_BY_CHANNEL[channel]);
+
+  return CATEGORY_LIST.map((category, categoryIndex) => ({
+    id: category.slug,
+    ...category,
+    image: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
+    imageAlt: `دسته‌بندی ${category.title}`,
+    href: paths.CATEGORY(category.slug),
+    icon: ICON_BY_CATEGORY[category.slug],
+    subcategories: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group) => ({
+      id: group.id,
+      title: group.title,
+      href: paths.CATEGORY(`${category.slug}/${group.id}`),
+      items: group.items.map((item) => ({
+        id: item.id,
+        title: item.title,
+        href: paths.CATEGORY(`${category.slug}/${group.id}/${item.id}`),
+      })),
     })),
-  })),
-  products: (PRODUCT_TITLES[category.slug] ?? []).map((title, productIndex) => ({
-    id: `${category.slug}-${productIndex + 1}`,
-    title,
-    image: PRODUCT_IMAGES[(categoryIndex + productIndex) % PRODUCT_IMAGES.length],
-    imageAlt: title,
-    href: PATHS.RETAIL.PRODUCT(`${category.slug}-${productIndex + 1}`),
-  })),
-}));
+    products: (PRODUCT_TITLES[category.slug] ?? []).map((title, productIndex) => ({
+      id: `${category.slug}-${productIndex + 1}`,
+      title,
+      image: PRODUCT_IMAGES[(categoryIndex + productIndex) % PRODUCT_IMAGES.length],
+      imageAlt: title,
+      href: paths.PRODUCT(`${category.slug}-${productIndex + 1}`),
+    })),
+  }));
+};
+
+/** Retail-channel popular-categories mock — the default/original shape existing tests read. */
+export const POPULAR_CATEGORIES_MOCK = buildPopularCategoriesMock('RETAIL');
 
 /**
  * Real backend category tree mock (`CategoryTreeNode[]`) — numeric ids,
@@ -788,7 +806,7 @@ export const categoriesContracts = {
     getPopular: {
       method: 'GET',
       path: '/categories/popular',
-      request: EmptyRequestSchema,
+      request: PopularCategoriesQuerySchema,
       response: apiResponseWrapper(PopularCategoriesResponseSchema),
       mockData: mockDataWrapper(POPULAR_CATEGORIES_MOCK),
     },

@@ -1,5 +1,11 @@
 import { z } from 'zod';
-import { IDSchema } from '@/validations/primitives';
+import { ChannelSchema, IDSchema } from '@/validations/primitives';
+
+/** `GET /categories/popular` query — hrefs in the response are built for this channel. */
+export const PopularCategoriesQuerySchema = z.object({
+  channel: ChannelSchema.default('RETAIL'),
+});
+export type PopularCategoriesQuery = z.infer<typeof PopularCategoriesQuerySchema>;
 
 /** A product tile inside the category products grid. */
 export const RetailProductSchema = z.object({

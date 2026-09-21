@@ -42,7 +42,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
       <nav className="border-b border-gray-100 py-8 shadow-md">
         <div className="container flex items-center justify-between">
           <div className="flex items-center gap-11">
-            <CategoriesDropdown />
+            <CategoriesDropdown channel={channel} />
 
             {navItems.map(({ label, href }) => (
               <Typography

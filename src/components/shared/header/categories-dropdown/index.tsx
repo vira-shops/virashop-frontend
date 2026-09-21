@@ -181,8 +181,8 @@ const MegaPanel: React.FC<{
 
 // --- Main component --------------------------------------------------------
 
-export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ className }) => {
-  const { data, isLoading } = usePopularCategories();
+export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel, className }) => {
+  const { data, isLoading } = usePopularCategories(channel);
   const categories = data ?? [];
   const [open, setOpen] = React.useState(false);
   // Lazy initial state — picks the first category as default on first render

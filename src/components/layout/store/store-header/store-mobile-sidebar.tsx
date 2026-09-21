@@ -9,6 +9,7 @@ import { usePopularCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { PopularCategory } from '@/contracts/endpoints/categories/schemas';
 import type { NavItem } from '@/config/storefront';
+import type { Channel } from '@/validations/primitives';
 import { CATEGORIES_SECTION_TITLE } from './constants';
 
 interface StoreMobileSidebarProps {
@@ -17,6 +18,8 @@ interface StoreMobileSidebarProps {
   city?: string;
   /** Channel-specific nav links — comes from the header config. */
   navItems: NavItem[];
+  /** Storefront channel — category/product hrefs are built for this channel. */
+  channel?: Channel;
 }
 
 // --- Icon map for dynamic icon rendering ------------------------------------
@@ -268,8 +271,13 @@ const SidebarFooter: React.FC<{ city?: string }> = ({ city }) => (
 
 // --- Main component ---------------------------------------------------------
 
-export const StoreMobileSidebar: React.FC<StoreMobileSidebarProps> = ({ logo, city, navItems }) => {
-  const { data: categories } = usePopularCategories();
+export const StoreMobileSidebar: React.FC<StoreMobileSidebarProps> = ({
+  logo,
+  city,
+  navItems,
+  channel,
+}) => {
+  const { data: categories } = usePopularCategories(channel);
   const catList = categories ?? [];
 
   const [open, setOpen] = React.useState(false);

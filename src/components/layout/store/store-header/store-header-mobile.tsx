@@ -17,7 +17,12 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
       <div className="border-b border-gray-100 py-4">
         <div className="container flex items-center justify-between">
           {/* Right in RTL: burger menu */}
-          <StoreMobileSidebar logo={logo} city={location?.city} navItems={mobileNavItems} />
+          <StoreMobileSidebar
+            logo={logo}
+            city={location?.city}
+            navItems={mobileNavItems}
+            channel={channel}
+          />
 
           {/* Center: logo */}
           <Logo src={logo.src} alt={logo.alt} />
