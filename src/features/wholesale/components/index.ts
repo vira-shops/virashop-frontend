@@ -4,3 +4,6 @@ export { SpecialOffers } from './special-offers';
 export { PartnerBrandsStrip } from './partner-brands';
 export { BestSellers } from './best-sellers';
 export { FeaturesGrid } from './features-grid';
+export { ProductListing } from './product-listing';
+export { ProductDetails } from './product-details';
+export { SearchResults } from './search-results';

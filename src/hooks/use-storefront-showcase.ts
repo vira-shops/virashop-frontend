@@ -15,7 +15,8 @@ export const useStorefrontShowcase = (): UseQueryResult<
   return useQuery<StorefrontShowcaseResponse, StorefrontShowcaseError>({
     queryKey: queryKeys.showcase(),
     queryFn: async () => {
-      const response = await api('storefronts', 'getShowcase');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('storefronts', 'getShowcase', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

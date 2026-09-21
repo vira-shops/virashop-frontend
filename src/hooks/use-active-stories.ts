@@ -21,7 +21,8 @@ export const useActiveStories = (): UseQueryResult<StoryItem[], ActiveStoriesErr
   return useQuery<StoryItem[], ActiveStoriesError>({
     queryKey: queryKeys.activeStories(),
     queryFn: async () => {
-      const response = await api('stories', 'getActive');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('stories', 'getActive', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

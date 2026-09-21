@@ -5,6 +5,7 @@ import { DownArrowIcon } from '@icons';
 import { HeroSearchBar, StoryBar, StoryBarSkeleton, StoryViewer } from '@/components/shared';
 import { cn } from '@/utils/ui';
 import { useActiveStories } from '@/hooks';
+import { PATHS } from '@/routes/paths';
 import { CategoryShowcase } from './category-showcase';
 import {
   RETAIL_HERO_SEARCH_PLACEHOLDER,
@@ -42,7 +43,11 @@ export const RetailHero: React.FC = () => {
       <div className="bg-retail-tint pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-5 pt-13 pb-20 md:px-0">
-        <HeroSearchBar onChange={() => undefined} placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER} />
+        <HeroSearchBar
+          placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER}
+          hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY(slug)}
+          hrefForSearch={(q) => `${PATHS.RETAIL.SEARCH}?q=${encodeURIComponent(q)}`}
+        />
         {storiesQuery.isLoading ? (
           <StoryBarSkeleton />
         ) : (

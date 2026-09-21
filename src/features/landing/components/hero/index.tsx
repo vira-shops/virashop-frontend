@@ -10,6 +10,7 @@ import {
   StoryViewer,
 } from '@/components/shared';
 import { useCities, useActiveStories } from '@/hooks';
+import { PATHS } from '@/routes/paths';
 import { HeroProps } from './types';
 import { HERO_GRADIENT, HERO_GRADIENT_OPACITY } from './constants';
 import { StorefrontShowcase } from './storefront-showcase';
@@ -17,7 +18,6 @@ import { StorefrontShowcase } from './storefront-showcase';
 export const Hero: React.FC<HeroProps> = ({
   defaultCity,
   onCityChange,
-  onSearch,
   showCitySelect = true,
   showStorefront = true,
   searchPlaceholder,
@@ -57,7 +57,11 @@ export const Hero: React.FC<HeroProps> = ({
               disabled={citiesQuery.isLoading}
             />
           )}
-          <HeroSearchBar onChange={onSearch} placeholder={searchPlaceholder} />
+          <HeroSearchBar
+            placeholder={searchPlaceholder}
+            hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY(slug)}
+            hrefForSearch={(q) => `${PATHS.RETAIL.SEARCH}?q=${encodeURIComponent(q)}`}
+          />
         </div>
 
         {storiesQuery.isLoading ? (

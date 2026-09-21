@@ -6,6 +6,18 @@ export { useBestSellers } from './use-best-sellers';
 export { usePartnerBrands } from './use-partner-brands';
 export { useTechNews } from './use-tech-news';
 export { usePopularCategories } from './use-popular-categories';
+export { useCategoryBrowse } from './use-category-browse';
+export { useProducts } from './use-products';
+export { useProduct } from './use-product';
+export { useProductListingFilters } from './use-product-listing-filters';
+export type {
+  ProductListingFilters,
+  UseProductListingFiltersResult,
+} from './use-product-listing-filters';
+export { useSearchSuggestions } from './use-search-suggestions';
+export { useSearch } from './use-search';
+export { useRecentSearches } from './use-recent-searches';
+export type { UseRecentSearchesResult } from './use-recent-searches';
 export * from './auth';
 export { useHydration } from './use-hydration';
 export { queryKeys } from './query-keys';

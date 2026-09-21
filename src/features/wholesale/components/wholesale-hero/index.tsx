@@ -10,6 +10,7 @@ import {
 } from '@/components/shared';
 import { useActiveStories, useCities } from '@/hooks';
 import { cn } from '@/utils/ui';
+import { PATHS } from '@/routes/paths';
 import {
   WHOLESALE_HERO_ARIA_LABEL,
   WHOLESALE_HERO_SEARCH_PLACEHOLDER,
@@ -34,23 +35,26 @@ export const WholesaleHero: React.FC<{ className?: string }> = ({ className }) =
 
   return (
     <section aria-label={WHOLESALE_HERO_ARIA_LABEL} className={cn('relative w-full', className)}>
-      <div className="container mx-auto flex max-w-4xl flex-col items-center gap-12 pt-13 pb-4">
-        <div className="flex w-full flex-col gap-4 sm:gap-9 md:flex-row">
-          <CitySelect cities={cities} disabled={citiesQuery.isLoading} />
-          <HeroSearchBar
-            onChange={() => undefined}
-            placeholder={WHOLESALE_HERO_SEARCH_PLACEHOLDER}
-          />
+      <div className="mx-auto max-w-4xl pt-13 pb-4">
+        <div className="container flex flex-col items-center gap-12">
+          <div className="flex w-full flex-col gap-4 sm:gap-9 md:flex-row">
+            <CitySelect cities={cities} disabled={citiesQuery.isLoading} />
+            <HeroSearchBar
+              placeholder={WHOLESALE_HERO_SEARCH_PLACEHOLDER}
+              hrefForCategory={(slug) => PATHS.WHOLESALE.CATEGORY(slug)}
+              hrefForSearch={(q) => `${PATHS.WHOLESALE.SEARCH}?q=${encodeURIComponent(q)}`}
+            />
+          </div>
+
+          {storiesQuery.isLoading ? (
+            <StoryBarSkeleton />
+          ) : (
+            <StoryBar stories={stories} onStoryOpen={handleStoryOpen} />
+          )}
         </div>
 
-        {storiesQuery.isLoading ? (
-          <StoryBarSkeleton />
-        ) : (
-          <StoryBar stories={stories} onStoryOpen={handleStoryOpen} />
-        )}
+        <StoryViewer items={stories} open={open} startIndex={startIndex} onClose={handleClose} />
       </div>
-
-      <StoryViewer items={stories} open={open} startIndex={startIndex} onClose={handleClose} />
     </section>
   );
 };

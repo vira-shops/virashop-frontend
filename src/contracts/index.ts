@@ -4,6 +4,8 @@ import { brandsContracts } from './endpoints/brands';
 import { categoriesContracts } from './endpoints/categories';
 import { citiesContracts } from './endpoints/cities';
 import { postsContracts } from './endpoints/posts';
+import { productsContracts } from './endpoints/products';
+import { searchContracts } from './endpoints/search';
 import { storefrontsContracts } from './endpoints/storefronts';
 import { storiesContracts } from './endpoints/stories';
 
@@ -17,6 +19,8 @@ export const contracts = {
   ...categoriesContracts,
   ...citiesContracts,
   ...postsContracts,
+  ...productsContracts,
+  ...searchContracts,
   ...storefrontsContracts,
   ...storiesContracts,
 } as const;

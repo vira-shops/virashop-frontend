@@ -15,7 +15,8 @@ export const usePopularCategories = (): UseQueryResult<
   useQuery<PopularCategoriesData['data'], PopularCategoriesError>({
     queryKey: queryKeys.popularCategories(),
     queryFn: async () => {
-      const response = await api('categories', 'getPopular');
+      // Not part of the real backend contract yet — always use the mock.
+      const response = await api('categories', 'getPopular', { useMock: true });
 
       if (response.status !== 200) {
         throw response;

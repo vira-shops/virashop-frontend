@@ -14,3 +14,10 @@ export const Default: StoryObj<typeof HeroSearchBar> = {};
 export const CustomPlaceholder: StoryObj<typeof HeroSearchBar> = {
   args: { placeholder: 'جستجوی محصول در فروشگاه خرده' },
 };
+
+export const WithSuggestionsDropdown: StoryObj<typeof HeroSearchBar> = {
+  args: {
+    hrefForCategory: (slug: string) => `/retail/category/${slug}`,
+    hrefForSearch: (q: string) => `/retail/search?q=${encodeURIComponent(q)}`,
+  },
+};

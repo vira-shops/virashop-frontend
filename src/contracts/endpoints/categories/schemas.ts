@@ -60,3 +60,56 @@ export type PopularCategory = z.infer<typeof PopularCategorySchema>;
 
 export const PopularCategoriesResponseSchema = z.array(PopularCategorySchema);
 export type PopularCategoriesResponse = z.infer<typeof PopularCategoriesResponseSchema>;
+
+/**
+ * Real backend category tree (`GET /categories/tree`, `GET /categories/:slug`)
+ * — a separate, recursive shape from `PopularCategorySchema` above (which
+ * backs the not-yet-backend-integrated mega-menu mock). Used by the product
+ * listing page for its breadcrumb + category icon row.
+ */
+export interface CategoryTreeNode {
+  id: number;
+  slug: string;
+  name: string;
+  nameFa: string;
+  nameEn: string;
+  parentId: number | null;
+  depth: number;
+  iconKey: string | null;
+  imageKey: string | null;
+  sortOrder: number;
+  productCount: number;
+  children: CategoryTreeNode[];
+}
+
+/** Node summary shape (no `children`) — used inside `ancestors`/`children` on the browse endpoint. */
+export const CategorySummarySchema = z.object({
+  id: z.number(),
+  slug: z.string(),
+  name: z.string(),
+  nameFa: z.string(),
+  nameEn: z.string(),
+  parentId: z.number().nullable(),
+  depth: z.number(),
+  iconKey: z.string().nullable(),
+  imageKey: z.string().nullable(),
+  sortOrder: z.number(),
+  productCount: z.number(),
+});
+export type CategorySummary = z.infer<typeof CategorySummarySchema>;
+
+export const CategoryTreeNodeSchema: z.ZodType<CategoryTreeNode> = z.lazy(() =>
+  CategorySummarySchema.extend({
+    children: z.array(CategoryTreeNodeSchema),
+  }),
+);
+
+export const CategoryTreeResponseSchema = z.array(CategoryTreeNodeSchema);
+export type CategoryTreeResponse = z.infer<typeof CategoryTreeResponseSchema>;
+
+export const CategoryBrowseResponseSchema = z.object({
+  category: CategorySummarySchema,
+  ancestors: z.array(CategorySummarySchema),
+  children: z.array(CategorySummarySchema),
+});
+export type CategoryBrowseResponse = z.infer<typeof CategoryBrowseResponseSchema>;
