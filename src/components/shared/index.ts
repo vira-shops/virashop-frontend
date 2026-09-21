@@ -19,6 +19,7 @@ export * from './news-card';
 export * from './product-grid';
 export * from './product-filter-panel';
 export * from './category-icon-nav';
+export * from './catalog-hero';
 export * from './product-gallery';
 export * from './product-price-block';
 export * from './offer-banner';

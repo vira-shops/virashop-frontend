@@ -21,9 +21,11 @@ describe('SearchResults', () => {
       sort: 'relevant',
       minPrice: undefined,
       maxPrice: undefined,
+      inStock: false,
       setSort: jest.fn(),
       setPage: jest.fn(),
       setPriceRange: jest.fn(),
+      setInStock: jest.fn(),
       clearFilters: jest.fn(),
     });
 

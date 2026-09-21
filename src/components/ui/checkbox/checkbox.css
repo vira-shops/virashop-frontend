@@ -1,0 +1,54 @@
+@layer components {
+  .checkbox {
+    @apply inline-flex cursor-pointer items-center gap-3 select-none;
+  }
+
+  .checkbox-disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  /*
+   * The native input stays in the DOM (keyboard + a11y) but is visually
+   * replaced by `.checkbox-box`, which reacts through the sibling selectors
+   * below — no JS state needed for the checked/indeterminate styling.
+   * Sizes come from the component's static class maps, not from here.
+   */
+  .checkbox-input {
+    @apply sr-only;
+  }
+
+  .checkbox-box {
+    @apply flex shrink-0 items-center justify-center rounded-2 border border-gray-200 bg-white text-white transition-colors;
+  }
+
+  .checkbox-input:checked + .checkbox-box,
+  .checkbox-input:indeterminate + .checkbox-box {
+    @apply bg-primary border-primary;
+  }
+
+  .checkbox-input:focus-visible + .checkbox-box {
+    @apply outline-2 outline-offset-2 outline-current;
+  }
+
+  .checkbox-mark {
+    @apply hidden;
+  }
+
+  .checkbox-input:checked + .checkbox-box .checkbox-mark-check,
+  .checkbox-input:indeterminate + .checkbox-box .checkbox-mark-dash {
+    @apply block;
+  }
+
+  /* Indeterminate wins over checked — a parent row shows the dash. */
+  .checkbox-input:indeterminate + .checkbox-box .checkbox-mark-check {
+    @apply hidden;
+  }
+
+  .checkbox-label {
+    @apply text-body-sm text-gray-700;
+  }
+
+  .checkbox-input:checked ~ .checkbox-label {
+    @apply text-primary;
+  }
+}

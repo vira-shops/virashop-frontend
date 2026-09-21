@@ -11,7 +11,7 @@ const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      d="M22 3H2"
+      d="M19 22V11"
       stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}
@@ -19,7 +19,7 @@ const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
       strokeLinejoin="round"
     />
     <path
-      d="M22 9H13"
+      d="M19 7V2"
       stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}
@@ -27,7 +27,7 @@ const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
       strokeLinejoin="round"
     />
     <path
-      d="M22 15H16"
+      d="M12 22V17"
       stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}
@@ -35,7 +35,7 @@ const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
       strokeLinejoin="round"
     />
     <path
-      d="M22 21H18"
+      d="M12 13V2"
       stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}
@@ -43,7 +43,7 @@ const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
       strokeLinejoin="round"
     />
     <path
-      d="M7.99988 17.6797L5.43988 20.2397L2.87988 17.6797"
+      d="M5 22V11"
       stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}
@@ -51,7 +51,31 @@ const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
       strokeLinejoin="round"
     />
     <path
-      d="M5.43848 10L5.43848 20.17"
+      d="M5 7V2"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M3 11H7"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M17 11H21"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M10 13H14"
       stroke="currentColor"
       strokeWidth={1.5}
       strokeMiterlimit={10}

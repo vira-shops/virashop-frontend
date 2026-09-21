@@ -64,6 +64,38 @@
     @apply bg-wholesale-50 text-wholesale-500;
   }
 
+  /*
+   * Underline variant — no container chrome at all: plain text items with an
+   * accent rule under the active one (catalog listing sort row).
+   */
+  .tabs-underline {
+    @apply gap-6 rounded-none bg-transparent p-0;
+  }
+
+  .tabs-underline .tab-item {
+    @apply w-auto rounded-none border-b-2 border-transparent px-0 pb-3;
+  }
+
+  .tabs-underline.tabs-primary .tab-item-active {
+    @apply border-primary text-primary bg-transparent;
+  }
+
+  .tabs-underline.tabs-blue .tab-item-active {
+    @apply border-blue-900 bg-transparent text-blue-900;
+  }
+
+  .tabs-underline.tabs-yellow .tab-item-active {
+    @apply border-yellow-100 bg-transparent text-yellow-100;
+  }
+
+  .tabs-underline.tabs-retail .tab-item-active {
+    @apply border-retail-500 text-retail-500 bg-transparent;
+  }
+
+  .tabs-underline.tabs-wholesale .tab-item-active {
+    @apply border-wholesale-500 text-wholesale-500 bg-transparent;
+  }
+
   .tab-item-disabled {
     @apply pointer-events-none cursor-not-allowed text-gray-100;
   }

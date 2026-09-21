@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export type TabsVariant = 'fill' | 'outline';
+export type TabsVariant = 'fill' | 'outline' | 'underline';
 
 export type TabsColor = 'primary' | 'blue' | 'yellow' | 'retail' | 'wholesale';
 

@@ -1,11 +1,21 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ProductListing } from './index';
 import { useCategoryBrowse, useProductListingFilters, useProducts } from '@/hooks';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: jest.fn() }),
 }));
+
+/** The catalog hero's search bar runs its own (unmocked) React Query hook. */
+const renderListing = (ui: React.ReactElement) => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false, gcTime: 0, staleTime: 0 } },
+  });
+
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+};
 
 jest.mock('@/hooks', () => ({
   ...jest.requireActual('@/hooks'),
@@ -101,9 +111,11 @@ describe('ProductListing', () => {
       sort: 'relevant',
       minPrice: undefined,
       maxPrice: undefined,
+      inStock: false,
       setSort: jest.fn(),
       setPage: jest.fn(),
       setPriceRange: jest.fn(),
+      setInStock: jest.fn(),
       clearFilters: jest.fn(),
     });
 
@@ -114,11 +126,31 @@ describe('ProductListing', () => {
   });
 
   it('renders the breadcrumb, child-category nav and product grid', () => {
-    render(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
 
     expect(screen.getByText('پروتئینی')).toBeInTheDocument();
-    expect(screen.getByText('مرغ و ماکیان')).toBeInTheDocument();
+    expect(screen.getAllByText('مرغ و ماکیان').length).toBeGreaterThan(0);
     expect(screen.getAllByText('سینه مرغ').length).toBeGreaterThan(0);
     expect(screen.getByText('سینه مرغ تازه')).toBeInTheDocument();
+  });
+
+  it('renders the hero search bar and the sort tabs', () => {
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+
+    expect(screen.getByRole('searchbox', { name: 'جستجو' })).toBeInTheDocument();
+    expect(screen.getByRole('tablist', { name: 'مرتب سازی' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'همه' })).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('opens the mobile filter and sort sheets', async () => {
+    renderListing(<ProductListing channel="RETAIL" categorySlug="protein-poultry" />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'فیلتر' }));
+    expect(await screen.findByRole('dialog')).toHaveTextContent('فیلتر');
+    fireEvent.click(screen.getByRole('button', { name: 'بستن' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'مرتب سازی' }));
+    expect(await screen.findByRole('dialog')).toHaveTextContent('مرتب سازی');
+    expect(screen.getByRole('radio', { name: 'گران ترین' })).toBeInTheDocument();
   });
 });

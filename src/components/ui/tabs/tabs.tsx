@@ -7,6 +7,7 @@ import { TabsProps, TabsVariant, TabsColor, TabsSize, TabItem } from './types';
 const variantClasses: Record<TabsVariant, string> = {
   fill: 'tabs-fill',
   outline: 'tabs-outline',
+  underline: 'tabs-underline',
 };
 
 const colorClasses: Record<TabsColor, string> = {

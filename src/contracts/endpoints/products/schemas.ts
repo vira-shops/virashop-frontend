@@ -8,7 +8,14 @@ import { ChannelSchema, SlugSchema } from '@/validations';
 export const ProductStockStatusSchema = z.enum(['IN_STOCK', 'LOW_STOCK', 'OUT_OF_STOCK']);
 export type ProductStockStatus = z.infer<typeof ProductStockStatusSchema>;
 
-export const ProductSortSchema = z.enum(['newest', 'cheapest', 'relevant']);
+export const ProductSortSchema = z.enum([
+  'relevant',
+  'newest',
+  'bestselling',
+  'cheapest',
+  'expensive',
+  'discounted',
+]);
 export type ProductSort = z.infer<typeof ProductSortSchema>;
 
 /* =========================================================
@@ -64,6 +71,8 @@ export const ProductListQuerySchema = z.object({
   categoryId: z.coerce.number().optional(),
   /** Unknown slug → empty page, not an error. */
   categorySlug: z.string().optional(),
+  /** `true` drops OUT_OF_STOCK items (the listing's «کالای موجود» toggle). */
+  inStock: z.coerce.boolean().optional(),
   /** Matches name / brand / slug. */
   q: z.string().optional(),
   minPrice: z.coerce.number().optional(),

@@ -34,10 +34,24 @@ const filterMockProducts = (query: ProductListQuery): ProductListResponse => {
     items = items.filter((product) => product.price <= query.maxPrice!);
   }
 
+  if (query.inStock) {
+    items = items.filter((product) => product.stockStatus !== 'OUT_OF_STOCK');
+  }
+
   if (query.sort === 'cheapest') {
     items = [...items].sort((a, b) => a.price - b.price);
+  } else if (query.sort === 'expensive') {
+    items = [...items].sort((a, b) => b.price - a.price);
   } else if (query.sort === 'newest') {
     items = [...items].reverse();
+  } else if (query.sort === 'bestselling') {
+    // No sales figure on the card shape yet — `storeCount` is the closest
+    // available proxy for demand until the real endpoint lands.
+    items = [...items].sort((a, b) => b.storeCount - a.storeCount);
+  } else if (query.sort === 'discounted') {
+    items = items
+      .filter((product) => product.discountPercent > 0)
+      .sort((a, b) => b.discountPercent - a.discountPercent);
   }
 
   const total = items.length;

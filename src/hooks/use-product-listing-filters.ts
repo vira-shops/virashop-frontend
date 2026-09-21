@@ -9,12 +9,15 @@ export interface ProductListingFilters {
   sort: ProductSort;
   minPrice?: number;
   maxPrice?: number;
+  /** «کالای موجود» — drops out-of-stock items when on. */
+  inStock: boolean;
 }
 
 export interface UseProductListingFiltersResult extends ProductListingFilters {
   setSort: (sort: ProductSort) => void;
   setPage: (page: number) => void;
   setPriceRange: (range: [number, number]) => void;
+  setInStock: (value: boolean) => void;
   clearFilters: () => void;
 }
 
@@ -35,6 +38,7 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
   const maxPriceParam = searchParams.get('maxPrice');
   const minPrice = minPriceParam ? Number(minPriceParam) : undefined;
   const maxPrice = maxPriceParam ? Number(maxPriceParam) : undefined;
+  const inStock = searchParams.get('inStock') === '1';
 
   const pushParams = useCallback(
     (updates: Record<string, string | undefined>) => {
@@ -63,11 +67,33 @@ export function useProductListingFilters(): UseProductListingFiltersResult {
     [pushParams],
   );
 
-  const clearFilters = useCallback(
-    () =>
-      pushParams({ sort: undefined, minPrice: undefined, maxPrice: undefined, page: undefined }),
+  const setInStock = useCallback(
+    (value: boolean) => pushParams({ inStock: value ? '1' : undefined, page: undefined }),
     [pushParams],
   );
 
-  return { page, sort, minPrice, maxPrice, setSort, setPage, setPriceRange, clearFilters };
+  const clearFilters = useCallback(
+    () =>
+      pushParams({
+        sort: undefined,
+        minPrice: undefined,
+        maxPrice: undefined,
+        inStock: undefined,
+        page: undefined,
+      }),
+    [pushParams],
+  );
+
+  return {
+    page,
+    sort,
+    minPrice,
+    maxPrice,
+    inStock,
+    setSort,
+    setPage,
+    setPriceRange,
+    setInStock,
+    clearFilters,
+  };
 }
