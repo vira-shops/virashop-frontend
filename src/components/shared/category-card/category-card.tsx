@@ -43,7 +43,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   );
 
   const content = (
-    <div className="h-[70px] w-[70px] md:h-[128px] md:w-[128px]">
+    <div className="w-[80px] md:w-[128px]">
       <div className={cardClass}>{inner}</div>
       <Typography
         variant="caption-lg"

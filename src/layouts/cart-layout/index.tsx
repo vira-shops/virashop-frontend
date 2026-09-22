@@ -21,7 +21,7 @@ export function CartLayout({ channel, children }: CartLayoutProps) {
   return (
     <div data-theme={config.segment}>
       <StoreHeader config={config.header} />
-      <main className="min-h-svh bg-gray-50">{children}</main>
+      <main className="flex min-h-svh flex-col gap-14 bg-gray-50">{children}</main>
       <StoreFooter config={config.footer} />
     </div>
   );

@@ -40,7 +40,7 @@ export function LoginForm() {
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <Typography variant="h3" className="text-center">
-          ورود به ویراشاپ
+          ورود به ویراشاپس
         </Typography>
         <div className="flex items-center gap-1 text-center text-neutral-400">
           <Typography variant="body-12">حساب کاربری ندارید ؟</Typography>

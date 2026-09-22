@@ -58,6 +58,29 @@ const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+/**
+ * Folds the spelling variants a Persian keyboard produces so a typed query
+ * still matches the option label: Arabic yeh/kaf/teh-marbuta map onto their
+ * Persian counterparts, harakat and zero-width joiners drop out, and spaces
+ * are ignored so «بندر عباس» finds «بندرعباس» and «قائم شهر» finds
+ * «قائم‌شهر» (ZWNJ).
+ */
+const normalizeForSearch = (input: string): string =>
+  input
+    .toLowerCase()
+    // Arabic yeh / alef maksura -> Persian yeh
+    .replace(/[يى]/g, 'ی')
+    // Arabic kaf -> Persian kaf
+    .replace(/ك/g, 'ک')
+    // teh marbuta -> heh
+    .replace(/ة/g, 'ه')
+    // hamzated alefs -> bare alef
+    .replace(/[أإآ]/g, 'ا')
+    // harakat, tatweel and zero-width marks carry no search meaning
+    .replace(/[\u064B-\u0652\u0640\u200B-\u200F]/g, '')
+    // ignore spacing so a typed space stands in for a glued name or a ZWNJ
+    .replace(/\s+/g, '');
+
 interface SelectOptionData {
   value: string;
   label: React.ReactNode;
@@ -145,13 +168,15 @@ export const Select: React.FC<SelectProps> = ({
 
   const selectedLabel = optionList.find((option) => option.value === currentValue)?.label;
   const canFilter = searchable && filterable;
-  const filteredOptions = canFilter
-    ? optionList.filter(
-        (option) =>
-          typeof option.label === 'string' &&
-          option.label.toLowerCase().includes(query.trim().toLowerCase()),
-      )
-    : optionList;
+  const normalizedQuery = canFilter ? normalizeForSearch(query) : '';
+  const filteredOptions =
+    canFilter && normalizedQuery
+      ? optionList.filter(
+          (option) =>
+            typeof option.label === 'string' &&
+            normalizeForSearch(option.label).includes(normalizedQuery),
+        )
+      : optionList;
 
   const commitValue = React.useCallback(
     (value: string) => {

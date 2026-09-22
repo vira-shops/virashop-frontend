@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { Button, Typography } from '@/components/ui';
-import { SellerMark } from '@/features/cart/components/checkout-wizard/parts/invoice-header';
+import { SellerMark } from '@/features/cart/components/invoice-header';
 import { formatToman, toFaDigits } from '@/utils/format';
 import {
   CART_IMAGE_FALLBACK,
@@ -45,7 +45,7 @@ const InvoiceCard: React.FC<{ invoice: CartInvoice; onOpen: () => void }> = ({
         </Button>
       </div>
 
-      <div className="flex flex-col items-end gap-4">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <SellerMark seller={invoice.seller} />
           <Typography variant="body-sm" className="font-bold text-gray-700">

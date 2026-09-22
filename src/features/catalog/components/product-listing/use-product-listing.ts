@@ -56,6 +56,15 @@ export const useProductListing = (
   const ancestors = categoryBrowseQuery.data?.ancestors ?? [];
   const children = categoryBrowseQuery.data?.children ?? [];
 
+  /*
+    A leaf category has no children to show in the hero, so it shows its
+    siblings instead — the row stays put as you drill in and the tile you are
+    on is the one highlighted. An empty slug leaves the query disabled.
+  */
+  const parentSlug = ancestors.at(-1)?.slug ?? '';
+  const siblingsQuery = useCategoryBrowse(children.length === 0 ? parentSlug : '');
+  const heroNodes = children.length > 0 ? children : (siblingsQuery.data?.children ?? []);
+
   const { categories } = filters;
 
   // A subcategory selection always sits inside the browsed category, so the
@@ -109,11 +118,11 @@ export const useProductListing = (
   return {
     filters,
     breadcrumbItems,
-    heroCategories: children.map((child) => ({
-      id: child.id,
-      title: child.name,
+    heroCategories: heroNodes.map((node) => ({
+      id: node.id,
+      title: node.name,
       image: CATEGORY_IMAGE_FALLBACK,
-      href: config.paths.CATEGORY(child.slug),
+      href: config.paths.CATEGORY(node.slug),
     })),
     activeCategoryId: category?.id,
     categoryGroups:
@@ -140,7 +149,7 @@ export const useProductListing = (
         product.discountPercent > 0 ? `${toFaDigits(product.discountPercent)}٪ تخفیف` : undefined,
       title: product.name,
       priceLabel: 'قیمت از',
-      price: `${formatToman(product.price)} تومان`,
+      price: formatToman(product.price),
       stockNote: STOCK_NOTE[product.stockStatus] ?? `در ${toFaDigits(product.storeCount)} فروشگاه`,
       action: { label: 'خرید', href: config.paths.PRODUCT(product.slug) },
     })),

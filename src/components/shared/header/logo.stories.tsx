@@ -10,13 +10,13 @@ const meta: Meta<typeof Logo> = {
 export default meta;
 
 export const Default: StoryObj<typeof Logo> = {
-  args: { src: '/images/landing/header/header-logo.svg', alt: 'ویراشاپ' },
+  args: { src: '/images/landing/header/header-logo.svg', alt: 'ویراشاپس' },
 };
 
 export const CustomHref: StoryObj<typeof Logo> = {
   args: {
     src: '/images/landing/header/header-logo.svg',
-    alt: 'ویراشاپ خرده',
+    alt: 'ویراشاپس خرده',
     href: '/retail',
   },
 };

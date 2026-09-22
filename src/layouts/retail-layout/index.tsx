@@ -9,7 +9,7 @@ export function RetailLayout({ children }: PropsWithChildren) {
   return (
     <div data-theme="retail">
       <StoreHeader config={retailChannel.header} />
-      <main className="min-h-svh">{children}</main>
+      <main className="flex min-h-svh flex-col gap-14">{children}</main>
       <StoreFooter config={retailChannel.footer} />
     </div>
   );

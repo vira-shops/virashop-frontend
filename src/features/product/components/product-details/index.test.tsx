@@ -53,7 +53,7 @@ const product = {
   discountPercent: 15,
   badges: ['اقساط ۵ ماهه'],
   stockStatus: 'IN_STOCK' as const,
-  seller: { id: 1, shopName: 'ویراشاپس', logoKey: null, logoUrl: null },
+  seller: { id: 1, shopName: 'ویراشاپسس', logoKey: null, logoUrl: null },
   storeCount: 1,
   channel: 'RETAIL' as const,
   shortDescription: 'محصول تازه و باکیفیت',
@@ -181,7 +181,7 @@ describe('ProductDetails', () => {
   it('renders the marketplace buy bar', () => {
     renderDetails(<ProductDetails channel="RETAIL" slug="protein-1" />);
 
-    const bar = screen.getByRole('link', { name: /خرید از ویراشاپس/ });
+    const bar = screen.getByRole('link', { name: /خرید از ویراشاپسس/ });
 
     expect(bar).toHaveAttribute('href', '/retail/protein-1');
     expect(within(bar).getByText('ارزان ترین')).toBeInTheDocument();
@@ -239,7 +239,7 @@ describe('ProductDetails', () => {
 
     // The list and the marketplace buy bar give way to the seller's own view.
     expect(screen.queryByRole('heading', { name: 'فروشنده ها' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /خرید از ویراشاپس/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /خرید از ویراشاپسس/ })).not.toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'افزودن به سبد خرید' })).toBeInTheDocument();
     expect(screen.getByText('تعرفه‌ها')).toBeInTheDocument();

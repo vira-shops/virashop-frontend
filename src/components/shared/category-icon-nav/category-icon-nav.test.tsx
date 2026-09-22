@@ -21,11 +21,13 @@ describe('CategoryIconNav', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('highlights the active item', () => {
+  it('outlines only the active item with the primary border', () => {
     render(<CategoryIconNav items={items} activeId={2} />);
 
-    const activeTitle = screen.getByText('گوشت قرمز');
-    const card = activeTitle.closest('a, button');
-    expect(card?.querySelector('.ring-primary-500')).not.toBeNull();
+    const activeTile = screen.getByText('گوشت قرمز').closest('a, button');
+    expect(activeTile?.querySelector('.border-primary-500')).not.toBeNull();
+
+    const idleTile = screen.getByText('مرغ').closest('a, button');
+    expect(idleTile?.querySelector('.border-primary-500')).toBeNull();
   });
 });

@@ -12,7 +12,7 @@ const STOREFRONTS_MOCK = [
   {
     image: '/images/landing/hero/whole-sale.png',
     imageAlt: 'کسبه',
-    buttonLabel: 'کسبه',
+    buttonLabel: 'ورود کسبه',
     buttonColor: 'wholesale' as const,
   },
 ];

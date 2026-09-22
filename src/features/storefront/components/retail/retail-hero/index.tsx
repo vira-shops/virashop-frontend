@@ -35,11 +35,7 @@ export const RetailHero: React.FC = () => {
   };
 
   return (
-    <section
-      id="retail-hero"
-      aria-label="بخش اصلی فروشگاه خرده"
-      className="relative mb-16 w-full md:mb-20"
-    >
+    <section id="retail-hero" aria-label="بخش اصلی فروشگاه خرده" className="relative w-full">
       <div className="bg-retail-tint pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-5 pt-13 pb-20 md:px-0">

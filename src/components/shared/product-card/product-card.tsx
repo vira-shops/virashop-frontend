@@ -43,6 +43,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   title,
   priceLabel,
   price,
+  priceCurrency = 'تومان',
   stockNote,
   action,
   orientation = 'vertical',
@@ -57,8 +58,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   priceRowClassName,
   priceLabelClassName,
   priceClassName,
+  priceCurrencyClassName,
   stockNoteClassName,
   actionRowClassName,
+  actionClassName,
 }) => {
   const isHorizontal = orientation === 'horizontal';
 
@@ -72,7 +75,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       // (button.css) — right for a standalone button, but here it sits in a
       // row next to the stock-note pill and only needs to match its ~32px
       // height, so the bump is pinned back to the desktop size.
-      className="h-11!"
+      className={cn('h-11!', actionClassName)}
     >
       {action.label}
     </Button>
@@ -85,7 +88,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       disabled={action.disabled}
       // Same touch-target override as the `xs` branch above, for `sm`'s own
       // desktop height.
-      className="h-[36px]!"
+      className={cn('h-[36px]!', actionClassName)}
     >
       {action.label}
     </Button>
@@ -174,9 +177,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </Typography>
             )}
             {price && (
-              <Typography variant="body-md" className={cn('font-bold text-black', priceClassName)}>
-                {price}
-              </Typography>
+              // The unit is its own node so the amount keeps a single text
+              // node (tests and copy-paste both read the bare number) and can
+              // be sized independently of it.
+              <div className="flex items-baseline gap-1">
+                <Typography
+                  variant="body-md"
+                  className={cn('font-bold text-black', priceClassName)}
+                >
+                  {price}
+                </Typography>
+                {priceCurrency && (
+                  <Typography
+                    variant="caption-md"
+                    className={cn('shrink-0 text-gray-700', priceCurrencyClassName)}
+                  >
+                    {priceCurrency}
+                  </Typography>
+                )}
+              </div>
             )}
           </div>
         )}

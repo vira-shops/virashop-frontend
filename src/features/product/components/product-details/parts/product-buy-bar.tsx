@@ -10,7 +10,7 @@ import {
 } from '@/features/product/components/product-details/constants';
 
 export interface ProductBuyBarProps {
-  /** Storefront making the headline offer, e.g. «ویراشاپس». */
+  /** Storefront making the headline offer, e.g. «ویراشاپسس». */
   shopName: string;
   price: number;
   href: string;

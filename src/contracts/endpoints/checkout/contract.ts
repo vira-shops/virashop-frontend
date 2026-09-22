@@ -54,7 +54,7 @@ export const DELIVERY_OPTIONS_MOCK: DeliveryOptionsResponse = {
 
 export const PAYMENT_METHODS_MOCK: PaymentMethod[] = [
   { id: 'online', label: 'پرداخت اینترنتی' },
-  { id: 'wallet', label: 'کیف پول ویراشاپس' },
+  { id: 'wallet', label: 'کیف پول ویراشاپسس' },
   { id: 'credit', label: 'پرداخت اعتباری (چک)' },
   { id: 'on-delivery', label: 'پرداخت در محل' },
 ];

@@ -20,7 +20,7 @@ const sampleImage = '/images/home/game-1.png';
 
 export const Basic: Story = {
   args: {
-    children: 'ویراشاپ، فروشگاه آنلاین',
+    children: 'ویراشاپس، فروشگاه آنلاین',
   },
   render: (args) => <Card {...args}>{args.children}</Card>,
 };

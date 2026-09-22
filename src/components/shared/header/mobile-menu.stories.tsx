@@ -49,7 +49,7 @@ const landingCtas: HeaderCTA[] = [
   { label: 'فروش عمده', href: '/wholesale', color: 'wholesale' },
 ];
 
-const logo = { src: '/images/landing/header/header-logo.svg', alt: 'ویراشاپ' };
+const logo = { src: '/images/landing/header/header-logo.svg', alt: 'ویراشاپس' };
 
 const meta: Meta<typeof MobileMenu> = {
   title: 'Shared/MobileMenu',

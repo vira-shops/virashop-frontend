@@ -1,7 +1,7 @@
 export const RETAIL_CATEGORIES_TITLE = 'دستـــــــــــه بندی ها';
 export const RETAIL_CATEGORIES_SUBTITLE = 'بیش از 5,000 محصول';
-export const RETAIL_CATEGORIES_MORE_LABEL = '...بیشتر';
-export const RETAIL_CATEGORIES_MOBILE_COUNT = 8;
+/** Tiles rendered in the hero's scrollable category row. */
+export const RETAIL_CATEGORIES_COUNT = 8;
 export const RETAIL_NEXT_SECTION_ID = 'promo-slider';
 export const RETAIL_HERO_SEARCH_PLACEHOLDER = 'جستجو در ویرا شاپس';
 export const RETAIL_POPULAR_BRANDS_TITLE = 'برندهای محبوب';
@@ -15,7 +15,7 @@ export const RETAIL_PROMO_SLIDES = [
   {
     id: 'promo-1',
     src: '/images/landing/slider/slider-1.png',
-    alt: 'کمپین ویژه فروشگاه ویراشاپ',
+    alt: 'کمپین ویژه فروشگاه ویراشاپس',
     href: '/retail/offers',
   },
   {
@@ -35,13 +35,13 @@ export const RETAIL_PROMO_SLIDES = [
 export const RETAIL_PROMO_BANNERS = [
   {
     id: 'banner-1',
-    imageAlt: 'خرید از فروشگاه خرده ویراشاپ',
+    imageAlt: 'خرید از فروشگاه خرده ویراشاپس',
     href: '/retail',
     background: '#FFF7E6',
   },
   {
     id: 'banner-2',
-    imageAlt: 'خرید عمده از ویراشاپ',
+    imageAlt: 'خرید عمده از ویراشاپس',
     href: '/wholesale',
     background: '#EAF7F7',
   },

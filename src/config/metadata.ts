@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
-const SITE_NAME = 'ویراشاپ';
+const SITE_NAME = 'ویراشاپس';
 const SITE_URL = 'https://virashop.com';
 const DEFAULT_DESCRIPTION =
-  'فروشگاه اینترنتی ویراشاپ — خرید آنلاین با بهترین قیمت و تضمین بازگشت کالا';
+  'فروشگاه اینترنتی ویراشاپس — خرید آنلاین با بهترین قیمت و تضمین بازگشت کالا';
 
 export const configMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),

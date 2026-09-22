@@ -75,7 +75,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
 
   return (
     <section id={id} aria-label={title} className={cn('w-full', className)}>
-      <div className="container flex flex-col items-center gap-1 py-10">
+      <div className="container flex flex-col items-center gap-1">
         <Typography variant="h4" className="text-gray-900">
           {title}
         </Typography>

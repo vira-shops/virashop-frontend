@@ -248,6 +248,34 @@ describe('Select', () => {
       expect(screen.getAllByRole('option')).toHaveLength(2);
     });
 
+    it('matches Persian labels typed with Arabic letters, spaces or no ZWNJ', async () => {
+      const user = userEvent.setup();
+      render(
+        <Select searchable placeholder="جستجو">
+          <option value="bandar-abbas">بندرعباس</option>
+          <option value="qaemshahr">قائم‌شهر</option>
+          <option value="karaj">کرج</option>
+        </Select>,
+      );
+
+      const input = screen.getByRole('combobox');
+
+      // Space instead of the glued form.
+      await user.type(input, 'بندر عباس');
+      expect(screen.getAllByRole('option')).toHaveLength(1);
+      expect(screen.getByRole('option')).toHaveTextContent('بندرعباس');
+
+      // Space instead of the ZWNJ.
+      await user.clear(input);
+      await user.type(input, 'قائم شهر');
+      expect(screen.getByRole('option')).toHaveTextContent('قائم‌شهر');
+
+      // Arabic kaf (ك) instead of the Persian one (ک).
+      await user.clear(input);
+      await user.type(input, 'كرج');
+      expect(screen.getByRole('option')).toHaveTextContent('کرج');
+    });
+
     it('closes the listbox when the toggle is clicked again', async () => {
       const user = userEvent.setup();
       render(<Select searchable>{options}</Select>);

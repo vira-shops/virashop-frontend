@@ -24,6 +24,32 @@ describe('ProductCard', () => {
     expect(screen.getByRole('link', { name: 'خرید' })).toHaveAttribute('href', '/wholesale');
   });
 
+  it('renders «تومان» after the amount by default and honours an override', () => {
+    const { rerender } = render(<ProductCard {...baseProps} />);
+
+    expect(screen.getByText('تومان')).toBeInTheDocument();
+
+    rerender(<ProductCard {...baseProps} priceCurrency="ریال" />);
+    expect(screen.getByText('ریال')).toBeInTheDocument();
+    expect(screen.queryByText('تومان')).not.toBeInTheDocument();
+
+    rerender(<ProductCard {...baseProps} priceCurrency={null} />);
+    expect(screen.queryByText('تومان')).not.toBeInTheDocument();
+    expect(screen.getByText('۴۵۰٬۰۰۰')).toBeInTheDocument();
+  });
+
+  it('does not render a currency unit when there is no amount', () => {
+    render(<ProductCard image={baseProps.image} title="فقط عنوان" />);
+
+    expect(screen.queryByText('تومان')).not.toBeInTheDocument();
+  });
+
+  it('forwards the action override to the buy button itself', () => {
+    render(<ProductCard {...baseProps} actionClassName="action-override" />);
+
+    expect(screen.getByRole('link', { name: 'خرید' })).toHaveClass('action-override');
+  });
+
   it('renders both badges in the row above the image from plain strings', () => {
     render(<ProductCard {...baseProps} startBadge="اقساط ۵ ماهه" endBadge="۲۰٪ تخفیف" />);
 

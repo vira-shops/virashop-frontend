@@ -469,7 +469,7 @@ import { StoreHeaderConfig } from '@/components/shared/header/types';
   strings. Supports static strings (`PATHS.ABOUT`) and dynamic functions
   (`PATHS.WHOLESALE.PRODUCT(slug)`).
 - Metadata is centralized in `src/config/metadata.ts`:
-  - Root metadata with title template: `%s | ویراشاپ`
+  - Root metadata with title template: `%s | ویراشاپس`
   - Section-specific: `homeMetadata`, `retailMetadata`, `wholesaleMetadata`,
     `loginMetadata`, `registerMetadata`
   - Per-page shorthand: `aboutMetadata`, `contactMetadata`, etc.

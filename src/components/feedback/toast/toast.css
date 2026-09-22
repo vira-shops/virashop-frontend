@@ -16,7 +16,7 @@
   }
 
   .toast {
-    @apply rounded-8 border-t-[3px] bg-white p-12 shadow-lg shadow-black/5;
+    @apply rounded-8 border-t-[3px] bg-white p-4 shadow-lg shadow-black/5;
     animation: toast-slide-in 0.25s ease-out;
   }
 

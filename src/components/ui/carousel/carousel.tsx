@@ -75,6 +75,9 @@ function useEmblaSyncedValue<T>(api: CarouselApi | undefined, getValue: () => T,
 const DEFAULT_OPTS = {
   align: 'start' as const,
   containScroll: 'trimSnaps' as const,
+  // The whole app renders under `<html dir="rtl">`, so the track has to start
+  // at the right edge and advance leftwards — the reverse of embla's default.
+  direction: 'rtl' as const,
   loop: true,
   breakpoints: {
     '(max-width: 640px)': {
@@ -98,6 +101,8 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       }),
       [opts, loop, orientation],
     );
+
+    const direction = mergedOpts.direction === 'ltr' ? 'ltr' : 'rtl';
 
     const [carouselRef, api] = useEmblaCarousel(mergedOpts, plugins);
     const typedApi = api as unknown as CarouselApi | undefined;
@@ -133,8 +138,12 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
-        const prevKey = orientation === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
-        const nextKey = orientation === 'horizontal' ? 'ArrowRight' : 'ArrowDown';
+        // In an RTL track the visually-leading slide sits to the RIGHT, so
+        // ArrowRight walks backwards through the snaps and ArrowLeft forwards.
+        const horizontalPrevKey = direction === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+        const horizontalNextKey = direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+        const prevKey = orientation === 'horizontal' ? horizontalPrevKey : 'ArrowUp';
+        const nextKey = orientation === 'horizontal' ? horizontalNextKey : 'ArrowDown';
 
         if (event.key === prevKey) {
           event.preventDefault();
@@ -144,7 +153,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           scrollNext();
         }
       },
-      [orientation, scrollPrev, scrollNext],
+      [orientation, direction, scrollPrev, scrollNext],
     );
 
     React.useEffect(() => {
@@ -162,10 +171,20 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         canScrollPrev,
         canScrollNext,
         orientation: orientation as CarouselOrientation,
+        direction,
         selectedScrollSnap: () => typedApi?.selectedScrollSnap() ?? 0,
         scrollSnapList: () => typedApi?.scrollSnapList() ?? [],
       }),
-      [carouselRef, typedApi, scrollPrev, scrollNext, canScrollPrev, canScrollNext, orientation],
+      [
+        carouselRef,
+        typedApi,
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+        orientation,
+        direction,
+      ],
     );
 
     return (
@@ -177,7 +196,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           role="region"
           aria-roledescription="carousel"
           {...props}
-          dir="ltr"
+          dir={direction}
         >
           {children}
           {/* Screen-reader-only live region announcing the active slide. */}
@@ -232,7 +251,9 @@ CarouselItem.displayName = 'CarouselItem';
 
 export const CarouselPrevious = React.forwardRef<HTMLButtonElement, CarouselPreviousProps>(
   ({ className, children, ...props }, ref) => {
-    const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+    const { orientation, direction, scrollPrev, canScrollPrev } = useCarousel();
+    // The button sits on the track's leading edge, so in RTL it points right.
+    const PrevArrow = direction === 'rtl' ? CarouselArrowRight : CarouselArrowLeft;
 
     return (
       <button
@@ -246,9 +267,7 @@ export const CarouselPrevious = React.forwardRef<HTMLButtonElement, CarouselPrev
         {...props}
       >
         {children ?? (
-          <CarouselArrowLeft
-            className={cn('size-12', orientation === 'vertical' && '-rotate-90')}
-          />
+          <PrevArrow className={cn('size-12', orientation === 'vertical' && '-rotate-90')} />
         )}
       </button>
     );
@@ -259,7 +278,8 @@ CarouselPrevious.displayName = 'CarouselPrevious';
 
 export const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselNextProps>(
   ({ className, children, ...props }, ref) => {
-    const { orientation, scrollNext, canScrollNext } = useCarousel();
+    const { orientation, direction, scrollNext, canScrollNext } = useCarousel();
+    const NextArrow = direction === 'rtl' ? CarouselArrowLeft : CarouselArrowRight;
 
     return (
       <button
@@ -273,9 +293,7 @@ export const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselNextProp
         {...props}
       >
         {children ?? (
-          <CarouselArrowRight
-            className={cn('size-12', orientation === 'vertical' && '-rotate-90')}
-          />
+          <NextArrow className={cn('size-12', orientation === 'vertical' && '-rotate-90')} />
         )}
       </button>
     );

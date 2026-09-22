@@ -20,8 +20,8 @@ export const PromoBanners: React.FC<PromoBannersProps> = ({
   }
 
   return (
-    <section aria-label="بنرهای ویژه" className={cn('my-14 md:my-20', className)}>
-      <div className="container grid grid-cols-1 gap-6 py-10 md:grid-cols-2">
+    <section aria-label="بنرهای ویژه" className={className}>
+      <div className="container grid grid-cols-1 gap-6 md:grid-cols-2">
         {tiles.map(({ id, imageAlt, href, background }) => {
           const body = (
             <div

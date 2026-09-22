@@ -10,7 +10,9 @@ export function WholesaleLayout({ children }: PropsWithChildren) {
   return (
     <div data-theme="wholesale">
       <StoreHeader config={wholesaleChannel.header} />
-      <main className={cn('min-h-svh', wholesaleChannel.mainClassName)}>{children}</main>
+      <main className={cn('flex min-h-svh flex-col gap-14', wholesaleChannel.mainClassName)}>
+        {children}
+      </main>
       <StoreFooter config={wholesaleChannel.footer} />
     </div>
   );

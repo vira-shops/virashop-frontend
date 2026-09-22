@@ -20,8 +20,11 @@ describe('api()', () => {
     expect(response.status).toBe(200);
 
     if (response.status === 200) {
-      expect(response.data).toHaveLength(6);
+      // The city mock covers every province, so assert the shape and the
+      // leading entry (CitySelect's fallback) rather than a brittle count.
+      expect(response.data.length).toBeGreaterThan(400);
       expect(response.data[0]).toEqual({ value: 'tehran', label: 'تهران' });
+      expect(new Set(response.data.map((city) => city.value)).size).toBe(response.data.length);
     }
   });
 

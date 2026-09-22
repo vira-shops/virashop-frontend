@@ -25,7 +25,7 @@ import {
 /** Single seller for every mock product — matches the backend guide's search example. */
 const MOCK_SELLER = {
   id: 1,
-  shopName: 'ویراشاپس',
+  shopName: 'ویراشاپسس',
   logoKey: 'virashops',
   logoUrl: null,
 };
@@ -119,8 +119,8 @@ const buildProductDetailMock = (slug: string): ProductDetail | undefined => {
   return {
     ...card,
     shortDescription: `${card.name} — کیفیت تضمینی، ارسال سریع.`,
-    description: `${card.name} با بهترین کیفیت و بسته‌بندی استاندارد، مناسب مصرف خانگی و تجاری. این محصول تحت نظارت کیفی ویراشاپس عرضه می‌شود.`,
-    brand: 'ویراشاپس',
+    description: `${card.name} با بهترین کیفیت و بسته‌بندی استاندارد، مناسب مصرف خانگی و تجاری. این محصول تحت نظارت کیفی ویراشاپسس عرضه می‌شود.`,
+    brand: 'ویراشاپسس',
     sku: `SKU-${card.id}`,
     gallery: PRODUCT_IMAGES.map((src, index) => ({
       imageKey: src,

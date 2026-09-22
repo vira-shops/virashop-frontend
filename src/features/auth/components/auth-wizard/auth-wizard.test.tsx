@@ -120,7 +120,7 @@ describe('AuthWizard', () => {
     it('starts on the login step — phone only, no name fields', () => {
       renderWizard('login');
 
-      expect(screen.getByText('ورود به ویراشاپ')).toBeInTheDocument();
+      expect(screen.getByText('ورود به ویراشاپس')).toBeInTheDocument();
       expect(screen.getByLabelText('شماره موبایل')).toBeInTheDocument();
       expect(screen.queryByLabelText('نام')).not.toBeInTheDocument();
     });
@@ -169,7 +169,7 @@ describe('AuthWizard', () => {
       renderWizard('login');
 
       // The guard is derived — invalid persisted steps render as step 1.
-      expect(screen.getByText('ورود به ویراشاپ')).toBeInTheDocument();
+      expect(screen.getByText('ورود به ویراشاپس')).toBeInTheDocument();
     });
   });
 

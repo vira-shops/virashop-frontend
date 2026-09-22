@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Button, Typography } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { BasketIcon, CarIcon, PaymentIcon, TaskSquareIcon } from '@icons';
 import { cn } from '@/utils/ui';
 import { CHECKOUT_STEPS } from '@/features/cart/constants';

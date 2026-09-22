@@ -21,10 +21,7 @@ export default function WholesalePage() {
       <CategoryShowcase />
       <SpecialOffers />
       <PartnerBrandsStrip />
-      <BestSellersSection
-        link={{ label: 'مشاهده همه', href: PATHS.WHOLESALE.BEST_SELLERS }}
-        className="my-11 sm:my-10"
-      />
+      <BestSellersSection link={{ label: 'مشاهده همه', href: PATHS.WHOLESALE.BEST_SELLERS }} />
       <FeaturesGrid />
     </WholesaleLayout>
   );

@@ -21,7 +21,7 @@ const items = (n: number) =>
   ));
 
 describe('Carousel', () => {
-  it('renders the root with carousel role and a ltr direction', () => {
+  it('renders the root with carousel role and an rtl direction by default', () => {
     render(
       <Carousel data-testid="root">
         <CarouselContent>{items(3)}</CarouselContent>
@@ -32,8 +32,18 @@ describe('Carousel', () => {
 
     expect(root).toHaveAttribute('role', 'region');
     expect(root).toHaveAttribute('aria-roledescription', 'carousel');
-    expect(root).toHaveAttribute('dir', 'ltr');
+    expect(root).toHaveAttribute('dir', 'rtl');
     expect(root).toHaveClass('carousel');
+  });
+
+  it('follows opts.direction when a carousel opts out of rtl', () => {
+    render(
+      <Carousel data-testid="root" opts={{ direction: 'ltr' }}>
+        <CarouselContent>{items(3)}</CarouselContent>
+      </Carousel>,
+    );
+
+    expect(screen.getByTestId('root')).toHaveAttribute('dir', 'ltr');
   });
 
   it('throws when useCarousel is used outside a Carousel', () => {

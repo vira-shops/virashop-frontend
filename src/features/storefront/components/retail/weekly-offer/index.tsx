@@ -23,28 +23,26 @@ export const WeeklyOffers: React.FC = () => {
   }
 
   return (
-    <section className="my-14 md:my-20">
-      <CampaignBanner
-        id="weekly-offers"
-        title={WEEKLY_OFFERS_TITLE}
-        subtitle={WEEKLY_OFFERS_SUBTITLE}
-        endsAt={endsAt}
-        viewAll={{ label: 'مشاهده همه', href: PATHS.RETAIL.OFFERS }}
-        items={bestSellers.map((bestSeller) => ({
-          id: bestSeller.id,
-          image: { src: bestSeller.image, alt: bestSeller.imageAlt },
-          startBadge: bestSeller.startBadge,
-          endBadge: bestSeller.endBadge,
-          title: bestSeller.title,
-          priceLabel: bestSeller.priceLabel,
-          price: bestSeller.price,
-          stockNote: bestSeller.stockNote,
-          action: bestSeller.actionLabel
-            ? { label: bestSeller.actionLabel, href: bestSeller.href }
-            : undefined,
-        }))}
-      />
-    </section>
+    <CampaignBanner
+      id="weekly-offers"
+      title={WEEKLY_OFFERS_TITLE}
+      subtitle={WEEKLY_OFFERS_SUBTITLE}
+      endsAt={endsAt}
+      viewAll={{ label: 'مشاهده همه', href: PATHS.RETAIL.OFFERS }}
+      items={bestSellers.map((bestSeller) => ({
+        id: bestSeller.id,
+        image: { src: bestSeller.image, alt: bestSeller.imageAlt },
+        startBadge: bestSeller.startBadge,
+        endBadge: bestSeller.endBadge,
+        title: bestSeller.title,
+        priceLabel: bestSeller.priceLabel,
+        price: bestSeller.price,
+        stockNote: bestSeller.stockNote,
+        action: bestSeller.actionLabel
+          ? { label: bestSeller.actionLabel, href: bestSeller.href }
+          : undefined,
+      }))}
+    />
   );
 };
 

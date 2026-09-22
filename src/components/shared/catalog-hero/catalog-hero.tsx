@@ -26,7 +26,7 @@ export const CatalogHero: React.FC<CatalogHeroProps> = ({
 
     <div className="relative container flex flex-col items-center gap-6 py-12 md:gap-8">
       {breadcrumbItems.length > 0 && (
-        <Breadcrumb items={breadcrumbItems} className="hidden w-full md:flex" />
+        <Breadcrumb items={breadcrumbItems} className="no-scrollbar w-full overflow-x-auto" />
       )}
 
       <div className="w-full md:max-w-3xl">
@@ -41,7 +41,7 @@ export const CatalogHero: React.FC<CatalogHeroProps> = ({
         <CategoryIconNav
           items={categories}
           activeId={activeCategoryId}
-          className="mt-4 w-full justify-start gap-4 md:mt-10 md:justify-center md:gap-6"
+          className="mt-4 md:mt-10 md:max-w-4xl"
         />
       )}
     </div>

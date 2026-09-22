@@ -2,17 +2,15 @@
 
 import * as React from 'react';
 import { Button, Skeleton, Typography } from '@/components/ui';
-import {
-  CartTable,
-  CheckoutSteps,
-  CheckoutSummary,
-  FreeShippingCard,
-  InvoiceHeader,
-  InvoiceList,
-  PaymentForm,
-  ShippingForm,
-} from '@/features/cart/components/checkout-wizard/parts';
-import { useCheckout } from '@/features/cart/components/checkout-wizard/use-checkout';
+import { CartTable } from '@/features/cart/components/cart-table';
+import { CheckoutSteps } from '@/features/cart/components/checkout-steps';
+import { CheckoutSummary } from '@/features/cart/components/checkout-summary';
+import { FreeShippingCard } from '@/features/cart/components/free-shipping-card';
+import { InvoiceHeader } from '@/features/cart/components/invoice-header';
+import { InvoiceList } from '@/features/cart/components/invoice-list';
+import { PaymentForm } from '@/features/cart/components/payment-form';
+import { ShippingForm } from '@/features/cart/components/shipping-form';
+import { useCheckout } from './use-checkout';
 import {
   CONTINUE_LABEL,
   EMPTY_CART_ACTION,

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Typography } from '@/components/ui';
+import { Radio, Typography } from '@/components/ui';
 import { Modal, SortIcon } from '@/components/shared';
 import { cn } from '@/utils/ui';
 import { CATALOG_SORT_OPTIONS } from '@/features/catalog/components/product-listing/constants';
@@ -35,28 +35,32 @@ export const ListingSortSheet: React.FC<ListingSortSheetProps> = ({
     <fieldset className="flex flex-col">
       <legend className="sr-only">مرتب سازی</legend>
       {CATALOG_SORT_OPTIONS.map((option) => (
-        <label
+        <Radio
           key={option.value}
-          className="flex cursor-pointer items-center justify-between gap-3 py-4"
-        >
-          <Typography
-            variant="body-md"
-            className={cn(sort === option.value ? 'text-primary' : 'text-gray-700')}
-          >
-            {option.label}
-          </Typography>
-          <input
-            type="radio"
-            name="catalog-sort"
-            value={option.value}
-            checked={sort === option.value}
-            onChange={() => {
-              onSelect(option.value);
-              onClose();
-            }}
-            className="accent-primary size-7 ring-0"
-          />
-        </label>
+          name="catalog-sort"
+          value={option.value}
+          checked={sort === option.value}
+          onChange={() => {
+            onSelect(option.value);
+            onClose();
+          }}
+          /*
+            The label carries its own Typography rather than utilities on
+            `labelClassName`: twMerge reads `text-body-md` and `text-primary`
+            as one `text-*` group and would drop the size.
+          */
+          label={
+            <Typography
+              variant="body-md"
+              className={cn(sort === option.value ? 'text-primary' : 'text-gray-700')}
+            >
+              {option.label}
+            </Typography>
+          }
+          // `flex-row-reverse` puts the control on the left of an RTL row and
+          // the label on the right, per the sheet mock.
+          className="w-full flex-row-reverse justify-between py-4"
+        />
       ))}
     </fieldset>
   </Modal>

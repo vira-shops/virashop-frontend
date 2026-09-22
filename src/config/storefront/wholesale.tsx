@@ -25,7 +25,7 @@ export const wholesaleChannel: StorefrontChannel = {
   header: {
     logo: {
       src: '/images/landing/header/header-logo.svg',
-      alt: 'ویراشاپ عمده',
+      alt: 'ویراشاپس عمده',
     },
     channel: 'WHOLESALE',
     location: { city: 'تهران' },

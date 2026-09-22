@@ -17,7 +17,7 @@ import {
  */
 export const PromoSlider: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <div className="container my-10">
+    <div className="container">
       <ImageCarousel
         id={RETAIL_NEXT_SECTION_ID}
         images={RETAIL_PROMO_SLIDES}

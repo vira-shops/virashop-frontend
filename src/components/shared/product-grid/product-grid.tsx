@@ -81,6 +81,9 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           orientation={orientation}
           reserveBadgeRow={reserveBadgeRow}
           {...item}
+          // The grid column decides the width; without this the vertical card
+          // keeps its 226px `w-product-card` and two columns overflow a phone.
+          className={cn('w-full!', item.className)}
         />
       ))}
     </div>

@@ -2,15 +2,13 @@
 
 import * as React from 'react';
 import { CatalogHero, FilterIcon, Modal } from '@/components/shared';
-import {
-  ListingFilters,
-  ListingProducts,
-  ListingSortSheet,
-  ListingSortTabs,
-  ListingToolbar,
-} from '@/features/catalog/components/product-listing/parts';
-import { useProductListing } from '@/features/catalog/components/product-listing/use-product-listing';
-import { CATALOG_SEARCH_PLACEHOLDER } from '@/features/catalog/components/product-listing/constants';
+import { ListingFilters } from '@/features/catalog/components/listing-filters';
+import { ListingProducts } from '@/features/catalog/components/listing-products';
+import { ListingSortSheet } from '@/features/catalog/components/listing-sort-sheet';
+import { ListingSortTabs } from '@/features/catalog/components/listing-sort-tabs';
+import { ListingToolbar } from '@/features/catalog/components/listing-toolbar';
+import { useProductListing } from './use-product-listing';
+import { CATALOG_SEARCH_PLACEHOLDER } from './constants';
 import type { ProductListingProps } from './types';
 
 export const ProductListing: React.FC<ProductListingProps> = ({ channel, categorySlug }) => {
@@ -48,7 +46,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
         activeCategoryId={activeCategoryId}
       />
 
-      <div className="container flex flex-col gap-6 py-6 md:py-8">
+      <div className="container -mt-14 flex flex-col gap-6 py-6 md:py-8">
         <ListingToolbar
           onFilterClick={() => setFilterOpen(true)}
           onSortClick={() => setSortOpen(true)}
@@ -56,7 +54,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
 
         <ListingSortTabs sort={filters.sort} total={total} onSortChange={filters.setSort} />
 
-        <div className="flex flex-col gap-6 lg:flex-row">
+        <div className="mt-14ب flex flex-col gap-6 lg:flex-row">
           <aside className="hidden w-64 shrink-0 lg:block">{filterPanel}</aside>
 
           <ListingProducts

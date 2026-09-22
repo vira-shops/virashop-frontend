@@ -6,7 +6,7 @@ export function HomeLayout({ children }: PropsWithChildren) {
   return (
     <>
       <LandingHeader />
-      <main className="min-h-screen">{children}</main>
+      <main className="flex min-h-screen flex-col gap-14">{children}</main>
       <Footer />
     </>
   );

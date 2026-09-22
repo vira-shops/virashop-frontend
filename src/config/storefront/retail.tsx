@@ -24,7 +24,7 @@ export const retailChannel: StorefrontChannel = {
   header: {
     logo: {
       src: '/images/landing/header/header-logo.svg',
-      alt: 'ویراشاپ خرده',
+      alt: 'ویراشاپس خرده',
     },
     channel: 'RETAIL',
     location: { city: 'تهران' },

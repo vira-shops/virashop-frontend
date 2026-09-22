@@ -47,7 +47,7 @@ type Story = StoryObj<typeof Typography>;
 
 export const Basic: Story = {
   args: {
-    children: 'ویراشاپ، فروشگاه آنلاین',
+    children: 'ویراشاپس، فروشگاه آنلاین',
     variant: 'body-md',
   },
 };

@@ -3,6 +3,8 @@ import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 export type CarouselOrientation = 'horizontal' | 'vertical';
 
+export type CarouselDirection = 'rtl' | 'ltr';
+
 export type CarouselOptions = NonNullable<Parameters<typeof useEmblaCarousel>[0]>;
 
 export type CarouselPlugin = NonNullable<Parameters<typeof useEmblaCarousel>[1]>[number];
@@ -22,7 +24,7 @@ export interface CarouselApi {
 export type CarouselProps = HTMLAttributes<HTMLDivElement> & {
   orientation?: CarouselOrientation;
   setApi?: (api: CarouselApi) => void;
-  /** @default align=start, containScroll=trimSnaps, loop=true */
+  /** @default align=start, containScroll=trimSnaps, direction=rtl, loop=true */
   opts?: CarouselOptions;
   plugins?: CarouselPlugin[];
   /** Overrides the bundled `loop: true`. */
@@ -83,6 +85,8 @@ export type CarouselContextType = {
   canScrollPrev: boolean;
   canScrollNext: boolean;
   orientation: CarouselOrientation;
+  /** Resolved from `opts.direction`; defaults to `rtl`. */
+  direction: CarouselDirection;
   selectedScrollSnap: () => number;
   scrollSnapList: () => number[];
 };

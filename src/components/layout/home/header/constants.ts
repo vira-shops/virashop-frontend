@@ -4,9 +4,9 @@ import { PATHS } from '@/routes/paths';
 export const landingHeaderConfig = {
   logo: {
     src: '/images/landing/header/header-logo.svg',
-    alt: 'ویراشاپ',
+    alt: 'ویراشاپس',
   },
-  brandName: 'ویراشاپ',
+  brandName: 'ویراشاپس',
   ctas: [
     { label: 'فروش خرده ', href: PATHS.RETAIL.ROOT, color: 'retail' as const },
     { label: 'فروش عمده', href: PATHS.WHOLESALE.ROOT, color: 'wholesale' as const },

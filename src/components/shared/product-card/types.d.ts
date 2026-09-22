@@ -25,6 +25,13 @@ export interface ProductCardProps {
   title: string;
   priceLabel?: string;
   price?: string;
+  /**
+   * Currency unit rendered after the amount. Defaults to «تومان» — every
+   * product card shows it — so callers pass the bare formatted number and
+   * only set this to override the unit or to `null` to drop it.
+   * @default 'تومان'
+   */
+  priceCurrency?: string | null;
   stockNote?: string;
   action?: ProductCardAction;
   /** @default 'vertical' */
@@ -46,6 +53,9 @@ export interface ProductCardProps {
   priceRowClassName?: string;
   priceLabelClassName?: string;
   priceClassName?: string;
+  priceCurrencyClassName?: string;
   stockNoteClassName?: string;
   actionRowClassName?: string;
+  /** The buy button itself — sizing lives here, the row around it above. */
+  actionClassName?: string;
 }

@@ -4,16 +4,16 @@ import { Logo } from './logo';
 
 describe('Logo', () => {
   it('renders the logo image inside a link home by default', () => {
-    render(<Logo src="/images/logo.svg" alt="ویراشاپ" />);
+    render(<Logo src="/images/logo.svg" alt="ویراشاپس" />);
 
-    const link = screen.getByRole('link', { name: 'ویراشاپ' });
+    const link = screen.getByRole('link', { name: 'ویراشاپس' });
     expect(link).toHaveAttribute('href', '/');
-    expect(screen.getByAltText('ویراشاپ')).toBeInTheDocument();
+    expect(screen.getByAltText('ویراشاپس')).toBeInTheDocument();
   });
 
   it('links to a custom href when given', () => {
-    render(<Logo src="/images/logo.svg" alt="ویراشاپ خرده" href="/retail" />);
+    render(<Logo src="/images/logo.svg" alt="ویراشاپس خرده" href="/retail" />);
 
-    expect(screen.getByRole('link', { name: 'ویراشاپ خرده' })).toHaveAttribute('href', '/retail');
+    expect(screen.getByRole('link', { name: 'ویراشاپس خرده' })).toHaveAttribute('href', '/retail');
   });
 });

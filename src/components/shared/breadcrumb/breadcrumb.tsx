@@ -17,7 +17,7 @@ export function Breadcrumb({
         const isLast = index === items.length - 1;
 
         return (
-          <span key={item.label} className={cn('flex items-center gap-5', itemClassName)}>
+          <span key={item.label} className={cn('flex shrink-0 items-center gap-5', itemClassName)}>
             {index > 0 && (
               <span className={cn('text-gray-300', separatorClassName)} aria-hidden="true">
                 /

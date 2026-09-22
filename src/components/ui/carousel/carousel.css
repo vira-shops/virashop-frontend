@@ -36,21 +36,23 @@
     @apply inline-flex h-13 w-13 items-center justify-center rounded-5 bg-gray-50 text-gray-700 transition-all hover:bg-gray-100 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current;
   }
 
+  /* Logical insets — the carousel root carries its own `dir`, so "previous"
+     always hugs the track's leading edge (right in RTL, left in LTR). */
   .carousel-previous {
-    @apply absolute top-1/2 left-5 z-10 -translate-y-1/2;
+    @apply absolute top-1/2 start-5 z-10 -translate-y-1/2;
   }
 
   .carousel-next {
-    @apply absolute top-1/2 right-5 z-10 -translate-y-1/2;
+    @apply absolute top-1/2 end-5 z-10 -translate-y-1/2;
   }
 
   /* Vertical: buttons sit at top/bottom edges, centered horizontally. */
   .carousel-previous[data-orientation='vertical'] {
-    @apply top-5 left-1/2 -translate-x-1/2 translate-y-0;
+    @apply top-5 start-1/2 end-auto -translate-x-1/2 translate-y-0;
   }
 
   .carousel-next[data-orientation='vertical'] {
-    @apply right-1/2 bottom-5 top-auto -translate-x-1/2 translate-y-0;
+    @apply start-1/2 end-auto bottom-5 top-auto -translate-x-1/2 translate-y-0;
   }
 
   /* === Indicators === */

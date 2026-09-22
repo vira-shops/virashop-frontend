@@ -11,18 +11,16 @@ export default function HomePage() {
   return (
     <HomeLayout>
       <Hero />
-      <div className="mt-18 sm:mt-96">
-        <OfferBanner />
-      </div>
+      <OfferBanner />
       <BigOfferSection
         link={{ label: 'مشاهده همه', href: PATHS.RETAIL.OFFERS }}
-        className="my-11 bg-blue-50 sm:my-10"
+        className="bg-blue-50 py-10"
       />
       <OfferBanner />
       <MakeFuture />
       <BestSellersSection
         link={{ label: 'مشاهده همه', href: PATHS.RETAIL.BEST_SELLERS }}
-        className="my-11 bg-blue-50 sm:my-10"
+        className="bg-blue-50 py-10"
       />
       <PartnerBrands />
       <TechNews />

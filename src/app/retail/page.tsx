@@ -17,17 +17,17 @@ export default function RetailPage() {
   return (
     <RetailLayout>
       <RetailHero />
-      <PromoSlider className="my-10" />
+      <PromoSlider />
       <WeeklyOffers />
       <PromoBanners />
       <BestSellersSection
         link={{ label: 'مشاهده همه', href: PATHS.RETAIL.BEST_SELLERS }}
-        className="my-11 bg-blue-50 sm:my-10"
+        className="bg-blue-50 py-10"
       />
       <PopularBrands />
       <BigOfferSection
         link={{ label: 'مشاهده همه', href: PATHS.RETAIL.OFFERS }}
-        className="my-14 bg-blue-50 sm:my-20"
+        className="bg-blue-50 py-10"
       />
     </RetailLayout>
   );

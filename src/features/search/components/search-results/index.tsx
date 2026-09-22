@@ -91,7 +91,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ channel, query }) 
           endBadge:
             product.discountPercent > 0 ? `${toFaDigits(product.discountPercent)}٪` : undefined,
           title: product.name,
-          price: `${formatToman(product.price)} تومان`,
+          price: formatToman(product.price),
           stockNote: STOCK_NOTE[product.stockStatus],
           action: { label: 'مشاهده', href: config.paths.PRODUCT(product.slug) },
         }))}
