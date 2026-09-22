@@ -37,10 +37,14 @@ export const Hero: React.FC<HeroProps> = ({
 
   const handleClose = () => setOpen(false);
 
+  // The section is sized by its content — only the gradient backdrop keeps the
+  // fixed `h-hero` band. Pinning the height on the section itself left
+  // `StorefrontShowcase` overflowing it, which forced every page below to
+  // compensate with a magic top margin.
   return (
-    <section aria-label="بخش اصلی" className={cn('h-hero relative w-full', className)}>
+    <section aria-label="بخش اصلی" className={cn('relative w-full', className)}>
       <div
-        className="pointer-events-none absolute inset-0"
+        className="h-hero pointer-events-none absolute inset-x-0 top-0"
         style={{ background: HERO_GRADIENT, opacity: HERO_GRADIENT_OPACITY }}
         aria-hidden="true"
       />

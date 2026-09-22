@@ -34,7 +34,7 @@ export const TechNews: React.FC = () => {
   }
 
   return (
-    <section aria-label={TECH_NEWS_ARIA_LABEL} className="container py-13">
+    <section aria-label={TECH_NEWS_ARIA_LABEL} className="container">
       <div className="rounded-9 bg-blue-50 px-11 py-13">
         <div className="flex flex-col items-start gap-3">
           <div className="mx-auto flex w-15 gap-2 lg:mx-0">

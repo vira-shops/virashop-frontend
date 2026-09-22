@@ -4,7 +4,7 @@ import { MAKE_FUTURE_ARIA_LABEL, MAKE_FUTURE_CARDS } from './constants';
 
 export const MakeFuture: React.FC = () => {
   return (
-    <section aria-label={MAKE_FUTURE_ARIA_LABEL} className="container py-8">
+    <section aria-label={MAKE_FUTURE_ARIA_LABEL} className="container">
       <div className="rounded-8 flex flex-col items-center justify-center bg-blue-50 px-5 py-10">
         <div className="flex w-15 gap-2">
           <div className="bg-retail-500 h-0.5 w-full rounded-full" />
