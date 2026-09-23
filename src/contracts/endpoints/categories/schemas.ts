@@ -53,7 +53,10 @@ export const PopularCategorySchema = z.object({
   imageAlt: z.string().default(''),
   /** Number of products available in this category — shown under the header title. */
   productCount: z.number().int().nonnegative(),
+  /** Category landing — reachable from the storefront landing only. */
   href: z.string().optional(),
+  /** Filterable catalog for the category — where every other surface links. */
+  productsHref: z.string().optional(),
   /** Icon name mapped to a component from `@icons`. */
   icon: z.string().optional(),
   /** Subcategory groups (سرگروه‌ها) shown in the mega-menu content area. */

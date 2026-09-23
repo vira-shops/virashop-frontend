@@ -1,7 +1,3 @@
-export const RETAIL_CATEGORIES_TITLE = 'دستـــــــــــه بندی ها';
-export const RETAIL_CATEGORIES_SUBTITLE = 'بیش از 5,000 محصول';
-/** Tiles rendered in the hero's scrollable category row. */
-export const RETAIL_CATEGORIES_COUNT = 8;
 export const RETAIL_NEXT_SECTION_ID = 'promo-slider';
 export const RETAIL_HERO_SEARCH_PLACEHOLDER = 'جستجو در ویرا شاپس';
 export const RETAIL_POPULAR_BRANDS_TITLE = 'برندهای محبوب';

@@ -25,3 +25,4 @@ export * from './auth';
 export * from './cart';
 export { useHydration } from './use-hydration';
 export { queryKeys } from './query-keys';
+export * from './use-storefront-hero-categories';

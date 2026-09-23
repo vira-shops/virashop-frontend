@@ -88,7 +88,10 @@ export const useProductDetails = (channel: Channel, slug: string): ProductDetail
     isLoading: productQuery.isLoading,
     breadcrumbItems: product
       ? [
-          { label: product.category.name, href: config.paths.CATEGORY(product.category.slug) },
+          {
+            label: product.category.name,
+            href: config.paths.CATEGORY_PRODUCTS(product.category.slug),
+          },
           { label: product.name },
         ]
       : [],

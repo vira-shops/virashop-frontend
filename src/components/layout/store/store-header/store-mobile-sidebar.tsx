@@ -161,11 +161,9 @@ const CategoryGroupsPanel: React.FC<{
       <Typography
         variant="body-sm"
         color="primary"
-        // `category.href` comes from the popular-categories mock, which is
-        // not yet channel-aware (see the desktop CategoriesDropdown, which
-        // has the same limitation) — '#' matches its existing fallback
-        // rather than hardcoding a retail path here.
-        href={category.href ?? '#'}
+        // The header browses into the catalog; the category landing is
+        // reached from the storefront landing's own tiles only.
+        href={category.productsHref ?? '#'}
         onClick={onItemClick}
       >
         مشاهده همهٔ {category.title}

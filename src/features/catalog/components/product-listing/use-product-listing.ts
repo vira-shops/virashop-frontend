@@ -98,7 +98,7 @@ export const useProductListing = (
   const breadcrumbItems: BreadcrumbItem[] = [
     ...ancestors.map((ancestor) => ({
       label: ancestor.name,
-      href: config.paths.CATEGORY(ancestor.slug),
+      href: config.paths.CATEGORY_PRODUCTS(ancestor.slug),
     })),
     ...(category
       ? [
@@ -106,7 +106,7 @@ export const useProductListing = (
             label: category.name,
             // Linkable once a filter is on, so the crumb walks back to the
             // unfiltered category.
-            href: selectionLabel ? config.paths.CATEGORY(category.slug) : undefined,
+            href: selectionLabel ? config.paths.CATEGORY_PRODUCTS(category.slug) : undefined,
           },
         ]
       : []),
@@ -122,7 +122,7 @@ export const useProductListing = (
       id: node.id,
       title: node.name,
       image: CATEGORY_IMAGE_FALLBACK,
-      href: config.paths.CATEGORY(node.slug),
+      href: config.paths.CATEGORY_PRODUCTS(node.slug),
     })),
     activeCategoryId: category?.id,
     categoryGroups:
@@ -158,7 +158,7 @@ export const useProductListing = (
     isLoading: productsQuery.isLoading,
     priceMax: config.priceMax,
     theme: config.segment,
-    hrefForCategory: (slug) => config.paths.CATEGORY(slug),
+    hrefForCategory: (slug) => config.paths.CATEGORY_PRODUCTS(slug),
     hrefForSearch: (query) => `${config.paths.SEARCH}?q=${encodeURIComponent(query)}`,
   };
 };

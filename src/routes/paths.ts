@@ -7,7 +7,10 @@ const storePaths = (segment: StorefrontSegment) =>
   ({
     ROOT: `/${segment}`,
     CATEGORIES: `/${segment}/categories`,
+    /** Category landing — the storefront page scoped to one category. */
     CATEGORY: (slug: string) => `/${segment}/category/${slug}`,
+    /** Filterable product listing for that category. */
+    CATEGORY_PRODUCTS: (slug: string) => `/${segment}/category/${slug}/products`,
     BEST_SELLERS: `/${segment}/best-sellers`,
     OFFERS: `/${segment}/offers`,
     FAVORITES: `/${segment}/favorites`,

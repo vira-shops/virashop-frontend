@@ -52,7 +52,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ channel, query }) 
           {categories.map((category) => (
             <a
               key={category.slug}
-              href={config.paths.CATEGORY(category.slug)}
+              href={config.paths.CATEGORY_PRODUCTS(category.slug)}
               className="rounded-full bg-gray-100 px-4 py-2"
             >
               <Typography variant="body-sm" className="text-gray-700">

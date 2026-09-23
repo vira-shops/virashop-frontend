@@ -59,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({
           />
           <HeroSearchBar
             placeholder={searchPlaceholder}
-            hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY(slug)}
+            hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY_PRODUCTS(slug)}
             hrefForSearch={(q) => `${PATHS.RETAIL.SEARCH}?q=${encodeURIComponent(q)}`}
           />
         </div>

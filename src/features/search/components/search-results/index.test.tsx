@@ -69,7 +69,7 @@ describe('SearchResults', () => {
     expect(screen.getByText('نتایج جستجو برای «مرغ»')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'مرغ' })).toHaveAttribute(
       'href',
-      '/retail/category/chicken',
+      '/retail/category/chicken/products',
     );
     expect(screen.getByText('سینه مرغ تازه')).toBeInTheDocument();
   });

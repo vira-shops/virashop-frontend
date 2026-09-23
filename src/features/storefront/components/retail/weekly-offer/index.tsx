@@ -10,7 +10,14 @@ import {
   WEEKLY_OFFERS_TITLE,
 } from '@/features/storefront/components/retail/constants';
 
-export const WeeklyOffers: React.FC = () => {
+export interface WeeklyOffersProps {
+  /** Where «مشاهده همه» goes. Defaults to the storefront-wide offers page. */
+  viewAllHref?: string;
+}
+
+export const WeeklyOffers: React.FC<WeeklyOffersProps> = ({
+  viewAllHref = PATHS.RETAIL.OFFERS,
+}) => {
   const bestSellersQuery = useBestSellers();
   const bestSellers = bestSellersQuery.data ?? [];
   // Computed once per mount (lazy initializer), not at module load — a
@@ -28,7 +35,7 @@ export const WeeklyOffers: React.FC = () => {
       title={WEEKLY_OFFERS_TITLE}
       subtitle={WEEKLY_OFFERS_SUBTITLE}
       endsAt={endsAt}
-      viewAll={{ label: 'مشاهده همه', href: PATHS.RETAIL.OFFERS }}
+      viewAll={{ label: 'مشاهده همه', href: viewAllHref }}
       items={bestSellers.map((bestSeller) => ({
         id: bestSeller.id,
         image: { src: bestSeller.image, alt: bestSeller.imageAlt },

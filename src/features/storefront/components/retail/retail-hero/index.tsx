@@ -2,19 +2,34 @@
 
 import * as React from 'react';
 import { DownArrowIcon } from '@icons';
-import { HeroSearchBar, StoryBar, StoryBarSkeleton, StoryViewer } from '@/components/shared';
+import {
+  HeroCategories,
+  HeroSearchBar,
+  StoryBar,
+  StoryBarSkeleton,
+  StoryViewer,
+} from '@/components/shared';
 import { cn } from '@/utils/ui';
-import { useActiveStories } from '@/hooks';
+import { useActiveStories, useStorefrontHeroCategories } from '@/hooks';
 import { PATHS } from '@/routes/paths';
-import { CategoryShowcase } from './category-showcase';
 import {
   RETAIL_HERO_SEARCH_PLACEHOLDER,
   RETAIL_NEXT_SECTION_ID,
 } from '@/features/storefront/components/retail/constants';
 import { Button } from '@/components/ui';
 
-export const RetailHero: React.FC = () => {
+export interface RetailHeroProps {
+  /**
+   * Slug of the category being browsed. Omit on the storefront landing; pass
+   * one and the hero becomes that category's landing — its name in the
+   * heading, its children as the tiles.
+   */
+  categorySlug?: string;
+}
+
+export const RetailHero: React.FC<RetailHeroProps> = ({ categorySlug }) => {
   const storiesQuery = useActiveStories();
+  const heroCategories = useStorefrontHeroCategories('RETAIL', categorySlug);
 
   const [open, setOpen] = React.useState(false);
   const [startIndex, setStartIndex] = React.useState(0);
@@ -41,7 +56,7 @@ export const RetailHero: React.FC = () => {
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-5 pt-13 pb-14 md:px-0">
         <HeroSearchBar
           placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER}
-          hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY(slug)}
+          hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY_PRODUCTS(slug)}
           hrefForSearch={(q) => `${PATHS.RETAIL.SEARCH}?q=${encodeURIComponent(q)}`}
         />
         {storiesQuery.isLoading ? (
@@ -49,7 +64,7 @@ export const RetailHero: React.FC = () => {
         ) : (
           <StoryBar stories={stories} onStoryOpen={handleStoryOpen} />
         )}
-        <CategoryShowcase />
+        <HeroCategories {...heroCategories} />
       </div>
 
       <StoryViewer items={stories} open={open} startIndex={startIndex} onClose={handleClose} />

@@ -10,7 +10,14 @@ import {
   SPECIAL_OFFERS_TITLE,
 } from '@/features/storefront/components/wholesale/constants';
 
-export const SpecialOffers: React.FC = () => {
+export interface SpecialOffersProps {
+  /** Where «مشاهده همه» goes. Defaults to the storefront-wide offers page. */
+  viewAllHref?: string;
+}
+
+export const SpecialOffers: React.FC<SpecialOffersProps> = ({
+  viewAllHref = PATHS.WHOLESALE.OFFERS,
+}) => {
   const offersQuery = useBigOffers();
   const offers = offersQuery.data ?? [];
   const [endsAt] = React.useState(() => Date.now() + SPECIAL_OFFERS_DURATION_MS);
@@ -25,7 +32,7 @@ export const SpecialOffers: React.FC = () => {
       title={SPECIAL_OFFERS_TITLE}
       subtitle={SPECIAL_OFFERS_SUBTITLE}
       endsAt={endsAt}
-      viewAll={{ label: 'مشاهده همه', href: PATHS.WHOLESALE.OFFERS }}
+      viewAll={{ label: 'مشاهده همه', href: viewAllHref }}
       items={offers.map((offer) => ({
         id: offer.id,
         image: { src: offer.image, alt: offer.imageAlt },

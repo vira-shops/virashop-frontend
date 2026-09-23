@@ -645,15 +645,16 @@ export const buildPopularCategoriesMock = (channel: Channel): PopularCategoriesR
     image: PRODUCT_IMAGES[categoryIndex % PRODUCT_IMAGES.length],
     imageAlt: `دسته‌بندی ${category.title}`,
     href: paths.CATEGORY(category.slug),
+    productsHref: paths.CATEGORY_PRODUCTS(category.slug),
     icon: ICON_BY_CATEGORY[category.slug],
     subcategories: (SUBCATEGORY_GROUPS[category.slug] ?? []).map((group) => ({
       id: group.id,
       title: group.title,
-      href: paths.CATEGORY(`${category.slug}/${group.id}`),
+      href: paths.CATEGORY_PRODUCTS(group.id),
       items: group.items.map((item) => ({
         id: item.id,
         title: item.title,
-        href: paths.CATEGORY(`${category.slug}/${group.id}/${item.id}`),
+        href: paths.CATEGORY_PRODUCTS(item.id),
       })),
     })),
     products: (PRODUCT_TITLES[category.slug] ?? []).map((title, productIndex) => ({

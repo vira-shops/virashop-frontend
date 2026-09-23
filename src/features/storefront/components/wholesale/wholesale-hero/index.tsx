@@ -3,12 +3,13 @@
 import * as React from 'react';
 import {
   CitySelect,
+  HeroCategories,
   HeroSearchBar,
   StoryBar,
   StoryBarSkeleton,
   StoryViewer,
 } from '@/components/shared';
-import { useActiveStories, useCities } from '@/hooks';
+import { useActiveStories, useCities, useStorefrontHeroCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import { PATHS } from '@/routes/paths';
 import {
@@ -16,8 +17,19 @@ import {
   WHOLESALE_HERO_SEARCH_PLACEHOLDER,
 } from '@/features/storefront/components/wholesale/constants';
 
-export const WholesaleHero: React.FC<{ className?: string }> = ({ className }) => {
+export interface WholesaleHeroProps {
+  className?: string;
+  /**
+   * Slug of the category being browsed. Omit on the storefront landing; pass
+   * one and the hero becomes that category's landing — its name in the
+   * heading, its children as the tiles.
+   */
+  categorySlug?: string;
+}
+
+export const WholesaleHero: React.FC<WholesaleHeroProps> = ({ className, categorySlug }) => {
   const citiesQuery = useCities();
+  const heroCategories = useStorefrontHeroCategories('WHOLESALE', categorySlug);
   const storiesQuery = useActiveStories();
 
   const [open, setOpen] = React.useState(false);
@@ -41,7 +53,7 @@ export const WholesaleHero: React.FC<{ className?: string }> = ({ className }) =
             <CitySelect cities={cities} disabled={citiesQuery.isLoading} />
             <HeroSearchBar
               placeholder={WHOLESALE_HERO_SEARCH_PLACEHOLDER}
-              hrefForCategory={(slug) => PATHS.WHOLESALE.CATEGORY(slug)}
+              hrefForCategory={(slug) => PATHS.WHOLESALE.CATEGORY_PRODUCTS(slug)}
               hrefForSearch={(q) => `${PATHS.WHOLESALE.SEARCH}?q=${encodeURIComponent(q)}`}
             />
           </div>
@@ -51,6 +63,10 @@ export const WholesaleHero: React.FC<{ className?: string }> = ({ className }) =
           ) : (
             <StoryBar stories={stories} onStoryOpen={handleStoryOpen} />
           )}
+
+          {/* Only a category landing names a category; the storefront landing
+              keeps its gradient showcase section below the hero instead. */}
+          {categorySlug ? <HeroCategories {...heroCategories} /> : null}
         </div>
 
         <StoryViewer items={stories} open={open} startIndex={startIndex} onClose={handleClose} />
