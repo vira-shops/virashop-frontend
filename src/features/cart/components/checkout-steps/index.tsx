@@ -29,14 +29,18 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
   const currentIndex = CHECKOUT_STEPS.findIndex((step) => step.id === current);
   const progress = ((currentIndex + 1) / CHECKOUT_STEPS.length) * 100;
 
+  /*
+    Two sizes, both from the design: a 40px bar with 8px corners, 18px icons
+    and 12px labels on phones — which is exactly what lets all four steps sit
+    side by side without scrolling — and a 64px bar with 32px icons and 14px
+    labels from `md` up.
+  */
   return (
     <nav
       aria-label="مراحل خرید"
-      className="rounded-8 no-scrollbar relative overflow-x-auto bg-gray-100 px-5 pt-4 pb-5 md:h-14 md:py-0"
+      className="rounded-4 md:rounded-8 relative h-12 bg-gray-100 px-7 md:h-14 md:px-5"
     >
-      {/* Four labelled steps do not fit a phone, so the row scrolls rather
-          than clipping the last one. */}
-      <ol className="flex min-w-max items-center justify-between md:h-full md:min-w-0 md:justify-center md:gap-20">
+      <ol className="flex h-full items-center justify-between md:justify-center md:gap-20">
         {CHECKOUT_STEPS.map((step, index) => {
           const Icon = STEP_ICONS[step.id];
           const isDone = index <= currentIndex;
@@ -51,13 +55,16 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
                 disabled={index > currentIndex}
                 onClick={() => onStepClick(step.id)}
                 className={cn(
-                  'flex items-center gap-2 transition-colors hover:bg-transparent',
+                  'flex h-auto min-w-0 items-center gap-1 px-0 transition-colors md:gap-7',
+                  'hover:bg-transparent',
                   isCurrent ? 'text-primary' : isDone ? 'text-primary-900' : 'text-gray-700',
                   index > currentIndex ? 'cursor-default' : 'cursor-pointer',
                 )}
                 rightIcon={<Icon className="size-8 shrink-0 md:size-11" aria-hidden="true" />}
               >
-                {step.label}
+                {/* The size lives on its own node: twMerge folds a `text-*`
+                    size into the button's `text-*` colour otherwise. */}
+                <span className="text-body-xs md:text-body-sm">{step.label}</span>
               </Button>
             </li>
           );

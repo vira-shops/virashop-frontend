@@ -37,11 +37,11 @@ const DELIVERY_TIMES = [
 
 /** Five selectable delivery days, newest first — the «تاریخ تحویل» strip. */
 const DELIVERY_WEEKDAYS = [
-  { id: 'day-1', weekday: 'دوشنبه', day: '۱۲' },
-  { id: 'day-2', weekday: 'سه شنبه', day: '۱۳' },
-  { id: 'day-3', weekday: 'چهار شنبه', day: '۱۴' },
-  { id: 'day-4', weekday: 'پنج شنبه', day: '۱۵' },
-  { id: 'day-5', weekday: 'جمعه', day: '۱۶' },
+  { id: 'day-1', weekday: 'دوشنبه', day: '۱۲', isHoliday: false },
+  { id: 'day-2', weekday: 'سه شنبه', day: '۱۳', isHoliday: false },
+  { id: 'day-3', weekday: 'چهار شنبه', day: '۱۴', isHoliday: false },
+  { id: 'day-4', weekday: 'پنج شنبه', day: '۱۵', isHoliday: false },
+  { id: 'day-5', weekday: 'جمعه', day: '۱۶', isHoliday: true },
 ];
 
 export const DELIVERY_OPTIONS_MOCK: DeliveryOptionsResponse = {

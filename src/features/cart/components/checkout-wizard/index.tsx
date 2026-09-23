@@ -81,15 +81,6 @@ export const CheckoutWizard: React.FC<CheckoutWizardProps> = ({ channel }) => {
       {invoice && <InvoiceHeader seller={invoice.seller} />}
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <div className="flex w-full flex-col gap-4 lg:order-2 lg:w-64 lg:shrink-0">
-          <CheckoutSummary
-            totals={totals}
-            variant={step === 'payment' ? 'total' : 'full'}
-            action={action}
-          />
-          <FreeShippingCard />
-        </div>
-
         <div className="min-w-0 flex-1 lg:order-1">
           {step === 'invoices' && <InvoiceList invoices={invoices} onOpen={openInvoice} />}
 
@@ -121,6 +112,17 @@ export const CheckoutWizard: React.FC<CheckoutWizardProps> = ({ channel }) => {
               onChange={patchDraft}
             />
           )}
+        </div>
+
+        {/* Phones read the content first and the money last, as drawn; from
+            `lg` up the order props put the summary back on the left. */}
+        <div className="flex w-full flex-col gap-4 lg:order-2 lg:w-64 lg:shrink-0">
+          <CheckoutSummary
+            totals={totals}
+            variant={step === 'payment' ? 'total' : 'full'}
+            action={action}
+          />
+          <FreeShippingCard />
         </div>
       </div>
     </div>

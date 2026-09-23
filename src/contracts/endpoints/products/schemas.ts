@@ -262,14 +262,32 @@ export const OfferCalculatorAxisSchema = z.object({
 });
 export type OfferCalculatorAxis = z.infer<typeof OfferCalculatorAxisSchema>;
 
+/**
+ * One price row of the term grid. Wholesale prices a term once, so it sends
+ * no rows and the grid falls back to each term's own `price`. Retail quotes
+ * the same terms twice — «خرده» and «عمده» — and sends one row per book.
+ */
+export const OfferCalculatorRowSchema = z.object({
+  id: z.string(),
+  /** Row caption on the end side, e.g. «خرده». */
+  label: z.string(),
+  /** One price per term, in `terms` order. */
+  prices: z.array(z.number()),
+});
+export type OfferCalculatorRow = z.infer<typeof OfferCalculatorRowSchema>;
+
 export const OfferCalculatorSchema = z.object({
-  /** The dashed callout above the term grid. */
+  /** Card heading, e.g. «نوع چک». Absent when the card opens on its note. */
+  title: z.string().optional(),
+  /** The dashed callout above the term grid; empty string hides it. */
   note: z.string(),
   terms: z.array(OfferPaymentTermSchema),
   /** Term selected when the view opens. */
   defaultTermId: z.string(),
-  /** The «− N شل +» quantity control. */
-  quantity: OfferCalculatorAxisSchema,
+  /** Empty → one flat grid of `terms`; otherwise one grid row per entry. */
+  rows: z.array(OfferCalculatorRowSchema).default([]),
+  /** The «− N شل +» controls; retail ships two, wholesale one. */
+  quantities: z.array(OfferCalculatorAxisSchema),
   sliders: z.array(OfferCalculatorAxisSchema),
 });
 export type OfferCalculator = z.infer<typeof OfferCalculatorSchema>;

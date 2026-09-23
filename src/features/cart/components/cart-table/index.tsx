@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { Stepper, Typography } from '@/components/ui';
+import { cn } from '@/utils/ui';
 import { formatToman, toFaDigits } from '@/utils/format';
 import { lineTotal } from '@/hooks';
 import {
@@ -19,6 +20,17 @@ export interface CartTableProps {
   onUnitsChange: (lineId: string, units: number) => void;
   onPrepaymentChange: (lineId: string, prepayment: number) => void;
 }
+
+/**
+ * Header and rows share one grid so the columns line up: the product cell
+ * takes the slack and every other column sizes to its content, matching the
+ * design's 277/97/34/88/88/177/97 rhythm without pinning pixel widths.
+ */
+const ROW_GRID =
+  'grid grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto_auto] items-center gap-10 px-7';
+
+/** The design draws all three steppers as one 40px Gray/2 pill. */
+const STEPPER_CLASS = 'h-12 gap-3 px-3 justify-self-center';
 
 const HEAD_CELLS = [
   CART_COLUMNS.unitPrice,
@@ -40,32 +52,33 @@ export const CartTable: React.FC<CartTableProps> = ({
   onUnitsChange,
   onPrepaymentChange,
 }) => (
-  <div className="rounded-9 bg-white p-5 shadow-sm">
+  <div className="rounded-8 overflow-hidden border border-gray-100 bg-white md:pt-7">
     {/* Desktop: one grid row per line, sharing the header's columns. */}
     <div className="hidden md:block">
-      <div
-        role="row"
-        className="grid grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] items-center gap-3 px-2 pb-4"
-      >
+      <div role="row" className={cn(ROW_GRID, 'pb-4')}>
         <span />
         {HEAD_CELLS.map((label) => (
-          <Typography key={label} variant="body-sm" className="text-center text-gray-400">
+          <Typography
+            key={label}
+            variant="body-sm"
+            className={cn(
+              'text-center',
+              label === CART_COLUMNS.total ? 'text-primary' : 'text-gray-700',
+            )}
+          >
             {label}
           </Typography>
         ))}
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col divide-y divide-gray-100 border-t border-gray-100">
         {lines.map((line) => (
-          <div
-            key={line.id}
-            className="rounded-8 grid grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] items-center gap-3 px-2 py-3"
-          >
+          <div key={line.id} className={cn(ROW_GRID, 'py-10')}>
             <ProductCell line={line} />
 
             <Money value={line.unitPrice} />
 
-            <Typography variant="body-sm" className="text-center text-gray-400">
+            <Typography variant="body-md" className="text-primary-900 text-center">
               {toFaDigits(line.commissionPercent)}%
             </Typography>
 
@@ -76,7 +89,7 @@ export const CartTable: React.FC<CartTableProps> = ({
               onChange={(value) => onShrinksChange(line.id, value)}
               formatValue={toFaDigits}
               aria-label={`تعداد شل ${line.name}`}
-              className="justify-self-center"
+              className={STEPPER_CLASS}
             />
 
             <Stepper
@@ -86,7 +99,7 @@ export const CartTable: React.FC<CartTableProps> = ({
               onChange={(value) => onUnitsChange(line.id, value)}
               formatValue={toFaDigits}
               aria-label={`تعداد دانه ${line.name}`}
-              className="justify-self-center"
+              className={STEPPER_CLASS}
             />
 
             <Stepper
@@ -98,21 +111,19 @@ export const CartTable: React.FC<CartTableProps> = ({
               onChange={(value) => onPrepaymentChange(line.id, value)}
               formatValue={formatToman}
               aria-label={`پیش پرداخت ${line.name}`}
-              className="justify-self-center"
+              className={STEPPER_CLASS}
             />
 
-            <Typography variant="body-sm" className="text-primary text-center font-bold">
-              {formatToman(lineTotal(line))} {CURRENCY_LABEL}
-            </Typography>
+            <Money value={lineTotal(line)} tone="primary" />
           </div>
         ))}
       </div>
     </div>
 
     {/* Mobile: the same data, stacked and labelled. */}
-    <div className="flex flex-col gap-4 md:hidden">
+    <div className="flex flex-col divide-y divide-gray-100 md:hidden">
       {lines.map((line) => (
-        <div key={line.id} className="rounded-8 flex flex-col gap-4 p-4">
+        <div key={line.id} className="flex flex-col gap-4 p-7">
           <ProductCell line={line} />
 
           <StackedRow label={CART_COLUMNS.unitPrice}>
@@ -120,7 +131,7 @@ export const CartTable: React.FC<CartTableProps> = ({
           </StackedRow>
 
           <StackedRow label={CART_COLUMNS.commission}>
-            <Typography variant="body-sm" className="text-gray-400">
+            <Typography variant="body-md" className="text-primary-900">
               {toFaDigits(line.commissionPercent)}%
             </Typography>
           </StackedRow>
@@ -133,6 +144,7 @@ export const CartTable: React.FC<CartTableProps> = ({
               onChange={(value) => onShrinksChange(line.id, value)}
               formatValue={toFaDigits}
               aria-label={`تعداد شل ${line.name}`}
+              className={STEPPER_CLASS}
             />
           </StackedRow>
 
@@ -144,6 +156,7 @@ export const CartTable: React.FC<CartTableProps> = ({
               onChange={(value) => onUnitsChange(line.id, value)}
               formatValue={toFaDigits}
               aria-label={`تعداد دانه ${line.name}`}
+              className={STEPPER_CLASS}
             />
           </StackedRow>
 
@@ -157,13 +170,12 @@ export const CartTable: React.FC<CartTableProps> = ({
               onChange={(value) => onPrepaymentChange(line.id, value)}
               formatValue={formatToman}
               aria-label={`پیش پرداخت ${line.name}`}
+              className={STEPPER_CLASS}
             />
           </StackedRow>
 
           <StackedRow label={CART_COLUMNS.total}>
-            <Typography variant="body-sm" className="text-primary font-bold">
-              {formatToman(lineTotal(line))} {CURRENCY_LABEL}
-            </Typography>
+            <Money value={lineTotal(line)} tone="primary" />
           </StackedRow>
         </div>
       ))}
@@ -171,24 +183,31 @@ export const CartTable: React.FC<CartTableProps> = ({
   </div>
 );
 
-const Money: React.FC<{ value: number }> = ({ value }) => (
-  <Typography variant="body-sm" className="text-center text-gray-400">
-    {formatToman(value)} {CURRENCY_LABEL}
+/** Amount at 16px with the unit trailing at 12px, as every money cell is drawn. */
+const Money: React.FC<{ value: number; tone?: 'default' | 'primary' }> = ({
+  value,
+  tone = 'default',
+}) => (
+  <Typography
+    variant="body-md"
+    className={cn('text-center', tone === 'primary' ? 'text-primary' : 'text-primary-900')}
+  >
+    {formatToman(value)} <span className="text-caption-md font-light">{CURRENCY_LABEL}</span>
   </Typography>
 );
 
 const ProductCell: React.FC<{ line: CartLine }> = ({ line }) => (
   <div className="flex items-center gap-3">
-    <span className="rounded-6 relative size-11 shrink-0 overflow-hidden bg-white">
+    <span className="rounded-4 relative size-13 shrink-0 overflow-hidden border border-gray-100 bg-white">
       <Image
         src={line.imageUrl ?? CART_IMAGE_FALLBACK}
         alt={line.name}
         fill
-        sizes="32px"
-        className="object-contain"
+        sizes="48px"
+        className="object-contain p-1"
       />
     </span>
-    <Typography variant="body-sm" className="line-clamp-2 text-gray-700">
+    <Typography variant="body-sm" className="line-clamp-2 text-black">
       {line.name}
     </Typography>
   </div>
@@ -199,7 +218,7 @@ const StackedRow: React.FC<{ label: string; children: React.ReactNode }> = ({
   children,
 }) => (
   <div className="flex items-center justify-between gap-4">
-    <Typography variant="body-sm" className="text-gray-300">
+    <Typography variant="body-sm" className="text-gray-700">
       {label}
     </Typography>
     {children}

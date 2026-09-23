@@ -1,6 +1,8 @@
 @layer components {
   .stepper {
-    @apply rounded-3 inline-flex items-center justify-center bg-gray-200;
+    /* `gray-200` is not a project token, so this was falling through to
+       Tailwind's default palette. The design's pill is Gray/2 (#EDEDED). */
+    @apply rounded-4 inline-flex items-center justify-center bg-gray-100;
   }
 
   .stepper-button {

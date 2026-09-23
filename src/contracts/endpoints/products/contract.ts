@@ -422,14 +422,17 @@ export const buildSellerOfferDetailMock = (
         price: Math.round((shrinkPrice * term.factor) / 1000) * 1000,
       })),
       defaultTermId: 'cash',
-      quantity: {
-        id: 'shrink-count',
-        unit: 'شل',
-        min: 1,
-        max: 45,
-        defaultValue: 3,
-        ariaLabel: 'تعداد شل',
-      },
+      rows: [],
+      quantities: [
+        {
+          id: 'shrink-count',
+          unit: 'شل',
+          min: 1,
+          max: 45,
+          defaultValue: 3,
+          ariaLabel: 'تعداد شل',
+        },
+      ],
       sliders: [
         { id: 'days', unit: 'روز', min: 1, max: 120, defaultValue: 45, ariaLabel: 'مدت پرداخت' },
         { id: 'shrinks', unit: 'شل', min: 1, max: 45, defaultValue: 3, ariaLabel: 'تعداد شل' },

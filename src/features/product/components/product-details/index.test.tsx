@@ -121,7 +121,10 @@ const offerDetail = {
       { id: 'month-1', label: 'یک ماهه', price: 1_040_000 },
     ],
     defaultTermId: 'cash',
-    quantity: { id: 'shrink', unit: 'شل', min: 1, max: 45, defaultValue: 3, ariaLabel: 'تعداد شل' },
+    rows: [],
+    quantities: [
+      { id: 'shrink', unit: 'شل', min: 1, max: 45, defaultValue: 3, ariaLabel: 'تعداد شل' },
+    ],
     sliders: [
       { id: 'days', unit: 'روز', min: 1, max: 120, defaultValue: 45, ariaLabel: 'مدت پرداخت' },
     ],
@@ -258,12 +261,13 @@ describe('ProductDetails', () => {
 
     const terms = screen.getByRole('radiogroup', { name: 'شرایط پرداخت' });
 
-    // Default quantity is 3 shrinks → 3 × ۱٬۰۰۰٬۰۰۰.
-    expect(within(terms).getByText('۳٬۰۰۰٬۰۰۰ تومان')).toBeInTheDocument();
+    // Default quantity is 3 shrinks → 3 × ۱٬۰۰۰٬۰۰۰. The unit renders one
+    // step smaller in its own node, so match on the cell's accessible name.
+    expect(within(terms).getByRole('radio', { name: /۳٬۰۰۰٬۰۰۰ تومان/ })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'افزایش' }));
 
-    expect(within(terms).getByText('۴٬۰۰۰٬۰۰۰ تومان')).toBeInTheDocument();
+    expect(within(terms).getByRole('radio', { name: /۴٬۰۰۰٬۰۰۰ تومان/ })).toBeInTheDocument();
   });
 
   it('selects a payment term', () => {

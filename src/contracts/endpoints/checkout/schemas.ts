@@ -43,6 +43,8 @@ export const DeliveryDaySchema = z.object({
   weekday: z.string(),
   /** Jalali day of month, already in Persian digits. */
   day: z.string(),
+  /** Weekend/holiday — the delivery strip paints these red. */
+  isHoliday: z.boolean().default(false),
   times: z.array(DeliveryTimeSlotSchema),
 });
 export type DeliveryDay = z.infer<typeof DeliveryDaySchema>;
