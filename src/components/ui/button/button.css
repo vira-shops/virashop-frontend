@@ -167,7 +167,7 @@
 }
 
 @utility button-icon-lg {
-  @apply size-10 text-md;
+  @apply size-11 text-md;
 }
 
 @utility button-icon-xl {

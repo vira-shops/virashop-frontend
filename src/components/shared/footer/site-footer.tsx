@@ -11,7 +11,7 @@ import { SITE_FOOTER_TRUST_BADGES, SITE_FOOTER_COPYRIGHT } from './constants';
 export function SiteFooter() {
   return (
     <footer>
-      <div className="bg-blue-50">
+      <div className="mt-14 bg-blue-50">
         <div className="container flex flex-col items-center justify-center gap-11 pt-4 sm:flex-row sm:justify-between">
           <div className="flex flex-col items-start justify-center gap-11">
             <Typography variant="h5" align="center" className="text-primary-700 w-full sm:w-fit">
