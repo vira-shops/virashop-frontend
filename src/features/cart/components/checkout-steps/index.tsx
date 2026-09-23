@@ -21,8 +21,9 @@ const STEP_ICONS: Record<CheckoutStep, React.FC<React.SVGProps<SVGSVGElement>>> 
 };
 
 /**
- * The four-stage progress bar. Everything up to the current step is primary
- * coloured and clickable; the underline underneath grows with progress.
+ * The four-stage progress bar. Three label states, per the design: a step you
+ * have passed is primary-900, the one you are on is primary, and the ones
+ * ahead stay gray. The amber bar behind grows with progress.
  */
 export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepClick }) => {
   const currentIndex = CHECKOUT_STEPS.findIndex((step) => step.id === current);
@@ -31,11 +32,11 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
   return (
     <nav
       aria-label="مراحل خرید"
-      className="rounded-8 no-scrollbar relative overflow-x-auto bg-gray-100 px-5 pt-4 pb-5"
+      className="rounded-8 no-scrollbar relative overflow-x-auto bg-gray-100 px-5 pt-4 pb-5 md:h-14 md:py-0"
     >
       {/* Four labelled steps do not fit a phone, so the row scrolls rather
           than clipping the last one. */}
-      <ol className="flex min-w-max items-center justify-between md:min-w-0 md:gap-2">
+      <ol className="flex min-w-max items-center justify-between md:h-full md:min-w-0 md:justify-center md:gap-20">
         {CHECKOUT_STEPS.map((step, index) => {
           const Icon = STEP_ICONS[step.id];
           const isDone = index <= currentIndex;
@@ -51,7 +52,7 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
                 onClick={() => onStepClick(step.id)}
                 className={cn(
                   'flex items-center gap-2 transition-colors hover:bg-transparent',
-                  isDone ? 'text-primary' : 'text-gray-300',
+                  isCurrent ? 'text-primary' : isDone ? 'text-primary-900' : 'text-gray-700',
                   index > currentIndex ? 'cursor-default' : 'cursor-pointer',
                 )}
                 rightIcon={<Icon className="size-8 shrink-0 md:size-11" aria-hidden="true" />}

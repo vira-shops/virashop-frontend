@@ -60,7 +60,7 @@ export const LandingBottomBar: React.FC<LandingBottomBarProps> = ({
       className={cn(
         // Fixed 64px band: the centre action is taller than the chips and
         // would otherwise stretch the bar past the design's height.
-        'bg-wholesale-500 rounded-t-8 fixed inset-x-0 bottom-0 z-40 flex h-14 items-center justify-center gap-3 px-7',
+        'bg-wholesale-500 rounded-t-8 fixed inset-x-0 bottom-0 z-40 flex h-14 items-center justify-between gap-3 px-7',
         'shadow-[0_-10px_10px_rgba(0,0,0,0.1)] md:hidden',
         className,
       )}

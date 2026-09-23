@@ -23,11 +23,11 @@ export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ seller }) => (
 
 /** Seller logo, falling back to a generic shop glyph. */
 export const SellerMark: React.FC<{ seller: CartSeller }> = ({ seller }) => (
-  <span className="rounded-6 relative flex size-10 shrink-0 items-center justify-center overflow-hidden bg-gray-50 text-gray-300">
+  <span className="rounded-4 relative flex size-13 shrink-0 items-center justify-center overflow-hidden border border-gray-100 bg-white text-gray-300">
     {seller.logoUrl ? (
-      <Image src={seller.logoUrl} alt="" fill sizes="24px" className="object-contain" />
+      <Image src={seller.logoUrl} alt="" fill sizes="48px" className="object-contain" />
     ) : (
-      <ShopIcon className="size-7" aria-hidden="true" />
+      <ShopIcon className="size-10" aria-hidden="true" />
     )}
   </span>
 );
