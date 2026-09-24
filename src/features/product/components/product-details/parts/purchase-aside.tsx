@@ -24,7 +24,7 @@ export const PurchaseAside: React.FC<PurchaseAsideProps> = ({ price, onAddToCart
       <Typography variant="caption-md" className="text-gray-400">
         {PRICE_LABEL}
       </Typography>
-      <Typography variant="body-sm" className="font-bold text-gray-700">
+      <Typography variant="body-sm" className="text-gray-700">
         {formatToman(price)} {CURRENCY_LABEL}
       </Typography>
     </div>

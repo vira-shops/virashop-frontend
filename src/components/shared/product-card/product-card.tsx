@@ -181,10 +181,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               // node (tests and copy-paste both read the bare number) and can
               // be sized independently of it.
               <div className="flex items-baseline gap-1">
-                <Typography
-                  variant="body-md"
-                  className={cn('font-bold text-black', priceClassName)}
-                >
+                <Typography variant="body-md" className={cn('text-black', priceClassName)}>
                   {price}
                 </Typography>
                 {priceCurrency && (

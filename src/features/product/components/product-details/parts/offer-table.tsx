@@ -32,7 +32,7 @@ export const OfferTable: React.FC<OfferTableProps> = ({
 }) => (
   <section className={cn('flex flex-col gap-3', className)}>
     <div className="flex items-baseline justify-between gap-4">
-      <Typography variant="body-md" className="text-primary font-bold">
+      <Typography variant="body-md" className="text-primary">
         {title}
       </Typography>
       {note && (

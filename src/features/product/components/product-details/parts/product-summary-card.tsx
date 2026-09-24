@@ -126,7 +126,7 @@ export const ProductSummaryCard: React.FC<ProductSummaryCardProps> = ({
             <Typography variant="body-sm" className="text-gray-400">
               {PRICE_FROM_LABEL}
             </Typography>
-            <Typography variant="body-md" className="text-primary font-bold">
+            <Typography variant="body-md" className="text-primary">
               {formatToman(price)} {CURRENCY_LABEL}
             </Typography>
           </div>

@@ -84,7 +84,7 @@ export const SellerOfferCard: React.FC<SellerOfferCardProps> = ({ offer, href })
               موجودی: {offer.stockLabel}
             </Typography>
           </div>
-          <Typography variant="body-md" className="text-primary font-bold">
+          <Typography variant="body-md" className="text-primary">
             {formatToman(offer.price)} {CURRENCY_LABEL}
           </Typography>
         </div>

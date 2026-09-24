@@ -120,7 +120,7 @@ export const HeroSearchBar: React.FC<HeroSearchBarProps> = ({
                   onClick={() => handleCategoryClick(suggestion)}
                   className="flex flex-col gap-1 border-b border-gray-50 py-3 text-start"
                 >
-                  <Typography variant="body-md" className="font-bold text-black">
+                  <Typography variant="body-md" className="text-black">
                     {suggestion.text}
                   </Typography>
                   <Typography variant="caption-md" className="text-gray-400">

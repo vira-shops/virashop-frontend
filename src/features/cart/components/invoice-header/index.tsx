@@ -15,7 +15,7 @@ export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ seller }) => (
   <div className="flex items-center justify-start gap-3">
     <SellerMark seller={seller} />
 
-    <Typography variant="body-sm" className="font-bold text-gray-700">
+    <Typography variant="body-sm" className="text-gray-700">
       فاکتور فروشگاه {seller.shopName}
     </Typography>
   </div>

@@ -97,7 +97,7 @@ export const ViraCalculator: React.FC<ViraCalculatorProps> = ({ calculator }) =>
 
   return (
     <section className="flex flex-col gap-3">
-      <Typography variant="body-md" className="text-primary font-bold">
+      <Typography variant="body-md" className="text-primary">
         ماشین حساب ویرا
       </Typography>
 

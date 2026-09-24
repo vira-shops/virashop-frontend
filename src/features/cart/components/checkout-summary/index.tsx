@@ -70,14 +70,14 @@ export const CheckoutSummary: React.FC<CheckoutSummaryProps> = ({
         <div className="border-t border-dashed border-gray-100" aria-hidden="true" />
 
         <Row label={GRAND_TOTAL_LABEL}>
-          <Typography variant="caption-md" className="text-primary font-bold">
+          <Typography variant="caption-md" className="text-primary">
             {formatToman(totals.grandTotal)} {CURRENCY_LABEL}
           </Typography>
         </Row>
       </>
     ) : (
       <Row label={PAYABLE_LABEL}>
-        <Typography variant="caption-md" className="text-primary font-bold">
+        <Typography variant="caption-md" className="text-primary">
           {formatToman(totals.grandTotal)} {CURRENCY_LABEL}
         </Typography>
       </Row>

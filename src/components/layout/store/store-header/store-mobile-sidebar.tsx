@@ -89,7 +89,7 @@ const Divider: React.FC = () => (
 /** Categories section header with title. */
 const CategoriesSectionHeader: React.FC = () => (
   <div className="border-b border-gray-100 px-8 py-3">
-    <Typography variant="h6" className="font-semibold text-gray-900">
+    <Typography variant="h6" className="text-gray-900">
       {CATEGORIES_SECTION_TITLE}
     </Typography>
   </div>

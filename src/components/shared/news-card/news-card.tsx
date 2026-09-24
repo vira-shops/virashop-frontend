@@ -42,7 +42,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <Typography variant="body-md" className={cn('font-semibold text-blue-900', titleClassName)}>
+        <Typography variant="body-md" className={cn('text-blue-900', titleClassName)}>
           {title}
         </Typography>
 

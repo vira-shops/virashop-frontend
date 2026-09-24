@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Button } from '@/components/ui';
-import { BasketIcon, CarIcon, PaymentIcon, TaskSquareIcon } from '@icons';
+import { CardIcon, Shop2Icon, ShoppingCartIcon, TruckIcon } from '@icons';
 import { cn } from '@/utils/ui';
 import { CHECKOUT_STEPS } from '@/features/cart/constants';
 import type { CheckoutStep } from '@/hooks';
@@ -14,27 +14,16 @@ export interface CheckoutStepsProps {
 }
 
 const STEP_ICONS: Record<CheckoutStep, React.FC<React.SVGProps<SVGSVGElement>>> = {
-  invoices: TaskSquareIcon,
-  cart: BasketIcon,
-  shipping: CarIcon,
-  payment: PaymentIcon,
+  invoices: Shop2Icon,
+  cart: ShoppingCartIcon,
+  shipping: TruckIcon,
+  payment: CardIcon,
 };
 
-/**
- * The four-stage progress bar. Three label states, per the design: a step you
- * have passed is primary-900, the one you are on is primary, and the ones
- * ahead stay gray. The amber bar behind grows with progress.
- */
 export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepClick }) => {
   const currentIndex = CHECKOUT_STEPS.findIndex((step) => step.id === current);
   const progress = ((currentIndex + 1) / CHECKOUT_STEPS.length) * 100;
 
-  /*
-    Two sizes, both from the design: a 40px bar with 8px corners, 18px icons
-    and 12px labels on phones — which is exactly what lets all four steps sit
-    side by side without scrolling — and a 64px bar with 32px icons and 14px
-    labels from `md` up.
-  */
   return (
     <nav
       aria-label="مراحل خرید"
@@ -56,26 +45,23 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
                 onClick={() => onStepClick(step.id)}
                 className={cn(
                   'flex h-auto min-w-0 items-center gap-1 px-0 transition-colors md:gap-7',
-                  'hover:bg-transparent',
+                  'text-body-xs md:text-body-sm hover:bg-transparent',
                   isCurrent ? 'text-primary' : isDone ? 'text-primary-900' : 'text-gray-700',
                   index > currentIndex ? 'cursor-default' : 'cursor-pointer',
                 )}
                 rightIcon={<Icon className="size-8 shrink-0 md:size-11" aria-hidden="true" />}
               >
-                {/* The size lives on its own node: twMerge folds a `text-*`
-                    size into the button's `text-*` colour otherwise. */}
-                <span className="text-body-xs md:text-body-sm">{step.label}</span>
+                {step.label}
               </Button>
             </li>
           );
         })}
       </ol>
 
-      {/* Grows from the start (right in RTL) toward the current step. */}
       <span
         aria-hidden="true"
         style={{ width: `${progress}%` }}
-        className="bg-primary absolute start-0 bottom-0 h-0.5 rounded-full transition-[width] duration-300"
+        className="bg-primary absolute inset-s-0 bottom-0 h-0.5 rounded-full transition-[width] duration-300"
       />
     </nav>
   );
