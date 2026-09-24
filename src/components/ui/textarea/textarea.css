@@ -1,0 +1,18 @@
+/*
+ * The surface (variant / color / state / disabled) comes from the shared
+ * `.input-*` classes in text-input.css — only the box model lives here.
+ */
+@layer components {
+  .textarea {
+    /* No background / border color here — the always-present `.input-<variant>` owns them. */
+    @apply block min-h-22 w-full resize-y rounded-5 border px-9 py-5 text-body-sm text-black transition-colors focus:outline-none;
+  }
+
+  .textarea::placeholder {
+    @apply font-bold text-gray-300;
+  }
+
+  .textarea:disabled {
+    @apply cursor-not-allowed;
+  }
+}

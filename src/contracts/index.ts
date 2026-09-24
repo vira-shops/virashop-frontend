@@ -4,8 +4,13 @@ import { brandsContracts } from './endpoints/brands';
 import { categoriesContracts } from './endpoints/categories';
 import { checkoutContracts } from './endpoints/checkout';
 import { citiesContracts } from './endpoints/cities';
+import { favoritesContracts } from './endpoints/favorites';
+import { notificationsContracts } from './endpoints/notifications';
+import { ordersContracts } from './endpoints/orders';
 import { postsContracts } from './endpoints/posts';
 import { productsContracts } from './endpoints/products';
+import { profileContracts } from './endpoints/profile';
+import { reviewsContracts } from './endpoints/reviews';
 import { searchContracts } from './endpoints/search';
 import { storefrontsContracts } from './endpoints/storefronts';
 import { storiesContracts } from './endpoints/stories';
@@ -20,8 +25,13 @@ export const contracts = {
   ...categoriesContracts,
   ...checkoutContracts,
   ...citiesContracts,
+  ...favoritesContracts,
+  ...notificationsContracts,
+  ...ordersContracts,
   ...postsContracts,
   ...productsContracts,
+  ...profileContracts,
+  ...reviewsContracts,
   ...searchContracts,
   ...storefrontsContracts,
   ...storiesContracts,

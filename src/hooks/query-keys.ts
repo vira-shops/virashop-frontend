@@ -28,6 +28,7 @@ export const queryKeys = {
   paymentMethods: () => [...queryKeys.checkout(), 'payment-methods'] as const,
   cities: () => [...queryKeys.all, 'cities'] as const,
   citiesList: () => [...queryKeys.cities(), 'list'] as const,
+  provinces: () => [...queryKeys.cities(), 'provinces'] as const,
   stories: () => [...queryKeys.all, 'stories'] as const,
   activeStories: () => [...queryKeys.stories(), 'active'] as const,
   storefronts: () => [...queryKeys.all, 'storefronts'] as const,
@@ -36,4 +37,16 @@ export const queryKeys = {
   searchSuggestions: (q: string) => [...queryKeys.search(), 'suggestions', q] as const,
   searchResults: (query: Record<string, unknown>) =>
     [...queryKeys.search(), 'results', query] as const,
+  /* ----- Account dashboard (per signed-in user) ----- */
+  account: () => ['account'] as const,
+  orders: () => [...queryKeys.account(), 'orders'] as const,
+  orderStats: () => [...queryKeys.orders(), 'stats'] as const,
+  ordersList: (query: Record<string, unknown>) => [...queryKeys.orders(), 'list', query] as const,
+  orderDetail: (id: number | string) => [...queryKeys.orders(), 'detail', String(id)] as const,
+  notifications: () => [...queryKeys.account(), 'notifications'] as const,
+  announcements: () => [...queryKeys.account(), 'announcements'] as const,
+  favorites: () => [...queryKeys.account(), 'favorites'] as const,
+  myReviews: () => [...queryKeys.account(), 'reviews'] as const,
+  myQuestions: () => [...queryKeys.account(), 'questions'] as const,
+  profile: () => [...queryKeys.account(), 'profile'] as const,
 } as const;

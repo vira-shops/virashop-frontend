@@ -109,4 +109,25 @@ describe('ProductCard', () => {
     expect(screen.getByText('در ۷۲ فروشگاه')).toHaveClass('stock-override');
     expect(screen.getByText('در ۷۲ فروشگاه').closest('.action-row-override')).not.toBeNull();
   });
+
+  it('strikes through the original price under the current one', () => {
+    render(<ProductCard {...baseProps} originalPrice="۵۰۰٬۰۰۰" originalPriceClassName="orig" />);
+
+    const original = screen.getByText('۵۰۰٬۰۰۰');
+
+    expect(original.tagName).toBe('DEL');
+    expect(original).toHaveClass('orig');
+  });
+
+  it('renders a remove button only when onRemove is given', async () => {
+    const onRemove = jest.fn();
+    const { rerender } = render(<ProductCard {...baseProps} />);
+
+    expect(screen.queryByRole('button', { name: 'حذف' })).toBeNull();
+
+    rerender(<ProductCard {...baseProps} onRemove={onRemove} removeLabel="حذف از علاقه‌مندی‌ها" />);
+    await userEvent.click(screen.getByRole('button', { name: 'حذف از علاقه‌مندی‌ها' }));
+
+    expect(onRemove).toHaveBeenCalledTimes(1);
+  });
 });

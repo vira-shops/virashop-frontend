@@ -32,15 +32,6 @@ const chunk = <T,>(items: T[], size: number): T[][] =>
     items.slice(index * size, index * size + size),
   );
 
-/**
- * «ماشین حساب ویرا» — pick a payment term and a quantity, and every term cell
- * reprices live. The sliders share their value with a stepper whenever they
- * measure the same unit, so «۳ شل» never disagrees with itself.
- *
- * Two shapes from one payload: with no `rows` the terms form a flat grid
- * (wholesale); with rows the same terms become the columns of a priced matrix
- * captioned «خرده»/«عمده» (retail).
- */
 export const ViraCalculator: React.FC<ViraCalculatorProps> = ({ calculator }) => {
   const { title, note, terms, defaultTermId, rows, quantities, sliders } = calculator;
 

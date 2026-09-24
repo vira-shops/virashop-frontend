@@ -1,0 +1,17 @@
+@layer components {
+  .divider {
+    @apply flex w-full items-center gap-5;
+  }
+
+  .divider-line {
+    @apply h-px flex-1 border-t border-blue-100;
+  }
+
+  .divider-dashed .divider-line {
+    @apply border-dashed;
+  }
+
+  .divider-label {
+    @apply shrink-0 text-caption-md text-blue-300;
+  }
+}

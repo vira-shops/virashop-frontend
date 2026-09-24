@@ -764,6 +764,12 @@ export const CITIES_MOCK: City[] = CITIES_BY_PROVINCE.flatMap((province) =>
   }),
 );
 
+/** Provinces in the same popularity order — the profile's «محل کسب‌وکار» picker. */
+export const PROVINCES_MOCK: City[] = CITIES_BY_PROVINCE.map((province) => ({
+  value: province.slug,
+  label: province.name,
+}));
+
 export const citiesContracts = {
   cities: {
     getList: {
@@ -772,6 +778,15 @@ export const citiesContracts = {
       request: EmptyRequestSchema,
       response: apiResponseWrapper(CitiesListResponseSchema),
       mockData: mockDataWrapper(CITIES_MOCK),
+    },
+
+    /** `GET /provinces` — NOT LIVE YET; `useProvinces` forces the mock. */
+    getProvinces: {
+      method: 'GET',
+      path: '/provinces',
+      request: EmptyRequestSchema,
+      response: apiResponseWrapper(CitiesListResponseSchema),
+      mockData: mockDataWrapper(PROVINCES_MOCK),
     },
   },
 } as const satisfies Contracts;

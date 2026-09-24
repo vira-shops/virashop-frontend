@@ -32,6 +32,12 @@ export interface ProductCardProps {
    * @default 'تومان'
    */
   priceCurrency?: string | null;
+  /** Pre-discount amount, struck through under the price (bare formatted number). */
+  originalPrice?: string;
+  /** Renders a small «×» in the top corner (RTL end) — e.g. «remove from favorites». */
+  onRemove?: () => void;
+  /** Accessible name of the remove button. @default 'حذف' */
+  removeLabel?: string;
   stockNote?: string;
   action?: ProductCardAction;
   /** @default 'vertical' */
@@ -54,6 +60,8 @@ export interface ProductCardProps {
   priceLabelClassName?: string;
   priceClassName?: string;
   priceCurrencyClassName?: string;
+  originalPriceClassName?: string;
+  removeClassName?: string;
   stockNoteClassName?: string;
   actionRowClassName?: string;
   /** The buy button itself — sizing lives here, the row around it above. */

@@ -1,0 +1,33 @@
+@layer components {
+  .rating {
+    @apply inline-flex items-center gap-0.5;
+  }
+
+  /* RTL: stars fill from the right, which is also where a DOM-first star renders. */
+  .rating-star {
+    @apply shrink-0 text-blue-100;
+  }
+
+  .rating-star-filled {
+    @apply text-yellow-100;
+  }
+}
+
+/* === Sizes === */
+@utility rating-size-sm {
+  & .rating-star {
+    @apply size-7;
+  }
+}
+
+@utility rating-size-md {
+  & .rating-star {
+    @apply size-9;
+  }
+}
+
+@utility rating-size-lg {
+  & .rating-star {
+    @apply size-10;
+  }
+}

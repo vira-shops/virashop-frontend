@@ -1,0 +1,34 @@
+@layer components {
+  .avatar {
+    @apply relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-blue-100;
+  }
+
+  .avatar-ring {
+    @apply ring-2 ring-white;
+  }
+
+  .avatar-fallback {
+    @apply size-[62%] text-blue-300;
+  }
+}
+
+/* === Sizes === */
+@utility avatar-size-xs {
+  @apply size-9;
+}
+
+@utility avatar-size-sm {
+  @apply size-11;
+}
+
+@utility avatar-size-md {
+  @apply size-13;
+}
+
+@utility avatar-size-lg {
+  @apply size-14;
+}
+
+@utility avatar-size-xl {
+  @apply size-22;
+}

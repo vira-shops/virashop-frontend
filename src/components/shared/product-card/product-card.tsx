@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelIcon } from '@icons';
 import { Badge, Button, Card, Typography } from '@/components/ui';
 import { cn } from '@/utils/ui';
 import { ProductCardOrientation, ProductCardProps } from './types';
@@ -44,6 +45,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   priceLabel,
   price,
   priceCurrency = 'تومان',
+  originalPrice,
+  onRemove,
+  removeLabel = 'حذف',
   stockNote,
   action,
   orientation = 'vertical',
@@ -59,6 +63,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   priceLabelClassName,
   priceClassName,
   priceCurrencyClassName,
+  originalPriceClassName,
+  removeClassName,
   stockNoteClassName,
   actionRowClassName,
   actionClassName,
@@ -138,7 +144,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Card
       variant="fill"
-      className={cn(shellClasses[orientation], className)}
+      className={cn(shellClasses[orientation], onRemove && 'relative', className)}
       // Horizontal puts the badges inside the content column, next to the
       // title — Card renders `header` above the image, which only works for
       // the vertical layout.
@@ -152,6 +158,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       }}
       contentClassName={cn(contentClasses[orientation], contentClassName)}
     >
+      {onRemove && (
+        <button
+          type="button"
+          aria-label={removeLabel}
+          onClick={onRemove}
+          className={cn(
+            'hover:text-warning-red absolute top-3 left-3 z-10 flex size-9 items-center justify-center rounded-full text-blue-300 transition-colors hover:bg-blue-50',
+            removeClassName,
+          )}
+        >
+          <CancelIcon aria-hidden="true" className="size-7" />
+        </button>
+      )}
+
       {isHorizontal && badgeRow}
 
       <Typography variant="body-sm" className={cn('line-clamp-2 text-gray-400', titleClassName)}>
@@ -180,16 +200,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               // The unit is its own node so the amount keeps a single text
               // node (tests and copy-paste both read the bare number) and can
               // be sized independently of it.
-              <div className="flex items-baseline gap-1">
-                <Typography variant="body-md" className={cn('text-black', priceClassName)}>
-                  {price}
-                </Typography>
-                {priceCurrency && (
+              <div className="flex flex-col items-start gap-0.5">
+                <div className="flex items-baseline gap-1">
+                  <Typography variant="body-md" className={cn('text-black', priceClassName)}>
+                    {price}
+                  </Typography>
+                  {priceCurrency && (
+                    <Typography
+                      variant="caption-md"
+                      className={cn('shrink-0 text-gray-700', priceCurrencyClassName)}
+                    >
+                      {priceCurrency}
+                    </Typography>
+                  )}
+                </div>
+                {originalPrice && (
                   <Typography
                     variant="caption-md"
-                    className={cn('shrink-0 text-gray-700', priceCurrencyClassName)}
+                    as="del"
+                    className={cn('text-blue-200', originalPriceClassName)}
                   >
-                    {priceCurrency}
+                    {originalPrice}
                   </Typography>
                 )}
               </div>
