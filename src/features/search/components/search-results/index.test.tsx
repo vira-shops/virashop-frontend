@@ -48,7 +48,7 @@ describe('SearchResults', () => {
               discountPercent: 0,
               badges: [],
               stockStatus: 'IN_STOCK',
-              seller: { id: 1, shopName: 'ویراشاپسس', logoKey: null, logoUrl: null },
+              seller: { id: 1, shopName: 'ویراشاپس', logoKey: null, logoUrl: null },
               storeCount: 1,
               channel: 'RETAIL',
             },

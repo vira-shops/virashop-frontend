@@ -35,7 +35,7 @@ export function FooterApp() {
           className="relative flex gap-1 text-center text-white md:text-right"
         >
           دانلود اپلیکیشن
-          <span className="text-black">ویراشاپسس</span>
+          <span className="text-black">ویراشاپس</span>
         </Typography>
 
         {/* Download buttons */}
