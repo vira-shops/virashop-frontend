@@ -182,7 +182,7 @@ export const Uploader: React.FC<UploaderProps> = ({
   }
 
   return (
-    <div dir="rtl" className={cn('flex flex-col items-start gap-5', wrapperClassName)}>
+    <div dir="rtl" className={cn('flex flex-col items-start gap-4', wrapperClassName)}>
       {label && (
         <label htmlFor={inputId} className={cn('uploader-label', labelClassName)}>
           {label}

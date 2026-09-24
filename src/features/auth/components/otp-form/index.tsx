@@ -75,6 +75,16 @@ export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps
     <Form<OtpCodeValues>
       schema={OtpCodeSchema}
       title="کد تایید را وارد کنید"
+      description={
+        <div className="flex flex-col items-center">
+          <Typography variant="body-sm" className="text-center text-gray-400">
+            برای شماره {toPersianDigits(draft.phone)} یک کد ۶ رقمی ارسال کرده‌ایم،
+          </Typography>
+          <Typography variant="body-sm" className="text-center text-gray-400">
+            لطفا آن را در فیلد زیر وارد نمایید.
+          </Typography>
+        </div>
+      }
       onBack={onChangePhone}
       defaultValues={{ code: '' }}
       onSubmit={handleSubmit}
@@ -84,17 +94,8 @@ export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps
         const errorMessage = codeError ?? serverError ?? undefined;
 
         return (
-          <>
-            <div className="flex flex-col items-center gap-1">
-              <Typography variant="body-sm" className="text-center text-gray-400">
-                برای شماره {toPersianDigits(draft.phone)} یک کد ۶ رقمی ارسال کرده‌ایم،
-              </Typography>
-              <Typography variant="body-sm" className="text-center text-gray-400">
-                لطفا آن را در فیلد زیر وارد نمایید.
-              </Typography>
-            </div>
-
-            <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-5">
               <Controller
                 name="code"
                 control={form.control}
@@ -132,10 +133,10 @@ export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps
               </div>
             </div>
 
-            <Button type="submit" color="primary" size="lg" fullWidth disabled={verify.isPending}>
+            <Button type="submit" color="primary" size="xl" fullWidth disabled={verify.isPending}>
               {verify.isPending ? 'در حال بررسی...' : 'تایید و ورود'}
             </Button>
-          </>
+          </div>
         );
       }}
     </Form>

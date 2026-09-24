@@ -27,7 +27,7 @@ export const CardSectionSkeleton: React.FC<CardSectionSkeletonProps> = ({
 }) => (
   <section aria-hidden="true" className={cn(className)}>
     <div className="container">
-      <div className="mb-8 flex w-full items-end justify-between">
+      <div className="mb-11 flex w-full items-end justify-between">
         <div className="flex flex-col items-start gap-4">
           <Skeleton className="h-6 w-40" />
           <Skeleton className="h-4 w-64" />

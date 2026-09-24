@@ -133,7 +133,7 @@ describe('AuthWizard', () => {
 
       renderWizard('login');
       await user.type(screen.getByLabelText('شماره موبایل'), '09123456789');
-      await user.click(screen.getByRole('button', { name: 'ادامه' }));
+      await user.click(screen.getByRole('button', { name: 'تایید و ادامه' }));
 
       await waitFor(() => {
         expect(screen.getByText('کد تایید را وارد کنید')).toBeInTheDocument();
@@ -156,7 +156,7 @@ describe('AuthWizard', () => {
 
       renderWizard('login');
       await user.type(screen.getByLabelText('شماره موبایل'), '09123456789');
-      await user.click(screen.getByRole('button', { name: 'ادامه' }));
+      await user.click(screen.getByRole('button', { name: 'تایید و ادامه' }));
 
       await waitFor(() => {
         expect(screen.getByText('حسابی با این شماره پیدا نشد')).toBeInTheDocument();
@@ -190,7 +190,7 @@ describe('AuthWizard', () => {
 
       renderWizard('signup');
       await fillSignupCredentials(user);
-      await user.click(screen.getByRole('button', { name: 'ادامه' }));
+      await user.click(screen.getByRole('button', { name: 'ثبت' }));
 
       await waitFor(() => {
         expect(screen.getByText('کد تایید را وارد کنید')).toBeInTheDocument();
@@ -213,7 +213,7 @@ describe('AuthWizard', () => {
 
       renderWizard('signup');
       await fillSignupCredentials(user);
-      await user.click(screen.getByRole('button', { name: 'ادامه' }));
+      await user.click(screen.getByRole('button', { name: 'ثبت' }));
 
       await waitFor(() => {
         expect(screen.getByText('این شماره قبلاً ثبت‌نام کرده است؛ وارد شوید')).toBeInTheDocument();
@@ -363,7 +363,7 @@ describe('AuthWizard', () => {
 
     await screen.findByText('حساب کاربری شما با موفقیت ایجاد شد!');
     const user = userEvent.setup();
-    await user.click(screen.getByRole('button', { name: 'بعداً انجام میدهم' }));
+    await user.click(screen.getByRole('button', { name: 'بعداً انجام می‌دهم' }));
 
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith('/retail');

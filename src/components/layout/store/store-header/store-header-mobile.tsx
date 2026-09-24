@@ -14,7 +14,7 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
 
   return (
     <div className="bg-white md:hidden">
-      <div className="border-b border-gray-100 py-4">
+      <div className="flex h-14 items-center border-b border-gray-100">
         <div className="container flex items-center justify-between">
           {/* Right in RTL: burger menu */}
           <StoreMobileSidebar

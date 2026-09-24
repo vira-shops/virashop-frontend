@@ -68,6 +68,19 @@ describe('RangeSlider', () => {
     }
   });
 
+  it('drags and commits the new range when controlled with onValueCommit only', async () => {
+    const user = userEvent.setup();
+    const handleCommit = jest.fn();
+    render(<RangeSlider min={0} max={100} value={[0, 100]} onValueCommit={handleCommit} />);
+
+    const [, upperInput] = screen.getAllByRole('slider');
+    fireChange(upperInput, '40');
+    expect(screen.getByText('40')).toBeInTheDocument();
+
+    await user.click(upperInput);
+    expect(handleCommit).toHaveBeenCalledWith([0, 40]);
+  });
+
   it('supports the value prop as a controlled slider', () => {
     render(<RangeSlider min={0} max={100} value={[30, 70]} onValueChange={jest.fn()} />);
 

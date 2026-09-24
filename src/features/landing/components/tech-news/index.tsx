@@ -34,8 +34,11 @@ export const TechNews: React.FC = () => {
   }
 
   return (
-    <section aria-label={TECH_NEWS_ARIA_LABEL} className="container">
-      <div className="rounded-9 bg-blue-50 px-11 py-13">
+    <section
+      aria-label={TECH_NEWS_ARIA_LABEL}
+      className="container max-md:mt-[56px] max-md:px-0 md:mt-18"
+    >
+      <div className="md:rounded-9 bg-blue-50 px-7 py-11 md:px-11 md:py-13">
         <div className="flex flex-col items-start gap-3">
           <div className="mx-auto flex w-15 gap-2 lg:mx-0">
             <div className="bg-retail-500 h-0.5 w-full rounded-full" />
@@ -51,12 +54,14 @@ export const TechNews: React.FC = () => {
           </Typography>
         </div>
 
-        <div className="mt-9 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Phones swipe a single row of 288px cards, as drawn; from `md` up
+            the cards settle into the grid. */}
+        <div className="no-scrollbar -mx-7 mt-3 flex snap-x snap-mandatory gap-7 overflow-x-auto px-[36px] md:mx-0 md:mt-9 md:grid md:snap-none md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-4">
           {news.map((item) => (
             <NewsCard
               key={item.id}
               {...toNewsCardProps(item)}
-              className="bg-transparent shadow-none"
+              className="w-72 shrink-0 snap-center bg-transparent shadow-none md:w-auto"
               imageWrapperClassName="rounded-b-9"
             />
           ))}

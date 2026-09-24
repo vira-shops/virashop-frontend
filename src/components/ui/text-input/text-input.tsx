@@ -67,7 +67,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   return (
     <div
       dir={dir}
-      className={cn('flex flex-col items-start gap-5', fullWidth && 'w-full', wrapperClassName)}
+      className={cn('flex flex-col items-start gap-4', fullWidth && 'w-full', wrapperClassName)}
     >
       {label && (
         <label htmlFor={inputId} className={cn('input-label', labelClassName)}>

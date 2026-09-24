@@ -2,14 +2,11 @@ import type { Channel } from '@/validations/primitives';
 
 export type StorefrontSegment = 'retail' | 'wholesale';
 
-/** One builder for both storefront channels — retail/wholesale route shape is defined once here. */
 const storePaths = (segment: StorefrontSegment) =>
   ({
     ROOT: `/${segment}`,
     CATEGORIES: `/${segment}/categories`,
-    /** Category landing — the storefront page scoped to one category. */
     CATEGORY: (slug: string) => `/${segment}/category/${slug}`,
-    /** Filterable product listing for that category. */
     CATEGORY_PRODUCTS: (slug: string) => `/${segment}/category/${slug}/products`,
     BEST_SELLERS: `/${segment}/best-sellers`,
     OFFERS: `/${segment}/offers`,
@@ -27,7 +24,6 @@ export const PATHS = {
   AUTH: {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
-    /** Wizard entry href carrying the storefront channel context (`?channel=`). */
     LOGIN_FOR: (channel?: Channel, returnTo?: string): string => {
       const params = new URLSearchParams({ channel: channel ?? 'RETAIL' });
 
@@ -39,18 +35,12 @@ export const PATHS = {
     },
   },
 
-  /** Channel-generic route builder — new code should prefer `PATHS.STORE(segment)`. */
   STORE: storePaths,
 
   WHOLESALE: storePaths('wholesale'),
   RETAIL: storePaths('retail'),
 
   CART: '/cart',
-  /**
-   * Checkout entry carrying the storefront context (`?channel=`), so `/cart`
-   * renders in the palette of the storefront the buyer came from — same
-   * precedent as `AUTH.LOGIN_FOR`.
-   */
   CART_FOR: (channel?: Channel): string =>
     `/cart?${new URLSearchParams({ channel: channel ?? 'RETAIL' }).toString()}`,
 } as const;

@@ -13,7 +13,7 @@ export function AuthLayout({ children }: PropsWithChildren) {
 
   return (
     <div className="flex min-h-svh flex-col bg-gray-50">
-      <header className="container flex items-center justify-between py-6">
+      <header className="container flex items-center justify-between pt-10 pb-6 md:pt-11">
         <Typography
           variant="body-10"
           href={SUPPORT_PHONE_HREF}
@@ -35,9 +35,9 @@ export function AuthLayout({ children }: PropsWithChildren) {
 
       <main className="container flex flex-1 flex-col items-center justify-center pb-10">
         <Link href="/" aria-label="ویراشاپس" className="text-black">
-          <ViraLogoIcon className="h-14 w-auto" />
+          <ViraLogoIcon className="h-[56px] w-auto" />
         </Link>
-        <div className="rounded-5 mt-6 w-full max-w-110 border border-neutral-100 bg-white p-11">
+        <div className="rounded-5 mt-11 w-full border border-neutral-100 bg-white p-10 sm:w-auto">
           {children}
         </div>
       </main>

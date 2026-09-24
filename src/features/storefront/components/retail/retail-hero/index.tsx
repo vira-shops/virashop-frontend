@@ -53,7 +53,7 @@ export const RetailHero: React.FC<RetailHeroProps> = ({ categorySlug }) => {
     <section id="retail-hero" aria-label="بخش اصلی فروشگاه خرده" className="relative w-full">
       <div className="bg-retail-tint pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-5 pt-13 pb-14 md:px-0">
+      <div className="relative mx-auto flex max-w-[808px] flex-col items-center gap-[28px] px-7 pt-11 pb-13 md:box-content md:gap-13 md:pt-13">
         <HeroSearchBar
           placeholder={RETAIL_HERO_SEARCH_PLACEHOLDER}
           hrefForCategory={(slug) => PATHS.RETAIL.CATEGORY_PRODUCTS(slug)}

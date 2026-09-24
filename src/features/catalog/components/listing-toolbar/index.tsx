@@ -11,7 +11,7 @@ export interface ListingToolbarProps {
 
 /** Mobile-only bar that opens the filter / sort bottom sheets. */
 export const ListingToolbar: React.FC<ListingToolbarProps> = ({ onFilterClick, onSortClick }) => (
-  <div className="flex items-center gap-3 md:hidden">
+  <div className="mt-8 flex items-center gap-3 md:hidden">
     <Button
       size="md"
       color="primary"

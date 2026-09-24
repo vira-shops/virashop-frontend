@@ -257,7 +257,7 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <div
       dir={dir}
-      className={cn('flex flex-col items-start gap-5', fullWidth && 'w-full', wrapperClassName)}
+      className={cn('flex flex-col items-start gap-4', fullWidth && 'w-full', wrapperClassName)}
     >
       {label && (
         <label htmlFor={selectId} className={cn('select-label', labelClassName)}>

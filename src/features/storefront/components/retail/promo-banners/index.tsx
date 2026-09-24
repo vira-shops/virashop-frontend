@@ -21,12 +21,12 @@ export const PromoBanners: React.FC<PromoBannersProps> = ({
 
   return (
     <section aria-label="بنرهای ویژه" className={className}>
-      <div className="container grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="container grid grid-cols-1 gap-7 md:grid-cols-2 md:gap-10">
         {tiles.map(({ id, imageAlt, href, background }) => {
           const body = (
             <div
               className={cn(
-                'rounded-9 relative flex h-44 w-full items-center justify-center overflow-hidden sm:h-52 lg:h-80',
+                'rounded-9 relative flex aspect-[328/150] w-full items-center justify-center overflow-hidden md:aspect-[600/281]',
               )}
               style={{ backgroundColor: background ?? 'var(--retail-tint-strong)' }}
             >

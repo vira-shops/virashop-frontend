@@ -6,7 +6,7 @@ export function LandingHeader() {
   const { logo, brandName, ctas, navItems } = landingHeaderConfig;
 
   return (
-    <header className="border-b border-gray-100 bg-white py-4">
+    <header className="flex h-14 items-center border-b border-gray-100 bg-white sm:h-[72px]">
       {/* Desktop */}
       <div className="container mx-auto hidden items-center justify-between sm:flex">
         <Logo src={logo.src} alt={logo.alt} />
@@ -24,7 +24,7 @@ export function LandingHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {ctas.map(({ label, href, color }) => (
             <Button key={href} href={href} color={color}>
               {label}

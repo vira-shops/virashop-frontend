@@ -50,20 +50,22 @@ export function LoginForm() {
         </div>
       </div>
 
-      <FormInput<LoginValues>
-        name="phone"
-        label="شماره موبایل"
-        inputMode="tel"
-        fullWidth
-        autoComplete="tel"
-        autoFocus
-        inputMessage={serverError ?? undefined}
-        state={serverError ? 'error' : undefined}
-      />
+      <div className="flex flex-col gap-10">
+        <FormInput<LoginValues>
+          name="phone"
+          label="شماره موبایل"
+          inputMode="tel"
+          fullWidth
+          autoComplete="tel"
+          autoFocus
+          inputMessage={serverError ?? undefined}
+          state={serverError ? 'error' : undefined}
+        />
 
-      <Button type="submit" color="primary" size="lg" fullWidth disabled={otpRequest.isPending}>
-        {otpRequest.isPending ? 'در حال ارسال...' : 'ادامه'}
-      </Button>
+        <Button type="submit" color="primary" size="xl" fullWidth disabled={otpRequest.isPending}>
+          {otpRequest.isPending ? 'در حال ارسال...' : 'تایید و ادامه'}
+        </Button>
+      </div>
     </Form>
   );
 }

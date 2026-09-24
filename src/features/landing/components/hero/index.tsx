@@ -42,15 +42,15 @@ export const Hero: React.FC<HeroProps> = ({
   // `StorefrontShowcase` overflowing it, which forced every page below to
   // compensate with a magic top margin.
   return (
-    <section aria-label="بخش اصلی" className={cn('relative w-full', className)}>
+    <section aria-label="بخش اصلی" className={cn('relative mb-[46px] w-full md:mb-7', className)}>
       <div
         className="h-hero pointer-events-none absolute inset-x-0 top-0"
         style={{ background: HERO_GRADIENT, opacity: HERO_GRADIENT_OPACITY }}
         aria-hidden="true"
       />
 
-      <div className="relative container flex w-full flex-col items-center justify-center gap-10 py-13 sm:gap-13 md:w-4xl md:gap-13 md:py-13">
-        <div className="flex w-full flex-col gap-4 sm:gap-9 md:flex-row">
+      <div className="relative container flex w-full flex-col items-center justify-center gap-10 pt-10 pb-10 md:w-[848px] md:pt-13 md:pb-14">
+        <div className="flex w-full flex-col gap-4 md:flex-row md:gap-3">
           <CitySelect
             cities={cities}
             defaultValue={defaultCity}

@@ -14,6 +14,7 @@ export function Form<TFieldValues extends FieldValues>({
   children,
   className,
   title,
+  description,
   onBack,
   ...formProps
 }: FormProps<TFieldValues>) {
@@ -30,23 +31,28 @@ export function Form<TFieldValues extends FieldValues>({
         className={cn('flex flex-col gap-11', className)}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        {(title || onBack) && (
-          <div className="relative flex items-center justify-center">
-            {onBack && (
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={onBack}
-                aria-label="بازگشت"
-                className="absolute top-1/2 left-0 -translate-y-1/2 text-gray-600 transition-colors hover:bg-transparent"
-                icon={<ArrowLeftIcon className="size-9" />}
-              />
+        {(title || onBack || description) && (
+          <div className="flex flex-col gap-2">
+            {(title || onBack) && (
+              <div className="relative flex items-center justify-center">
+                {onBack && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={onBack}
+                    aria-label="بازگشت"
+                    className="absolute top-1/2 left-0 -translate-y-1/2 text-gray-600 transition-colors hover:bg-transparent"
+                    icon={<ArrowLeftIcon className="size-9" />}
+                  />
+                )}
+                {title && (
+                  <Typography variant="h3" className="text-black">
+                    {title}
+                  </Typography>
+                )}
+              </div>
             )}
-            {title && (
-              <Typography variant="h4" className="text-black">
-                {title}
-              </Typography>
-            )}
+            {description}
           </div>
         )}
         {typeof children === 'function' ? children(form) : children}

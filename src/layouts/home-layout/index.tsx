@@ -7,7 +7,7 @@ export function HomeLayout({ children }: PropsWithChildren) {
   return (
     <>
       <LandingHeader />
-      <main className="flex min-h-screen flex-col gap-14">{children}</main>
+      <main className="flex min-h-screen flex-col gap-10 pb-16 md:gap-19 md:pb-30">{children}</main>
 
       {/* Reserves exactly the fixed bar's 64px on phones so the footer's last
           row is never trapped underneath it. */}

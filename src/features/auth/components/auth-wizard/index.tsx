@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from '@/components/feedback';
 import { PATHS } from '@/routes/paths';
+import { cn } from '@/utils/ui';
 import type {
   AuthSession,
   AuthUser,
@@ -19,6 +20,15 @@ import { RoleForm } from '@/features/auth/components/role-form';
 import { OtpForm } from '@/features/auth/components/otp-form';
 import { SuccessForm } from '@/features/auth/components/success-form';
 import { BoothForm } from '@/features/auth/components/booth-form';
+
+/** Each step's content width from the design: the card hugs its step. */
+const STEP_WIDTH: Record<AuthFlowStep, string> = {
+  credentials: 'sm:w-84',
+  otp: 'sm:w-87',
+  role: 'sm:w-84',
+  success: 'sm:w-[469px]',
+  booth: 'sm:w-94',
+};
 
 interface AuthWizardProps {
   initialMode: 'login' | 'signup';
@@ -126,7 +136,7 @@ export function AuthWizard({ initialMode }: AuthWizardProps) {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className={cn('flex w-full flex-col gap-8', STEP_WIDTH[effectiveStep])}>
       {effectiveStep === 'credentials' &&
         ((mode ?? initialMode) === 'login' ? <LoginForm /> : <CredentialsForm />)}
       {effectiveStep === 'otp' && (

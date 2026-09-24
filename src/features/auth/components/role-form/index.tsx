@@ -112,128 +112,133 @@ export function RoleForm({ onSuccess, onBack }: RoleFormProps) {
         const isBuyer = accountType === 'BUYER';
 
         return (
-          <>
-            <div className="flex flex-col gap-3">
-              <Typography variant="body-sm" className="font-medium text-black">
-                نوع حساب
-              </Typography>
-              <Controller
-                name="accountType"
-                control={form.control}
-                render={({ field }) => (
-                  <Tabs
-                    items={ACCOUNT_TYPE_OPTIONS}
-                    value={field.value}
-                    onChange={field.onChange}
-                    variant="outline"
-                    fullWidth
-                    aria-label="نوع حساب"
-                  />
-                )}
-              />
-            </div>
-
-            {isBuyer ? (
-              <>
-                <FormSelect<RoleValues>
-                  name="activityType"
-                  label="نوع فعالیت"
-                  placeholder="انتخاب کنید"
-                  searchable
-                  filterable={false}
-                  fullWidth
-                >
-                  {ACTIVITY_TYPE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </FormSelect>
-                <FormSelect<RoleValues>
-                  name="guildType"
-                  label="نوع صنف"
-                  placeholder="انتخاب کنید"
-                  searchable
-                  filterable={false}
-                  fullWidth
-                >
-                  {GUILD_TYPE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </FormSelect>
-              </>
-            ) : (
-              <>
-                <div className="flex gap-6">
-                  <FormSelect<RoleValues>
-                    name="category"
-                    label="دسته‌بندی"
-                    placeholder="انتخاب کنید"
-                    searchable
-                    filterable={false}
-                    fullWidth
-                  >
-                    {CATEGORY_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </FormSelect>
-                  <FormSelect<RoleValues>
-                    name="industryType"
-                    label="نوع صنف"
-                    placeholder="انتخاب کنید"
-                    searchable
-                    filterable={false}
-                    fullWidth
-                  >
-                    {INDUSTRY_TYPE_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </FormSelect>
-                </div>
-                <FormSelect<RoleValues>
-                  name="activityType"
-                  label="نوع فعالیت"
-                  placeholder="انتخاب کنید"
-                  searchable
-                  filterable={false}
-                  fullWidth
-                >
-                  {ACTIVITY_TYPE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </FormSelect>
-              </>
-            )}
-
-            <Controller
-              name="document"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <div className="flex w-full flex-col gap-1">
-                  <Uploader
-                    variant="bar"
-                    label="مدارک"
-                    placeholder="جهت آپلود عکس پروانه کسب یا کارت ملی کلیک کنید"
-                    accept={DOCUMENT_ACCEPT}
-                    file={field.value ?? null}
-                    onChange={field.onChange}
-                  />
-                  {fieldState.error && (
-                    <Typography variant="caption-md" className="text-warning-red">
-                      {fieldState.error.message}
-                    </Typography>
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-9">
+              <div className="flex flex-col gap-4">
+                <Typography variant="body-sm" className="font-medium text-black">
+                  نوع حساب
+                </Typography>
+                <Controller
+                  name="accountType"
+                  control={form.control}
+                  render={({ field }) => (
+                    <Tabs
+                      items={ACCOUNT_TYPE_OPTIONS}
+                      value={field.value}
+                      onChange={field.onChange}
+                      variant="outline"
+                      fullWidth
+                      aria-label="نوع حساب"
+                      className="h-13 gap-4 p-2"
+                    />
                   )}
-                </div>
-              )}
-            />
+                />
+              </div>
+
+              <div className="flex flex-col gap-10">
+                {isBuyer ? (
+                  <>
+                    <FormSelect<RoleValues>
+                      name="activityType"
+                      label="نوع فعالیت"
+                      placeholder="انتخاب کنید"
+                      searchable
+                      filterable={false}
+                      fullWidth
+                    >
+                      {ACTIVITY_TYPE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </FormSelect>
+                    <FormSelect<RoleValues>
+                      name="guildType"
+                      label="نوع صنف"
+                      placeholder="انتخاب کنید"
+                      searchable
+                      filterable={false}
+                      fullWidth
+                    >
+                      {GUILD_TYPE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </FormSelect>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex gap-7">
+                      <FormSelect<RoleValues>
+                        name="category"
+                        label="دسته‌بندی"
+                        placeholder="انتخاب کنید"
+                        searchable
+                        filterable={false}
+                        fullWidth
+                      >
+                        {CATEGORY_OPTIONS.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </FormSelect>
+                      <FormSelect<RoleValues>
+                        name="industryType"
+                        label="نوع صنف"
+                        placeholder="انتخاب کنید"
+                        searchable
+                        filterable={false}
+                        fullWidth
+                      >
+                        {INDUSTRY_TYPE_OPTIONS.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </FormSelect>
+                    </div>
+                    <FormSelect<RoleValues>
+                      name="activityType"
+                      label="نوع فعالیت"
+                      placeholder="انتخاب کنید"
+                      searchable
+                      filterable={false}
+                      fullWidth
+                    >
+                      {ACTIVITY_TYPE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </FormSelect>
+                  </>
+                )}
+
+                <Controller
+                  name="document"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex w-full flex-col gap-1">
+                      <Uploader
+                        variant="bar"
+                        label="مدارک"
+                        placeholder="جهت آپلود عکس پروانه کسب یا کارت ملی کلیک کنید"
+                        accept={DOCUMENT_ACCEPT}
+                        file={field.value ?? null}
+                        onChange={field.onChange}
+                      />
+                      {fieldState.error && (
+                        <Typography variant="caption-md" className="text-warning-red">
+                          {fieldState.error.message}
+                        </Typography>
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
 
             {serverError && (
               <Typography variant="caption-md" className="text-warning-red">
@@ -244,13 +249,13 @@ export function RoleForm({ onSuccess, onBack }: RoleFormProps) {
             <Button
               type="submit"
               color="primary"
-              size="lg"
+              size="xl"
               fullWidth
               disabled={signupStep2.isPending}
             >
               {signupStep2.isPending ? 'در حال ثبت‌نام...' : 'تایید و ثبت‌نام'}
             </Button>
-          </>
+          </div>
         );
       }}
     </Form>

@@ -26,11 +26,11 @@ export const StorefrontShowcase: React.FC<StorefrontShowcaseProps> = ({ classNam
 
   return (
     <section dir="rtl" aria-label="بخش فروشگاه‌ها" className={cn('relative container', className)}>
-      <div className="relative mx-auto flex max-w-4xl items-start justify-between gap-8 sm:pt-5">
+      <div className="relative mx-auto flex max-w-[752px] items-start justify-between gap-7 md:gap-11">
         {items?.map((item, index) => (
           <div
             key={index}
-            className="md:w-storefront flex w-[calc(50%-var(--spacing-2))] flex-col items-center gap-4 sm:w-[calc(50%-var(--spacing-3))] sm:gap-8"
+            className="md:w-storefront mt-12 flex w-[calc(50%-var(--spacing-5))] flex-col items-center gap-7 md:mt-0 md:gap-11"
           >
             <div className="aspect-storefront rounded-9 relative w-full overflow-hidden">
               <Image
@@ -42,13 +42,14 @@ export const StorefrontShowcase: React.FC<StorefrontShowcaseProps> = ({ classNam
               />
             </div>
 
-            <div className="w-full sm:h-13 sm:w-45">
+            <div className="md:w-storefront-button w-full">
               <Button
                 href={STOREFRONT_HREF[item.buttonColor]}
                 variant="fill"
                 color={item.buttonColor}
                 fullWidth
-                size="lg"
+                size="xl"
+                className="max-md:h-12 max-md:min-w-0"
               >
                 {item.buttonLabel}
               </Button>

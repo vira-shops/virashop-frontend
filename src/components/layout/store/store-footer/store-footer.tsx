@@ -25,7 +25,10 @@ export function StoreFooter({ config }: { config: StoreFooterConfig }) {
     <footer>
       {/* Features */}
       <section
-        className={cn('relative mt-14 border-b border-gray-100 py-10', featureBandClassName)}
+        className={cn(
+          'relative mt-16 border-b border-gray-100 py-10 md:mt-[160px]',
+          featureBandClassName,
+        )}
       >
         <div className="container grid grid-cols-2 items-center gap-8 lg:grid-cols-4">
           {features.map(({ id, title, Icon }, index) => (

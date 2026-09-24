@@ -56,33 +56,37 @@ export function CredentialsForm() {
         </div>
       </div>
 
-      <div className="flex gap-8">
-        <FormInput<CredentialsValues>
-          name="firstName"
-          label="نام"
-          fullWidth
-          autoComplete="given-name"
-        />
-        <FormInput<CredentialsValues>
-          name="lastName"
-          label="نام خانوادگی"
-          fullWidth
-          autoComplete="family-name"
-        />
-      </div>
-      <FormInput<CredentialsValues>
-        name="phone"
-        label="شماره موبایل"
-        inputMode="tel"
-        fullWidth
-        autoComplete="tel"
-        inputMessage={serverError ?? undefined}
-        state={serverError ? 'error' : undefined}
-      />
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10 md:gap-9">
+          <div className="flex gap-7">
+            <FormInput<CredentialsValues>
+              name="firstName"
+              label="نام"
+              fullWidth
+              autoComplete="given-name"
+            />
+            <FormInput<CredentialsValues>
+              name="lastName"
+              label="نام خانوادگی"
+              fullWidth
+              autoComplete="family-name"
+            />
+          </div>
+          <FormInput<CredentialsValues>
+            name="phone"
+            label="شماره موبایل"
+            inputMode="tel"
+            fullWidth
+            autoComplete="tel"
+            inputMessage={serverError ?? undefined}
+            state={serverError ? 'error' : undefined}
+          />
+        </div>
 
-      <Button type="submit" color="primary" size="lg" fullWidth disabled={signupStep1.isPending}>
-        {signupStep1.isPending ? 'در حال ارسال...' : 'ادامه'}
-      </Button>
+        <Button type="submit" color="primary" size="xl" fullWidth disabled={signupStep1.isPending}>
+          {signupStep1.isPending ? 'در حال ارسال...' : 'ثبت'}
+        </Button>
+      </div>
     </Form>
   );
 }

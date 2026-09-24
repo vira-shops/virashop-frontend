@@ -20,7 +20,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
   return (
     <div className="hidden bg-white md:block">
       {/* Row 1: Logo + userActions + login/signup button */}
-      <div className="border-b border-gray-100 py-4">
+      <div className="border-b border-gray-100 py-7">
         <div className="container flex w-full items-center justify-between gap-12">
           <Logo src={logo.src} alt={logo.alt} />
 
@@ -38,7 +38,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
       </div>
 
       {/* Row 2: Navigation bar */}
-      <nav className="border-b border-gray-100 py-8 shadow-md">
+      <nav className="border-b border-gray-100 py-[22px] shadow-md">
         <div className="container flex items-center justify-between">
           <div className="flex items-center gap-11">
             <CategoriesDropdown channel={channel} />

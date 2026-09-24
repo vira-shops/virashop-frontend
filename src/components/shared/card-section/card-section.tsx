@@ -47,7 +47,7 @@ export const CardSection: React.FC<CardSectionProps> = ({
   return (
     <section aria-label={title} className={className}>
       <div className="container">
-        <div className={cn('mb-8 flex w-full items-end justify-between', headerClassName)}>
+        <div className={cn('mb-11 flex w-full items-end justify-between', headerClassName)}>
           <div className="flex flex-col items-start gap-4">
             <Typography variant="h4" color="primary" className={titleClassName}>
               {lead}

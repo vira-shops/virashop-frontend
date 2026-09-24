@@ -14,6 +14,8 @@ export interface FormProps<TFieldValues extends FieldValues> extends Omit<
   className?: string;
   /** Centered heading rendered above the fields — omit for forms with no header. */
   title?: string;
+  /** Supporting copy tucked 8px under the heading, inside the header block. */
+  description?: ReactNode;
   /**
    * Renders a top-left back button (ghost, icon-only) that calls this when
    * clicked — the single prop any step needing "go back" passes in.

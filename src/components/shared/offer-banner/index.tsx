@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const OfferBanner: React.FC = () => {
   return (
-    <section aria-label="تخفیف‌ها" className="container -my-12">
+    <section aria-label="تخفیف‌ها" className="container">
       <div className="rounded-9 relative overflow-hidden">
         <Image
           src="/images/landing/hero/offer-banner.png"

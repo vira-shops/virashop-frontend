@@ -28,34 +28,49 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
   thumbInputClassName,
   labelsClassName,
 }) => {
-  const [innerValue, setInnerValue] = React.useState<RangeSliderValue>(defaultValue ?? [min, max]);
+  const [innerValue, setInnerValue] = React.useState<RangeSliderValue>(
+    value ?? defaultValue ?? [min, max],
+  );
 
-  const currentValue = value ?? innerValue;
-  const [lower, upper] = currentValue;
+  /*
+    A controlled `value` is only the committed range — callers that listen to
+    `onValueCommit` alone (e.g. a URL-backed filter) never feed drag frames
+    back. The thumbs therefore track a local draft while dragging, re-synced
+    whenever the parent's `value` actually changes.
+  */
+  const [syncedValue, setSyncedValue] = React.useState(value);
+  if (value && (value[0] !== syncedValue?.[0] || value[1] !== syncedValue?.[1])) {
+    setSyncedValue(value);
+    setInnerValue(value);
+  }
 
-  const commit = (next: RangeSliderValue) => {
-    onValueCommit?.(next);
-  };
+  const [lower, upper] = innerValue;
 
-  const updateLower = (raw: number) => {
-    const next: RangeSliderValue = [clamp(raw, min, upper), upper];
+  // Reads the draft, which is always current by release — React flushes the
+  // `change` re-render before `pointerup`/`keyup` fires.
+  const commit = () => onValueCommit?.(innerValue);
+
+  const update = (next: RangeSliderValue) => {
     setInnerValue(next);
     onValueChange?.(next);
   };
 
-  const updateUpper = (raw: number) => {
-    const next: RangeSliderValue = [lower, clamp(raw, lower, max)];
-    setInnerValue(next);
-    onValueChange?.(next);
-  };
+  const updateLower = (raw: number) => update([clamp(raw, min, upper), upper]);
+
+  const updateUpper = (raw: number) => update([lower, clamp(raw, lower, max)]);
 
   const percentOf = (v: number) => ((v - min) / (max - min || 1)) * 100;
   const lowerPercent = percentOf(lower);
   const upperPercent = percentOf(upper);
 
   return (
+    // RTL so the min thumb/label sit on the right and the max thumb/label
+    // on the left, matching Persian reading order (right = start = min).
+    // The colored range bar uses logical inset-inline-* (mirrors with dir),
+    // and the labels below inherit this same dir, so both thumbs and their
+    // labels stay in the same physical order.
     <div
-      dir="ltr"
+      dir="rtl"
       className={cn(
         'range-slider',
         colorClasses[color],
@@ -78,9 +93,8 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
         value={lower}
         disabled={disabled}
         onChange={(event) => updateLower(Number(event.target.value))}
-        onMouseUp={() => commit(currentValue)}
-        onTouchEnd={() => commit(currentValue)}
-        onKeyUp={() => commit(currentValue)}
+        onPointerUp={commit}
+        onKeyUp={commit}
         className={cn('range-slider-input', thumbInputClassName)}
       />
       <input
@@ -92,12 +106,18 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
         value={upper}
         disabled={disabled}
         onChange={(event) => updateUpper(Number(event.target.value))}
-        onMouseUp={() => commit(currentValue)}
-        onTouchEnd={() => commit(currentValue)}
-        onKeyUp={() => commit(currentValue)}
+        onPointerUp={commit}
+        onKeyUp={commit}
         className={cn('range-slider-input', thumbInputClassName)}
       />
-      <div dir="rtl" className={cn('range-slider-labels', labelsClassName)}>
+      {/*
+        Inherits `dir="ltr"` from the slider wrapper — the labels must stay
+        in the SAME physical order as the two thumbs (lower on the left,
+        upper on the right). An explicit `dir="rtl"` here would flip only
+        the labels, so the lower thumb (left) sits under the upper label
+        and dragging it looks like it changes the "wrong" price.
+      */}
+      <div className={cn('range-slider-labels', labelsClassName)}>
         <span>{formatLabel(lower)}</span>
         <span>{formatLabel(upper)}</span>
       </div>

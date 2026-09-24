@@ -207,8 +207,8 @@
 
   /* ===== Component design sizes (semantic spacing tokens) ===== */
   --spacing-product-card: 226px;
-  --spacing-storefront: 460px;
-  --spacing-storefront-button: 180px;
+  --spacing-storefront: 360px;
+  --spacing-storefront-button: 170px;
   --spacing-hero: 507px;
   --spacing-hero-offset: 384px;
   --spacing-footer-paragraph: 636px;
@@ -217,7 +217,7 @@
   /* ===== Component aspect ratios ===== */
   --aspect-product-card: 226 / 184;
   --aspect-product-card-tall: 226 / 340;
-  --aspect-storefront: 460 / 490;
+  --aspect-storefront: 360 / 390;
 
   /* ===== Marquee (TV-ticker style, uniform speed) ===== */
   --animate-marquee: marquee 40s linear infinite;
@@ -479,6 +479,7 @@
   }
 
   .container {
-    @apply w-full px-5 md:mx-auto md:px-13 max-w-[1440px]!;
+    /* Design grid: a 1224px column (108px margins at 1440), 16px gutters on phones. */
+    @apply w-full px-7 md:mx-auto md:px-13 max-w-[1320px]!;
   }
 }

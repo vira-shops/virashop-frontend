@@ -130,7 +130,7 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
         </Typography>
       )}
 
-      <Button type="submit" color="primary" size="lg" fullWidth disabled={updateBooth.isPending}>
+      <Button type="submit" color="primary" size="xl" fullWidth disabled={updateBooth.isPending}>
         {updateBooth.isPending ? 'در حال ثبت...' : 'ثبت و اتمام'}
       </Button>
     </Form>

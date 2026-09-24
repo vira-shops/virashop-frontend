@@ -22,12 +22,12 @@ export default function RetailPage() {
       <PromoBanners />
       <BestSellersSection
         link={{ label: 'مشاهده همه', href: PATHS.RETAIL.BEST_SELLERS }}
-        className="bg-blue-50 py-10"
+        className="bg-blue-50 py-11"
       />
       <PopularBrands />
       <BigOfferSection
         link={{ label: 'مشاهده همه', href: PATHS.RETAIL.OFFERS }}
-        className="bg-blue-50 py-10"
+        className="bg-blue-50 py-11"
       />
     </RetailLayout>
   );

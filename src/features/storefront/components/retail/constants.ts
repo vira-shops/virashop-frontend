@@ -1,6 +1,6 @@
 export const RETAIL_NEXT_SECTION_ID = 'promo-slider';
 export const RETAIL_HERO_SEARCH_PLACEHOLDER = 'جستجو در ویرا شاپس';
-export const RETAIL_POPULAR_BRANDS_TITLE = 'برندهای محبوب';
+export const RETAIL_POPULAR_BRANDS_TITLE = 'محبوب‌ترین برندها';
 
 export const WEEKLY_OFFERS_TITLE = 'حراج هفتگی';
 export const WEEKLY_OFFERS_SUBTITLE = 'حراج محصولات تا %55 تخفیف';
