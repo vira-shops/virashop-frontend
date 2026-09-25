@@ -3,7 +3,12 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { cn } from '@/utils/ui';
-import { RETAIL_PROMO_BANNERS } from '@/features/storefront/components/retail/constants';
+import {
+  PROMO_BANNER_DEFAULT_BACKGROUND,
+  PROMO_BANNER_FALLBACK_LABEL,
+  PROMO_BANNERS_ARIA_LABEL,
+  RETAIL_PROMO_BANNERS,
+} from './constants';
 import type { PromoBannersProps } from './types';
 
 /**
@@ -20,7 +25,7 @@ export const PromoBanners: React.FC<PromoBannersProps> = ({
   }
 
   return (
-    <section aria-label="بنرهای ویژه" className={className}>
+    <section aria-label={PROMO_BANNERS_ARIA_LABEL} className={className}>
       <div className="container grid grid-cols-1 gap-7 md:grid-cols-2 md:gap-10">
         {tiles.map(({ id, imageAlt, href, background }) => {
           const body = (
@@ -28,14 +33,19 @@ export const PromoBanners: React.FC<PromoBannersProps> = ({
               className={cn(
                 'rounded-9 relative flex aspect-[328/150] w-full items-center justify-center overflow-hidden md:aspect-[600/281]',
               )}
-              style={{ backgroundColor: background ?? 'var(--retail-tint-strong)' }}
+              style={{ backgroundColor: background ?? PROMO_BANNER_DEFAULT_BACKGROUND }}
             >
               {/* Banner artwork — awaiting final promo artwork assets */}
             </div>
           );
 
           return href ? (
-            <Link key={id} href={href} aria-label={imageAlt ?? 'بنر ویژه'} className="block">
+            <Link
+              key={id}
+              href={href}
+              aria-label={imageAlt ?? PROMO_BANNER_FALLBACK_LABEL}
+              className="block"
+            >
               {body}
             </Link>
           ) : (

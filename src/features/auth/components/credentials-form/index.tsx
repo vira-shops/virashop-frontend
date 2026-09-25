@@ -7,6 +7,8 @@ import { useSignupStep1 } from '@/hooks';
 import { useAuthFlowStore } from '@/features/auth/store';
 import { CredentialsSchema, type CredentialsValues } from '@/features/auth/validation/schema';
 import { normalizeIranianMobile, authErrorMessage } from '@/features/auth/utils';
+import { PATHS } from '@/routes/paths';
+import { CREDENTIALS_FORM_COPY as COPY } from './constants';
 
 export function CredentialsForm() {
   const draft = useAuthFlowStore((state) => state.draft);
@@ -46,12 +48,12 @@ export function CredentialsForm() {
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <Typography variant="h3" className="text-center">
-          ایجاد حساب کاربری
+          {COPY.title}
         </Typography>
         <div className="flex items-center gap-1 text-center text-neutral-400">
-          <Typography variant="body-12">قبلا ثبت نام کردید ؟</Typography>
-          <Typography href="/auth/login" variant="body-12" className="text-blue-500">
-            وارد شوید
+          <Typography variant="body-12">{COPY.hasAccount}</Typography>
+          <Typography href={PATHS.AUTH.LOGIN} variant="body-12" className="text-blue-500">
+            {COPY.loginLink}
           </Typography>
         </div>
       </div>
@@ -61,20 +63,20 @@ export function CredentialsForm() {
           <div className="flex gap-7">
             <FormInput<CredentialsValues>
               name="firstName"
-              label="نام"
+              label={COPY.firstNameLabel}
               fullWidth
               autoComplete="given-name"
             />
             <FormInput<CredentialsValues>
               name="lastName"
-              label="نام خانوادگی"
+              label={COPY.lastNameLabel}
               fullWidth
               autoComplete="family-name"
             />
           </div>
           <FormInput<CredentialsValues>
             name="phone"
-            label="شماره موبایل"
+            label={COPY.phoneLabel}
             inputMode="tel"
             fullWidth
             autoComplete="tel"
@@ -84,7 +86,7 @@ export function CredentialsForm() {
         </div>
 
         <Button type="submit" color="primary" size="xl" fullWidth disabled={signupStep1.isPending}>
-          {signupStep1.isPending ? 'در حال ارسال...' : 'ثبت'}
+          {signupStep1.isPending ? COPY.submitting : COPY.submit}
         </Button>
       </div>
     </Form>

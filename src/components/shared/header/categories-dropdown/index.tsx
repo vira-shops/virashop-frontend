@@ -185,17 +185,11 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel,
   const { data, isLoading } = usePopularCategories(channel);
   const categories = data ?? [];
   const [open, setOpen] = React.useState(false);
-  // Lazy initial state — picks the first category as default on first render
-  // when data is already available, otherwise stays null until data arrives.
+
   const [activeCategoryId, setActiveCategoryId] = React.useState<string | null>(
     () => categories[0]?.id ?? null,
   );
 
-  // Once the query resolves and we have categories, seed the default active.
-  // Only depend on the first category's id (string) to keep the effect stable.
-  // The synchronous setState here is intentional — it only runs once when the
-  // initial data arrives and the linter's "cascading render" warning does not
-  // apply to this single-shot initialization.
   const firstCategoryId = categories[0]?.id;
   React.useEffect(() => {
     if (!activeCategoryId && firstCategoryId) {
@@ -230,19 +224,20 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel,
 
   return (
     <div ref={wrapperRef} className={cn('relative', className)}>
-      <button
-        type="button"
+      <Button
+        variant="ghost"
+        size="sm"
         aria-expanded={open}
         aria-haspopup="true"
         aria-label={CATEGORIES_ARIA_LABEL}
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 bg-transparent"
+        rightIcon={<BurgerMenuIcon className="size-10" aria-hidden="true" />}
+        className="hover:text-primary-500 h-fit gap-2 px-0 py-1 text-gray-600 hover:bg-transparent"
       >
-        <BurgerMenuIcon className="size-10 text-gray-600" aria-hidden="true" />
-        <Typography variant="caption-lg" className="hover:text-primary-500 text-gray-600">
+        <Typography variant="caption-lg" className="text-current">
           {CATEGORIES_TRIGGER_LABEL}
         </Typography>
-      </button>
+      </Button>
 
       {open &&
         (isLoading ? (

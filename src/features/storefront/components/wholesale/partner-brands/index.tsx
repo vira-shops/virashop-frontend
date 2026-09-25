@@ -4,12 +4,14 @@ import * as React from 'react';
 import { BrandsMarquee } from '@/components/shared';
 import { usePartnerBrands } from '@/hooks';
 import {
-  WHOLESALE_BRANDS_TITLE,
   WHOLESALE_BRANDS_ARIA_LABEL,
+  WHOLESALE_BRANDS_CTA_CLASS,
   WHOLESALE_BRANDS_ROW_COUNT,
-} from '@/features/storefront/components/wholesale/constants';
+  WHOLESALE_BRANDS_TITLE,
+} from './constants';
+import type { PartnerBrandsStripProps } from './types';
 
-export const PartnerBrandsStrip: React.FC<{ className?: string }> = ({ className }) => {
+export const PartnerBrandsStrip: React.FC<PartnerBrandsStripProps> = ({ className }) => {
   const brandsQuery = usePartnerBrands();
   const brands = brandsQuery.data ?? [];
 
@@ -25,7 +27,7 @@ export const PartnerBrandsStrip: React.FC<{ className?: string }> = ({ className
       ariaLabel={WHOLESALE_BRANDS_ARIA_LABEL}
       rowCount={WHOLESALE_BRANDS_ROW_COUNT}
       className={className}
-      ctaClassName="shadow-primary-500 shadow-[0_0_100px_12px_rgba(0,172,172,0.5)] backdrop-blur-2xl"
+      ctaClassName={WHOLESALE_BRANDS_CTA_CLASS}
     />
   );
 };

@@ -2,24 +2,12 @@
 
 import * as React from 'react';
 import { Select, Skeleton } from '@/components/ui';
-import { PAYMENT_TYPE_LABEL } from '@/features/cart/constants';
-import type { PaymentMethod } from '@/contracts/endpoints/checkout';
-import type { CheckoutDraft } from '@/hooks';
+import { PAYMENT_SELECT_CLASS, PAYMENT_TYPE_LABEL } from './constants';
+import type { PaymentFormProps } from './types';
 
-export interface PaymentFormProps {
-  methods: PaymentMethod[];
-  isLoading: boolean;
-  draft: CheckoutDraft;
-  onChange: (patch: Partial<CheckoutDraft>) => void;
-}
+export type { PaymentFormProps } from './types';
 
-/**
- * Step 4 — how the invoice gets settled.
- *
- * The design puts the picker straight on the page: no surrounding card, the
- * field itself carries the white fill, the Gray/2 hairline and the 16px
- * radius.
- */
+/** Step 4 — how the invoice gets settled. */
 export const PaymentForm: React.FC<PaymentFormProps> = ({ methods, isLoading, draft, onChange }) =>
   isLoading ? (
     <Skeleton className="rounded-8 h-13 w-full" />
@@ -32,7 +20,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({ methods, isLoading, dr
       fullWidth
       value={draft.paymentMethodId ?? ''}
       onValueChange={(value) => onChange({ paymentMethodId: value })}
-      className="rounded-8 h-13 border-gray-100 bg-white px-10"
+      className={PAYMENT_SELECT_CLASS}
     >
       {methods.map((method) => (
         <option key={method.id} value={method.id}>

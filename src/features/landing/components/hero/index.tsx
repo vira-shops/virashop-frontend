@@ -12,7 +12,7 @@ import {
 import { useCities, useActiveStories } from '@/hooks';
 import { PATHS } from '@/routes/paths';
 import { HeroProps } from './types';
-import { HERO_GRADIENT, HERO_GRADIENT_OPACITY } from './constants';
+import { HERO_ARIA_LABEL, HERO_GRADIENT, HERO_GRADIENT_OPACITY } from './constants';
 import { StorefrontShowcase } from './storefront-showcase';
 
 export const Hero: React.FC<HeroProps> = ({
@@ -42,7 +42,10 @@ export const Hero: React.FC<HeroProps> = ({
   // `StorefrontShowcase` overflowing it, which forced every page below to
   // compensate with a magic top margin.
   return (
-    <section aria-label="بخش اصلی" className={cn('relative mb-[46px] w-full md:mb-7', className)}>
+    <section
+      aria-label={HERO_ARIA_LABEL}
+      className={cn('relative mb-[46px] w-full md:mb-7', className)}
+    >
       <div
         className="h-hero pointer-events-none absolute inset-x-0 top-0"
         style={{ background: HERO_GRADIENT, opacity: HERO_GRADIENT_OPACITY }}

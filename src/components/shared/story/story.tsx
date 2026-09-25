@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { createPortal } from 'react-dom';
 import { cn } from '@/utils/ui';
 import { CancelIcon } from '@icons';
+import { Button } from '@/components/ui';
 import { StoryItem, StoryTriggerProps, StoryTriggerListProps, StoryViewerProps } from './types';
 
 const subscribe = () => () => undefined;
@@ -428,14 +429,17 @@ const StoryViewerInner: React.FC<StoryViewerInnerProps> = ({
         >
           <StoryProgress className={progressClassName} />
 
-          <button
-            type="button"
-            className={cn('story-viewer-close', closeClassName)}
-            onClick={onClose}
+          <Button
+            variant="ghost"
+            fullRounded
             aria-label="بستن"
-          >
-            <CancelIcon className="size-12" />
-          </button>
+            onClick={onClose}
+            icon={<CancelIcon className="size-12" aria-hidden="true" />}
+            className={cn(
+              'story-viewer-close bg-black/30 text-white hover:bg-black/50',
+              closeClassName,
+            )}
+          />
 
           <button
             type="button"

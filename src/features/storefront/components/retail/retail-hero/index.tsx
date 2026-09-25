@@ -9,23 +9,20 @@ import {
   StoryBarSkeleton,
   StoryViewer,
 } from '@/components/shared';
-import { cn } from '@/utils/ui';
+import { Button } from '@/components/ui';
 import { useActiveStories, useStorefrontHeroCategories } from '@/hooks';
 import { PATHS } from '@/routes/paths';
+import { RETAIL_NEXT_SECTION_ID } from '@/features/storefront/components/retail/constants';
 import {
+  RETAIL_HERO_ARIA_LABEL,
+  RETAIL_HERO_ID,
   RETAIL_HERO_SEARCH_PLACEHOLDER,
-  RETAIL_NEXT_SECTION_ID,
-} from '@/features/storefront/components/retail/constants';
-import { Button } from '@/components/ui';
+  SCROLL_NEXT_BUTTON_CLASS,
+  SCROLL_NEXT_LABEL,
+} from './constants';
+import type { RetailHeroProps } from './types';
 
-export interface RetailHeroProps {
-  /**
-   * Slug of the category being browsed. Omit on the storefront landing; pass
-   * one and the hero becomes that category's landing — its name in the
-   * heading, its children as the tiles.
-   */
-  categorySlug?: string;
-}
+export type { RetailHeroProps } from './types';
 
 export const RetailHero: React.FC<RetailHeroProps> = ({ categorySlug }) => {
   const storiesQuery = useActiveStories();
@@ -50,7 +47,7 @@ export const RetailHero: React.FC<RetailHeroProps> = ({ categorySlug }) => {
   };
 
   return (
-    <section id="retail-hero" aria-label="بخش اصلی فروشگاه خرده" className="relative w-full">
+    <section id={RETAIL_HERO_ID} aria-label={RETAIL_HERO_ARIA_LABEL} className="relative w-full">
       <div className="bg-retail-tint pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-[808px] flex-col items-center gap-[28px] px-7 pt-11 pb-13 md:box-content md:gap-13 md:pt-13">
@@ -71,16 +68,11 @@ export const RetailHero: React.FC<RetailHeroProps> = ({ categorySlug }) => {
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center">
         <Button
-          type="button"
           variant="fill"
           onClick={scrollNext}
-          aria-label="رفتن به بخش بعدی"
+          aria-label={SCROLL_NEXT_LABEL}
           icon={<DownArrowIcon className="size-7 -rotate-45 text-yellow-100" aria-hidden="true" />}
-          className={cn(
-            'pointer-events-auto flex translate-y-1/3 items-center justify-center',
-            'rounded-10 bg-retail-tint size-14 rotate-45',
-            '-z-50 transition-transform hover:scale-105',
-          )}
+          className={SCROLL_NEXT_BUTTON_CLASS}
         />
       </div>
     </section>

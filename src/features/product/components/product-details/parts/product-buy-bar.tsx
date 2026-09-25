@@ -7,13 +7,9 @@ import { formatToman } from '@/utils/format';
 import {
   CHEAPEST_TAG,
   CURRENCY_LABEL,
+  PRODUCT_PARTS_COPY as COPY,
 } from '@/features/product/components/product-details/constants';
-
-export interface ProductBuyBarProps {
-  shopName: string;
-  price: number;
-  href: string;
-}
+import type { ProductBuyBarProps } from '@/features/product/components/product-details/types';
 
 export const ProductBuyBar: React.FC<ProductBuyBarProps> = ({ shopName, price, href }) => (
   <Link
@@ -21,7 +17,7 @@ export const ProductBuyBar: React.FC<ProductBuyBarProps> = ({ shopName, price, h
     className="bg-primary rounded-8 hover:bg-primary-600 flex flex-col items-center justify-between gap-3 px-5 py-4 transition-colors sm:flex-row"
   >
     <Typography variant="body-md" className="text-white">
-      خرید از {shopName}
+      {COPY.buyFrom(shopName)}
     </Typography>
 
     <div className="flex items-center gap-3">

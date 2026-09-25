@@ -3,15 +3,10 @@
 import * as React from 'react';
 import { ProductFilterPanel } from '@/components/shared';
 import { formatToman } from '@/utils/format';
-import { CATALOG_PRICE_MIN } from '@/features/catalog/components/product-listing/constants';
-import type { ProductFilterGroup } from '@/components/shared/product-filter-panel/types';
-import type { UseProductListingFiltersResult } from '@/hooks';
+import { CATALOG_PRICE_MIN } from './constants';
+import type { ListingFiltersProps } from './types';
 
-export interface ListingFiltersProps {
-  filters: UseProductListingFiltersResult;
-  priceMax: number;
-  categoryGroups: ProductFilterGroup[];
-}
+export type { ListingFiltersProps } from './types';
 
 export const ListingFilters: React.FC<ListingFiltersProps> = ({
   filters,

@@ -8,11 +8,7 @@ import {
   CURRENCY_LABEL,
   PRICE_LABEL,
 } from '@/features/product/components/product-details/constants';
-
-export interface PurchaseAsideProps {
-  price: number;
-  onAddToCart?: () => void;
-}
+import type { PurchaseAsideProps } from '@/features/product/components/product-details/types';
 
 /**
  * The buy panel beside the selected seller's terms — the running price and the

@@ -2,6 +2,7 @@
 
 import { useFormContext, type FieldValues } from 'react-hook-form';
 import { TextInput } from '@/components/ui';
+import { cn } from '@/utils/ui';
 import type { FormInputProps } from './types';
 
 export function FormInput<TFieldValues extends FieldValues>({
@@ -18,7 +19,7 @@ export function FormInput<TFieldValues extends FieldValues>({
       {...register(name)}
       state={error ? 'error' : props.state}
       inputMessage={message}
-      labelClassName="text-lg"
+      labelClassName={cn('text-lg', props.labelClassName)}
     />
   );
 }

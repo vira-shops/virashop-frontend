@@ -1,19 +1,20 @@
 'use client';
 
 import * as React from 'react';
+import { SortIcon } from '@icons';
 import { Radio, Typography } from '@/components/ui';
-import { Modal, SortIcon } from '@/components/shared';
+import { Modal } from '@/components/shared';
 import { cn } from '@/utils/ui';
-import { CATALOG_SORT_OPTIONS } from '@/features/catalog/components/product-listing/constants';
-import type { ProductSort } from '@/contracts/endpoints/products';
+import {
+  CATALOG_SORT_OPTIONS,
+  SHEET_HEADER_CLASS,
+  SORT_LABEL,
+  SORT_RADIO_NAME,
+  SORT_ROW_CLASS,
+} from './constants';
+import type { ListingSortSheetProps } from './types';
 
-export interface ListingSortSheetProps {
-  open: boolean;
-  sort: ProductSort;
-  theme: string;
-  onSelect: (sort: ProductSort) => void;
-  onClose: () => void;
-}
+export type { ListingSortSheetProps } from './types';
 
 /** Mobile «مرتب سازی» bottom sheet — the same options as the desktop tab row. */
 export const ListingSortSheet: React.FC<ListingSortSheetProps> = ({
@@ -27,17 +28,17 @@ export const ListingSortSheet: React.FC<ListingSortSheetProps> = ({
     open={open}
     onClose={onClose}
     theme={theme}
-    title="مرتب سازی"
+    title={SORT_LABEL}
     icon={<SortIcon className="size-8 text-black" />}
     size="sm"
-    headerClassName="flex-row-reverse justify-end gap-3"
+    headerClassName={SHEET_HEADER_CLASS}
   >
     <fieldset className="flex flex-col">
-      <legend className="sr-only">مرتب سازی</legend>
+      <legend className="sr-only">{SORT_LABEL}</legend>
       {CATALOG_SORT_OPTIONS.map((option) => (
         <Radio
           key={option.value}
-          name="catalog-sort"
+          name={SORT_RADIO_NAME}
           value={option.value}
           checked={sort === option.value}
           onChange={() => {
@@ -57,9 +58,7 @@ export const ListingSortSheet: React.FC<ListingSortSheetProps> = ({
               {option.label}
             </Typography>
           }
-          // `flex-row-reverse` puts the control on the left of an RTL row and
-          // the label on the right, per the sheet mock.
-          className="w-full flex-row-reverse justify-between py-4"
+          className={SORT_ROW_CLASS}
         />
       ))}
     </fieldset>

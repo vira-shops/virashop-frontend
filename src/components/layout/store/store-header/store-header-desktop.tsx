@@ -38,7 +38,7 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
       </div>
 
       {/* Row 2: Navigation bar */}
-      <nav className="border-b border-gray-100 py-[22px] shadow-md">
+      <nav className="border-b border-gray-100 py-4 shadow-md">
         <div className="container flex items-center justify-between">
           <div className="flex items-center gap-11">
             <CategoriesDropdown channel={channel} />

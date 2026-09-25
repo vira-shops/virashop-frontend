@@ -6,14 +6,14 @@ import { CampaignBanner, CampaignBannerSkeleton } from '@/components/shared';
 import { PATHS } from '@/routes/paths';
 import {
   SPECIAL_OFFERS_DURATION_MS,
+  SPECIAL_OFFERS_ID,
   SPECIAL_OFFERS_SUBTITLE,
   SPECIAL_OFFERS_TITLE,
-} from '@/features/storefront/components/wholesale/constants';
+  SPECIAL_OFFERS_VIEW_ALL,
+} from './constants';
+import type { SpecialOffersProps } from './types';
 
-export interface SpecialOffersProps {
-  /** Where «مشاهده همه» goes. Defaults to the storefront-wide offers page. */
-  viewAllHref?: string;
-}
+export type { SpecialOffersProps } from './types';
 
 export const SpecialOffers: React.FC<SpecialOffersProps> = ({
   viewAllHref = PATHS.WHOLESALE.OFFERS,
@@ -28,11 +28,11 @@ export const SpecialOffers: React.FC<SpecialOffersProps> = ({
 
   return (
     <CampaignBanner
-      id="special-offers"
+      id={SPECIAL_OFFERS_ID}
       title={SPECIAL_OFFERS_TITLE}
       subtitle={SPECIAL_OFFERS_SUBTITLE}
       endsAt={endsAt}
-      viewAll={{ label: 'مشاهده همه', href: viewAllHref }}
+      viewAll={{ label: SPECIAL_OFFERS_VIEW_ALL, href: viewAllHref }}
       items={offers.map((offer) => ({
         id: offer.id,
         image: { src: offer.image, alt: offer.imageAlt },

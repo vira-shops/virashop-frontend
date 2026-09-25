@@ -2,23 +2,12 @@
 
 import * as React from 'react';
 import { Button } from '@/components/ui';
-import { CardIcon, Shop2Icon, ShoppingCartIcon, TruckIcon } from '@icons';
 import { cn } from '@/utils/ui';
 import { CHECKOUT_STEPS } from '@/features/cart/constants';
-import type { CheckoutStep } from '@/hooks';
+import { CHECKOUT_STEPS_LABEL, STEP_ICONS, STEP_TONE_CLASSES } from './constants';
+import type { CheckoutStepsProps } from './types';
 
-export interface CheckoutStepsProps {
-  current: CheckoutStep;
-  /** Jumps back to an already-completed step; forward steps are inert. */
-  onStepClick: (step: CheckoutStep) => void;
-}
-
-const STEP_ICONS: Record<CheckoutStep, React.FC<React.SVGProps<SVGSVGElement>>> = {
-  invoices: Shop2Icon,
-  cart: ShoppingCartIcon,
-  shipping: TruckIcon,
-  payment: CardIcon,
-};
+export type { CheckoutStepsProps } from './types';
 
 export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepClick }) => {
   const currentIndex = CHECKOUT_STEPS.findIndex((step) => step.id === current);
@@ -26,7 +15,7 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
 
   return (
     <nav
-      aria-label="مراحل خرید"
+      aria-label={CHECKOUT_STEPS_LABEL}
       className="rounded-4 md:rounded-8 relative h-12 bg-gray-100 px-7 md:h-14 md:px-5"
     >
       <ol className="flex h-full items-center justify-between md:justify-center md:gap-20">
@@ -46,7 +35,11 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ current, onStepCli
                 className={cn(
                   'flex h-auto min-w-0 items-center gap-1 px-0 transition-colors md:gap-7',
                   'text-body-xs md:text-body-sm hover:bg-transparent',
-                  isCurrent ? 'text-primary' : isDone ? 'text-primary-900' : 'text-gray-700',
+                  isCurrent
+                    ? STEP_TONE_CLASSES.current
+                    : isDone
+                      ? STEP_TONE_CLASSES.done
+                      : STEP_TONE_CLASSES.ahead,
                   index > currentIndex ? 'cursor-default' : 'cursor-pointer',
                 )}
                 rightIcon={<Icon className="size-8 shrink-0 md:size-11" aria-hidden="true" />}

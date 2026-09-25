@@ -5,18 +5,13 @@ import { Controller } from 'react-hook-form';
 import { Button, OtpInput, Typography } from '@/components/ui';
 import { Form } from '@/components/shared';
 import { useOtpRequest, useOtpVerify } from '@/hooks';
-import type { AuthSession, NeedsStep2 } from '@/contracts/endpoints/auth';
 import { isNeedsStep2 } from '@/contracts/endpoints/auth';
 import { useAuthFlowStore } from '@/features/auth/store';
 import { useOtpTimer } from '@/features/auth/hooks';
 import { OtpCodeSchema, type OtpCodeValues } from '@/features/auth/validation/schema';
 import { pickErrorCode, authErrorMessage, toPersianDigits } from '@/features/auth/utils';
-
-interface OtpFormProps {
-  onSuccess: (session: AuthSession) => void;
-  onNeedsStep2: (draft: NeedsStep2) => void;
-  onChangePhone: () => void;
-}
+import { OTP_FORM_COPY as COPY } from './constants';
+import type { OtpFormProps } from './types';
 
 const formatCountdown = (totalSeconds: number): string => {
   const minutes = Math.floor(totalSeconds / 60);
@@ -51,7 +46,7 @@ export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps
       const code = pickErrorCode(error);
 
       if (code === 'ACCOUNT_NOT_FOUND') {
-        setServerError('مهلت ثبت‌نام به پایان رسیده است؛ دوباره تلاش کنید');
+        setServerError(COPY.signupExpired);
         onChangePhone();
         return;
       }
@@ -74,14 +69,14 @@ export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps
   return (
     <Form<OtpCodeValues>
       schema={OtpCodeSchema}
-      title="کد تایید را وارد کنید"
+      title={COPY.title}
       description={
         <div className="flex flex-col items-center">
           <Typography variant="body-sm" className="text-center text-gray-400">
-            برای شماره {toPersianDigits(draft.phone)} یک کد ۶ رقمی ارسال کرده‌ایم،
+            {COPY.sentTo(toPersianDigits(draft.phone))}
           </Typography>
           <Typography variant="body-sm" className="text-center text-gray-400">
-            لطفا آن را در فیلد زیر وارد نمایید.
+            {COPY.enterBelow}
           </Typography>
         </div>
       }
@@ -118,23 +113,24 @@ export function OtpForm({ onSuccess, onNeedsStep2, onChangePhone }: OtpFormProps
               <div className="flex justify-start">
                 {remainingCooldown > 0 ? (
                   <Typography variant="caption-md" className="text-gray-400">
-                    ارسال مجدد ({formatCountdown(remainingCooldown)})
+                    {COPY.resendIn(formatCountdown(remainingCooldown))}
                   </Typography>
                 ) : (
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="xs"
                     disabled={otpRequest.isPending}
                     onClick={handleResend}
-                    className="text-primary text-caption-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+                    className="text-caption-md h-auto p-0 hover:bg-transparent"
                   >
-                    ارسال مجدد
-                  </button>
+                    {COPY.resend}
+                  </Button>
                 )}
               </div>
             </div>
 
             <Button type="submit" color="primary" size="xl" fullWidth disabled={verify.isPending}>
-              {verify.isPending ? 'در حال بررسی...' : 'تایید و ورود'}
+              {verify.isPending ? COPY.submitting : COPY.submit}
             </Button>
           </div>
         );

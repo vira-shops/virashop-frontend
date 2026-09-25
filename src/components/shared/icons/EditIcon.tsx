@@ -1,0 +1,39 @@
+import * as React from 'react';
+import type { SVGProps } from 'react';
+
+const EditIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M11 2.00006H9C4 2.00006 2 4.00006 2 9.00006V15.0001C2 20.0001 4 22.0001 9 22.0001H15C20 22.0001 22 20.0001 22 15.0001V13.0001"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.0399 3.02111L8.15988 10.9011C7.85988 11.2011 7.55988 11.7911 7.49988 12.2211L7.06988 15.2311C6.90988 16.3211 7.67988 17.0811 8.76988 16.9311L11.7799 16.5011C12.1999 16.4411 12.7899 16.1411 13.0999 15.8411L20.9799 7.96111C22.3399 6.60111 22.9799 5.02111 20.9799 3.02111C18.9799 1.02111 17.3999 1.66111 16.0399 3.02111Z"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M14.9102 4.14844C15.5802 6.53844 17.4502 8.40844 19.8502 9.08844"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export default EditIcon;

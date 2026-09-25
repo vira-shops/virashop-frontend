@@ -1,12 +1,8 @@
-import type { ComponentType, SVGProps } from 'react';
 import { NoteIcon, ShopIcon, TaskSquareIcon } from '@icons';
+import type { MakeFutureCard } from './types';
 
-export interface MakeFutureCard {
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-  title: string;
-}
-
-export const MAKE_FUTURE_ARIA_LABEL = 'آینده خود را با ما بسازید';
+export const MAKE_FUTURE_TITLE = 'آینده خود را با ما بسازید';
+export const MAKE_FUTURE_ARIA_LABEL = MAKE_FUTURE_TITLE;
 
 export const MAKE_FUTURE_CARDS: MakeFutureCard[] = [
   { icon: ShopIcon, title: 'فروشنده شوید' },

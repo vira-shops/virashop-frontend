@@ -19,7 +19,7 @@ interface DashboardNavProps {
 }
 
 const TILE =
-  'rounded-8 flex aspect-square w-full flex-col items-center justify-center gap-3 p-3 text-center text-caption-lg transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+  'rounded-8 flex aspect-square w-full flex-col items-center justify-center gap-3 p-3 text-center transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 
 const TILE_IDLE = 'text-blue-300 hover:bg-white hover:text-primary';
 

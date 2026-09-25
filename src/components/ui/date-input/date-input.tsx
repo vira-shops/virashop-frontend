@@ -29,7 +29,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 }) => {
   const selected = React.useMemo(() => isoToJalali(value), [value]);
 
-  const icon = hideIcon ? undefined : <CalendarIcon aria-hidden="true" />;
+  const icon = hideIcon ? undefined : <CalendarIcon className="size-10" aria-hidden="true" />;
 
   return (
     <DatePicker

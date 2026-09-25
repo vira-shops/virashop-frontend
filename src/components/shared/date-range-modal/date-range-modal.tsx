@@ -75,7 +75,7 @@ export const DateRangeModal: React.FC<DateRangeModalProps> = ({
             fieldClassName="text-center"
           />
         </div>
-        <Button type="submit" fullWidth fullRounded disabled={invalid}>
+        <Button type="submit" fullWidth disabled={invalid}>
           {submitLabel}
         </Button>
       </form>

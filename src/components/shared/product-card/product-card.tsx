@@ -159,17 +159,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       contentClassName={cn(contentClasses[orientation], contentClassName)}
     >
       {onRemove && (
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="sm"
+          fullRounded
           aria-label={removeLabel}
           onClick={onRemove}
+          icon={<CancelIcon aria-hidden="true" className="size-7" />}
           className={cn(
-            'hover:text-warning-red absolute top-3 left-3 z-10 flex size-9 items-center justify-center rounded-full text-blue-300 transition-colors hover:bg-blue-50',
+            'hover:text-warning-red absolute top-3 left-3 z-10 text-blue-300 hover:bg-blue-50',
             removeClassName,
           )}
-        >
-          <CancelIcon aria-hidden="true" className="size-7" />
-        </button>
+        />
       )}
 
       {isHorizontal && badgeRow}

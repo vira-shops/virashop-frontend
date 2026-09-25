@@ -7,6 +7,8 @@ import { useOtpRequest } from '@/hooks';
 import { useAuthFlowStore } from '@/features/auth/store';
 import { LoginSchema, type LoginValues } from '@/features/auth/validation/schema';
 import { normalizeIranianMobile, authErrorMessage } from '@/features/auth/utils';
+import { PATHS } from '@/routes/paths';
+import { LOGIN_FORM_COPY as COPY } from './constants';
 
 export function LoginForm() {
   const draft = useAuthFlowStore((state) => state.draft);
@@ -40,12 +42,12 @@ export function LoginForm() {
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <Typography variant="h3" className="text-center">
-          ورود به ویراشاپس
+          {COPY.title}
         </Typography>
         <div className="flex items-center gap-1 text-center text-neutral-400">
-          <Typography variant="body-12">حساب کاربری ندارید ؟</Typography>
-          <Typography href="/auth/register" variant="body-12" className="text-blue-500">
-            ثبت‌نام کنید
+          <Typography variant="body-12">{COPY.noAccount}</Typography>
+          <Typography href={PATHS.AUTH.REGISTER} variant="body-12" className="text-blue-500">
+            {COPY.registerLink}
           </Typography>
         </div>
       </div>
@@ -53,7 +55,7 @@ export function LoginForm() {
       <div className="flex flex-col gap-10">
         <FormInput<LoginValues>
           name="phone"
-          label="شماره موبایل"
+          label={COPY.phoneLabel}
           inputMode="tel"
           fullWidth
           autoComplete="tel"
@@ -63,7 +65,7 @@ export function LoginForm() {
         />
 
         <Button type="submit" color="primary" size="xl" fullWidth disabled={otpRequest.isPending}>
-          {otpRequest.isPending ? 'در حال ارسال...' : 'تایید و ادامه'}
+          {otpRequest.isPending ? COPY.submitting : COPY.submit}
         </Button>
       </div>
     </Form>

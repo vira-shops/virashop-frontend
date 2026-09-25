@@ -4,7 +4,6 @@ import * as React from 'react';
 import { NewsCard } from '@/components/shared';
 import { Typography } from '@/components/ui';
 import { useTechNews } from '@/hooks';
-import type { TechNewsItem } from '@/contracts/endpoints/posts/schemas';
 import {
   TECH_NEWS_ARIA_LABEL,
   TECH_NEWS_DESCRIPTION,
@@ -12,8 +11,9 @@ import {
   TECH_NEWS_TITLE,
 } from './constants';
 import { TechNewsSkeleton } from './skeleton';
+import type { TechNewsToCard } from './types';
 
-const toNewsCardProps = (item: TechNewsItem) => ({
+const toNewsCardProps: TechNewsToCard = (item) => ({
   image: { src: item.image, alt: item.imageAlt },
   title: item.title,
   excerpt: item.excerpt,

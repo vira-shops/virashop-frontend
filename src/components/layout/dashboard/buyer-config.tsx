@@ -1,12 +1,12 @@
 import {
-  BasketIcon,
-  Element3Icon,
+  BagIcon,
+  ElementIcon,
   HeartIcon,
   LogoutIcon,
   MessageTextIcon,
   NotificationIcon,
   ShopStoreIcon,
-  ShoppingCartIcon,
+  ShoppingCardGhostIcon,
   UserIcon,
 } from '@icons';
 import { PATHS } from '@/routes/paths';
@@ -29,7 +29,7 @@ export const buyerDashboardConfig: DashboardConfig = {
     {
       key: 'cart',
       label: DASHBOARD_NAV_LABELS.cart,
-      icon: ShoppingCartIcon,
+      icon: ShoppingCardGhostIcon,
       href: PATHS.CART_FOR('RETAIL'),
     },
   ],
@@ -37,11 +37,11 @@ export const buyerDashboardConfig: DashboardConfig = {
     {
       key: 'dashboard',
       label: DASHBOARD_NAV_LABELS.dashboard,
-      icon: Element3Icon,
+      icon: ElementIcon,
       href: BUYER.ROOT,
       exact: true,
     },
-    { key: 'orders', label: DASHBOARD_NAV_LABELS.orders, icon: BasketIcon, href: BUYER.ORDERS },
+    { key: 'orders', label: DASHBOARD_NAV_LABELS.orders, icon: BagIcon, href: BUYER.ORDERS },
     {
       key: 'favorites',
       label: DASHBOARD_NAV_LABELS.favorites,

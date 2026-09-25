@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { Button, Skeleton, Typography } from '@/components/ui';
 import { CartTable } from '@/features/cart/components/cart-table';
 import { CheckoutSteps } from '@/features/cart/components/checkout-steps';
 import { CheckoutSummary } from '@/features/cart/components/checkout-summary';
@@ -11,31 +10,10 @@ import { InvoiceList } from '@/features/cart/components/invoice-list';
 import { PaymentForm } from '@/features/cart/components/payment-form';
 import { ShippingForm } from '@/features/cart/components/shipping-form';
 import { useCheckout } from './use-checkout';
-import {
-  CONTINUE_LABEL,
-  EMPTY_CART_ACTION,
-  EMPTY_CART_TITLE,
-  PAY_LABEL,
-} from '@/features/cart/constants';
+import { PAY_LABEL } from '@/features/cart/constants';
+import { CHECKOUT_WIZARD_COPY as COPY } from './constants';
+import { CheckoutSkeleton, EmptyCart } from './states';
 import type { CheckoutWizardProps } from './types';
-
-const CheckoutSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-6">
-    <Skeleton className="rounded-8 h-14 w-full" />
-    <Skeleton className="rounded-9 h-40 w-full" />
-  </div>
-);
-
-const EmptyCart: React.FC<{ href: string }> = ({ href }) => (
-  <div className="flex flex-col items-center gap-5 py-20">
-    <Typography variant="body-md" className="text-gray-300">
-      {EMPTY_CART_TITLE}
-    </Typography>
-    <Button variant="fill" color="primary" size="md" href={href}>
-      {EMPTY_CART_ACTION}
-    </Button>
-  </div>
-);
 
 export const CheckoutWizard: React.FC<CheckoutWizardProps> = ({ channel }) => {
   const {
@@ -72,7 +50,7 @@ export const CheckoutWizard: React.FC<CheckoutWizardProps> = ({ channel }) => {
       ? undefined
       : step === 'payment'
         ? { label: PAY_LABEL, onClick: payInvoice, disabled: !canContinue }
-        : { label: CONTINUE_LABEL, onClick: goNext, disabled: !canContinue };
+        : { label: COPY.continue, onClick: goNext, disabled: !canContinue };
 
   return (
     <div className="flex flex-col gap-6">

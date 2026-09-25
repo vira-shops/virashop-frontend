@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Fragment } from 'react';
 import { cn } from '@/utils/ui';
-import { PARTNER_BRAND_COLUMNS } from '@/features/landing/components/partner-brands/constants';
+import {
+  LOGO_COLUMN_CLASS,
+  PARTNER_BRAND_COLUMNS,
+} from '@/features/landing/components/partner-brands/constants';
 import { PartnerBrandsLogoColumnsProps } from './types';
-
-const COLUMN_CLASS = 'flex lg:flex-col gap-12 lg:gap-8';
 
 /** Staggered logo columns — layout driven by PARTNER_BRAND_COLUMNS. */
 export const PartnerBrandsLogoColumns: React.FC<PartnerBrandsLogoColumnsProps> = ({
@@ -19,7 +20,7 @@ export const PartnerBrandsLogoColumns: React.FC<PartnerBrandsLogoColumnsProps> =
         {PARTNER_BRAND_COLUMNS.map((column, columnIndex) => (
           <div
             key={columnIndex}
-            className={cn(COLUMN_CLASS, column.justifyCenter && 'justify-center')}
+            className={cn(LOGO_COLUMN_CLASS, column.justifyCenter && 'justify-center')}
           >
             {slots.slice(column.range[0], column.range[1]).map((slot) => (
               <Fragment key={slot}>{renderSlot(slot)}</Fragment>

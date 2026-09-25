@@ -6,14 +6,14 @@ import { Typography } from '@/components/ui';
 import { AnnouncementCarousel, EmptyState, PageHeading, StatCard } from '@/components/shared';
 import { useAnnouncements, useOrderStats, useOrders } from '@/hooks';
 import { PATHS } from '@/routes/paths';
+import { ORDERS_EMPTY, PAGE_TITLES } from '@/features/buyer-dashboard/constants';
+import { OrdersTable } from '@/features/buyer-dashboard/components/orders-table';
 import {
-  ORDERS_EMPTY,
   ORDER_STAT_CARDS,
-  PAGE_TITLES,
+  RECENT_ORDERS_HEADING_ID,
   RECENT_ORDERS_LIMIT,
   RECENT_ORDERS_TITLE,
-} from '@/features/buyer-dashboard/constants';
-import { OrdersTable } from '@/features/buyer-dashboard/components/orders-table';
+} from './constants';
 
 /** Buyer dashboard home — announcements, order KPIs and the latest orders. */
 export const DashboardOverview: React.FC = () => {
@@ -47,8 +47,8 @@ export const DashboardOverview: React.FC = () => {
         ))}
       </div>
 
-      <section aria-labelledby="recent-orders-title" className="flex flex-col gap-5">
-        <Typography id="recent-orders-title" variant="h6" as="h2" className="text-blue-900">
+      <section aria-labelledby={RECENT_ORDERS_HEADING_ID} className="flex flex-col gap-5">
+        <Typography id={RECENT_ORDERS_HEADING_ID} variant="h6" as="h2" className="text-blue-900">
           {RECENT_ORDERS_TITLE}
         </Typography>
         <div className="rounded-8 border border-blue-100 bg-white p-5 md:p-7">

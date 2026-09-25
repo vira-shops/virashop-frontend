@@ -54,21 +54,23 @@ export const AnnouncementCarousel: React.FC<AnnouncementCarouselProps> = ({
             <CarouselItem key={item.id} className="basis-full">
               <article
                 className={cn(
-                  'rounded-8 flex min-h-36 items-center justify-between gap-9 bg-blue-900 p-9 text-white',
+                  'rounded-8 flex h-full items-center justify-between gap-9 bg-blue-900 px-5 py-8 text-white',
                   slideClassName,
                 )}
               >
-                <div className="flex min-w-0 flex-col gap-4">
-                  <Typography variant="h5" as="h2" className="text-white">
-                    {item.title}
-                  </Typography>
-                  <Typography
-                    variant="body-sm"
-                    as="p"
-                    className="line-clamp-2 leading-8 text-white/90"
-                  >
-                    {item.body}
-                  </Typography>
+                <div className="flex h-full min-w-0 flex-col justify-between">
+                  <div className="flex flex-col gap-4">
+                    <Typography variant="h5" as="h2" className="text-white">
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="body-sm"
+                      as="p"
+                      className="line-clamp-2 leading-8 text-white/90"
+                    >
+                      {item.body}
+                    </Typography>
+                  </div>
                   {item.href && (
                     <Link
                       href={item.href}

@@ -3,19 +3,7 @@
 import * as React from 'react';
 import { Typography } from '@/components/ui';
 import { cn } from '@/utils/ui';
-import type { OfferTableRow } from '@/contracts/endpoints/products';
-
-export interface OfferTableProps {
-  title: string;
-  /** Muted caption beside the title, e.g. «قیمت هر شل». */
-  note?: string;
-  rows: OfferTableRow[];
-  /** Extra content rendered inside a row, keyed by row id (e.g. colour swatches). */
-  renderValue?: (row: OfferTableRow) => React.ReactNode;
-  /** Right-aligned link under the last row, e.g. «بیشتر». */
-  footer?: React.ReactNode;
-  className?: string;
-}
+import type { OfferTableProps } from '@/features/product/components/product-details/types';
 
 /**
  * A titled card of label/value rows with alternating row tints — the shape

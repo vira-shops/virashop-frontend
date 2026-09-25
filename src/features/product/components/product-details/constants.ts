@@ -28,3 +28,30 @@ export const SELLER_OFFERS_VISIBLE = 3;
 export const PRODUCT_IMAGE_FALLBACK = '/images/landing/big-offer/01.png';
 
 export const BEST_SELLERS_LINK_LABEL = 'مشاهده همه';
+
+/** Vira calculator: terms sit three to a line in both designs. */
+export const CALCULATOR_TERMS_PER_LINE = 3;
+
+/** Vira calculator: outlined pill, not the gray one — the calculator draws its own steppers. */
+export const CALCULATOR_STEPPER_CLASS = 'rounded-4 border-primary h-12 w-[150px] border bg-white';
+
+/** Copy of the PDP parts (seller cards, buy bar, calculator, …). */
+export const PRODUCT_PARTS_COPY = {
+  buyFrom: (shopName: string) => `خرید از ${shopName}`,
+  addToFavorites: 'افزودن به علاقه‌مندی‌ها',
+  addToCompare: 'افزودن به مقایسه',
+  discountChip: (percent: string) => `تخفیف ${percent}٪`,
+  installmentsChip: (months: string) => `اقساط ${months} ماهه`,
+  commissionChip: (percent: string) => `کارمزد ${percent}٪`,
+  membershipChip: (years: string) => `${years} سال عضویت`,
+  featured: 'ویژه',
+  lastUpdated: (date: string) => `آخرین تغییرات ${date}`,
+  shippingType: (type: string) => `نوع ارسال: ${type}`,
+  stock: (label: string) => `موجودی: ${label}`,
+  buy: 'خرید',
+  backToSellers: 'بازگشت به فهرست فروشندگان',
+  seller: (shopName: string) => `فروشنده: ${shopName}`,
+  moreSellers: (count: string) => `نمایش ${count} فروشگاه دیگر`,
+  calculatorTitle: 'ماشین حساب ویرا',
+  paymentTerms: 'شرایط پرداخت',
+} as const;

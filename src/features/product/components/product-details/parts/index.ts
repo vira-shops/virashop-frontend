@@ -6,3 +6,13 @@ export * from './seller-offer-card';
 export * from './seller-offer-view';
 export * from './seller-offers';
 export * from './vira-calculator';
+export type {
+  OfferTableProps,
+  ProductBuyBarProps,
+  ProductSummaryCardProps,
+  PurchaseAsideProps,
+  SellerOfferCardProps,
+  SellerOfferViewProps,
+  SellerOffersProps,
+  ViraCalculatorProps,
+} from '@/features/product/components/product-details/types';

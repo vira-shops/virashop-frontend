@@ -3,11 +3,10 @@
 import * as React from 'react';
 import { Button } from '@/components/ui';
 import { FilterIcon, SortIcon } from '@icons';
+import { FILTER_LABEL, SORT_LABEL, TOOLBAR_BUTTON_CLASS } from './constants';
+import type { ListingToolbarProps } from './types';
 
-export interface ListingToolbarProps {
-  onFilterClick: () => void;
-  onSortClick: () => void;
-}
+export type { ListingToolbarProps } from './types';
 
 /** Mobile-only bar that opens the filter / sort bottom sheets. */
 export const ListingToolbar: React.FC<ListingToolbarProps> = ({ onFilterClick, onSortClick }) => (
@@ -18,9 +17,9 @@ export const ListingToolbar: React.FC<ListingToolbarProps> = ({ onFilterClick, o
       fullWidth
       onClick={onFilterClick}
       rightIcon={<FilterIcon className="size-8" />}
-      className="bg-primary-500/10 text-black"
+      className={TOOLBAR_BUTTON_CLASS}
     >
-      فیلتر
+      {FILTER_LABEL}
     </Button>
     <Button
       size="md"
@@ -28,9 +27,9 @@ export const ListingToolbar: React.FC<ListingToolbarProps> = ({ onFilterClick, o
       fullWidth
       onClick={onSortClick}
       rightIcon={<SortIcon className="size-8" />}
-      className="bg-primary-500/10 text-black"
+      className={TOOLBAR_BUTTON_CLASS}
     >
-      مرتب سازی
+      {SORT_LABEL}
     </Button>
   </div>
 );
