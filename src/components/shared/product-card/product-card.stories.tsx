@@ -53,3 +53,28 @@ export const WithClickAction: Story = {
     action: { label: 'خرید', onClick: () => undefined },
   },
 };
+
+export const Favorite: Story = {
+  name: 'علاقه‌مندی (حذف + قیمت قبلی)',
+  args: {
+    image: { src: '/images/landing/big-offer/02.png', alt: 'پنیر پیتزا' },
+    title: 'تی شرت ورزشی مردانه ۱۹۹۱ اس دبلیو مدل TS1927',
+    price: '۲٬۵۴۰٬۰۰۰',
+    originalPrice: '۲٬۸۰۰٬۰۰۰',
+    onRemove: () => undefined,
+    removeLabel: 'حذف از علاقه‌مندی‌ها',
+    action: { label: 'افزودن به سبد', href: '#' },
+  },
+};
+
+export const FavoriteHorizontal: Story = {
+  name: 'علاقه‌مندی افقی (موبایل)',
+  args: { ...Favorite.args, orientation: 'horizontal' },
+  decorators: [
+    (Story) => (
+      <div className="max-w-sm">
+        <Story />
+      </div>
+    ),
+  ],
+};

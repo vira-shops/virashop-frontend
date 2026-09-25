@@ -4,14 +4,11 @@ import * as React from 'react';
 import { Button, Typography } from '@/components/ui';
 import { Form, FormInput, FormSelect } from '@/components/shared';
 import { useUpdateSellerBooth } from '@/hooks';
-import type { SellerBoothResponse } from '@/contracts/endpoints/auth';
 import { PROVINCE_OPTIONS, SALES_TYPE_OPTIONS } from '@/features/auth/constants';
 import { BoothSchema, type BoothValues } from '@/features/auth/validation/schema';
 import { authErrorMessage } from '@/features/auth/utils';
-
-interface BoothFormProps {
-  onSuccess: (booth: SellerBoothResponse) => void;
-}
+import { BOOTH_DEFAULT_VALUES, BOOTH_FIELDS as F, BOOTH_FORM_COPY as COPY } from './constants';
+import type { BoothFormProps } from './types';
 
 export function BoothForm({ onSuccess }: BoothFormProps) {
   const updateBooth = useUpdateSellerBooth();
@@ -40,38 +37,19 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
   return (
     <Form<BoothValues>
       schema={BoothSchema}
-      defaultValues={{
-        shopName: '',
-        workplacePhone: '',
-        province: '',
-        city: '',
-        postalCode: '',
-        salesType: 'STORE',
-        address: '',
-      }}
+      defaultValues={BOOTH_DEFAULT_VALUES}
       onSubmit={handleSubmit}
     >
       <Typography variant="h4" className="text-center text-black">
-        تکمیل اطلاعات غرفه
+        {COPY.title}
       </Typography>
       <Typography variant="body-sm" className="text-center text-gray-400">
-        برای ساخت غرفه فروشندگی، اطلاعات فروشگاه خود را وارد کنید
+        {COPY.description}
       </Typography>
 
-      <FormInput<BoothValues>
-        name="shopName"
-        label="نام غرفه"
-        placeholder="نام فروشگاه خود را وارد کنید"
-        fullWidth
-      />
+      <FormInput<BoothValues> name="shopName" {...F.shopName} fullWidth />
 
-      <FormSelect<BoothValues>
-        name="province"
-        label="استان"
-        placeholder="انتخاب کنید"
-        searchable
-        fullWidth
-      >
+      <FormSelect<BoothValues> name="province" {...F.province} searchable fullWidth>
         {PROVINCE_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -79,16 +57,11 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
         ))}
       </FormSelect>
 
-      <FormInput<BoothValues>
-        name="city"
-        label="شهر"
-        placeholder="شهر خود را وارد کنید"
-        fullWidth
-      />
+      <FormInput<BoothValues> name="city" {...F.city} fullWidth />
 
       <FormSelect<BoothValues>
         name="salesType"
-        label="نوع فروش"
+        {...F.salesType}
         searchable
         filterable={false}
         fullWidth
@@ -102,27 +75,20 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
 
       <FormInput<BoothValues>
         name="postalCode"
-        label="کد پستی (اختیاری)"
-        placeholder="۱۰ رقم"
+        {...F.postalCode}
         dir="ltr"
         inputMode="numeric"
         fullWidth
       />
       <FormInput<BoothValues>
         name="workplacePhone"
-        label="تلفن محل کار (اختیاری)"
-        placeholder="۰۲۱۱۲۳۴۵۶۷۸"
+        {...F.workplacePhone}
         dir="ltr"
         inputMode="tel"
         fullWidth
       />
 
-      <FormInput<BoothValues>
-        name="address"
-        label="آدرس"
-        placeholder="آدرس کامل فروشگاه"
-        fullWidth
-      />
+      <FormInput<BoothValues> name="address" {...F.address} fullWidth />
 
       {serverError && (
         <Typography variant="caption-md" className="text-warning-red">
@@ -131,7 +97,7 @@ export function BoothForm({ onSuccess }: BoothFormProps) {
       )}
 
       <Button type="submit" color="primary" size="xl" fullWidth disabled={updateBooth.isPending}>
-        {updateBooth.isPending ? 'در حال ثبت...' : 'ثبت و اتمام'}
+        {updateBooth.isPending ? COPY.submitting : COPY.submit}
       </Button>
     </Form>
   );

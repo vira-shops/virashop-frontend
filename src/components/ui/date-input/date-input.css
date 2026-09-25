@@ -1,0 +1,49 @@
+/*
+ * react-multi-date-picker injects its own UNLAYERED styles at runtime, and
+ * unlayered rules beat anything inside `@layer` — so these theme overrides
+ * stay unlayered too and win on specificity via `.date-input-calendar`.
+ * Colors read the themed `--primary-*` vars, so the popover follows the
+ * surrounding `data-theme` (teal on wholesale, amber on retail).
+ */
+.date-input {
+  display: inline-block;
+}
+
+.date-input-calendar.rmdp-wrapper {
+  border-radius: var(--radius-8);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(52 68 86 / 0.12);
+}
+
+.date-input-calendar .rmdp-week-day {
+  color: var(--color-blue-300);
+}
+
+.date-input-calendar .rmdp-arrow {
+  border-color: var(--primary-500);
+}
+
+.date-input-calendar .rmdp-arrow-container:hover {
+  background-color: var(--primary-500);
+  box-shadow: none;
+}
+
+.date-input-calendar .rmdp-arrow-container:hover .rmdp-arrow {
+  border-color: #fff;
+}
+
+.date-input-calendar .rmdp-day.rmdp-today span {
+  background-color: var(--primary-50);
+  color: var(--primary-500);
+}
+
+.date-input-calendar .rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: var(--primary-500);
+  box-shadow: none;
+  color: #fff;
+}
+
+.date-input-calendar .rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover {
+  background-color: var(--primary-50);
+  color: var(--primary-500);
+}

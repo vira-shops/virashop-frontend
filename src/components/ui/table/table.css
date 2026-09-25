@@ -1,0 +1,64 @@
+@layer components {
+  .table-wrapper {
+    @apply w-full overflow-x-auto;
+  }
+
+  .table {
+    @apply w-full border-separate border-spacing-0 text-start;
+  }
+
+  .table-header-cell {
+    @apply px-5 pb-5 text-caption-md font-normal whitespace-nowrap text-blue-300;
+  }
+
+  .table-cell {
+    @apply px-5 py-7 text-body-sm text-black;
+  }
+
+  /* striped — tinted band on odd body rows, rounded at the row's ends */
+  .table-striped tbody tr:nth-child(odd) .table-cell {
+    @apply bg-blue-50;
+  }
+
+  .table-striped tbody tr .table-cell:first-child {
+    @apply rounded-s-6;
+  }
+
+  .table-striped tbody tr .table-cell:last-child {
+    @apply rounded-e-6;
+  }
+
+  /* divided — hairline under the header and between body rows */
+  .table-divided .table-header-cell {
+    @apply border-b border-blue-100;
+  }
+
+  .table-divided tbody tr:not(:last-child) .table-cell {
+    @apply border-b border-blue-100;
+  }
+
+  .table-row-interactive {
+    @apply cursor-pointer;
+  }
+
+  .table-row-interactive .table-cell {
+    @apply transition-colors;
+  }
+
+  .table-row-interactive:hover .table-cell {
+    @apply bg-blue-100/60;
+  }
+}
+
+/* === Alignment === */
+@utility table-align-start {
+  @apply text-start;
+}
+
+@utility table-align-center {
+  @apply text-center;
+}
+
+@utility table-align-end {
+  @apply text-end;
+}

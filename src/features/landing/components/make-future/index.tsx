@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Typography } from '@/components/ui';
-import { MAKE_FUTURE_ARIA_LABEL, MAKE_FUTURE_CARDS } from './constants';
+import { MAKE_FUTURE_ARIA_LABEL, MAKE_FUTURE_CARDS, MAKE_FUTURE_TITLE } from './constants';
 
 export const MakeFuture: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ export const MakeFuture: React.FC = () => {
         </div>
 
         <Typography variant="h3" className="mt-3 text-blue-900">
-          آینده خود را با ما بسازید
+          {MAKE_FUTURE_TITLE}
         </Typography>
 
         <div className="mt-13 flex flex-col items-center gap-11 lg:flex-row lg:justify-center">

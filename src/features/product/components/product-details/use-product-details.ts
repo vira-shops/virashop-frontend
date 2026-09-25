@@ -12,45 +12,10 @@ import {
   PRODUCT_IMAGE_FALLBACK,
   SELLER_PARAM,
 } from '@/features/product/components/product-details/constants';
-import type { BreadcrumbItem } from '@/components/shared/breadcrumb/types';
 import type { ProductGalleryImage } from '@/components/shared/product-gallery/types';
-import type {
-  ProductDetail,
-  SellerOffer,
-  SellerOfferDetail,
-  SellerOfferSort,
-} from '@/contracts/endpoints/products';
+import type { SellerOfferSort } from '@/contracts/endpoints/products';
 import type { Channel } from '@/validations/primitives';
-
-export interface ProductDetailsViewModel {
-  product?: ProductDetail;
-  isLoading: boolean;
-  breadcrumbItems: BreadcrumbItem[];
-  images: ProductGalleryImage[];
-  /** Spec values shown as bullets under the title. */
-  highlights: string[];
-  startBadge?: string;
-  endBadge?: string;
-  offers: SellerOffer[];
-  offersTotal: number;
-  offersLoading: boolean;
-  sort: SellerOfferSort;
-  setSort: (sort: SellerOfferSort) => void;
-  buyHref: string;
-  bestSellersHref: string;
-  /** Id of the seller whose terms are open, or `undefined` for the list. */
-  selectedOfferId?: number;
-  selectedOffer?: SellerOfferDetail;
-  selectedOfferLoading: boolean;
-  /** Builds the href that opens one seller's terms. */
-  hrefForOffer: (offerId: number) => string;
-  /** Clears the selection and returns to the seller list. */
-  clearSelectedOffer: () => void;
-  /** Puts the selected seller's offer in the basket and opens the checkout. */
-  addSelectedOfferToCart: () => void;
-  /** Storefront `data-theme` value. */
-  theme: string;
-}
+import type { ProductDetailsViewModel } from '@/features/product/components/product-details/types';
 
 /**
  * Everything the PDP renders, derived from the product + its seller offers.

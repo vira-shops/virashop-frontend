@@ -4,16 +4,14 @@ import * as React from 'react';
 import { Stepper, Typography, ValueSlider } from '@/components/ui';
 import { NoteIcon } from '@icons';
 import { formatToman, toFaDigits } from '@/utils/format';
-import { CURRENCY_LABEL } from '@/features/product/components/product-details/constants';
+import {
+  CALCULATOR_STEPPER_CLASS,
+  CALCULATOR_TERMS_PER_LINE as TERMS_PER_LINE,
+  CURRENCY_LABEL,
+  PRODUCT_PARTS_COPY as COPY,
+} from '@/features/product/components/product-details/constants';
 import { cn } from '@/utils/ui';
-import type { OfferCalculator } from '@/contracts/endpoints/products';
-
-export interface ViraCalculatorProps {
-  calculator: OfferCalculator;
-}
-
-/** Terms sit three to a line in both designs. */
-const TERMS_PER_LINE = 3;
+import type { ViraCalculatorProps } from '@/features/product/components/product-details/types';
 
 /** 48px cell; the picked column is tinted, the rest are hairline outlines. */
 const cellClass = (isSelected: boolean) =>
@@ -24,23 +22,11 @@ const cellClass = (isSelected: boolean) =>
       : 'border-gray-100 bg-white text-gray-700 hover:border-gray-300',
   );
 
-/** Outlined pill, not the gray one — the calculator draws its own steppers. */
-const STEPPER_CLASS = 'rounded-4 border-primary h-12 w-[150px] border bg-white';
-
 const chunk = <T,>(items: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(items.length / size) }, (_, index) =>
     items.slice(index * size, index * size + size),
   );
 
-/**
- * «ماشین حساب ویرا» — pick a payment term and a quantity, and every term cell
- * reprices live. The sliders share their value with a stepper whenever they
- * measure the same unit, so «۳ شل» never disagrees with itself.
- *
- * Two shapes from one payload: with no `rows` the terms form a flat grid
- * (wholesale); with rows the same terms become the columns of a priced matrix
- * captioned «خرده»/«عمده» (retail).
- */
 export const ViraCalculator: React.FC<ViraCalculatorProps> = ({ calculator }) => {
   const { title, note, terms, defaultTermId, rows, quantities, sliders } = calculator;
 
@@ -98,7 +84,7 @@ export const ViraCalculator: React.FC<ViraCalculatorProps> = ({ calculator }) =>
   return (
     <section className="flex flex-col gap-3">
       <Typography variant="body-md" className="text-primary">
-        ماشین حساب ویرا
+        {COPY.calculatorTitle}
       </Typography>
 
       <div className="rounded-8 flex flex-col gap-10 border border-gray-100 bg-white p-10">
@@ -117,7 +103,7 @@ export const ViraCalculator: React.FC<ViraCalculatorProps> = ({ calculator }) =>
           </div>
         )}
 
-        <div role="radiogroup" aria-label="شرایط پرداخت" className="flex flex-col gap-4">
+        <div role="radiogroup" aria-label={COPY.paymentTerms} className="flex flex-col gap-4">
           {rows.length > 0
             ? /* Matrix: terms across, one priced book per row. */
               chunk(terms, TERMS_PER_LINE).map((line, lineIndex) => (
@@ -181,7 +167,7 @@ export const ViraCalculator: React.FC<ViraCalculatorProps> = ({ calculator }) =>
               unit={axis.unit}
               formatValue={toFaDigits}
               aria-label={axis.ariaLabel}
-              className={STEPPER_CLASS}
+              className={CALCULATOR_STEPPER_CLASS}
             />
           ))}
         </div>

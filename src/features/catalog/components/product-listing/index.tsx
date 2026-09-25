@@ -1,7 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { CatalogHero, FilterIcon, Modal } from '@/components/shared';
+import { FilterIcon } from '@icons';
+import { CatalogHero, Modal } from '@/components/shared';
+import { FILTER_LABEL, SHEET_HEADER_CLASS } from '@/features/catalog/constants';
 import { ListingFilters } from '@/features/catalog/components/listing-filters';
 import { ListingProducts } from '@/features/catalog/components/listing-products';
 import { ListingSortSheet } from '@/features/catalog/components/listing-sort-sheet';
@@ -54,7 +56,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
 
         <ListingSortTabs sort={filters.sort} total={total} onSortChange={filters.setSort} />
 
-        <div className="mt-14ب flex flex-col gap-6 lg:flex-row">
+        <div className="flex flex-col gap-6 lg:flex-row">
           <aside className="hidden w-64 shrink-0 lg:block">{filterPanel}</aside>
 
           <ListingProducts
@@ -70,11 +72,11 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
       <Modal
         open={isFilterOpen}
         onClose={() => setFilterOpen(false)}
-        title="فیلتر"
+        title={FILTER_LABEL}
         icon={<FilterIcon className="size-8" />}
         size="sm"
         theme={theme}
-        headerClassName="flex-row-reverse justify-end gap-3"
+        headerClassName={SHEET_HEADER_CLASS}
       >
         {filterPanel}
       </Modal>

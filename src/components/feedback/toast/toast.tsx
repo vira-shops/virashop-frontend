@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { cn } from '@/utils/ui';
 import { CancelIcon, CloseCircleIcon, SmsIcon, TickCircleIcon } from '@icons';
+import { Button } from '@/components/ui';
 import { ToastProps, ToastVariant } from './types';
 
 const variantClasses: Record<ToastVariant, string> = {
@@ -23,9 +24,14 @@ export const Toast: React.FC<ToastProps> = ({ variant = 'info', title, descripti
       {title && (
         <div className="toast-header">
           {onClose && (
-            <button type="button" aria-label="بستن" className="toast-close" onClick={onClose}>
-              <CancelIcon />
-            </button>
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="بستن"
+              onClick={onClose}
+              icon={<CancelIcon aria-hidden="true" />}
+              className="toast-close text-gray-300 hover:bg-transparent hover:text-gray-700"
+            />
           )}
           <div className="toast-title-group">
             {icons[variant]}

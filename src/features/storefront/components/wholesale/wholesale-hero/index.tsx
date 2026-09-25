@@ -12,20 +12,10 @@ import {
 import { useActiveStories, useCities, useStorefrontHeroCategories } from '@/hooks';
 import { cn } from '@/utils/ui';
 import { PATHS } from '@/routes/paths';
-import {
-  WHOLESALE_HERO_ARIA_LABEL,
-  WHOLESALE_HERO_SEARCH_PLACEHOLDER,
-} from '@/features/storefront/components/wholesale/constants';
+import { WHOLESALE_HERO_ARIA_LABEL, WHOLESALE_HERO_SEARCH_PLACEHOLDER } from './constants';
+import type { WholesaleHeroProps } from './types';
 
-export interface WholesaleHeroProps {
-  className?: string;
-  /**
-   * Slug of the category being browsed. Omit on the storefront landing; pass
-   * one and the hero becomes that category's landing — its name in the
-   * heading, its children as the tiles.
-   */
-  categorySlug?: string;
-}
+export type { WholesaleHeroProps } from './types';
 
 export const WholesaleHero: React.FC<WholesaleHeroProps> = ({ className, categorySlug }) => {
   const citiesQuery = useCities();

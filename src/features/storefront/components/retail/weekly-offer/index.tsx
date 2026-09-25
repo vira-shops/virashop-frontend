@@ -6,14 +6,14 @@ import { CampaignBanner, CampaignBannerSkeleton } from '@/components/shared';
 import { PATHS } from '@/routes/paths';
 import {
   WEEKLY_OFFERS_DURATION_MS,
+  WEEKLY_OFFERS_ID,
   WEEKLY_OFFERS_SUBTITLE,
   WEEKLY_OFFERS_TITLE,
-} from '@/features/storefront/components/retail/constants';
+  WEEKLY_OFFERS_VIEW_ALL,
+} from './constants';
+import type { WeeklyOffersProps } from './types';
 
-export interface WeeklyOffersProps {
-  /** Where «مشاهده همه» goes. Defaults to the storefront-wide offers page. */
-  viewAllHref?: string;
-}
+export type { WeeklyOffersProps } from './types';
 
 export const WeeklyOffers: React.FC<WeeklyOffersProps> = ({
   viewAllHref = PATHS.RETAIL.OFFERS,
@@ -31,11 +31,11 @@ export const WeeklyOffers: React.FC<WeeklyOffersProps> = ({
 
   return (
     <CampaignBanner
-      id="weekly-offers"
+      id={WEEKLY_OFFERS_ID}
       title={WEEKLY_OFFERS_TITLE}
       subtitle={WEEKLY_OFFERS_SUBTITLE}
       endsAt={endsAt}
-      viewAll={{ label: 'مشاهده همه', href: viewAllHref }}
+      viewAll={{ label: WEEKLY_OFFERS_VIEW_ALL, href: viewAllHref }}
       items={bestSellers.map((bestSeller) => ({
         id: bestSeller.id,
         image: { src: bestSeller.image, alt: bestSeller.imageAlt },

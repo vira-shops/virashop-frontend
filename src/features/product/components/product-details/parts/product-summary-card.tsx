@@ -8,36 +8,15 @@ import { formatToman } from '@/utils/format';
 import {
   CURRENCY_LABEL,
   PRICE_FROM_LABEL,
+  PRODUCT_PARTS_COPY as COPY,
 } from '@/features/product/components/product-details/constants';
-import type { ProductGalleryImage } from '@/components/shared/product-gallery/types';
-import type { WholesaleInfo } from '@/contracts/endpoints/products';
-
-export interface ProductSummaryCardProps {
-  name: string;
-  images: ProductGalleryImage[];
-  /** Short bullet facts under the title — the product's specs, values only. */
-  highlights: string[];
-  price: number;
-  compareAtPrice: number | null;
-  discountPercent: number;
-  /** Top-start badge, e.g. «اقساط ۵ ماهه». */
-  startBadge?: string;
-  /** Top-end badge, e.g. «۲۰٪ تخفیف». */
-  endBadge?: string;
-  /** Wholesale tier/MOQ pricing — replaces the «قیمت از» row when present. */
-  wholesale: WholesaleInfo | null;
-  /**
-   * Hides the price row. The selected-seller view moves the price into its
-   * buy panel, so the card would otherwise print it twice. @default true
-   */
-  showPrice?: boolean;
-}
+import type {
+  ProductSummaryCardProps,
+  QuickActionProps,
+} from '@/features/product/components/product-details/types';
 
 /** Wishlist / compare — display-only until the accounts feature lands. */
-const QuickAction: React.FC<{ label: string; children: React.ReactNode }> = ({
-  label,
-  children,
-}) => (
+const QuickAction: React.FC<QuickActionProps> = ({ label, children }) => (
   <Button
     variant="ghost"
     size="xs"
@@ -82,10 +61,10 @@ export const ProductSummaryCard: React.FC<ProductSummaryCardProps> = ({
     <div className="rounded-9 relative flex flex-col gap-6 bg-white p-5 shadow-sm md:flex-row md:items-start md:gap-8">
       {/* Pinned to the card's end corner, above everything, per the design. */}
       <div className="absolute top-5 left-5 z-10 flex flex-col gap-1">
-        <QuickAction label="افزودن به علاقه‌مندی‌ها">
+        <QuickAction label={COPY.addToFavorites}>
           <HeartIcon className="size-6" />
         </QuickAction>
-        <QuickAction label="افزودن به مقایسه">
+        <QuickAction label={COPY.addToCompare}>
           <ScanIcon className="size-6" />
         </QuickAction>
       </div>

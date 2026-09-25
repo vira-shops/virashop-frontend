@@ -1,0 +1,34 @@
+@layer components {
+  .status-icon {
+    @apply inline-flex shrink-0 items-center justify-center rounded-3;
+  }
+
+  .status-icon svg {
+    @apply size-[75%];
+  }
+
+  .status-icon-success {
+    @apply bg-warning-green text-white;
+  }
+
+  .status-icon-error {
+    @apply bg-warning-red text-white;
+  }
+
+  .status-icon-warning {
+    @apply rounded-full bg-transparent text-warning-red;
+  }
+
+  .status-icon-warning svg {
+    @apply size-full;
+  }
+}
+
+/* === Sizes === */
+@utility status-icon-size-sm {
+  @apply size-8;
+}
+
+@utility status-icon-size-md {
+  @apply size-9;
+}

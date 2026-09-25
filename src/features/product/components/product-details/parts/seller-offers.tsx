@@ -8,19 +8,10 @@ import {
   SELLERS_TITLE,
   SELLER_OFFERS_VISIBLE,
   SELLER_SORT_OPTIONS,
+  PRODUCT_PARTS_COPY as COPY,
 } from '@/features/product/components/product-details/constants';
-import type { SellerOffer, SellerOfferSort } from '@/contracts/endpoints/products';
-
-export interface SellerOffersProps {
-  offers: SellerOffer[];
-  /** Every seller carrying the product, including the ones not listed. */
-  total: number;
-  isLoading: boolean;
-  sort: SellerOfferSort;
-  onSortChange: (sort: SellerOfferSort) => void;
-  /** Builds the href that opens one seller's terms. */
-  hrefForOffer: (offerId: number) => string;
-}
+import type { SellerOfferSort } from '@/contracts/endpoints/products';
+import type { SellerOffersProps } from '@/features/product/components/product-details/types';
 
 const SellerOffersSkeleton: React.FC = () => (
   <div className="flex flex-col gap-4">
@@ -86,7 +77,7 @@ export const SellerOffers: React.FC<SellerOffersProps> = ({
           onClick={() => setShowAll(true)}
           className="text-primary hover:text-primary-600 w-fit self-start p-0 hover:bg-transparent"
         >
-          نمایش {toFaDigits(remaining)} فروشگاه دیگر
+          {COPY.moreSellers(toFaDigits(remaining))}
         </Button>
       )}
     </section>

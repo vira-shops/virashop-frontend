@@ -64,7 +64,7 @@
   }
 
   .modal-body {
-    @apply flex flex-1 flex-col overflow-y-auto px-6 pt-4 pb-20;
+    @apply flex flex-1 flex-col overflow-y-auto px-6 py-4;
   }
 
   .modal-footer {

@@ -23,3 +23,18 @@ export const useCities = (): UseQueryResult<CitiesData['data'], CitiesError> => 
     },
   });
 };
+
+/** Province picker data — `/provinces` is not live yet, so this always uses the mock. */
+export const useProvinces = (): UseQueryResult<CitiesData['data'], CitiesError> =>
+  useQuery<CitiesData['data'], CitiesError>({
+    queryKey: queryKeys.provinces(),
+    queryFn: async () => {
+      const response = await api('cities', 'getProvinces', { useMock: true });
+
+      if (response.status !== 200) {
+        throw response;
+      }
+
+      return response.data;
+    },
+  });

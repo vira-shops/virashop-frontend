@@ -12,23 +12,10 @@ import {
   MORE_LABEL,
   SHRINK_TITLE,
   TARIFFS_TITLE,
+  PRODUCT_PARTS_COPY as COPY,
 } from '@/features/product/components/product-details/constants';
-import type { ProductGalleryImage } from '@/components/shared/product-gallery/types';
-import type { OfferTableRow, SellerOfferDetail } from '@/contracts/endpoints/products';
-import type { ProductDetail } from '@/contracts/endpoints/products';
-
-export interface SellerOfferViewProps {
-  product: ProductDetail;
-  offer?: SellerOfferDetail;
-  isLoading: boolean;
-  images: ProductGalleryImage[];
-  highlights: string[];
-  startBadge?: string;
-  endBadge?: string;
-  /** Back to the full seller list. */
-  onShowAllSellers: () => void;
-  onAddToCart: () => void;
-}
+import type { OfferTableRow } from '@/contracts/endpoints/products';
+import type { SellerOfferViewProps } from '@/features/product/components/product-details/types';
 
 const SellerOfferViewSkeleton: React.FC = () => (
   <div className="flex flex-col gap-6">
@@ -85,12 +72,12 @@ export const SellerOfferView: React.FC<SellerOfferViewProps> = ({
           onClick={onShowAllSellers}
           className="text-primary hover:text-primary-600 w-fit self-start p-0 hover:bg-transparent"
         >
-          بازگشت به فهرست فروشندگان
+          {COPY.backToSellers}
         </Button>
 
         {offer && (
           <Typography variant="caption-md" className="text-gray-300">
-            فروشنده: {offer.seller.shopName}
+            {COPY.seller(offer.seller.shopName)}
           </Typography>
         )}
       </div>

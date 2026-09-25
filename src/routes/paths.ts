@@ -15,6 +15,20 @@ const storePaths = (segment: StorefrontSegment) =>
     SEARCH: `/${segment}/search`,
   }) as const;
 
+export type DashboardRole = 'buyer';
+
+/** Account-dashboard routes — one builder so every role gets the same shape. */
+const dashboardPaths = (role: DashboardRole) =>
+  ({
+    ROOT: `/dashboard/${role}`,
+    ORDERS: `/dashboard/${role}/orders`,
+    ORDER: (id: string | number) => `/dashboard/${role}/orders/${id}`,
+    FAVORITES: `/dashboard/${role}/favorites`,
+    NOTIFICATIONS: `/dashboard/${role}/notifications`,
+    REVIEWS: `/dashboard/${role}/reviews`,
+    PROFILE: `/dashboard/${role}/profile`,
+  }) as const;
+
 export const PATHS = {
   ROOT: '/',
   ABOUT: '/about',
@@ -39,6 +53,10 @@ export const PATHS = {
 
   WHOLESALE: storePaths('wholesale'),
   RETAIL: storePaths('retail'),
+
+  DASHBOARD: {
+    BUYER: dashboardPaths('buyer'),
+  },
 
   CART: '/cart',
   CART_FOR: (channel?: Channel): string =>

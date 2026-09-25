@@ -5,17 +5,18 @@ import Image from 'next/image';
 import { Badge, Button, Typography } from '@/components/ui';
 import { ShopIcon } from '@icons';
 import { formatJalaliDate, formatToman, toFaDigits } from '@/utils/format';
-import { CURRENCY_LABEL } from '@/features/product/components/product-details/constants';
-import type { SellerOffer } from '@/contracts/endpoints/products';
-
-export interface SellerOfferCardProps {
-  offer: SellerOffer;
-  /** Opens this seller's full terms — the selected-seller view of the PDP. */
-  href: string;
-}
+import {
+  CURRENCY_LABEL,
+  MORE_LABEL,
+  PRODUCT_PARTS_COPY as COPY,
+} from '@/features/product/components/product-details/constants';
+import type {
+  OfferChipProps,
+  SellerOfferCardProps,
+} from '@/features/product/components/product-details/types';
 
 /** Small neutral pill used for every seller attribute in the design. */
-const OfferChip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const OfferChip: React.FC<OfferChipProps> = ({ children }) => (
   <Typography
     variant="caption-md"
     className="rounded-5 bg-gray-50 px-3 py-1 whitespace-nowrap text-gray-400"
@@ -27,11 +28,11 @@ const OfferChip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 /** One row of «فروشنده ها» — who sells it, on what terms, at what price. */
 export const SellerOfferCard: React.FC<SellerOfferCardProps> = ({ offer, href }) => {
   const chips = [
-    offer.discountPercent > 0 ? `تخفیف ${toFaDigits(offer.discountPercent)}٪` : null,
-    offer.installmentMonths ? `اقساط ${toFaDigits(offer.installmentMonths)} ماهه` : null,
-    offer.commissionPercent ? `کارمزد ${toFaDigits(offer.commissionPercent)}٪` : null,
+    offer.discountPercent > 0 ? COPY.discountChip(toFaDigits(offer.discountPercent)) : null,
+    offer.installmentMonths ? COPY.installmentsChip(toFaDigits(offer.installmentMonths)) : null,
+    offer.commissionPercent ? COPY.commissionChip(toFaDigits(offer.commissionPercent)) : null,
     offer.city,
-    `${toFaDigits(offer.membershipYears)} سال عضویت`,
+    COPY.membershipChip(toFaDigits(offer.membershipYears)),
   ].filter((chip): chip is string => Boolean(chip));
 
   return (
@@ -58,13 +59,13 @@ export const SellerOfferCard: React.FC<SellerOfferCardProps> = ({ offer, href })
 
           {offer.isFeatured && (
             <Badge variant="fill" color="warning-red" size="xs" radius="sm">
-              ویژه
+              {COPY.featured}
             </Badge>
           )}
         </div>
 
         <Typography variant="body-xs" className="text-gray-400">
-          آخرین تغییرات {formatJalaliDate(offer.updatedAt)}
+          {COPY.lastUpdated(formatJalaliDate(offer.updatedAt))}
         </Typography>
       </div>
 
@@ -78,10 +79,10 @@ export const SellerOfferCard: React.FC<SellerOfferCardProps> = ({ offer, href })
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
             <Typography variant="caption-md" className="text-gray-400">
-              نوع ارسال: {offer.shippingType}
+              {COPY.shippingType(offer.shippingType)}
             </Typography>
             <Typography variant="caption-md" className="text-gray-400">
-              موجودی: {offer.stockLabel}
+              {COPY.stock(offer.stockLabel)}
             </Typography>
           </div>
           <Typography variant="body-md" className="text-primary">
@@ -91,10 +92,10 @@ export const SellerOfferCard: React.FC<SellerOfferCardProps> = ({ offer, href })
 
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="xs" href={href} className="text-gray-400">
-            بیشتر
+            {MORE_LABEL}
           </Button>
           <Button variant="fill" color="primary" size="xs" href={href}>
-            خرید
+            {COPY.buy}
           </Button>
         </div>
       </div>

@@ -89,3 +89,18 @@ export const registerMetadata: Metadata = {
   title: 'ثبت‌نام',
   robots: { index: false, follow: false },
 };
+
+/* ---------------- Account dashboards (private — never indexed) ---------------- */
+
+const privatePage = (title: string): Metadata => ({
+  title,
+  robots: { index: false, follow: false },
+});
+
+export const dashboardMetadata = privatePage('داشبورد');
+export const ordersMetadata = privatePage('سفارش ها');
+export const orderDetailsMetadata = privatePage('جزئیات سفارش');
+export const favoritesMetadata = privatePage('علاقه مندی ها');
+export const notificationsMetadata = privatePage('اعلان ها');
+export const reviewsMetadata = privatePage('نظرات و پرسش');
+export const profileMetadata = privatePage('پروفایل');

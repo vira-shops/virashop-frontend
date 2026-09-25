@@ -20,19 +20,8 @@ import { RoleForm } from '@/features/auth/components/role-form';
 import { OtpForm } from '@/features/auth/components/otp-form';
 import { SuccessForm } from '@/features/auth/components/success-form';
 import { BoothForm } from '@/features/auth/components/booth-form';
-
-/** Each step's content width from the design: the card hugs its step. */
-const STEP_WIDTH: Record<AuthFlowStep, string> = {
-  credentials: 'sm:w-84',
-  otp: 'sm:w-87',
-  role: 'sm:w-84',
-  success: 'sm:w-[469px]',
-  booth: 'sm:w-94',
-};
-
-interface AuthWizardProps {
-  initialMode: 'login' | 'signup';
-}
+import { AUTH_WIZARD_COPY, STEP_WIDTH } from './constants';
+import type { AuthWizardProps } from './types';
 
 const isSafeReturnTo = (value: string | null): value is string =>
   Boolean(value && value.startsWith('/') && !value.startsWith('//'));
@@ -83,7 +72,7 @@ export function AuthWizard({ initialMode }: AuthWizardProps) {
   const finish = (verifiedUser: AuthUser) => {
     reset();
 
-    toast.success(`خوش آمدید، ${verifiedUser.firstName}!`);
+    toast.success(AUTH_WIZARD_COPY.welcome(verifiedUser.firstName));
 
     const returnTo = searchParams.get('returnTo');
     const fallback = channel === 'WHOLESALE' ? PATHS.WHOLESALE.ROOT : PATHS.RETAIL.ROOT;
@@ -131,7 +120,7 @@ export function AuthWizard({ initialMode }: AuthWizardProps) {
 
     setUser({ ...currentUser, seller: booth });
 
-    toast.info('غرفه شما ثبت شد و در انتظار تایید ادمین است');
+    toast.info(AUTH_WIZARD_COPY.boothSubmitted);
     finish(currentUser);
   };
 

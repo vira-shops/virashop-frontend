@@ -9,6 +9,8 @@
 @import '../../../components/shared/story/story.css';
 @import '../../../components/ui/typography/typography.css';
 @import '../../../components/ui/text-input/text-input.css';
+@import '../../../components/ui/textarea/textarea.css';
+@import '../../../components/ui/date-input/date-input.css';
 @import '../../../components/ui/select/select.css';
 @import '../../../components/ui/skeleton/skeleton.css';
 @import '../../../components/ui/uploader/uploader.css';
@@ -19,3 +21,8 @@
 @import '../../../components/ui/value-slider/value-slider.css';
 @import '../../../components/feedback/toast/toast.css';
 @import '../../../components/shared/modal/modal.css';
+@import '../../../components/ui/avatar/avatar.css';
+@import '../../../components/ui/table/table.css';
+@import '../../../components/ui/status-icon/status-icon.css';
+@import '../../../components/ui/rating/rating.css';
+@import '../../../components/ui/divider/divider.css';
