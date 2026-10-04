@@ -32,6 +32,7 @@ export const MyQuestionSchema = z.object({
   product: ReviewProductSchema,
   question: z.string(),
   answers: z.array(z.string()),
+  status: ReviewStatusSchema,
   /** ISO timestamp. */
   createdAt: z.string(),
 });

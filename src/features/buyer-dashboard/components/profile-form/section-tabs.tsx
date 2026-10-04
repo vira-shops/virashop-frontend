@@ -4,7 +4,7 @@ import { PAGE_TITLES } from '@/features/buyer-dashboard/constants';
 import { PROFILE_SECTION_TABS } from './constants';
 import type { ProfileSection, ProfileSectionTabsProps } from './types';
 
-/** Phone-only switch between the personal and business cards. */
+/** Phone-only switch between the personal and business cards (wholesale). */
 export const ProfileSectionTabs: React.FC<ProfileSectionTabsProps> = ({ value, onChange }) => (
   <div className="border-b border-blue-100 lg:hidden">
     <Tabs

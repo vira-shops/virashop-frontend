@@ -5,3 +5,4 @@ export * from './favorites-list';
 export * from './notifications-list';
 export * from './reviews-list';
 export * from './profile-form';
+export * from './addresses-list';

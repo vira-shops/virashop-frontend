@@ -34,6 +34,7 @@ export const Textarea: React.FC<TextareaProps> = ({
   color = 'primary',
   state,
   label,
+  requiredMark = false,
   inputMessage,
   fullWidth,
   disabled,
@@ -57,6 +58,11 @@ export const Textarea: React.FC<TextareaProps> = ({
       {label && (
         <label htmlFor={id} className={cn('input-label', labelClassName)}>
           {label}
+          {requiredMark && (
+            <span aria-hidden="true" className="input-required-mark">
+              {' *'}
+            </span>
+          )}
         </label>
       )}
       <textarea

@@ -35,3 +35,5 @@ export * from './description-list';
 export * from './notification-card';
 export * from './feedback-card';
 export * from './date-range-modal';
+export * from './action-menu';
+export * from './location-picker';

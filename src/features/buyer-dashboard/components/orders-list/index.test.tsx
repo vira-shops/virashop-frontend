@@ -9,7 +9,7 @@ let mockSearch = '';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: jest.fn(), replace: mockReplace }),
-  usePathname: () => '/dashboard/buyer/orders',
+  usePathname: () => '/dashboard/wholesale-buyer/orders',
   useSearchParams: () => new URLSearchParams(mockSearch),
 }));
 
@@ -26,11 +26,11 @@ describe('OrdersList', () => {
   });
 
   it('defaults to the current («جاری») orders', async () => {
-    renderWithProviders(<OrdersList />);
+    renderWithProviders(<OrdersList channel="WHOLESALE" />);
 
     expect(screen.getByRole('tab', { name: /جاری/ })).toHaveAttribute('aria-selected', 'true');
-    await screen.findByText(toFaDigits('1234567891542'));
-    const table = screen.getByRole('table', { name: 'سفارش ها' });
+    const table = await screen.findByRole('table', { name: 'سفارش ها' });
+    await within(table).findByText(toFaDigits('1234567891542'));
 
     expect(rowCodes(table)).toEqual(
       ['1234567891542', '1234567891545', '1234567891548'].map(toFaDigits),
@@ -39,47 +39,74 @@ describe('OrdersList', () => {
 
   it('reads the status tab from the URL and writes tab changes back', async () => {
     mockSearch = 'status=DELIVERED';
-    renderWithProviders(<OrdersList />);
+    renderWithProviders(<OrdersList channel="WHOLESALE" />);
 
     expect(screen.getByRole('tab', { name: /تحویل شده/ })).toHaveAttribute('aria-selected', 'true');
-    await screen.findByText(toFaDigits('1234567891544'));
-    expect(rowCodes(screen.getByRole('table'))).toHaveLength(2);
+    const table = screen.getByRole('table');
+    await within(table).findByText(toFaDigits('1234567891544'));
+    expect(rowCodes(table)).toHaveLength(2);
 
     fireEvent.click(screen.getByRole('tab', { name: /لغو شده/ }));
-    expect(mockReplace).toHaveBeenCalledWith('/dashboard/buyer/orders?status=CANCELLED', {
+    expect(mockReplace).toHaveBeenCalledWith('/dashboard/wholesale-buyer/orders?status=CANCELLED', {
       scroll: false,
     });
   });
 
   it('shows the empty state when nothing matches', async () => {
     mockSearch = 'status=PROCESSING&q=0000';
-    renderWithProviders(<OrdersList />);
+    renderWithProviders(<OrdersList channel="WHOLESALE" />);
 
-    expect(await screen.findByRole('status')).toHaveTextContent('متاسفانه سفارشی وجود ندارد');
+    // Desktop table + phone cards each show it (one of them is CSS-hidden).
+    const empty = await screen.findAllByRole('status');
+    expect(empty).toHaveLength(2);
+    empty.forEach((node) => expect(node).toHaveTextContent('متاسفانه سفارشی وجود ندارد'));
   });
 
   it('shows and clears the active date range', async () => {
     mockSearch = 'from=2021-08-01&to=2021-08-12';
-    renderWithProviders(<OrdersList />);
+    renderWithProviders(<OrdersList channel="WHOLESALE" />);
 
     expect(screen.getByText(/از ۱۴۰۰\/۰۵\/۱۰ تا ۱۴۰۰\/۰۵\/۲۱/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'حذف فیلتر تاریخ' }));
 
-    expect(mockReplace).toHaveBeenCalledWith('/dashboard/buyer/orders', { scroll: false });
+    expect(mockReplace).toHaveBeenCalledWith('/dashboard/wholesale-buyer/orders', {
+      scroll: false,
+    });
   });
 
   it('opens the date-range modal and the tracking-code search', () => {
-    renderWithProviders(<OrdersList />);
+    renderWithProviders(<OrdersList channel="WHOLESALE" />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'جستجو بر اساس تاریخ' }));
+    // Phone search field + desktop toolbar both open the same modal.
+    const dateButtons = screen.getAllByRole('button', { name: 'جستجو بر اساس تاریخ' });
+    expect(dateButtons).toHaveLength(2);
+    fireEvent.click(dateButtons[1]);
     expect(screen.getByRole('dialog', { name: 'جستجو تاریخ' })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'بستن' }));
+    // Phones keep one search field open; desktop reveals a second from the toolbar.
+    expect(screen.getAllByRole('textbox', { name: 'جستجوی کد پیگیری' })).toHaveLength(1);
     fireEvent.click(screen.getByRole('button', { name: 'جستجوی کد پیگیری' }));
-    const search = screen.getByRole('textbox', { name: 'جستجوی کد پیگیری' });
+    const search = screen.getAllByRole('textbox', { name: 'جستجوی کد پیگیری' })[1];
 
     fireEvent.change(search, { target: { value: '1545' } });
     fireEvent.submit(search);
-    expect(mockReplace).toHaveBeenCalledWith('/dashboard/buyer/orders?q=1545', { scroll: false });
+    expect(mockReplace).toHaveBeenCalledWith('/dashboard/wholesale-buyer/orders?q=1545', {
+      scroll: false,
+    });
+  });
+
+  it('renders one card per order for phones, linking to its details', async () => {
+    renderWithProviders(<OrdersList channel="RETAIL" />);
+
+    const cards = await screen.findByRole('list', { name: 'سفارش ها' });
+    await within(cards).findByText(toFaDigits('1234567891542'));
+
+    const links = within(cards).getAllByRole('link', { name: 'مشاهده جزئیات' });
+    expect(links).toHaveLength(3);
+    expect(links[0]).toHaveAttribute(
+      'href',
+      expect.stringMatching(/^\/dashboard\/retail-buyer\/orders\/\d+$/),
+    );
   });
 });

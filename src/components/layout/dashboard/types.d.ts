@@ -6,6 +6,8 @@ export interface DashboardNavItem {
   key: string;
   label: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
+  /** Filled variant shown while the tile is active; falls back to `icon`. */
+  activeIcon?: ComponentType<SVGProps<SVGSVGElement>>;
   href?: string;
   action?: 'logout';
   exact?: boolean;
@@ -17,6 +19,8 @@ export interface DashboardNavItem {
  */
 export interface DashboardConfig {
   theme: DashboardTheme;
+  /** Page background behind the cards — e.g. `bg-blue-50`, `bg-retail-tint`. */
+  surfaceClassName: string;
   subtitle: string;
   quickLinks: DashboardNavItem[];
   navItems: DashboardNavItem[];
@@ -33,4 +37,11 @@ export interface DashboardShellProps {
   onLogout?: () => void;
   loggingOut?: boolean;
   children?: ReactNode;
+}
+
+export interface DashboardMobileBarProps {
+  config: DashboardConfig;
+  user: DashboardUser;
+  onLogout?: () => void;
+  loggingOut?: boolean;
 }

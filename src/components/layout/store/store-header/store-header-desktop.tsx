@@ -27,7 +27,12 @@ export function StoreHeaderDesktop({ config }: StoreHeaderDesktopProps) {
           <div className="flex items-center gap-2">
             <UserActions actions={userActions} />
             {mounted && user ? (
-              <UserMenu user={user} onSignOut={() => void signOut()} isPending={isPending} />
+              <UserMenu
+                user={user}
+                onSignOut={() => void signOut()}
+                dashboardHref={PATHS.DASHBOARD_FOR(channel)}
+                isPending={isPending}
+              />
             ) : (
               <Button href={PATHS.AUTH.LOGIN_FOR(channel)} color="primary" variant="fill" size="md">
                 ورود و ثبت نام

@@ -104,3 +104,4 @@ export const favoritesMetadata = privatePage('علاقه مندی ها');
 export const notificationsMetadata = privatePage('اعلان ها');
 export const reviewsMetadata = privatePage('نظرات و پرسش');
 export const profileMetadata = privatePage('پروفایل');
+export const addressesMetadata = privatePage('آدرس ها');

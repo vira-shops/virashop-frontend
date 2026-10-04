@@ -2,22 +2,28 @@
 
 import * as React from 'react';
 import { DataTable } from '@/components/shared';
-import { PATHS } from '@/routes/paths';
+import { getBuyerChannel } from '@/features/buyer-dashboard/constants';
 import { buildOrderColumns } from './columns';
 import type { OrdersTableProps } from './types';
 
 export { Amount } from './amount';
+export { OrderThumbnails, PaymentCell } from './columns';
 
 /** The buyer's orders as a clickable table — every row opens the order's details. */
 export const OrdersTable: React.FC<OrdersTableProps> = ({
+  channel,
   orders,
   loading,
-  showProducts = false,
+  variant = 'recent',
   emptyState,
   'aria-label': ariaLabel,
   className,
 }) => {
-  const columns = React.useMemo(() => buildOrderColumns(showProducts), [showProducts]);
+  const { paths, orderStatusLabels } = getBuyerChannel(channel);
+  const columns = React.useMemo(
+    () => buildOrderColumns({ variant, statusLabels: orderStatusLabels }),
+    [variant, orderStatusLabels],
+  );
 
   return (
     <DataTable
@@ -25,7 +31,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
       columns={columns}
       rows={orders}
       getRowKey={(order) => order.id}
-      getRowHref={(order) => PATHS.DASHBOARD.BUYER.ORDER(order.id)}
+      getRowHref={(order) => paths.ORDER(order.id)}
       loading={loading}
       emptyState={emptyState}
       className={className}

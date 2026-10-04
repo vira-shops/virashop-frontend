@@ -13,15 +13,15 @@ jest.mock('next/navigation', () => ({
 }));
 
 describe('OrderDetails', () => {
-  it('renders the order, sender and products sections', async () => {
-    renderWithProviders(<OrderDetails orderId="1001" />);
+  it('renders the order, recipient and products sections', async () => {
+    renderWithProviders(<OrderDetails channel="WHOLESALE" orderId="1001" />);
 
     const order = await screen.findByRole('region', { name: 'اطلاعات سفارش' });
     expect(within(order).getByText(toFaDigits(ORDER_DETAIL_MOCK.trackingCode))).toBeInTheDocument();
     expect(within(order).getByText('رایگان')).toBeInTheDocument();
     expect(within(order).getByRole('img', { name: 'پرداخت ناموفق' })).toBeInTheDocument();
 
-    const sender = screen.getByRole('region', { name: 'اطلاعات فرستنده' });
+    const sender = screen.getByRole('region', { name: 'اطلاعات گیرنده' });
     expect(within(sender).getByText(ORDER_DETAIL_MOCK.sender.address)).toBeInTheDocument();
 
     const products = screen.getByRole('region', { name: 'محصولات' });
@@ -31,11 +31,11 @@ describe('OrderDetails', () => {
   });
 
   it('links back to the orders list and to the invoice', async () => {
-    renderWithProviders(<OrderDetails orderId="1001" />);
+    renderWithProviders(<OrderDetails channel="WHOLESALE" orderId="1001" />);
 
     expect(screen.getByRole('link', { name: 'بازگشت' })).toHaveAttribute(
       'href',
-      PATHS.DASHBOARD.BUYER.ORDERS,
+      PATHS.DASHBOARD.WHOLESALE_BUYER.ORDERS,
     );
     expect(await screen.findByRole('link', { name: 'مشاهده فاکتور' })).toBeInTheDocument();
   });

@@ -25,7 +25,10 @@ export const useProfile = (): UseQueryResult<Profile, FailedApiResponse> =>
 /** Overlays the submitted fields on the cached profile (keeps avatar / document / mobile). */
 export const mergeProfileUpdate = (profile: Profile, update: ProfileUpdateRequest): Profile => ({
   personal: { ...profile.personal, ...update.personal },
-  business: { ...profile.business, ...update.business },
+  business: update.business
+    ? { documentUrl: profile.business?.documentUrl ?? null, ...update.business }
+    : profile.business,
+  address: update.address ?? profile.address,
 });
 
 export const useUpdateProfile = () => {

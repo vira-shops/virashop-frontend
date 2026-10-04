@@ -55,7 +55,7 @@ export const OrdersToolbar: React.FC<OrdersToolbarProps> = ({
           itemClassName="pb-4"
         />
       </div>
-      <div className="flex shrink-0 items-center gap-1 pb-2">
+      <div className="flex shrink-0 items-center gap-1 pb-2 max-md:hidden">
         <Button
           variant="ghost"
           aria-label={ORDERS_TOOLBAR.searchLabel}

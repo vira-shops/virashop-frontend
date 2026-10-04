@@ -10,17 +10,21 @@ describe('ReviewsList', () => {
   it('shows the buyer reviews first, with moderation status', async () => {
     renderWithProviders(<ReviewsList />);
 
-    expect(screen.getByRole('tab', { name: 'نظرات شما' })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tab', { name: 'نظرات' })).toHaveAttribute('aria-selected', 'true');
     expect(await screen.findByText(MY_REVIEWS_MOCK[0].title)).toBeInTheDocument();
     expect(screen.getByText('در انتظار')).toBeInTheDocument();
   });
 
-  it('switches to the answered questions tab', async () => {
+  it('switches to the questions tab, with each moderation status', async () => {
     renderWithProviders(<ReviewsList />);
 
-    fireEvent.click(await screen.findByRole('tab', { name: /پاسخ ها/ }));
+    fireEvent.click(await screen.findByRole('tab', { name: /پرسش ها/ }));
 
-    expect(await screen.findByText(MY_QUESTIONS_MOCK[0].question)).toBeInTheDocument();
+    expect(await screen.findAllByText(MY_QUESTIONS_MOCK[0].question)).toHaveLength(
+      MY_QUESTIONS_MOCK.length,
+    );
+    expect(screen.getByText('تایید شد')).toHaveClass('text-warning-green');
+    expect(screen.getByText('تایید نشد')).toHaveClass('text-warning-red');
     expect(screen.queryByText(MY_REVIEWS_MOCK[0].title)).toBeNull();
   });
 });

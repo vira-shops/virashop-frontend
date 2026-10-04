@@ -15,6 +15,11 @@
     @apply size-12 shrink-0 text-gray-300;
   }
 
+  /* «*» after a required field's label — shared by TextInput, Textarea, Select. */
+  .input-required-mark {
+    @apply text-primary;
+  }
+
   .input-label {
     @apply text-body-sm font-medium text-black;
   }

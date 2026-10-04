@@ -32,7 +32,7 @@ const NavTile: React.FC<{
   loggingOut?: boolean;
   onNavigate?: () => void;
 }> = ({ item, active, onLogout, loggingOut, onNavigate }) => {
-  const Icon = item.icon;
+  const Icon = (active && item.activeIcon) || item.icon;
   const content = (
     <>
       <Icon aria-hidden="true" className="size-10 shrink-0" />

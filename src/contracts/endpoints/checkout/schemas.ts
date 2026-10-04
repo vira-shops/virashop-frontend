@@ -1,21 +1,15 @@
 import { z } from 'zod';
 
 /* =========================================================
-   Checkout — delivery addresses
+   Checkout — delivery addresses (owned by the `addresses` endpoint)
    ========================================================= */
 
-/** One saved address. `title` is the user's own label, e.g. «انبار». */
-export const AddressSchema = z.object({
-  id: z.number(),
-  title: z.string(),
-  /** Full street line, shown next to the title. */
-  line: z.string(),
-  isDefault: z.boolean(),
-});
-export type Address = z.infer<typeof AddressSchema>;
-
-export const AddressesResponseSchema = z.array(AddressSchema);
-export type AddressesResponse = z.infer<typeof AddressesResponseSchema>;
+export {
+  AddressSchema,
+  AddressesResponseSchema,
+  type Address,
+  type AddressesResponse,
+} from '@/contracts/endpoints/addresses/schemas';
 
 /* =========================================================
    Checkout — shipping

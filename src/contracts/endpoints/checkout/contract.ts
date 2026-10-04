@@ -1,35 +1,18 @@
 import { Contracts, apiResponseWrapper, mockDataWrapper } from '@/connections';
 import { EmptyRequestSchema } from '@/contracts/common';
 import {
-  AddressesResponseSchema,
   DeliveryOptionsResponseSchema,
   PaymentMethodsResponseSchema,
-  type Address,
   type DeliveryOptionsResponse,
   type PaymentMethod,
 } from './schemas';
 
 /**
- * Checkout reference data. NOT LIVE YET — `/addresses`, `/shipping-methods`
- * and `/payment-methods` all 404 on the current backend, so the hooks in
+ * Checkout reference data. NOT LIVE YET — `/shipping-methods`
+ * and `/payment-methods` both 404 on the current backend, so the hooks in
  * `src/hooks/` force these mocks the same way `use-best-sellers.ts` does.
  * Drop the `useMock` flag in each hook once the routes ship.
  */
-export const ADDRESSES_MOCK: Address[] = [
-  {
-    id: 1,
-    title: 'انبار',
-    line: 'یزد خیابان ۱۷ شهریور کوچه ۵۴',
-    isDefault: true,
-  },
-  {
-    id: 2,
-    title: 'فروشگاه',
-    line: 'یزد خیابان وکیل کوچه ۲۱',
-    isDefault: false,
-  },
-];
-
 const DELIVERY_TIMES = [
   { id: 'morning', label: 'ساعت ۸-۱۲' },
   { id: 'evening', label: 'ساعت ۱۶-۲۲' },
@@ -61,15 +44,6 @@ export const PAYMENT_METHODS_MOCK: PaymentMethod[] = [
 
 export const checkoutContracts = {
   checkout: {
-    /** `GET /addresses` — the buyer's saved delivery addresses. */
-    getAddresses: {
-      method: 'GET',
-      path: '/addresses',
-      request: EmptyRequestSchema,
-      response: apiResponseWrapper(AddressesResponseSchema),
-      mockData: mockDataWrapper(ADDRESSES_MOCK),
-    },
-
     /** `GET /shipping/options` — shipping methods plus the delivery calendar. */
     getDeliveryOptions: {
       method: 'GET',

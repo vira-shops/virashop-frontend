@@ -39,7 +39,7 @@ export const ShippingForm: React.FC<ShippingFormProps> = ({
               key={address.id}
               name={RADIO_GROUPS.address}
               value={String(address.id)}
-              label={`${address.title} - ${address.line}`}
+              label={address.title ? `${address.title} - ${address.line}` : address.line}
               checked={draft.addressId === address.id}
               onSelect={() => onChange({ addressId: address.id })}
             />

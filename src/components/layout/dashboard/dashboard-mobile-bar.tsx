@@ -2,22 +2,19 @@
 
 import * as React from 'react';
 import { BurgerMenuIcon, CancelIcon } from '@icons';
-import { Button } from '@/components/ui';
+import { Button, Typography } from '@/components/ui';
 import { UserIdentity } from '@/components/shared';
+import { cn } from '@/utils/ui';
 import { DASHBOARD_A11Y } from './constants';
 import { DashboardNav } from './dashboard-nav';
-import type { DashboardConfig, DashboardUser } from './types';
+import type { DashboardMobileBarProps } from './types';
 
-interface DashboardMobileBarProps {
-  config: DashboardConfig;
-  user: DashboardUser;
-  onLogout?: () => void;
-  loggingOut?: boolean;
-}
+const BAR_CLASS = 'bg-primary rounded-b-8 sticky top-0 z-30';
 
 /**
  * Phone / tablet header: a slim brand bar (menu on the start side, avatar on
- * the end side) whose menu opens the same tile nav in a side drawer.
+ * the end side). The menu opens a full-screen «منو» page with the same tile
+ * nav, topped by a bar carrying the user and a close button — per the design.
  */
 export const DashboardMobileBar: React.FC<DashboardMobileBarProps> = ({
   config,
@@ -26,7 +23,7 @@ export const DashboardMobileBar: React.FC<DashboardMobileBarProps> = ({
   loggingOut,
 }) => {
   const [open, setOpen] = React.useState(false);
-  const drawerId = React.useId();
+  const menuId = React.useId();
   const close = React.useCallback(() => setOpen(false), []);
 
   React.useEffect(() => {
@@ -48,14 +45,14 @@ export const DashboardMobileBar: React.FC<DashboardMobileBarProps> = ({
 
   return (
     <>
-      <header className="bg-primary rounded-b-8 sticky top-0 z-30 lg:hidden">
+      <header className={cn(BAR_CLASS, 'lg:hidden')}>
         <div className="container flex h-13 items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
             aria-label={DASHBOARD_A11Y.openMenu}
             aria-expanded={open}
-            aria-controls={drawerId}
+            aria-controls={menuId}
             onClick={() => setOpen(true)}
             icon={<BurgerMenuIcon className="size-10 text-white" />}
             className="hover:bg-white/10"
@@ -65,32 +62,37 @@ export const DashboardMobileBar: React.FC<DashboardMobileBarProps> = ({
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-40 lg:hidden">
-          <div aria-hidden="true" className="absolute inset-0 bg-black/40" onClick={close} />
-          <div
-            id={drawerId}
-            role="dialog"
-            aria-modal="true"
-            aria-label={DASHBOARD_A11Y.nav}
-            className="absolute inset-y-0 right-0 flex w-72 max-w-[85vw] flex-col gap-9 overflow-y-auto bg-blue-50 p-7 shadow-xl"
-          >
-            <div className="flex items-center justify-between gap-5">
+        <div
+          id={menuId}
+          role="dialog"
+          aria-modal="true"
+          aria-label={DASHBOARD_A11Y.menuTitle}
+          className={cn('fixed inset-0 z-40 overflow-y-auto lg:hidden', config.surfaceClassName)}
+        >
+          <div className={BAR_CLASS}>
+            <div className="container flex h-13 items-center justify-between">
               <UserIdentity
                 name={user.name}
-                subtitle={config.subtitle}
                 avatarSrc={user.avatarSrc}
-                avatarSize="md"
-                nameClassName="text-blue-900"
-                subtitleClassName="text-blue-300"
+                avatarSize="sm"
+                className="gap-3"
+                nameClassName="text-body-md"
               />
               <Button
                 variant="ghost"
                 size="sm"
                 aria-label={DASHBOARD_A11Y.closeMenu}
                 onClick={close}
-                icon={<CancelIcon className="size-9 text-blue-900" />}
+                icon={<CancelIcon className="size-9 text-white" />}
+                className="hover:bg-white/10"
               />
             </div>
+          </div>
+
+          <div className="container flex flex-col gap-9 py-9">
+            <Typography variant="h4" as="h2" className="text-black">
+              {DASHBOARD_A11Y.menuTitle}
+            </Typography>
             <DashboardNav
               config={config}
               onLogout={onLogout}

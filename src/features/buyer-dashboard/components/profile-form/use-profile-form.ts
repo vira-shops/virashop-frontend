@@ -7,11 +7,12 @@ import {
   toProfileUpdateRequest,
   type ProfileFormValues,
 } from '@/features/buyer-dashboard/validation/profile-schema';
+import type { BuyerProfileVariant } from '@/features/buyer-dashboard/types';
 import { PROFILE_LABELS } from './constants';
 import type { ProfileSection } from './types';
 
 /** Profile data + the page's view / edit / save state. */
-export const useProfileForm = () => {
+export const useProfileForm = (variant: BuyerProfileVariant) => {
   const profile = useProfile();
   const update = useUpdateProfile();
   const toast = useToast();
@@ -20,7 +21,7 @@ export const useProfileForm = () => {
 
   const submit = async (values: ProfileFormValues) => {
     try {
-      await update.mutateAsync(toProfileUpdateRequest(values));
+      await update.mutateAsync(toProfileUpdateRequest(values, variant));
       toast.success(PROFILE_LABELS.saved);
       setEditing(false);
     } catch {

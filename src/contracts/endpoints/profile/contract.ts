@@ -10,6 +10,8 @@ export const PROFILE_MOCK: Profile = {
     nationalId: '0123456789',
     birthDate: '1979-08-18',
     gender: null,
+    email: null,
+    occupation: null,
     avatarUrl: null,
   },
   business: {
@@ -22,11 +24,15 @@ export const PROFILE_MOCK: Profile = {
     address: 'یزد - خیابان ۱۷ شهریور - کوچه ۲',
     documentUrl: null,
   },
+  address: {
+    line: 'یزد - خیابان ۱۷ شهریور - کوچه ۲',
+    location: null,
+  },
 };
 
 export const profileContracts = {
   profile: {
-    /** `GET /profile` — personal + business info. */
+    /** `GET /profile` — personal info + the business card or the home address. */
     get: {
       method: 'GET',
       path: '/profile',
@@ -35,7 +41,7 @@ export const profileContracts = {
       mockData: mockDataWrapper(PROFILE_MOCK),
     },
 
-    /** `PUT /profile` — replaces both sections, returns the saved profile. */
+    /** `PUT /profile` — replaces the sent sections, returns the saved profile. */
     update: {
       method: 'PUT',
       path: '/profile',

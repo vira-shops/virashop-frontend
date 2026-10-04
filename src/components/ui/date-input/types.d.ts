@@ -11,6 +11,7 @@ export interface DateInputProps extends Pick<
   | 'state'
   | 'size'
   | 'label'
+  | 'requiredMark'
   | 'inputMessage'
   | 'fullWidth'
   | 'disabled'

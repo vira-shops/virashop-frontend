@@ -21,6 +21,7 @@ export const DateRangeModal: React.FC<DateRangeModalProps> = ({
   submitLabel = 'جستجو',
   className,
   fieldsClassName,
+  theme,
 }) => {
   const [range, setRange] = React.useState<DateRange>(initialRange);
 
@@ -42,7 +43,14 @@ export const DateRangeModal: React.FC<DateRangeModalProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} title={title} size="md" className={className}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={title}
+      size="md"
+      className={className}
+      theme={theme}
+    >
       <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-9">
         <Typography variant="body-md" as="p" className="text-black">
           {description}

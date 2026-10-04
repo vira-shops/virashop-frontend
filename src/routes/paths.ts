@@ -15,10 +15,10 @@ const storePaths = (segment: StorefrontSegment) =>
     SEARCH: `/${segment}/search`,
   }) as const;
 
-export type DashboardRole = 'buyer';
+export type DashboardRole = 'wholesale-buyer' | 'retail-buyer';
 
 /** Account-dashboard routes — one builder so every role gets the same shape. */
-const dashboardPaths = (role: DashboardRole) =>
+const dashboardPaths = <TRole extends DashboardRole>(role: TRole) =>
   ({
     ROOT: `/dashboard/${role}`,
     ORDERS: `/dashboard/${role}/orders`,
@@ -27,6 +27,7 @@ const dashboardPaths = (role: DashboardRole) =>
     NOTIFICATIONS: `/dashboard/${role}/notifications`,
     REVIEWS: `/dashboard/${role}/reviews`,
     PROFILE: `/dashboard/${role}/profile`,
+    ADDRESSES: `/dashboard/${role}/addresses`,
   }) as const;
 
 export const PATHS = {
@@ -55,8 +56,14 @@ export const PATHS = {
   RETAIL: storePaths('retail'),
 
   DASHBOARD: {
-    BUYER: dashboardPaths('buyer'),
+    WHOLESALE_BUYER: dashboardPaths('wholesale-buyer'),
+    RETAIL_BUYER: dashboardPaths('retail-buyer'),
   },
+  /** The buyer dashboard of a storefront — the header's «ورود به داشبورد». */
+  DASHBOARD_FOR: (channel?: Channel): string =>
+    channel === 'WHOLESALE'
+      ? dashboardPaths('wholesale-buyer').ROOT
+      : dashboardPaths('retail-buyer').ROOT,
 
   CART: '/cart',
   CART_FOR: (channel?: Channel): string =>

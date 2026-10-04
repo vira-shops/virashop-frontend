@@ -21,6 +21,7 @@
 @import '../../../components/ui/value-slider/value-slider.css';
 @import '../../../components/feedback/toast/toast.css';
 @import '../../../components/shared/modal/modal.css';
+@import '../../../components/shared/location-picker/location-picker.css';
 @import '../../../components/ui/avatar/avatar.css';
 @import '../../../components/ui/table/table.css';
 @import '../../../components/ui/status-icon/status-icon.css';

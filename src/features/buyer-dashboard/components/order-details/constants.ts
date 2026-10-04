@@ -1,6 +1,6 @@
 export const ORDER_DETAIL_SECTIONS = {
   order: 'اطلاعات سفارش',
-  sender: 'اطلاعات فرستنده',
+  sender: 'اطلاعات گیرنده',
   products: 'محصولات',
 } as const;
 

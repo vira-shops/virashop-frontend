@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { cn } from '@/utils/ui';
 import { DashboardHeader } from './dashboard-header';
 import { DashboardMobileBar } from './dashboard-mobile-bar';
 import { DashboardNav } from './dashboard-nav';
@@ -13,7 +14,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
   loggingOut,
   children,
 }) => (
-  <div data-theme={config.theme} className="flex min-h-svh flex-col bg-blue-50">
+  <div data-theme={config.theme} className={cn('flex min-h-svh flex-col', config.surfaceClassName)}>
     <DashboardHeader user={user} subtitle={config.subtitle} />
     <DashboardMobileBar config={config} user={user} onLogout={onLogout} loggingOut={loggingOut} />
 

@@ -15,7 +15,7 @@ jest.mock('next/navigation', () => ({
 
 describe('DashboardOverview', () => {
   it('shows the announcements, the three KPI cards and the latest orders', async () => {
-    renderWithProviders(<DashboardOverview />);
+    renderWithProviders(<DashboardOverview channel="WHOLESALE" />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'داشبورد' })).toBeInTheDocument();
     expect(
@@ -24,14 +24,29 @@ describe('DashboardOverview', () => {
 
     const delivered = await screen.findByRole('link', { name: /تحویل شده/ });
     expect(delivered).toHaveTextContent(toFaDigits(ORDER_STATS_MOCK.DELIVERED));
-    expect(delivered).toHaveAttribute('href', `${PATHS.DASHBOARD.BUYER.ORDERS}?status=DELIVERED`);
+    expect(delivered).toHaveAttribute(
+      'href',
+      `${PATHS.DASHBOARD.WHOLESALE_BUYER.ORDERS}?status=DELIVERED`,
+    );
 
     const table = await screen.findByRole('table', { name: 'سفارشات اخیر' });
     // Header row + three recent orders.
     expect(within(table).getAllByRole('row')).toHaveLength(4);
     expect(within(table).getAllByRole('link', { name: 'مشاهده جزئیات' })[0]).toHaveAttribute(
       'href',
-      PATHS.DASHBOARD.BUYER.ORDER(1001),
+      PATHS.DASHBOARD.WHOLESALE_BUYER.ORDER(1001),
     );
+  });
+
+  it('uses the retail KPI cards and routes on the retail dashboard', async () => {
+    renderWithProviders(<DashboardOverview channel="RETAIL" />);
+
+    const returned = await screen.findByRole('link', { name: /مرجوع شده/ });
+    expect(returned).toHaveAttribute(
+      'href',
+      `${PATHS.DASHBOARD.RETAIL_BUYER.ORDERS}?status=RETURNED`,
+    );
+    expect(screen.getByRole('link', { name: /درحال پیگیری/ })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /لغو شده/ })).toBeNull();
   });
 });

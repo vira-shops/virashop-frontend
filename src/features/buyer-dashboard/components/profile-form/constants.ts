@@ -1,15 +1,17 @@
 import type { BuyType, Gender } from '@/contracts/endpoints/profile';
+import type { BuyerProfileVariant } from '@/features/buyer-dashboard/types';
 import type { ProfileSection } from './types';
 
-export const PROFILE_SECTIONS: Record<ProfileSection, string> = {
+export const PROFILE_SECTIONS = {
   personal: 'اطلاعات شخصی',
   business: 'اطلاعات کسب‌وکار',
-};
+  address: 'اطلاعات تکمیلی',
+} as const satisfies Record<'personal' | BuyerProfileVariant, string>;
 
-/** Phone-only tabs that switch between the two cards. */
+/** Phone-only tabs that switch between the two wholesale cards. */
 export const PROFILE_SECTION_TABS: ReadonlyArray<{ value: ProfileSection; label: string }> = [
   { value: 'personal', label: PROFILE_SECTIONS.personal },
-  { value: 'business', label: PROFILE_SECTIONS.business },
+  { value: 'secondary', label: PROFILE_SECTIONS.business },
 ];
 
 export const PROFILE_LABELS = {
@@ -23,6 +25,8 @@ export const PROFILE_LABELS = {
   nationalId: 'کد ملی',
   birthDate: 'تاریخ تولد',
   gender: 'جنسیت',
+  email: 'ایمیل',
+  occupation: 'شغل',
   genderPlaceholder: 'مرد / زن',
   businessName: 'نام کسب‌وکار',
   businessPhone: 'تلفن محل کار',
@@ -53,9 +57,16 @@ export const DOCUMENT_MAX_SIZE_MB = 5;
 
 /* ---------------------------- Layout / styling ---------------------------- */
 
-/** Personal card on the start side, business card twice as wide (desktop). */
+/** Personal card on the start side, the second card twice as wide (desktop). */
 export const PROFILE_GRID_CLASS =
   'grid grid-cols-1 items-start gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]';
+
+/**
+ * Retail on phones: the two cards read as ONE card (per the design) — the
+ * personal card drops its bottom edge, the extra card its top edge.
+ */
+export const RETAIL_PERSONAL_CARD_CLASS = 'max-lg:rounded-b-none max-lg:border-b-0 max-lg:pb-0';
+export const RETAIL_EXTRA_CARD_CLASS = 'max-lg:-mt-7 max-lg:rounded-t-none max-lg:border-t-0';
 
 export const PROFILE_CARD_CLASS =
   'rounded-8 flex flex-col gap-9 border border-blue-100 bg-white p-7';

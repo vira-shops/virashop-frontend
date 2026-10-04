@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { PATHS } from '@/routes/paths';
-import { buyerDashboardConfig } from './buyer-config';
+import { retailBuyerDashboardConfig, wholesaleBuyerDashboardConfig } from './buyer-config';
 import { DashboardShell } from './dashboard-shell';
 
 const meta: Meta<typeof DashboardShell> = {
@@ -8,10 +8,10 @@ const meta: Meta<typeof DashboardShell> = {
   component: DashboardShell,
   parameters: {
     layout: 'fullscreen',
-    nextjs: { appDirectory: true, navigation: { pathname: PATHS.DASHBOARD.BUYER.ROOT } },
+    nextjs: { appDirectory: true, navigation: { pathname: PATHS.DASHBOARD.WHOLESALE_BUYER.ROOT } },
   },
   args: {
-    config: buyerDashboardConfig,
+    config: wholesaleBuyerDashboardConfig,
     user: { name: 'حسین حیدری' },
     onLogout: () => undefined,
     children: (
@@ -25,7 +25,7 @@ const meta: Meta<typeof DashboardShell> = {
 export default meta;
 type Story = StoryObj<typeof DashboardShell>;
 
-export const Buyer: Story = {};
+export const WholesaleBuyer: Story = { name: 'خریدار عمده' };
 
 export const WithPhoto: Story = {
   args: { user: { name: 'حسین حیدری', avatarSrc: '/images/landing/hero/story-1.png' } },
@@ -34,13 +34,19 @@ export const WithPhoto: Story = {
 export const NestedRouteActive: Story = {
   name: 'مسیر تو در تو (جزئیات سفارش)',
   parameters: {
-    nextjs: { appDirectory: true, navigation: { pathname: PATHS.DASHBOARD.BUYER.ORDER(1) } },
+    nextjs: {
+      appDirectory: true,
+      navigation: { pathname: PATHS.DASHBOARD.WHOLESALE_BUYER.ORDER(1) },
+    },
   },
 };
 
-export const RetailTheme: Story = {
-  name: 'تم خرده (پیکربندی فروشنده)',
-  args: { config: { ...buyerDashboardConfig, theme: 'retail' } },
+export const RetailBuyer: Story = {
+  name: 'خریدار خرده',
+  parameters: {
+    nextjs: { appDirectory: true, navigation: { pathname: PATHS.DASHBOARD.RETAIL_BUYER.ROOT } },
+  },
+  args: { config: retailBuyerDashboardConfig },
 };
 
 export const Mobile: Story = {

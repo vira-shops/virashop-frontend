@@ -404,4 +404,14 @@ describe('Select', () => {
       );
     });
   });
+
+  it('marks required labels', () => {
+    render(
+      <Select label="استان" requiredMark>
+        {options}
+      </Select>,
+    );
+
+    expect(screen.getByText('*')).toHaveClass('input-required-mark');
+  });
 });

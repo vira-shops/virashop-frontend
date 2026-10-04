@@ -48,3 +48,8 @@ export const States: Story = {
     </div>
   ),
 };
+
+export const RequiredMark: Story = {
+  name: 'فیلد اجباری (*)',
+  args: { label: 'آدرس', requiredMark: true },
+};

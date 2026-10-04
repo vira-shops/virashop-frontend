@@ -128,6 +128,7 @@ export const Select: React.FC<SelectProps> = ({
   state,
   size = 'md',
   label,
+  requiredMark = false,
   inputMessage,
   placeholder,
   searchable = false,
@@ -262,6 +263,11 @@ export const Select: React.FC<SelectProps> = ({
       {label && (
         <label htmlFor={selectId} className={cn('select-label', labelClassName)}>
           {label}
+          {requiredMark && (
+            <span aria-hidden="true" className="input-required-mark">
+              {' *'}
+            </span>
+          )}
         </label>
       )}
       <div ref={rootRef} className={cn('relative', fullWidth && 'w-full')}>

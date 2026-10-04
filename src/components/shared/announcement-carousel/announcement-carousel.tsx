@@ -54,7 +54,7 @@ export const AnnouncementCarousel: React.FC<AnnouncementCarouselProps> = ({
             <CarouselItem key={item.id} className="basis-full">
               <article
                 className={cn(
-                  'rounded-8 flex h-full items-center justify-between gap-9 bg-blue-900 px-5 py-8 text-white',
+                  'rounded-8 flex h-full items-center justify-between gap-9 bg-black px-5 py-8 text-white',
                   slideClassName,
                 )}
               >
@@ -91,7 +91,7 @@ export const AnnouncementCarousel: React.FC<AnnouncementCarouselProps> = ({
         {items.length > 1 && (
           <CarouselIndicator
             className={cn(
-              'mt-5 justify-center [&_.carousel-indicator]:bg-blue-200 [&_.carousel-indicator-active]:bg-blue-900',
+              'mt-5 justify-center [&_.carousel-indicator]:bg-gray-300 [&_.carousel-indicator-active]:bg-gray-700',
               dotsClassName,
             )}
           />

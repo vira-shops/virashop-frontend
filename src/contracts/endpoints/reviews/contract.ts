@@ -37,6 +37,15 @@ export const MY_QUESTIONS_MOCK: MyQuestion[] = [
     product: PEPSI,
     question: 'تولیدی از کجاست ؟',
     answers: ['مشهد', 'مشهد و اصفهان'],
+    status: 'APPROVED',
+    createdAt: '2021-08-12T09:30:00Z',
+  },
+  {
+    id: 2,
+    product: PEPSI,
+    question: 'تولیدی از کجاست ؟',
+    answers: [],
+    status: 'REJECTED',
     createdAt: '2021-08-12T09:30:00Z',
   },
 ];

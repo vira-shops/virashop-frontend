@@ -22,4 +22,14 @@ export const ORDERS_TOOLBAR = {
 } as const;
 
 /** Count chip of the selected tab — dark, like the design. */
-export const ACTIVE_TAB_COUNT_CLASS = 'bg-blue-900 text-white';
+export const ACTIVE_TAB_COUNT_CLASS = 'bg-gray-300 text-black';
+
+/** Phone order cards — the rows each card lists. */
+export const ORDER_CARD_LABELS = {
+  trackingCode: 'کد پیگیری',
+  amount: 'مبلغ',
+  products: 'کالا',
+  payment: 'عملیات پرداخت',
+  date: 'تاریخ',
+  details: 'مشاهده جزئیات',
+} as const;

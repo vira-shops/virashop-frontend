@@ -3,28 +3,35 @@ import { StatusIcon } from '@/components/ui';
 import { ThumbnailStack, type DataTableColumn } from '@/components/shared';
 import type { OrderSummary } from '@/contracts/endpoints/orders';
 import { formatJalaliDate, toFaDigits } from '@/utils/format';
-import { ORDER_STATUS_LABELS, PAYMENT_STATUS_ICONS } from '@/features/buyer-dashboard/constants';
+import { PAYMENT_STATUS_ICONS } from '@/features/buyer-dashboard/constants';
 import { Amount } from './amount';
 import { DESKTOP_ONLY_CLASS, ORDER_COLUMN_LABELS, ORDER_STATUS_TEXT_CLASSES } from './constants';
+import type { OrderCellProps, OrderColumnsOptions } from './types';
 
 const desktopOnly = { cellClassName: DESKTOP_ONLY_CLASS, headerClassName: DESKTOP_ONLY_CLASS };
 
-const PRODUCTS_COLUMN: DataTableColumn<OrderSummary> = {
-  key: 'products',
-  header: ORDER_COLUMN_LABELS.products,
-  align: 'center',
-  ...desktopOnly,
-  render: (order) => (
-    <ThumbnailStack
-      images={order.items.map((item) => ({ src: item.image, alt: item.name }))}
-      size="sm"
-      className="justify-center"
-    />
-  ),
+/** Product thumbnails with the «+N» overflow tile. */
+export const OrderThumbnails: React.FC<OrderCellProps> = ({ order, className }) => (
+  <ThumbnailStack
+    images={order.items.map((item) => ({ src: item.image, alt: item.name }))}
+    size="md"
+    max={3}
+    className={className}
+  />
+);
+
+/** Payment result chip. */
+export const PaymentCell: React.FC<OrderCellProps> = ({ order, className }) => {
+  const payment = PAYMENT_STATUS_ICONS[order.paymentStatus];
+
+  return <StatusIcon status={payment.status} label={payment.label} className={className} />;
 };
 
-/** Orders table columns; the thumbnail column is optional (orders page only). */
-export const buildOrderColumns = (showProducts: boolean): DataTableColumn<OrderSummary>[] => [
+/** Orders table columns — see `OrdersTableVariant` for the two sets. */
+export const buildOrderColumns = ({
+  variant,
+  statusLabels,
+}: OrderColumnsOptions): DataTableColumn<OrderSummary>[] => [
   {
     key: 'trackingCode',
     header: ORDER_COLUMN_LABELS.trackingCode,
@@ -36,28 +43,31 @@ export const buildOrderColumns = (showProducts: boolean): DataTableColumn<OrderS
     align: 'center',
     render: (order) => <Amount value={order.total} />,
   },
-  ...(showProducts ? [PRODUCTS_COLUMN] : []),
-  {
-    key: 'status',
-    header: ORDER_COLUMN_LABELS.status,
-    align: 'center',
-    ...desktopOnly,
-    render: (order) => (
-      <span className={ORDER_STATUS_TEXT_CLASSES[order.status]}>
-        {ORDER_STATUS_LABELS[order.status]}
-      </span>
-    ),
-  },
+  variant === 'full'
+    ? {
+        key: 'products',
+        header: ORDER_COLUMN_LABELS.products,
+        align: 'center',
+        ...desktopOnly,
+        render: (order) => <OrderThumbnails order={order} className="justify-center" />,
+      }
+    : {
+        key: 'status',
+        header: ORDER_COLUMN_LABELS.status,
+        align: 'center',
+        ...desktopOnly,
+        render: (order) => (
+          <span className={ORDER_STATUS_TEXT_CLASSES[order.status]}>
+            {statusLabels[order.status]}
+          </span>
+        ),
+      },
   {
     key: 'payment',
     header: ORDER_COLUMN_LABELS.payment,
     align: 'center',
     ...desktopOnly,
-    render: (order) => {
-      const payment = PAYMENT_STATUS_ICONS[order.paymentStatus];
-
-      return <StatusIcon status={payment.status} label={payment.label} className="mx-auto flex" />;
-    },
+    render: (order) => <PaymentCell order={order} className="mx-auto flex" />,
   },
   {
     key: 'date',

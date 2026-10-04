@@ -14,6 +14,8 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   state?: SelectState;
   size?: SelectSize;
   label?: string;
+  /** Appends a primary-colored «*» to the label (visual only — validation stays with the form). */
+  requiredMark?: boolean;
   inputMessage?: string;
   placeholder?: string;
   searchable?: boolean;

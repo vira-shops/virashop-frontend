@@ -52,7 +52,8 @@ export const ANNOUNCEMENTS_MOCK: Announcement[] = [
     id: 1,
     title: 'سفارش شما ارسال شد',
     body: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است...',
-    href: PATHS.DASHBOARD.BUYER.ORDER(1001),
+    // Shared by both buyer dashboards, so no dashboard-specific link.
+    href: null,
   },
   {
     id: 2,
@@ -64,7 +65,7 @@ export const ANNOUNCEMENTS_MOCK: Announcement[] = [
     id: 3,
     title: 'پروفایل خود را کامل کنید',
     body: 'با تکمیل اطلاعات کسب‌وکار، از قیمت‌های عمده و ارسال رایگان بهره‌مند شوید.',
-    href: PATHS.DASHBOARD.BUYER.PROFILE,
+    href: null,
   },
 ];
 

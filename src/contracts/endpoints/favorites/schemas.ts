@@ -12,6 +12,11 @@ export const FavoriteProductSchema = z.object({
   price: z.number(),
   /** Tomans before discount; `null` when not discounted. */
   originalPrice: z.number().nullable(),
+  /** Whole-number discount; `0` hides the badge. */
+  discountPercent: z.number(),
+  /** ISO end of the discounted price — drives the countdown; `null` = no deadline. */
+  saleEndsAt: z.string().nullable(),
+  inStock: z.boolean(),
 });
 export type FavoriteProduct = z.infer<typeof FavoriteProductSchema>;
 

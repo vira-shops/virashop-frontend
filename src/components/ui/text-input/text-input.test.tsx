@@ -182,4 +182,11 @@ describe('TextInput', () => {
 
     expect(screen.getByTestId('my-input')).toHaveAttribute('aria-label', 'جستجو');
   });
+
+  it('marks required labels without changing the accessible name', () => {
+    render(<TextInput label="کد پستی" requiredMark />);
+
+    expect(screen.getByRole('textbox', { name: 'کد پستی' })).toBeInTheDocument();
+    expect(screen.getByText('*')).toHaveClass('input-required-mark');
+  });
 });

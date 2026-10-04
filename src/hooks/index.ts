@@ -10,7 +10,13 @@ export { useCategoryBrowse } from './use-category-browse';
 export { useProducts, useProductsByCategories } from './use-products';
 export { useSellerOffers } from './use-seller-offers';
 export { useSellerOffer } from './use-seller-offer';
-export { useAddresses, useDeliveryOptions, usePaymentMethods } from './use-checkout-options';
+export { useDeliveryOptions, usePaymentMethods } from './use-checkout-options';
+export {
+  useAddresses,
+  useDeleteAddress,
+  useSaveAddress,
+  useSetDefaultAddress,
+} from './use-addresses';
 export { useProduct } from './use-product';
 export { useProductListingFilters } from './use-product-listing-filters';
 export type {
@@ -31,3 +37,4 @@ export { useAnnouncements, useMarkNotificationRead, useNotifications } from './u
 export { useFavorites, useRemoveFavorite } from './use-favorites';
 export { useMyQuestions, useMyReviews } from './use-my-reviews';
 export { mergeProfileUpdate, useProfile, useUpdateProfile } from './use-profile';
+export { usePlaceSearch } from './use-place-search';

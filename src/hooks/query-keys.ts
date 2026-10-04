@@ -23,7 +23,6 @@ export const queryKeys = {
   posts: () => [...queryKeys.all, 'posts'] as const,
   techNews: () => [...queryKeys.posts(), 'tech-news'] as const,
   checkout: () => [...queryKeys.all, 'checkout'] as const,
-  addresses: () => [...queryKeys.checkout(), 'addresses'] as const,
   deliveryOptions: () => [...queryKeys.checkout(), 'delivery-options'] as const,
   paymentMethods: () => [...queryKeys.checkout(), 'payment-methods'] as const,
   cities: () => [...queryKeys.all, 'cities'] as const,
@@ -49,4 +48,5 @@ export const queryKeys = {
   myReviews: () => [...queryKeys.account(), 'reviews'] as const,
   myQuestions: () => [...queryKeys.account(), 'questions'] as const,
   profile: () => [...queryKeys.account(), 'profile'] as const,
+  addresses: () => [...queryKeys.account(), 'addresses'] as const,
 } as const;

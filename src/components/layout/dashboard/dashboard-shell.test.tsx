@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { PATHS } from '@/routes/paths';
-import { buyerDashboardConfig } from './buyer-config';
+import { retailBuyerDashboardConfig, wholesaleBuyerDashboardConfig } from './buyer-config';
 import { DashboardShell } from './dashboard-shell';
 import { isNavItemActive } from './utils';
 
-let mockPathname: string = PATHS.DASHBOARD.BUYER.ROOT;
+let mockPathname: string = PATHS.DASHBOARD.WHOLESALE_BUYER.ROOT;
 
 jest.mock('next/navigation', () => ({
   usePathname: () => mockPathname,
@@ -13,9 +13,9 @@ jest.mock('next/navigation', () => ({
 
 const user = { name: 'حسین حیدری' };
 
-const renderShell = (onLogout = jest.fn()) =>
+const renderShell = (onLogout = jest.fn(), config = wholesaleBuyerDashboardConfig) =>
   render(
-    <DashboardShell config={buyerDashboardConfig} user={user} onLogout={onLogout}>
+    <DashboardShell config={config} user={user} onLogout={onLogout}>
       <p>محتوای صفحه</p>
     </DashboardShell>,
   );
@@ -25,7 +25,7 @@ const desktopNav = () => screen.getAllByRole('navigation', { name: 'منوی ح�
 
 describe('DashboardShell', () => {
   beforeEach(() => {
-    mockPathname = PATHS.DASHBOARD.BUYER.ROOT;
+    mockPathname = PATHS.DASHBOARD.WHOLESALE_BUYER.ROOT;
   });
 
   it('applies the config theme and renders the page content', () => {
@@ -42,11 +42,31 @@ describe('DashboardShell', () => {
 
     expect(nav.getByRole('link', { name: 'سفارش ها' })).toHaveAttribute(
       'href',
-      PATHS.DASHBOARD.BUYER.ORDERS,
+      PATHS.DASHBOARD.WHOLESALE_BUYER.ORDERS,
     );
-    expect(nav.getByRole('link', { name: 'فروشگاه' })).toHaveAttribute('href', PATHS.RETAIL.ROOT);
+    expect(nav.getByRole('link', { name: 'فروشگاه' })).toHaveAttribute(
+      'href',
+      PATHS.WHOLESALE.ROOT,
+    );
+    expect(nav.getByRole('link', { name: 'آدرس' })).toHaveAttribute(
+      'href',
+      PATHS.DASHBOARD.WHOLESALE_BUYER.ADDRESSES,
+    );
     expect(nav.getByRole('button', { name: 'خروج' })).toBeInTheDocument();
-    expect(nav.getAllByRole('listitem')).toHaveLength(9);
+    expect(nav.getAllByRole('listitem')).toHaveLength(10);
+  });
+
+  it('builds the retail dashboard from the same sections', () => {
+    mockPathname = PATHS.DASHBOARD.RETAIL_BUYER.ROOT;
+    const { container } = renderShell(jest.fn(), retailBuyerDashboardConfig);
+    const nav = within(desktopNav());
+
+    expect(container.firstChild).toHaveAttribute('data-theme', 'retail');
+    expect(nav.getByRole('link', { name: 'فروشگاه' })).toHaveAttribute('href', PATHS.RETAIL.ROOT);
+    expect(nav.getByRole('link', { name: 'سفارش ها' })).toHaveAttribute(
+      'href',
+      PATHS.DASHBOARD.RETAIL_BUYER.ORDERS,
+    );
   });
 
   it('marks the dashboard tile active only on the exact root', () => {
@@ -59,7 +79,7 @@ describe('DashboardShell', () => {
   });
 
   it('keeps a section active on nested routes', () => {
-    mockPathname = PATHS.DASHBOARD.BUYER.ORDER(42);
+    mockPathname = PATHS.DASHBOARD.WHOLESALE_BUYER.ORDER(42);
     renderShell();
     const nav = within(desktopNav());
 
@@ -80,7 +100,7 @@ describe('DashboardShell', () => {
     renderShell();
 
     fireEvent.click(screen.getByRole('button', { name: 'باز کردن منو' }));
-    const drawer = screen.getByRole('dialog', { name: 'منوی حساب کاربری' });
+    const drawer = screen.getByRole('dialog', { name: 'منو' });
 
     expect(within(drawer).getByRole('link', { name: 'پروفایل' })).toBeInTheDocument();
 

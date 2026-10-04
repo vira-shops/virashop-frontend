@@ -8,9 +8,16 @@ import { formatJalaliDate } from '@/utils/format';
 import type {
   FeedbackCardProps,
   FeedbackProduct,
+  FeedbackStatusTone,
   QuestionFeedbackCardProps,
   ReviewFeedbackCardProps,
 } from './types';
+
+const STATUS_TONE_CLASSES: Record<FeedbackStatusTone, string> = {
+  muted: 'text-blue-300',
+  success: 'text-warning-green',
+  error: 'text-warning-red',
+};
 
 const ProductRow: React.FC<{ product: FeedbackProduct; children?: React.ReactNode }> = ({
   product,
@@ -99,8 +106,13 @@ export const FeedbackCard: React.FC<FeedbackCardProps> = (props) => {
         className,
       )}
     >
-      {props.variant === 'review' && props.statusLabel && (
-        <span className="text-caption-md absolute top-5 left-7 text-blue-300">
+      {props.statusLabel && (
+        <span
+          className={cn(
+            'text-caption-md absolute top-5 left-7',
+            STATUS_TONE_CLASSES[props.statusTone ?? 'muted'],
+          )}
+        >
           {props.statusLabel}
         </span>
       )}

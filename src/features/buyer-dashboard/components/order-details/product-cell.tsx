@@ -1,10 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
-import type { OrderLine } from '@/contracts/endpoints/orders';
-import { PATHS } from '@/routes/paths';
 import type { ProductCellProps } from './types';
-
-export const productHref = (line: OrderLine) => PATHS.RETAIL.PRODUCT(line.productSlug);
 
 /** Product thumbnail + name. */
 export const ProductCell: React.FC<ProductCellProps> = ({ line }) => (

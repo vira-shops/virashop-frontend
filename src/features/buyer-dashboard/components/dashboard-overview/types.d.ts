@@ -1,7 +1,1 @@
-import type { OrderStatus } from '@/contracts/endpoints/orders';
-
-/** One KPI card — which status it counts and its label. */
-export interface OrderStatCardConfig {
-  status: OrderStatus;
-  label: string;
-}
+export type { BuyerChannelProps as DashboardOverviewProps } from '@/features/buyer-dashboard/types';

@@ -37,14 +37,36 @@ describe('mergeProfileUpdate', () => {
           nationalId: '1111111111',
           birthDate: null,
           gender: 'MALE',
+          email: null,
+          occupation: null,
         },
-        business: { ...PROFILE_MOCK.business, name: 'فروشگاه جدید' },
+        business: { ...PROFILE_MOCK.business!, name: 'فروشگاه جدید' },
       },
     );
 
     expect(merged.personal.fullName).toBe('نام جدید');
     expect(merged.personal.avatarUrl).toBe('/a.png');
     expect(merged.personal.mobile).toBe(PROFILE_MOCK.personal.mobile);
-    expect(merged.business.name).toBe('فروشگاه جدید');
+    expect(merged.business?.name).toBe('فروشگاه جدید');
+    expect(merged.address).toEqual(PROFILE_MOCK.address);
+  });
+
+  it('keeps the business card untouched when only the address is sent', () => {
+    const location = { lat: 31.9, lng: 54.35 };
+    const merged = mergeProfileUpdate(PROFILE_MOCK, {
+      personal: {
+        fullName: PROFILE_MOCK.personal.fullName,
+        nationalId: PROFILE_MOCK.personal.nationalId,
+        birthDate: null,
+        gender: null,
+        email: 'buyer@example.com',
+        occupation: 'معلم',
+      },
+      address: { line: 'یزد - بلوار جمهوری', location },
+    });
+
+    expect(merged.business).toEqual(PROFILE_MOCK.business);
+    expect(merged.personal.email).toBe('buyer@example.com');
+    expect(merged.address).toEqual({ line: 'یزد - بلوار جمهوری', location });
   });
 });

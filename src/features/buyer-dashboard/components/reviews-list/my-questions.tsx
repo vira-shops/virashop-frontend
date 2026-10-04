@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { EmptyState, FeedbackCard } from '@/components/shared';
 import { useMyQuestions } from '@/hooks';
-import { QUESTIONS_EMPTY } from './constants';
+import { QUESTION_STATUS, QUESTIONS_EMPTY } from './constants';
 import { ListSkeleton } from './list-skeleton';
 import { toFeedbackProduct } from './utils';
 
@@ -31,6 +31,8 @@ export const MyQuestions: React.FC = () => {
       date={question.createdAt}
       question={question.question}
       answers={question.answers}
+      statusLabel={QUESTION_STATUS[question.status].label}
+      statusTone={QUESTION_STATUS[question.status].tone}
     />
   ));
 };

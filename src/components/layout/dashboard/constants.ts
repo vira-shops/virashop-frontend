@@ -8,6 +8,7 @@ export const DASHBOARD_NAV_LABELS = {
   notifications: 'اعلان ها',
   reviews: 'نظرات و پرسش',
   profile: 'پروفایل',
+  addresses: 'آدرس',
   logout: 'خروج',
 } as const;
 
@@ -19,4 +20,5 @@ export const DASHBOARD_A11Y = {
   nav: 'منوی حساب کاربری',
   openMenu: 'باز کردن منو',
   closeMenu: 'بستن منو',
+  menuTitle: 'منو',
 } as const;

@@ -10,8 +10,8 @@ import {
   SectionPanel,
 } from '@/components/shared';
 import { useOrder } from '@/hooks';
-import { PATHS } from '@/routes/paths';
-import { PAGE_TITLES } from '@/features/buyer-dashboard/constants';
+import { PAGE_TITLES, getBuyerChannel } from '@/features/buyer-dashboard/constants';
+import type { OrderLine } from '@/contracts/endpoints/orders';
 import {
   DETAILS_CARD_CLASS,
   INFO_GRID_CLASS,
@@ -22,11 +22,12 @@ import {
 import { DetailsSkeleton } from './details-skeleton';
 import { LINE_COLUMNS, buildOrderItems, buildSenderItems } from './items';
 import { MobileLines } from './mobile-lines';
-import { productHref } from './product-cell';
 import type { OrderDetailsProps } from './types';
 
 /** One order — order info, sender info and its product lines. */
-export const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
+export const OrderDetails: React.FC<OrderDetailsProps> = ({ channel, orderId }) => {
+  const { paths, productHref } = getBuyerChannel(channel);
+  const lineHref = (line: OrderLine) => productHref(line.productSlug);
   const order = useOrder(orderId);
   const invoiceUrl = order.data?.invoiceUrl;
 
@@ -36,7 +37,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
       <PageHeading
         title={PAGE_TITLES.orderDetails}
         as="h2"
-        backHref={PATHS.DASHBOARD.BUYER.ORDERS}
+        backHref={paths.ORDERS}
         bordered
         actions={
           invoiceUrl ? (
@@ -77,10 +78,10 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
                 columns={LINE_COLUMNS}
                 rows={order.data.items}
                 getRowKey={(line) => line.id}
-                getRowHref={productHref}
+                getRowHref={lineHref}
               />
             </div>
-            <MobileLines lines={order.data.items} />
+            <MobileLines lines={order.data.items} hrefFor={lineHref} />
           </SectionPanel>
         </div>
       )}

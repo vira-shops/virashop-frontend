@@ -8,10 +8,10 @@ import { PAGE_TITLES } from '@/features/buyer-dashboard/constants';
 import { REVIEW_TAB_LABELS } from './constants';
 import type { ReviewTab, ReviewTabsProps } from './types';
 
-/** «نظرات شما» / «پاسخ ها» — the answers tab counts questions that got an answer. */
+/** «نظرات» / «پرسش ها» — the questions tab carries the question count. */
 export const ReviewTabs: React.FC<ReviewTabsProps> = ({ value, onChange }) => {
   const questions = useMyQuestions();
-  const answeredCount = (questions.data ?? []).filter((q) => q.answers.length > 0).length;
+  const questionCount = questions.data?.length ?? 0;
 
   const items = [
     { value: 'reviews', label: REVIEW_TAB_LABELS.reviews },
@@ -21,7 +21,7 @@ export const ReviewTabs: React.FC<ReviewTabsProps> = ({ value, onChange }) => {
         <span className="flex items-center gap-2">
           {REVIEW_TAB_LABELS.answers}
           <Badge color="gray" size="xs" radius="sm" className="px-2">
-            {toFaDigits(answeredCount)}
+            {toFaDigits(questionCount)}
           </Badge>
         </span>
       ),

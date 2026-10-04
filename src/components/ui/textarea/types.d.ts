@@ -15,6 +15,8 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   color?: TextareaColor;
   state?: TextareaState;
   label?: string;
+  /** Appends a primary-colored «*» to the label (visual only — validation stays with the form). */
+  requiredMark?: boolean;
   inputMessage?: string;
   fullWidth?: boolean;
   dir?: 'rtl' | 'ltr' | 'auto';

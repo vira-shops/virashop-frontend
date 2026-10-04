@@ -29,7 +29,12 @@ export function StoreHeaderMobile({ config }: StoreHeaderMobileProps) {
 
           {/* Left in RTL: profile menu (signed in) / login icon */}
           {mounted && user ? (
-            <UserMenu user={user} onSignOut={() => void signOut()} isPending={isPending} />
+            <UserMenu
+              user={user}
+              onSignOut={() => void signOut()}
+              dashboardHref={PATHS.DASHBOARD_FOR(channel)}
+              isPending={isPending}
+            />
           ) : (
             <Button
               href={PATHS.AUTH.LOGIN_FOR(channel)}

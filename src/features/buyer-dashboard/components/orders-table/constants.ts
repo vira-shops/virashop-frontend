@@ -4,7 +4,7 @@ export const ORDER_COLUMN_LABELS = {
   trackingCode: 'کد پیگیری',
   amount: 'مبلغ',
   status: 'وضعیت سفارش',
-  products: 'محصولات',
+  products: 'کالا',
   payment: 'عملیات پرداخت',
   date: 'تاریخ',
 } as const;

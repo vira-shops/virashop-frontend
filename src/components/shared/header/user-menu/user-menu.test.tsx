@@ -68,4 +68,23 @@ describe('UserMenu', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
+
+  it('links to the dashboard when given a target, and closes on click', () => {
+    render(<UserMenu user={user} onSignOut={jest.fn()} dashboardHref="/dashboard/retail-buyer" />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'حساب کاربری' }));
+    const link = screen.getByRole('menuitem', { name: 'ورود به داشبورد' });
+
+    expect(link).toHaveAttribute('href', '/dashboard/retail-buyer');
+    fireEvent.click(link);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('hides the dashboard item without a target', () => {
+    render(<UserMenu user={user} onSignOut={jest.fn()} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'حساب کاربری' }));
+
+    expect(screen.queryByRole('menuitem', { name: 'ورود به داشبورد' })).not.toBeInTheDocument();
+  });
 });

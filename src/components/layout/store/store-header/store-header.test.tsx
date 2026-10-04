@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StoreHeader } from './store-header';
 import { retailChannel, wholesaleChannel } from '@/config/storefront';
 import { usePopularCategories } from '@/hooks';
+import { useAuthStore } from '@/hooks/auth';
+import type { AuthUser } from '@/contracts/endpoints/auth';
 
 const wholesaleConfig = wholesaleChannel.header;
 const retailConfig = retailChannel.header;
@@ -500,5 +502,27 @@ describe('StoreHeader — mobile sidebar', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog', { name: 'منوی موبایل' })).not.toBeInTheDocument();
     });
+  });
+});
+
+// --- Signed-in user menu ---------------------------------------------------
+
+describe('StoreHeader — signed-in user menu', () => {
+  const user = { id: 1, phone: '09123456789', fullName: 'سارا احمدی' } as AuthUser;
+
+  beforeEach(() => useAuthStore.setState({ user }));
+  afterEach(() => useAuthStore.setState({ user: null }));
+
+  it.each([
+    ['retail', retailConfig, '/dashboard/retail-buyer'],
+    ['wholesale', wholesaleConfig, '/dashboard/wholesale-buyer'],
+  ] as const)('links «ورود به داشبورد» to the %s buyer dashboard', async (theme, config, href) => {
+    renderHeader(config, theme);
+
+    // Desktop and mobile headers each render a menu trigger; open the desktop one.
+    const [trigger] = await screen.findAllByRole('button', { name: 'حساب کاربری' });
+    fireEvent.click(trigger);
+
+    expect(screen.getByRole('menuitem', { name: 'ورود به داشبورد' })).toHaveAttribute('href', href);
   });
 });

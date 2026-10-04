@@ -14,6 +14,8 @@ export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   state?: TextInputState;
   size?: TextInputSize;
   label?: string;
+  /** Appends a primary-colored «*» to the label (visual only — validation stays with the form). */
+  requiredMark?: boolean;
   inputMessage?: string;
   rightIcon?: ReactNode;
   leftIcon?: ReactNode;

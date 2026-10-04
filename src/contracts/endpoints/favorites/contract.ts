@@ -11,15 +11,29 @@ const NAMES = [
   'گوشت چرخ کرده مهیا پروتئین',
 ];
 
-export const FAVORITES_MOCK: FavoriteProduct[] = Array.from({ length: 8 }, (_, index) => ({
-  id: index + 1,
-  productSlug: `favorite-${index + 1}`,
-  channel: 'RETAIL',
-  name: NAMES[index % NAMES.length],
-  image: `/images/landing/big-offer/0${(index % 5) + 1}.png`,
-  price: 2_540_000,
-  originalPrice: index % 3 === 2 ? null : 2_800_000,
-}));
+/** Discounted mocks end a day from now, so the countdown has something to show. */
+const SALE_ENDS_AT = new Date(Date.now() + 25 * 60 * 60 * 1000).toISOString();
+
+/**
+ * A 4-card rhythm mirroring the design: discounted with a deadline, plain,
+ * out of stock, plain.
+ */
+export const FAVORITES_MOCK: FavoriteProduct[] = Array.from({ length: 12 }, (_, index) => {
+  const discounted = index % 2 === 1;
+
+  return {
+    id: index + 1,
+    productSlug: `favorite-${index + 1}`,
+    channel: 'RETAIL',
+    name: NAMES[index % NAMES.length],
+    image: `/images/landing/big-offer/0${(index % 5) + 1}.png`,
+    price: 2_540_000,
+    originalPrice: discounted ? 2_800_000 : null,
+    discountPercent: discounted ? 20 : 0,
+    saleEndsAt: discounted ? SALE_ENDS_AT : null,
+    inStock: index % 4 !== 0,
+  };
+});
 
 export const favoritesContracts = {
   favorites: {

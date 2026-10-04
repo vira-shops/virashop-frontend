@@ -111,3 +111,8 @@ export const FullWidth: Story = {
     </div>
   ),
 };
+
+export const RequiredMark: Story = {
+  name: 'فیلد اجباری (*)',
+  args: { label: 'کد پستی', requiredMark: true, variant: 'ghost', placeholder: '' },
+};

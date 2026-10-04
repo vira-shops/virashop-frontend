@@ -5,8 +5,15 @@ export interface FeedbackProduct {
   href?: string;
 }
 
+/** `muted` — pending; `success` — approved; `error` — rejected. */
+export type FeedbackStatusTone = 'muted' | 'success' | 'error';
+
 interface FeedbackCardBase {
   product: FeedbackProduct;
+  /** Moderation label in the top corner — «در انتظار», «تایید شد», … */
+  statusLabel?: string;
+  /** @default 'muted' */
+  statusTone?: FeedbackStatusTone;
   /** ISO timestamp — rendered as a Jalali date. */
   date: string;
   className?: string;
@@ -19,8 +26,6 @@ export interface ReviewFeedbackCardProps extends FeedbackCardBase {
   title: string;
   pros?: string[];
   cons?: string[];
-  /** Moderation label in the top corner — «در انتظار». */
-  statusLabel?: string;
 }
 
 /** A buyer's question with the answers it received. */

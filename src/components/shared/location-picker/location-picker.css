@@ -1,0 +1,38 @@
+/*
+ * Leaflet renders the pin's HTML outside React, so it is styled here rather
+ * than with utilities. The color follows the surrounding `data-theme`.
+ */
+.location-pin-anchor {
+  background: transparent;
+  border: 0;
+}
+
+.location-pin {
+  position: relative;
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--primary-500);
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.25);
+}
+
+.location-pin::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* Small static pin for `MapThumbnail` — same shape, thumbnail scale. */
+.location-pin-sm {
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.25);
+}
+
+.location-pin-sm::after {
+  inset: 4px;
+}

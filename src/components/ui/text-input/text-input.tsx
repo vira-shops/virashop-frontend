@@ -46,6 +46,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   state,
   size = 'md',
   label,
+  requiredMark = false,
   inputMessage,
   rightIcon,
   leftIcon,
@@ -72,6 +73,11 @@ export const TextInput: React.FC<TextInputProps> = ({
       {label && (
         <label htmlFor={inputId} className={cn('input-label', labelClassName)}>
           {label}
+          {requiredMark && (
+            <span aria-hidden="true" className="input-required-mark">
+              {' *'}
+            </span>
+          )}
         </label>
       )}
       <div

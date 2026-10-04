@@ -1,3 +1,4 @@
+import { addressesContracts } from './endpoints/addresses';
 import { authContracts } from './endpoints/auth';
 import { bannersContracts } from './endpoints/banners';
 import { brandsContracts } from './endpoints/brands';
@@ -19,6 +20,7 @@ export * from './common';
 
 /** Central contracts registry — `api(namespace, endpoint)` looks entries up here. */
 export const contracts = {
+  ...addressesContracts,
   ...authContracts,
   ...bannersContracts,
   ...brandsContracts,

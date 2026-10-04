@@ -1,13 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { UserIcon } from '@icons';
+import { Element3Icon, UserIcon } from '@icons';
 import { Button, Typography } from '@/components/ui';
 import { toFaDigits } from '@/utils/format';
 import { cn } from '@/utils/ui';
 import type { UserMenuProps } from './types';
 
 const ARIA_LABEL = 'حساب کاربری';
+const DASHBOARD_LABEL = 'ورود به داشبورد';
 
 /**
  * Signed-in header identity — an icon-only trigger that opens a small
@@ -15,7 +16,13 @@ const ARIA_LABEL = 'حساب کاربری';
  * previous bare "name + خروج button" pair. Mirrors `CategoriesDropdown`'s
  * open/outside-click/Escape interaction pattern.
  */
-export const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut, isPending, className }) => {
+export const UserMenu: React.FC<UserMenuProps> = ({
+  user,
+  onSignOut,
+  dashboardHref,
+  isPending,
+  className,
+}) => {
   const [open, setOpen] = React.useState(false);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
 
@@ -80,6 +87,21 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut, isPending, 
           </div>
 
           <div role="separator" className="border-t border-gray-100" aria-hidden="true" />
+
+          {dashboardHref && (
+            <Button
+              href={dashboardHref}
+              role="menuitem"
+              variant="ghost"
+              size="xs"
+              fullWidth
+              onClick={() => setOpen(false)}
+              rightIcon={<Element3Icon className="size-6" aria-hidden="true" />}
+              className="hover:bg-primary-50 justify-start rounded-none px-5 text-gray-900"
+            >
+              {DASHBOARD_LABEL}
+            </Button>
+          )}
 
           <Button
             type="button"

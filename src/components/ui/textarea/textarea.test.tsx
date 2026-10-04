@@ -42,4 +42,11 @@ describe('Textarea', () => {
     expect(screen.getByLabelText('f')).toBeDisabled();
     expect(screen.getByLabelText('f')).toHaveClass('input-disabled');
   });
+
+  it('marks required labels without changing the accessible name', () => {
+    render(<Textarea label="آدرس" requiredMark />);
+
+    expect(screen.getByRole('textbox', { name: 'آدرس' })).toBeInTheDocument();
+    expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true');
+  });
 });

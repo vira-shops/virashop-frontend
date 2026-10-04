@@ -21,4 +21,6 @@ export interface DateRangeModalProps {
   className?: string;
   /** Classes on the from/to fields grid — the caller owns breakpoints (e.g. `md:grid-cols-2`). */
   fieldsClassName?: string;
+  /** `data-theme` for the portal (it renders outside the page's themed wrapper). */
+  theme?: string;
 }

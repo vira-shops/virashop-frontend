@@ -1,66 +1,113 @@
 import {
+  BagBoldIcon,
   BagIcon,
+  BellBoldIcon,
+  BellIcon,
+  Element3Icon,
   ElementIcon,
+  HeartBoldIcon,
   HeartIcon,
+  LocationBoldIcon,
   LogoutIcon,
+  MapPinIcon,
+  MessageTextBoldIcon,
   MessageTextIcon,
-  NotificationIcon,
   ShopStoreIcon,
   ShoppingCardGhostIcon,
+  UserBoldIcon,
   UserIcon,
 } from '@icons';
 import { PATHS } from '@/routes/paths';
-import { DASHBOARD_NAV_LABELS, DASHBOARD_SUBTITLE } from './constants';
+import type { Channel } from '@/validations/primitives';
+import { DASHBOARD_NAV_LABELS as L, DASHBOARD_SUBTITLE } from './constants';
 import type { DashboardConfig } from './types';
 
-const BUYER = PATHS.DASHBOARD.BUYER;
+/** Per-channel dashboard routes, palette and page surface. */
+const CHANNEL = {
+  WHOLESALE: {
+    paths: PATHS.DASHBOARD.WHOLESALE_BUYER,
+    store: PATHS.WHOLESALE.ROOT,
+    theme: 'wholesale',
+    surfaceClassName: 'bg-blue-50',
+  },
+  RETAIL: {
+    paths: PATHS.DASHBOARD.RETAIL_BUYER,
+    store: PATHS.RETAIL.ROOT,
+    theme: 'retail',
+    surfaceClassName: 'bg-retail-tint',
+  },
+} as const;
 
-/** Buyer dashboard — teal, like the design; shortcuts go to the retail storefront. */
-export const buyerDashboardConfig: DashboardConfig = {
-  theme: 'wholesale',
-  subtitle: DASHBOARD_SUBTITLE,
-  quickLinks: [
-    {
-      key: 'store',
-      label: DASHBOARD_NAV_LABELS.store,
-      icon: ShopStoreIcon,
-      href: PATHS.RETAIL.ROOT,
-    },
-    {
-      key: 'cart',
-      label: DASHBOARD_NAV_LABELS.cart,
-      icon: ShoppingCardGhostIcon,
-      href: PATHS.CART_FOR('RETAIL'),
-    },
-  ],
-  navItems: [
-    {
-      key: 'dashboard',
-      label: DASHBOARD_NAV_LABELS.dashboard,
-      icon: ElementIcon,
-      href: BUYER.ROOT,
-      exact: true,
-    },
-    { key: 'orders', label: DASHBOARD_NAV_LABELS.orders, icon: BagIcon, href: BUYER.ORDERS },
-    {
-      key: 'favorites',
-      label: DASHBOARD_NAV_LABELS.favorites,
-      icon: HeartIcon,
-      href: BUYER.FAVORITES,
-    },
-    {
-      key: 'notifications',
-      label: DASHBOARD_NAV_LABELS.notifications,
-      icon: NotificationIcon,
-      href: BUYER.NOTIFICATIONS,
-    },
-    {
-      key: 'reviews',
-      label: DASHBOARD_NAV_LABELS.reviews,
-      icon: MessageTextIcon,
-      href: BUYER.REVIEWS,
-    },
-    { key: 'profile', label: DASHBOARD_NAV_LABELS.profile, icon: UserIcon, href: BUYER.PROFILE },
-    { key: 'logout', label: DASHBOARD_NAV_LABELS.logout, icon: LogoutIcon, action: 'logout' },
-  ],
+/**
+ * Buyer dashboard menu for one storefront channel. Both buyer dashboards
+ * share the same sections; only the routes, palette and shortcuts differ.
+ */
+export const createBuyerDashboardConfig = (channel: Channel): DashboardConfig => {
+  const { paths, store, theme, surfaceClassName } = CHANNEL[channel];
+
+  return {
+    theme,
+    surfaceClassName,
+    subtitle: DASHBOARD_SUBTITLE,
+    quickLinks: [
+      { key: 'store', label: L.store, icon: ShopStoreIcon, href: store },
+      { key: 'cart', label: L.cart, icon: ShoppingCardGhostIcon, href: PATHS.CART_FOR(channel) },
+    ],
+    navItems: [
+      {
+        key: 'dashboard',
+        label: L.dashboard,
+        icon: Element3Icon,
+        activeIcon: ElementIcon,
+        href: paths.ROOT,
+        exact: true,
+      },
+      {
+        key: 'orders',
+        label: L.orders,
+        icon: BagIcon,
+        activeIcon: BagBoldIcon,
+        href: paths.ORDERS,
+      },
+      {
+        key: 'favorites',
+        label: L.favorites,
+        icon: HeartIcon,
+        activeIcon: HeartBoldIcon,
+        href: paths.FAVORITES,
+      },
+      {
+        key: 'notifications',
+        label: L.notifications,
+        icon: BellIcon,
+        activeIcon: BellBoldIcon,
+        href: paths.NOTIFICATIONS,
+      },
+      {
+        key: 'reviews',
+        label: L.reviews,
+        icon: MessageTextIcon,
+        activeIcon: MessageTextBoldIcon,
+        href: paths.REVIEWS,
+      },
+      {
+        key: 'profile',
+        label: L.profile,
+        icon: UserIcon,
+        activeIcon: UserBoldIcon,
+        href: paths.PROFILE,
+      },
+      {
+        key: 'addresses',
+        label: L.addresses,
+        icon: MapPinIcon,
+        activeIcon: LocationBoldIcon,
+        href: paths.ADDRESSES,
+      },
+      { key: 'logout', label: L.logout, icon: LogoutIcon, action: 'logout' },
+    ],
+  };
 };
+
+export const wholesaleBuyerDashboardConfig = createBuyerDashboardConfig('WHOLESALE');
+export const retailBuyerDashboardConfig = createBuyerDashboardConfig('RETAIL');

@@ -23,14 +23,14 @@ describe('PageHeading', () => {
       <PageHeading
         title="جزئیات سفارش"
         as="h2"
-        backHref="/dashboard/buyer/orders"
+        backHref="/dashboard/retail-buyer/orders"
         actions={<a href="/invoice">مشاهده فاکتور</a>}
       />,
     );
 
     expect(screen.getByRole('link', { name: 'بازگشت' })).toHaveAttribute(
       'href',
-      '/dashboard/buyer/orders',
+      '/dashboard/retail-buyer/orders',
     );
     expect(screen.getByRole('heading', { level: 2, name: 'جزئیات سفارش' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'مشاهده فاکتور' })).toBeInTheDocument();
