@@ -11,13 +11,17 @@ import {
 } from './constants';
 import type { DayPickerProps, OptionRadioProps, ShippingSectionProps } from './types';
 
-/** Sections are divided by a rule, not by whitespace. */
+/**
+ * Sections are divided by a rule, not by whitespace. `min-w-0` overrides the
+ * fieldset's default `min-width: min-content`, which otherwise lets the
+ * scrolling day strip widen the section past the card instead of scrolling.
+ */
 export const ShippingSection: React.FC<ShippingSectionProps> = ({
   title,
   children,
   last = false,
 }) => (
-  <fieldset className={cn('flex flex-col gap-7 pb-7', !last && 'border-b border-gray-100')}>
+  <fieldset className={cn('flex min-w-0 flex-col gap-7 pb-7', !last && 'border-b border-gray-100')}>
     <legend>
       <Typography variant="body-xs" className="text-primary-900">
         {title}
@@ -58,7 +62,9 @@ export const DayPicker: React.FC<DayPickerProps> = ({ days, selectedId, onSelect
   <div
     role="radiogroup"
     aria-label={COPY.deliveryDateTitle}
-    className="no-scrollbar flex gap-3 overflow-x-auto"
+    // Bleeds through the card's 16px padding so tiles scroll out at the card
+    // edge rather than being cut mid-card.
+    className="no-scrollbar -mx-7 flex gap-3 overflow-x-auto px-7"
   >
     {days.map((day) => {
       const isSelected = day.id === selectedId;
