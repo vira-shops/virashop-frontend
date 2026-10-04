@@ -15,7 +15,7 @@ import type { PurchaseAsideProps } from '@/features/product/components/product-d
  * single call to action.
  */
 export const PurchaseAside: React.FC<PurchaseAsideProps> = ({ price, onAddToCart }) => (
-  <aside className="rounded-9 flex h-fit flex-col gap-5 bg-white p-5 shadow-sm lg:sticky lg:top-6">
+  <aside className="rounded-8 flex h-fit flex-col gap-7 border border-gray-100 bg-white p-7 lg:sticky lg:top-[168px]">
     <div className="flex items-center justify-between gap-4">
       <Typography variant="caption-md" className="text-gray-400">
         {PRICE_LABEL}

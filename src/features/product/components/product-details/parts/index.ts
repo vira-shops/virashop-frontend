@@ -13,6 +13,7 @@ export type {
   PurchaseAsideProps,
   SellerOfferCardProps,
   SellerOfferViewProps,
+  SellerOffersHeaderProps,
   SellerOffersProps,
   ViraCalculatorProps,
 } from '@/features/product/components/product-details/types';

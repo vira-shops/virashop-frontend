@@ -123,10 +123,14 @@ export interface SellerOffersProps {
   /** Every seller carrying the product, including the ones not listed. */
   total: number;
   isLoading: boolean;
-  sort: SellerOfferSort;
-  onSortChange: (sort: SellerOfferSort) => void;
   /** Builds the href that opens one seller's terms. */
   hrefForOffer: (offerId: number) => string;
+}
+
+export interface SellerOffersHeaderProps {
+  sort: SellerOfferSort;
+  onSortChange: (sort: SellerOfferSort) => void;
+  className?: string;
 }
 
 export interface ViraCalculatorProps {

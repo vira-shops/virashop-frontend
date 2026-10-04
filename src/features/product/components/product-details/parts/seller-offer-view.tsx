@@ -62,8 +62,8 @@ export const SellerOfferView: React.FC<SellerOfferViewProps> = ({
   return (
     // DOM order is the mobile order (buy panel first); `flex-row-reverse`
     // flips it back on desktop so the terms sit on the start side.
-    <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start">
-      <div className="flex w-full flex-col gap-4 lg:w-64 lg:shrink-0">
+    <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start lg:gap-13">
+      <div className="flex w-full flex-col gap-4 lg:w-[288px] lg:shrink-0">
         <PurchaseAside price={offer?.price ?? product.price} onAddToCart={onAddToCart} />
 
         <Button
@@ -82,7 +82,7 @@ export const SellerOfferView: React.FC<SellerOfferViewProps> = ({
         )}
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-6">
+      <div className="flex min-w-0 flex-1 flex-col gap-10 lg:w-[600px] lg:flex-none">
         <ProductSummaryCard
           name={product.name}
           images={images}

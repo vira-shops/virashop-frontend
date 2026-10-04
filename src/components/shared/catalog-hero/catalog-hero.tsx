@@ -24,12 +24,15 @@ export const CatalogHero: React.FC<CatalogHeroProps> = ({
   <section aria-label="جستجو و دسته‌بندی‌ها" className={cn('relative w-full', className)}>
     <div className="bg-primary-500/10 pointer-events-none absolute inset-0" aria-hidden="true" />
 
-    <div className="relative container flex flex-col items-center gap-6 py-12 md:gap-8">
+    <div className="relative container flex flex-col items-center gap-7 pt-10 pb-10 md:gap-10 md:pt-11 md:pb-13">
       {breadcrumbItems.length > 0 && (
-        <Breadcrumb items={breadcrumbItems} className="no-scrollbar w-full overflow-x-auto" />
+        <Breadcrumb
+          items={breadcrumbItems}
+          className="no-scrollbar w-full overflow-x-auto md:mb-3"
+        />
       )}
 
-      <div className="w-full md:max-w-3xl">
+      <div className="w-full md:max-w-[808px]">
         <HeroSearchBar
           placeholder={searchPlaceholder}
           hrefForCategory={hrefForCategory}
@@ -41,7 +44,7 @@ export const CatalogHero: React.FC<CatalogHeroProps> = ({
         <CategoryIconNav
           items={categories}
           activeId={activeCategoryId}
-          className="mt-4 md:mt-10 md:max-w-4xl"
+          className="md:max-w-[888px]"
         />
       )}
     </div>

@@ -20,7 +20,7 @@ export const OfferTable: React.FC<OfferTableProps> = ({
 }) => (
   <section className={cn('flex flex-col gap-3', className)}>
     <div className="flex items-baseline justify-between gap-4">
-      <Typography variant="body-md" className="text-primary">
+      <Typography variant="h5" className="text-primary">
         {title}
       </Typography>
       {note && (
@@ -30,14 +30,15 @@ export const OfferTable: React.FC<OfferTableProps> = ({
       )}
     </div>
 
-    <div className="rounded-9 flex flex-col overflow-hidden bg-white py-2 shadow-sm">
+    <div className="rounded-8 flex flex-col gap-3 overflow-hidden border border-gray-100 bg-white p-5">
       {rows.map((row, index) => (
         <div
           key={row.id}
           className={cn(
-            'mx-2 flex items-center justify-between gap-4 px-4 py-3',
-            // Zebra striping starts on the second row, as drawn.
-            index % 2 === 1 && 'rounded-6 bg-gray-50',
+            'rounded-8 flex min-h-13 items-center justify-between gap-4 px-7 py-3',
+            // Zebra striping starts on the second row, in a 7% wash of the
+            // storefront colour (#FFF9ED on retail), as drawn.
+            index % 2 === 1 && 'bg-primary/7',
           )}
         >
           <Typography variant="body-sm" className="text-gray-400">
@@ -55,7 +56,7 @@ export const OfferTable: React.FC<OfferTableProps> = ({
         </div>
       ))}
 
-      {footer && <div className="flex justify-start px-6 pt-2 pb-1">{footer}</div>}
+      {footer && <div className="flex justify-start px-7 pt-2 pb-1">{footer}</div>}
     </div>
   </section>
 );

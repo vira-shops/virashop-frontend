@@ -36,7 +36,7 @@ export const SellerOfferCard: React.FC<SellerOfferCardProps> = ({ offer, href })
   ].filter((chip): chip is string => Boolean(chip));
 
   return (
-    <article className="rounded-9 flex flex-col gap-4 border border-gray-100 bg-gray-50 p-5">
+    <article className="rounded-8 flex flex-col gap-7 border border-gray-100 bg-gray-50 p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <span className="rounded-6 relative flex size-9 shrink-0 items-center justify-center overflow-hidden bg-gray-50 text-gray-300">

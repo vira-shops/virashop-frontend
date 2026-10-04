@@ -58,7 +58,7 @@ const CategorySidebarItem: React.FC<{
   return (
     <div
       className={cn(
-        'flex w-full items-center gap-3 rounded-none border-l-2 px-5 py-4 text-right transition-colors',
+        'flex h-13 w-full items-center gap-3 rounded-none border-l-2 px-5 text-right transition-colors',
         isActive
           ? 'border-primary-500 text-primary-500 bg-primary-500/10'
           : 'border-transparent text-gray-700 hover:bg-gray-50',
@@ -117,7 +117,7 @@ const CategoryContent: React.FC<{ category: PopularCategory }> = ({ category }) 
 
   return (
     <div
-      className="grid h-full gap-x-12 gap-y-8"
+      className="grid h-full gap-x-13 gap-y-3"
       style={{
         gridTemplateColumns: `repeat(${MEGA_PANEL_COLUMNS}, minmax(0, 1fr))`,
         gridTemplateRows: `repeat(${MEGA_PANEL_ROWS}, minmax(0, 1fr))`,
@@ -134,7 +134,8 @@ const MegaPanel: React.FC<{
   categories: PopularCategory[];
   activeCategoryId: string | null;
   onCategoryActivate: (id: string) => void;
-}> = ({ categories, activeCategoryId, onCategoryActivate }) => {
+  top: number;
+}> = ({ categories, activeCategoryId, onCategoryActivate, top }) => {
   const activeCategory = categories.find((c) => c.id === activeCategoryId) ?? categories[0];
 
   return (
@@ -146,7 +147,7 @@ const MegaPanel: React.FC<{
         'rounded-b-8 shodow-t-none border border-t-0 border-gray-100 bg-white shadow-sm',
       )}
       style={{
-        top: MEGA_PANEL_TOP_OFFSET_PX,
+        top,
         maxWidth: MEGA_PANEL_MAX_WIDTH_PX,
         width: 'calc(100% - 32px)',
         height: MEGA_PANEL_HEIGHT_PX,
@@ -167,7 +168,7 @@ const MegaPanel: React.FC<{
           ))}
         </aside>
 
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto px-10 py-7">
           {activeCategory ? (
             <CategoryContent category={activeCategory} />
           ) : (
@@ -199,6 +200,14 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel,
   }, [activeCategoryId, firstCategoryId]);
 
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const [panelTop, setPanelTop] = React.useState(MEGA_PANEL_TOP_OFFSET_PX);
+
+  /** The panel hangs from the header's bottom edge, wherever that lands. */
+  const toggle = () => {
+    const headerRow = wrapperRef.current?.closest('nav');
+    if (!open && headerRow) setPanelTop(Math.round(headerRow.getBoundingClientRect().bottom));
+    setOpen(!open);
+  };
 
   React.useEffect(() => {
     if (!open) return;
@@ -230,7 +239,7 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel,
         aria-expanded={open}
         aria-haspopup="true"
         aria-label={CATEGORIES_ARIA_LABEL}
-        onClick={() => setOpen(!open)}
+        onClick={toggle}
         rightIcon={<BurgerMenuIcon className="size-10" aria-hidden="true" />}
         className="hover:text-primary-500 h-fit gap-2 px-0 py-1 text-gray-600 hover:bg-transparent"
       >
@@ -249,7 +258,7 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel,
               'rounded-b-8 border border-gray-100 bg-white p-11 shadow-sm',
             )}
             style={{
-              top: MEGA_PANEL_TOP_OFFSET_PX,
+              top: panelTop,
               maxWidth: MEGA_PANEL_MAX_WIDTH_PX,
               width: 'calc(100% - 32px)',
               height: MEGA_PANEL_HEIGHT_PX,
@@ -267,6 +276,7 @@ export const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ channel,
             categories={categories}
             activeCategoryId={activeCategoryId}
             onCategoryActivate={setActiveCategoryId}
+            top={panelTop}
           />
         ))}
     </div>

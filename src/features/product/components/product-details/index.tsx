@@ -8,6 +8,7 @@ import {
   ProductSummaryCard,
   SellerOfferView,
   SellerOffers,
+  SellerOffersHeader,
 } from '@/features/product/components/product-details/parts';
 import { useProductDetails } from '@/features/product/components/product-details/use-product-details';
 import { BEST_SELLERS_LINK_LABEL } from '@/features/product/components/product-details/constants';
@@ -57,58 +58,75 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ channel, slug })
 
   return (
     <>
-      <div className="container flex flex-col gap-8 py-6 md:py-8">
-        <Breadcrumb items={breadcrumbItems} className="hidden md:flex" />
+      {selectedOfferId !== undefined ? (
+        <section className="bg-gray-50">
+          <div className="container flex flex-col gap-8 py-10 md:py-13">
+            <Breadcrumb items={breadcrumbItems} className="hidden md:flex" />
 
-        {selectedOfferId !== undefined ? (
-          <SellerOfferView
-            product={product}
-            offer={selectedOffer}
-            isLoading={selectedOfferLoading}
-            images={images}
-            highlights={highlights}
-            startBadge={startBadge}
-            endBadge={endBadge}
-            onShowAllSellers={clearSelectedOffer}
-            onAddToCart={addSelectedOfferToCart}
-          />
-        ) : (
-          <>
-            <div className="flex flex-col gap-4">
-              <ProductSummaryCard
-                name={product.name}
-                images={images}
-                highlights={highlights}
-                price={product.price}
-                compareAtPrice={product.compareAtPrice}
-                discountPercent={product.discountPercent}
-                startBadge={startBadge}
-                endBadge={endBadge}
-                wholesale={product.wholesale}
-              />
+            <SellerOfferView
+              product={product}
+              offer={selectedOffer}
+              isLoading={selectedOfferLoading}
+              images={images}
+              highlights={highlights}
+              startBadge={startBadge}
+              endBadge={endBadge}
+              onShowAllSellers={clearSelectedOffer}
+              onAddToCart={addSelectedOfferToCart}
+            />
+          </div>
+        </section>
+      ) : (
+        // One block, so the layout's section gap lands only before best sellers:
+        // the gray product band (card column + seller tabs on its foot), then
+        // the seller list on white.
+        <div className="flex flex-col">
+          <section className="bg-gray-50">
+            <div className="container flex flex-col gap-7 pt-7 md:items-center md:pt-10">
+              <Breadcrumb items={breadcrumbItems} className="hidden w-full md:flex" />
 
-              <ProductBuyBar
-                shopName={product.seller.shopName}
-                price={product.price}
-                href={buyHref}
+              <div className="flex w-full flex-col gap-[10px] md:w-[600px]">
+                <ProductSummaryCard
+                  name={product.name}
+                  images={images}
+                  highlights={highlights}
+                  price={product.price}
+                  compareAtPrice={product.compareAtPrice}
+                  discountPercent={product.discountPercent}
+                  startBadge={startBadge}
+                  endBadge={endBadge}
+                  wholesale={product.wholesale}
+                />
+
+                <ProductBuyBar
+                  shopName={product.seller.shopName}
+                  price={product.price}
+                  href={buyHref}
+                />
+              </div>
+
+              <SellerOffersHeader
+                sort={sort}
+                onSortChange={setSort}
+                className="mt-6 w-full md:mt-10 md:w-[600px]"
               />
             </div>
+          </section>
 
+          <div className="container pt-10">
             <SellerOffers
               offers={offers}
               total={offersTotal}
               isLoading={offersLoading}
-              sort={sort}
-              onSortChange={setSort}
               hrefForOffer={hrefForOffer}
             />
-          </>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
 
       <BestSellersSection
         link={{ label: BEST_SELLERS_LINK_LABEL, href: bestSellersHref }}
-        className="bg-gray-50 py-6 md:py-8"
+        className="bg-gray-50 py-10 md:py-11"
       />
     </>
   );

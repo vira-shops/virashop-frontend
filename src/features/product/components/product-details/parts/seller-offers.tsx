@@ -11,12 +11,19 @@ import {
   PRODUCT_PARTS_COPY as COPY,
 } from '@/features/product/components/product-details/constants';
 import type { SellerOfferSort } from '@/contracts/endpoints/products';
-import type { SellerOffersProps } from '@/features/product/components/product-details/types';
+import type {
+  SellerOffersHeaderProps,
+  SellerOffersProps,
+} from '@/features/product/components/product-details/types';
+import { cn } from '@/utils/ui';
 
 const SellerOffersSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-4">
+  <div className="flex flex-col gap-10">
     {Array.from({ length: SELLER_OFFERS_VISIBLE }, (_, index) => (
-      <div key={index} className="rounded-9 flex flex-col gap-4 bg-white p-5 shadow-sm">
+      <div
+        key={index}
+        className="rounded-8 flex flex-col gap-7 border border-gray-100 bg-gray-50 p-5"
+      >
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-4 w-2/3" />
         <Skeleton className="h-8 w-full" />
@@ -25,12 +32,42 @@ const SellerOffersSkeleton: React.FC = () => (
   </div>
 );
 
+/**
+ * «فروشنده ها» + its sort tabs. It sits apart from the list: the design hangs
+ * it at the foot of the product band, aligned to the product column.
+ */
+export const SellerOffersHeader: React.FC<SellerOffersHeaderProps> = ({
+  sort,
+  onSortChange,
+  className,
+}) => (
+  <div className={cn('flex flex-col gap-3', className)}>
+    <Typography variant="h6" className="text-gray-700">
+      {SELLERS_TITLE}
+    </Typography>
+
+    <Tabs
+      variant="underline"
+      color="primary"
+      size="md"
+      items={SELLER_SORT_OPTIONS.map((option) => ({
+        value: option.value,
+        label: option.label,
+      }))}
+      value={sort}
+      onChange={(value) => onSortChange(value as SellerOfferSort)}
+      aria-label={SELLERS_TITLE}
+      className="w-fit"
+    />
+  </div>
+);
+
+SellerOffersHeader.displayName = 'SellerOffersHeader';
+
 export const SellerOffers: React.FC<SellerOffersProps> = ({
   offers,
   total,
   isLoading,
-  sort,
-  onSortChange,
   hrefForOffer,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
@@ -40,30 +77,11 @@ export const SellerOffers: React.FC<SellerOffersProps> = ({
   const canExpand = offers.length > visible.length;
 
   return (
-    <section className="flex flex-col gap-5">
-      <div className="flex flex-col gap-3">
-        <Typography variant="h6" className="text-gray-700">
-          {SELLERS_TITLE}
-        </Typography>
-
-        <Tabs
-          variant="underline"
-          color="primary"
-          size="md"
-          items={SELLER_SORT_OPTIONS.map((option) => ({
-            value: option.value,
-            label: option.label,
-          }))}
-          value={sort}
-          onChange={(value) => onSortChange(value as SellerOfferSort)}
-          aria-label={SELLERS_TITLE}
-        />
-      </div>
-
+    <section aria-label={SELLERS_TITLE} className="flex flex-col gap-10 md:gap-13">
       {isLoading ? (
         <SellerOffersSkeleton />
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-10">
           {visible.map((offer) => (
             <SellerOfferCard key={offer.id} offer={offer} href={hrefForOffer(offer.id)} />
           ))}
@@ -75,9 +93,11 @@ export const SellerOffers: React.FC<SellerOffersProps> = ({
           variant="ghost"
           size="sm"
           onClick={() => setShowAll(true)}
-          className="text-primary hover:text-primary-600 w-fit self-start p-0 hover:bg-transparent"
+          className="text-primary hover:text-primary-600 h-auto w-fit self-start p-0 hover:bg-transparent"
         >
-          {COPY.moreSellers(toFaDigits(remaining))}
+          <Typography variant="caption-md" className="font-medium text-current">
+            {COPY.moreSellers(toFaDigits(remaining))}
+          </Typography>
         </Button>
       )}
     </section>

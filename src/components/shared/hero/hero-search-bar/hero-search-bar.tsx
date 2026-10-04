@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, TextInput, Typography } from '@/components/ui';
-import { ClockIcon, SearchIcon } from '@icons';
+import { CancelIcon, ClockIcon, SearchIcon } from '@icons';
 import { useRecentSearches, useSearchSuggestions } from '@/hooks';
 import { cn } from '@/utils/ui';
 import type { SearchCategorizedSuggestion } from '@/contracts/endpoints/search';
@@ -67,9 +67,22 @@ export const HeroSearchBar: React.FC<HeroSearchBarProps> = ({
   };
 
   const showDropdown = dropdownEnabled && open;
+  const hasQuery = query.trim() !== '';
+  const hasResults = categorized.length > 0 || terms.length > 0;
+
+  const close = () => {
+    setOpen(false);
+    setQuery('');
+  };
 
   return (
-    <div ref={containerRef} className={cn('relative w-full', className)}>
+    // Open, the field rises above a dimmed page — the overlay lives inside
+    // this stacking context, so it sits under the field and its cards.
+    <div ref={containerRef} className={cn('relative w-full', showDropdown && 'z-50', className)}>
+      {showDropdown && (
+        <div aria-hidden="true" className="fixed inset-0 -z-10 bg-black/50" onClick={close} />
+      )}
+
       <TextInput
         variant="fill"
         type="search"
@@ -81,68 +94,90 @@ export const HeroSearchBar: React.FC<HeroSearchBarProps> = ({
         onFocus={() => setOpen(true)}
         onKeyDown={(event) => {
           if (event.key === 'Enter') handleSubmit(query);
+          if (event.key === 'Escape') close();
         }}
         aria-label="جستجو"
         fullWidth
       />
 
       {showDropdown && (
-        <div className="rounded-4 absolute inset-x-0 top-full z-30 mt-2 max-h-96 overflow-y-auto bg-white p-4 text-start shadow-xl">
-          {query.trim() === '' ? (
-            recentTerms.length > 0 && (
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-2">
-                  <ClockIcon className="size-5 text-blue-200" />
-                  <Typography variant="caption-md" className="text-blue-200">
-                    جستجوهای اخیر
-                  </Typography>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  {recentTerms.map((term) => (
-                    <Button
-                      size="xs"
-                      key={term}
-                      onClick={() => handleSubmit(term)}
-                      className="rounded-2 bg-blue-50 text-blue-300 hover:bg-blue-100"
+        <Button
+          variant="ghost"
+          size="md"
+          aria-label="بستن جستجو"
+          onClick={close}
+          icon={<CancelIcon className="size-7" />}
+          className="absolute top-1/2 left-2 -translate-y-1/2 text-gray-400 hover:bg-transparent hover:text-gray-700"
+        />
+      )}
+
+      {showDropdown && (recentTerms.length > 0 || (hasQuery && hasResults)) && (
+        <div className="absolute inset-x-0 top-full mt-7 flex max-h-[70vh] flex-col gap-1 overflow-y-auto text-start">
+          {recentTerms.length > 0 && (
+            <div className="rounded-4 flex flex-col gap-3 bg-white p-7 shadow-xl">
+              <div className="flex items-center gap-2 text-gray-400">
+                <ClockIcon className="size-7" />
+                <Typography variant="caption-md" className="text-current">
+                  جستجوهای اخیر
+                </Typography>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {recentTerms.map((term) => (
+                  <Button
+                    size="xs"
+                    key={term}
+                    onClick={() => handleSubmit(term)}
+                    className="rounded-2 h-[30px] min-w-0 bg-gray-100 px-3 font-normal text-gray-700 hover:bg-gray-100 hover:text-black"
+                  >
+                    {term}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {hasQuery && hasResults && (
+            <div className="rounded-4 flex flex-col gap-7 bg-white p-7 shadow-xl">
+              {categorized.length > 0 && (
+                <div className="flex flex-col gap-3">
+                  {categorized.map((suggestion, index) => (
+                    <button
+                      key={`${suggestion.category.slug}-${index}`}
+                      type="button"
+                      onClick={() => handleCategoryClick(suggestion)}
+                      className="flex cursor-pointer flex-col text-start"
                     >
-                      {term}
-                    </Button>
+                      <Typography variant="body-md" className="text-black">
+                        {suggestion.text}
+                      </Typography>
+                      <Typography variant="caption-md" className="text-gray-400">
+                        در دسته <span className="text-primary-500">{suggestion.category.name}</span>
+                      </Typography>
+                    </button>
                   ))}
                 </div>
-              </div>
-            )
-          ) : (
-            <div className="flex flex-col">
-              {categorized.map((suggestion, index) => (
-                <button
-                  key={`${suggestion.category.slug}-${index}`}
-                  type="button"
-                  onClick={() => handleCategoryClick(suggestion)}
-                  className="flex flex-col gap-1 border-b border-gray-50 py-3 text-start"
-                >
-                  <Typography variant="body-md" className="text-black">
-                    {suggestion.text}
-                  </Typography>
-                  <Typography variant="caption-md" className="text-gray-400">
-                    در دسته <span className="text-primary-500">{suggestion.category.name}</span>
-                  </Typography>
-                </button>
-              ))}
+              )}
 
-              {categorized.length > 0 && terms.length > 0 && <div className="h-px bg-gray-100" />}
+              {categorized.length > 0 && terms.length > 0 && (
+                <div className="h-px bg-gray-100" aria-hidden="true" />
+              )}
 
-              {terms.map((term) => (
-                <button
-                  key={term}
-                  type="button"
-                  onClick={() => handleSubmit(term)}
-                  className="border-b border-gray-50 py-3 text-start last:border-0"
-                >
-                  <Typography variant="body-sm" className="text-gray-700">
-                    {term}
-                  </Typography>
-                </button>
-              ))}
+              {terms.length > 0 && (
+                <div className="flex flex-col gap-3">
+                  {terms.map((term) => (
+                    <button
+                      key={term}
+                      type="button"
+                      onClick={() => handleSubmit(term)}
+                      className="cursor-pointer text-start"
+                    >
+                      <Typography variant="body-md" className="text-black">
+                        {term}
+                      </Typography>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

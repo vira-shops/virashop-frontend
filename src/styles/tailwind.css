@@ -113,6 +113,8 @@
   --primary-600: var(--wholesale-600);
   --primary-700: var(--wholesale-700);
   --primary-900: var(--wholesale-900);
+  /* Pale storefront wash for footer bands and the like. */
+  --surface-tint: #f6f9ff;
 }
 
 [data-theme='wholesale'] {
@@ -124,6 +126,7 @@
 }
 
 [data-theme='retail'] {
+  --surface-tint: var(--retail-tint);
   --primary-50: var(--retail-50);
   --primary-500: var(--retail-500);
   --primary-600: var(--retail-600);

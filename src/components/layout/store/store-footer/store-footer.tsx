@@ -50,7 +50,7 @@ export function StoreFooter({ config }: { config: StoreFooterConfig }) {
       </section>
 
       {/* Links & Contact */}
-      <section className="bg-blue-50">
+      <section className="bg-(--surface-tint)">
         <div
           className={cn('container grid grid-cols-1 gap-8 py-10', 'sm:grid-cols-2 lg:grid-cols-4')}
         >

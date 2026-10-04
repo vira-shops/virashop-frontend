@@ -48,7 +48,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
         activeCategoryId={activeCategoryId}
       />
 
-      <div className="container -mt-14 flex flex-col gap-6 py-6 md:py-8">
+      <div className="container -mt-10 flex flex-col gap-10 md:-mt-12 md:gap-13">
         <ListingToolbar
           onFilterClick={() => setFilterOpen(true)}
           onSortClick={() => setSortOpen(true)}
@@ -56,8 +56,8 @@ export const ProductListing: React.FC<ProductListingProps> = ({ channel, categor
 
         <ListingSortTabs sort={filters.sort} total={total} onSortChange={filters.setSort} />
 
-        <div className="flex flex-col gap-6 lg:flex-row">
-          <aside className="hidden w-64 shrink-0 lg:block">{filterPanel}</aside>
+        <div className="flex flex-col gap-10 lg:flex-row">
+          <aside className="w-product-card hidden shrink-0 lg:block">{filterPanel}</aside>
 
           <ListingProducts
             items={cards}

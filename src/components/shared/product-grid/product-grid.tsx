@@ -6,8 +6,8 @@ import type { ProductCardOrientation } from '@/components/shared/product-card/ty
 import type { ProductGridProps } from './types';
 
 const GRID_CLASSES: Record<ProductCardOrientation, string> = {
-  vertical: 'grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4',
-  horizontal: 'grid grid-cols-1 gap-5',
+  vertical: 'grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-4',
+  horizontal: 'grid grid-cols-1 gap-3',
 };
 
 const VerticalSkeletonCard: React.FC = () => (

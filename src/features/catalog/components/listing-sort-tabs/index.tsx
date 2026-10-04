@@ -20,6 +20,7 @@ export const ListingSortTabs: React.FC<ListingSortTabsProps> = ({ sort, total, o
       value={sort}
       onChange={(value) => onSortChange(value as ProductSort)}
       aria-label={SORT_LABEL}
+      className="gap-5"
     />
 
     <Typography variant="body-sm" className="text-gray-300">

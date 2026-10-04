@@ -10,7 +10,7 @@ import type { ProductFilterGroup, ProductFilterPanelProps } from './types';
 const FilterCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
   children,
   className,
-}) => <div className={cn('rounded-8 bg-gray-50 p-4', className)}>{children}</div>;
+}) => <div className={cn('rounded-8 bg-(--surface-tint) p-4', className)}>{children}</div>;
 
 /** Section header that toggles its body open/closed. */
 const CollapsibleHeader: React.FC<{

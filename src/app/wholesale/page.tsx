@@ -18,11 +18,17 @@ export default function WholesalePage() {
     <WholesaleLayout>
       <WholesaleHero />
       <OfferBanner />
-      <CategoryShowcase />
-      <SpecialOffers />
-      <PartnerBrandsStrip />
-      <BestSellersSection link={{ label: 'مشاهده همه', href: PATHS.WHOLESALE.BEST_SELLERS }} />
-      <FeaturesGrid />
+      {/* Past the banner the design opens up to 120px between sections. */}
+      <div className="flex flex-col gap-13 md:gap-[120px]">
+        <CategoryShowcase />
+        <SpecialOffers />
+        <PartnerBrandsStrip />
+        <BestSellersSection
+          link={{ label: 'مشاهده همه', href: PATHS.WHOLESALE.BEST_SELLERS }}
+          className="bg-blue-50 py-11"
+        />
+        <FeaturesGrid />
+      </div>
     </WholesaleLayout>
   );
 }

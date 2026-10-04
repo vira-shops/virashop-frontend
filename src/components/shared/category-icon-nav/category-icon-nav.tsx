@@ -23,7 +23,7 @@ export const CategoryIconNav: React.FC<CategoryIconNavProps> = ({
           does not — centering the scroll container itself would clip the
           leading tiles. */}
       <div className="no-scrollbar h-fit overflow-x-auto">
-        <div className="mx-auto flex w-fit items-start gap-4 md:gap-6">
+        <div className="mx-auto flex w-fit items-start gap-11 md:gap-10">
           {items.map((item) => (
             <div key={item.id} className="shrink-0">
               <CategoryCard

@@ -51,7 +51,7 @@ export const HeroCategories: React.FC<HeroCategoriesProps> = ({
         ))}
       </div>
     ) : (
-      <CategoryIconNav items={items} activeId={activeId} className="mt-8" />
+      <CategoryIconNav items={items} activeId={activeId} className="mt-7" />
     )}
   </div>
 );
